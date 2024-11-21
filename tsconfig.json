@@ -1,0 +1,19 @@
+{
+    "files": [],
+    "references": [
+      {
+        "path": "./tsconfig.app.json"
+      }
+    ],
+    "compilerOptions": {
+      "baseUrl": ".",                // Sets the base directory for resolving non-relative module imports.
+      "paths": {
+        "@/*": ["src/*"]            // Creates a shortcut for importing files from the `src` directory.
+      },
+      "composite": true,             // Required for project references.
+      "skipLibCheck": true,          // Skips type-checking .d.ts files for faster builds.
+      "strict": true,                // Enables strict type-checking.
+      "moduleResolution": "node"    
+    }
+  }
+  

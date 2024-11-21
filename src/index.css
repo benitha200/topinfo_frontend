@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body {
+  @apply antialiased text-gray-900;
+}
+
+.dark {
+  @apply bg-gray-900 text-white;
+}
