@@ -1,374 +1,384 @@
 import React, { useState, useEffect } from 'react';
-// import ServiceCard from '../components/ServiceCard';
-import { Search, Scale, SlidersHorizontal , User, Home, Car, Users, Building2, Mountain, UtensilsCrossed, HeartPulse, Book, Ambulance, MessageCircle, X } from 'lucide-react';
+import { Search, Scale, SlidersHorizontal, User, Home, Car, Users, Building2, Mountain, UtensilsCrossed, HeartPulse, Book, Ambulance, MessageCircle, X } from 'lucide-react';
 
+
+const API_BASE_URL = 'http://localhost:3050/api';
+
+// Modal Component
 const Modal = ({ isOpen, onClose, title, children }) => {
-    if (!isOpen) return null;
-  
-    return (
-      <div className="fixed inset-0 z-50 flex items-center justify-center">
-        <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
-        <div className="bg-white rounded-lg p-6 z-10 w-full max-w-3xl mx-4">
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-semibold">{title}</h2>
-            <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
-              <X size={20} />
-            </button>
-          </div>
-          {children}
+  if (!isOpen) return null;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
+      <div className="bg-white rounded-lg p-6 z-10 w-full max-w-3xl mx-4">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-xl font-semibold">{title}</h2>
+          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+            <X size={20} />
+          </button>
+        </div>
+        {children}
+      </div>
+    </div>
+  );
+};
+
+// Service Request Form Component
+const ServiceRequestForm = ({ service, onSubmit }) => {
+  const [formData, setFormData] = useState({
+    amazina: '',
+    telefone: '',
+    imeyili: '',
+    aderesi: '',
+    ubutumwa: ''
+  });
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Create client
+      const clientResponse = await fetch(`${API_BASE_URL}/clients`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          firstname: formData.amazina.split(' ')[0],
+          lastname: formData.amazina.split(' ').slice(1).join(' '),
+          email: formData.imeyili,
+          phone: formData.telefone,
+          location_sector: formData.aderesi,
+          location_province: 'Kigali',
+          location_district: 'Unknown'
+        })
+      });
+
+      if (!clientResponse.ok) throw new Error('Failed to create client');
+      const clientData = await clientResponse.json();
+
+      // Create service request
+      const requestResponse = await fetch(`${API_BASE_URL}/requests`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
+        },
+        body: JSON.stringify({
+          client_id: clientData.id,
+          description: formData.ubutumwa,
+          service_category_id: service.id,
+          your_location: formData.aderesi,
+          service_location: formData.aderesi,
+          service_date: new Date().toISOString().split('T')[0]
+        })
+      });
+
+      if (!requestResponse.ok) throw new Error('Failed to create request');
+      
+      onSubmit(formData);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl">
+      {error && (
+        <>
+        {error}
+        </>
+        // <Alert variant="destructive">
+        //   <AlertDescription>{error}</AlertDescription>
+        // </Alert>
+      )}
+      
+      <div>
+        <label htmlFor="amazina" className="block text-sm font-medium text-gray-700 mb-1">
+          Amazina yawe yose
+        </label>
+        <input
+          id="amazina"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={formData.amazina}
+          onChange={(e) => setFormData({ ...formData, amazina: e.target.value })}
+          required
+        />
+      </div>
+
+      <div>
+        <label htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
+          Telefone
+        </label>
+        <input
+          id="telefone"
+          type="tel"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={formData.telefone}
+          onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
+          required
+        />
+      </div>
+
+      <div>
+        <label htmlFor="imeyili" className="block text-sm font-medium text-gray-700 mb-1">
+          Imeyili
+        </label>
+        <input
+          id="imeyili"
+          type="email"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={formData.imeyili}
+          onChange={(e) => setFormData({ ...formData, imeyili: e.target.value })}
+          required
+        />
+      </div>
+
+      <div>
+        <label htmlFor="aderesi" className="block text-sm font-medium text-gray-700 mb-1">
+          Aderesi
+        </label>
+        <input
+          id="aderesi"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={formData.aderesi}
+          onChange={(e) => setFormData({ ...formData, aderesi: e.target.value })}
+          required
+        />
+      </div>
+
+      <div>
+        <label htmlFor="ubutumwa" className="block text-sm font-medium text-gray-700 mb-1">
+          Ubutumwa
+        </label>
+        <textarea
+          id="ubutumwa"
+          className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={formData.ubutumwa}
+          onChange={(e) => setFormData({ ...formData, ubutumwa: e.target.value })}
+        />
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+      >
+        {loading ? 'Tegereza...' : 'Komeza'}
+      </button>
+    </form>
+  );
+};
+
+// Payment Form Component
+const PaymentForm = ({ amount, onSubmit }) => {
+  const [paymentMethod, setPaymentMethod] = useState('momo');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+
+    try {
+      // Simulate payment processing
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      onSubmit({ paymentMethod, phoneNumber });
+    } catch (err) {
+      setError('Payment failed. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-4">
+      {error && (
+        <>
+        {error}
+        </>
+        // <Alert variant="destructive">
+        //   <AlertDescription>{error}</AlertDescription>
+        // </Alert>
+      )}
+
+      <div>
+        <span className="block text-sm font-medium text-gray-700 mb-2">
+          Hitamo uburyo bwo kwishyura
+        </span>
+        <div className="space-y-2">
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="radio"
+              value="momo"
+              checked={paymentMethod === 'momo'}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="form-radio text-blue-600"
+            />
+            <span className="text-gray-700">MTN Mobile Money</span>
+          </label>
+          <label className="flex items-center space-x-2 cursor-pointer">
+            <input
+              type="radio"
+              value="airtel"
+              checked={paymentMethod === 'airtel'}
+              onChange={(e) => setPaymentMethod(e.target.value)}
+              className="form-radio text-blue-600"
+            />
+            <span className="text-gray-700">Airtel Money</span>
+          </label>
         </div>
       </div>
-    );
+
+      <div>
+        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+          Numero ya telefone
+        </label>
+        <input
+          id="phone"
+          type="tel"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          value={phoneNumber}
+          onChange={(e) => setPhoneNumber(e.target.value)}
+          required
+        />
+      </div>
+
+      <div className="border-t pt-4">
+        <div className="flex justify-between mb-2">
+          <span className="font-medium">Igiciro</span>
+          <span>{amount} RWF</span>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+      >
+        {loading ? 'Tegereza...' : 'Ishyura'}
+      </button>
+    </form>
+  );
+};
+
+// Service Card Component
+const ServiceCard = ({ service }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [showPaymentForm, setShowPaymentForm] = useState(false);
+
+  const handleRequestSubmit = async (formData) => {
+    setShowPaymentForm(true);
   };
-  
-  const ServiceRequestForm = ({ service, onSubmit }) => {
-    const [formData, setFormData] = useState({
-      amazina: '',
-      telefone: '',
-      imeyili: '',
-      aderesi: '',
-      ubutumwa: ''
-    });
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      onSubmit(formData);
-    };
-  
-    return (
-      <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl">
-        <div>
-          <label htmlFor="amazina" className="block text-sm font-medium text-gray-700 mb-1">
-            Amazina yawe yose
-          </label>
-          <input
-            id="amazina"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            value={formData.amazina}
-            onChange={(e) => setFormData({ ...formData, amazina: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
-            Telefone
-          </label>
-          <input
-            id="telefone"
-            type="tel"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            value={formData.telefone}
-            onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="imeyili" className="block text-sm font-medium text-gray-700 mb-1">
-            Imeyili
-          </label>
-          <input
-            id="imeyili"
-            type="email"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            value={formData.imeyili}
-            onChange={(e) => setFormData({ ...formData, imeyili: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="aderesi" className="block text-sm font-medium text-gray-700 mb-1">
-            Aderesi
-          </label>
-          <input
-            id="aderesi"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            value={formData.aderesi}
-            onChange={(e) => setFormData({ ...formData, aderesi: e.target.value })}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="ubutumwa" className="block text-sm font-medium text-gray-700 mb-1">
-            Ubutumwa
-          </label>
-          <textarea
-            id="ubutumwa"
-            className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            value={formData.ubutumwa}
-            onChange={(e) => setFormData({ ...formData, ubutumwa: e.target.value })}
-          />
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-        >
-          Komeza
-        </button>
-      </form>
-    );
-  };
-  
-  const PaymentForm = ({ amount, onSubmit }) => {
-    const [paymentMethod, setPaymentMethod] = useState('momo');
-    const [phoneNumber, setPhoneNumber] = useState('');
-  
-    const handleSubmit = (e) => {
-      e.preventDefault();
-      onSubmit({ paymentMethod, phoneNumber });
-    };
-  
-    return (
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <div>
-          <span className="block text-sm font-medium text-gray-700 mb-2">
-            Hitamo uburyo bwo kwishyura
-          </span>
-          <div className="space-y-2">
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="radio"
-                value="momo"
-                checked={paymentMethod === 'momo'}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className="form-radio text-blue-600"
-              />
-              <span className="text-gray-700">MTN Mobile Money</span>
-            </label>
-            <label className="flex items-center space-x-2 cursor-pointer">
-              <input
-                type="radio"
-                value="airtel"
-                checked={paymentMethod === 'airtel'}
-                onChange={(e) => setPaymentMethod(e.target.value)}
-                className="form-radio text-blue-600"
-              />
-              <span className="text-gray-700">Airtel Money</span>
-            </label>
-          </div>
-        </div>
-        <div>
-          <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-            Numero ya telefone
-          </label>
-          <input
-            id="phone"
-            type="tel"
-            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-            value={phoneNumber}
-            onChange={(e) => setPhoneNumber(e.target.value)}
-            required
-          />
-        </div>
-        <div className="border-t pt-4">
-          <div className="flex justify-between mb-2">
-            <span className="font-medium">Igiciro</span>
-            <span>{amount} RWF</span>
-          </div>
-        </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
-        >
-          Ishyura
-        </button>
-      </form>
-    );
-  };
-  
-  const ServiceCard = ({ service }) => {
-    const [isModalOpen, setIsModalOpen] = useState(false);
-    const [showPaymentForm, setShowPaymentForm] = useState(false);
-  
-    const handleRequestSubmit = (formData) => {
-      setShowPaymentForm(true);
-    };
-  
-    const handlePaymentSubmit = (paymentData) => {
+
+  const handlePaymentSubmit = async (paymentData) => {
+    try {
       console.log('Payment submitted:', paymentData);
       setIsModalOpen(false);
       setShowPaymentForm(false);
-      // Handle payment processing here
-    };
-  
-    return (
-      <>
-        <div
-          onClick={() => setIsModalOpen(true)}
-          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-all"
-        >
-          <div className="flex flex-col items-center text-center">
-            <div className="mb-4">{service.icon}</div>
-            <h3 className="font-semibold text-gray-900 mb-1">{service.title}</h3>
-            <p className="text-sm text-gray-500">{service.subtitle}</p>
-            <button  className="m-4 px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium">
-              Saba Service
-            </button>
-          </div>
-        </div>
-  
-        <Modal
-          isOpen={isModalOpen}
-          onClose={() => {
-            setIsModalOpen(false);
-            setShowPaymentForm(false);
-          }}
-          title={showPaymentForm ? 'Kwishyura' : `Saba ${service.title}`}
-        >
-          {showPaymentForm ? (
-            <PaymentForm amount={5000} onSubmit={handlePaymentSubmit} />
-          ) : (
-            <ServiceRequestForm service={service} onSubmit={handleRequestSubmit} />
-          )}
-        </Modal>
-      </>
-    );
-  };
-
-
-const Services = () => {
-  // Dummy data for services
-  const servicesData = [
-    {
-      id: 1,
-      title: "Umwunganizi mu by'amategeko",
-      subtitle: "Lawyer",
-      icon: <Scale size={24} className="text-blue-600" />,
-      category: "Legal"
-    },
-    {
-      id: 2,
-      title: "Noteri",
-      subtitle: "Notary",
-      icon: <User size={24} className="text-blue-600" />,
-      category: "Legal"
-    },
-    {
-      id: 3,
-      title: "Umuhesha w'inkiko",
-      subtitle: "Bailiff",
-      icon: <Scale size={24} className="text-blue-600" />,
-      category: "Legal"
-    },
-    {
-      id: 4,
-      title: "Umugenagaciro",
-      subtitle: "Real Property Valuer",
-      icon: <Home size={24} className="text-blue-600" />,
-      category: "Property"
-    },
-    {
-      id: 5,
-      title: "Inguzanyo zihuse",
-      subtitle: "Quick Loan",
-      icon: <Users size={24} className="text-blue-600" />,
-      category: "Finance"
-    },
-    {
-      id: 6,
-      title: "Garage",
-      subtitle: "Garage",
-      icon: <Car size={24} className="text-blue-600" />,
-      category: "Automotive"
-    },
-    {
-      id: 7,
-      title: "Gukodesha imodoka",
-      subtitle: "Car rental",
-      icon: <Car size={24} className="text-blue-600" />,
-      category: "Automotive"
-    },
-    {
-      id: 8,
-      title: "Upima butaka",
-      subtitle: "Land Surveyor",
-      icon: <Users size={24} className="text-blue-600" />,
-      category: "Property"
-    },
-    {
-      id: 9,
-      title: "Hotel",
-      subtitle: "Hotel",
-      icon: <Building2 size={24} className="text-blue-600" />,
-      category: "Hospitality"
-    },
-    {
-      id: 10,
-      title: "Ubukerarugendo",
-      subtitle: "Travel & Tourism",
-      icon: <Mountain size={24} className="text-blue-600" />,
-      category: "Hospitality"
-    },
-    {
-      id: 11,
-      title: "Umujyanama mu mirire",
-      subtitle: "Nutritionist",
-      icon: <UtensilsCrossed size={24} className="text-blue-600" />,
-      category: "Health"
-    },
-    {
-      id: 12,
-      title: "Umutoza ngororamubiri",
-      subtitle: "Personal Fitness Trainer",
-      icon: <Users size={24} className="text-blue-600" />,
-      category: "Health"
-    },
-    {
-      id: 13,
-      title: "Ambulance",
-      subtitle: "Imbangukiragutabara",
-      icon: <Ambulance size={24} className="text-blue-600" />,
-      category: "Health"
-    },
-    {
-      id: 14,
-      title: "Umujyanama",
-      subtitle: "Therapist",
-      icon: <MessageCircle size={24} className="text-blue-600" />,
-      category: "Health"
-    },
-    {
-      id: 15,
-      title: "Amasomo y'igihe gito",
-      subtitle: "Short Course",
-      icon: <Book size={24} className="text-blue-600" />,
-      category: "Education"
+    } catch (error) {
+      console.error('Payment failed:', error);
     }
-  ];
+  };
 
+  return (
+    <>
+      <div
+        onClick={() => setIsModalOpen(true)}
+        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-all"
+      >
+        <div className="flex flex-col items-center text-center">
+          <div className="mb-4">{service.icon}</div>
+          <h3 className="font-semibold text-gray-900 mb-1">{service.title}</h3>
+          <p className="text-sm text-gray-500">{service.subtitle}</p>
+          <button className="m-4 px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium">
+            Saba Service
+          </button>
+        </div>
+      </div>
+
+      <Modal
+        isOpen={isModalOpen}
+        onClose={() => {
+          setIsModalOpen(false);
+          setShowPaymentForm(false);
+        }}
+        title={showPaymentForm ? 'Kwishyura' : `Saba ${service.title}`}
+      >
+        {showPaymentForm ? (
+          <PaymentForm amount={5000} onSubmit={handlePaymentSubmit} />
+        ) : (
+          <ServiceRequestForm service={service} onSubmit={handleRequestSubmit} />
+        )}
+      </Modal>
+    </>
+  );
+};
+
+// Main Services Component
+const Services = () => {
+  const [services, setServices] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [filteredServices, setFilteredServices] = useState(servicesData);
+  const [filteredServices, setFilteredServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
-  // Extract unique categories
-  const categories = [...new Set(servicesData.map(service => service.category))];
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/service-categories`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        
+        if (!response.ok) throw new Error('Failed to fetch services');
+        const data = await response.json();
+        
+        const mappedServices = data.map(service => ({
+          id: service.id,
+          title: service.name,
+          subtitle: service.details,
+          icon: getCategoryIcon(service.name),
+          category: service.category || 'Other',
+          price: service.client_price
+        }));
 
-  // Category icon mapping
-  const categoryIcons = {
-    Legal: <Scale size={18} />,
-    Property: <Home size={18} />,
-    Finance: <Users size={18} />,
-    Automotive: <Car size={18} />,
-    Hospitality: <Building2 size={18} />,
-    Health: <HeartPulse size={18} />,
-    Education: <Book size={18} />
-  };
-
-  const handleCategoryToggle = (category) => {
-    setSelectedCategories(prev => {
-      if (prev.includes(category)) {
-        return prev.filter(c => c !== category);
+        setServices(mappedServices);
+        setFilteredServices(mappedServices);
+      } catch (err) {
+        setError('Failed to load services. Please try again later.');
+        console.error('Error fetching services:', err);
+      } finally {
+        setLoading(false);
       }
-      return [...prev, category];
-    });
-  };
+    };
 
-  const clearFilters = () => {
-    setSelectedCategories([]);
-    setSearchTerm('');
+    fetchServices();
+  }, []);
+
+  const getCategoryIcon = (name) => {
+    const iconMap = {
+      'lawyer': <Scale size={24} className="text-blue-600" />,
+      'notary': <User size={24} className="text-blue-600" />,
+      'bailiff': <Scale size={24} className="text-blue-600" />,
+    };
+
+    return iconMap[name.toLowerCase()] || <Users size={24} className="text-blue-600" />;
   };
 
   useEffect(() => {
-    let filtered = servicesData;
+    let filtered = services;
 
     if (searchTerm) {
       filtered = filtered.filter(
@@ -378,16 +388,31 @@ const Services = () => {
       );
     }
 
-    if (selectedCategories.length > 0) {
-      filtered = filtered.filter(service => 
-        selectedCategories.includes(service.category)
-      );
-    }
-
     setFilteredServices(filtered);
-  }, [searchTerm, selectedCategories]);
+  }, [searchTerm, services]);
 
-return (
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <p className="mt-4 text-gray-600">Tegereza gato...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
+        {/* <Alert variant="destructive" className="max-w-lg">
+          <AlertDescription>{error}</AlertDescription>
+        </Alert> */}
+      </div>
+    );
+  }
+
+  return (
     <div className="min-h-screen bg-gray-50 py-12">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">

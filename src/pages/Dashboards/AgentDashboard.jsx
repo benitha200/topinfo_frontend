@@ -321,3 +321,324 @@ const UsersPage = () => {
 
 export default AgentDashboard;
 export { RequestsPage, UsersPage };
+
+// import React, { useState, useEffect } from 'react';
+// import { 
+//   Users, 
+//   LayoutDashboard, 
+//   ClipboardList, 
+//   LogOut, 
+//   Menu,
+//   Bell
+// } from 'lucide-react';
+// import axios from 'axios';
+
+// // API Configuration
+// const API_BASE_URL = 'http://localhost:3050/api';
+// const api = axios.create({
+//   baseURL: API_BASE_URL
+// });
+
+// // Set auth token for all requests
+// const setAuthToken = (token) => {
+//   if (token) {
+//     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//   } else {
+//     delete api.defaults.headers.common['Authorization'];
+//   }
+// };
+
+// // API Service Functions
+// const apiService = {
+//   // Auth
+//   login: async (credentials) => {
+//     const response = await api.post('/auth/login', credentials);
+//     const { token } = response.data;
+//     setAuthToken(token);
+//     return response.data;
+//   },
+
+//   // Service Providers
+//   getServiceProviders: () => api.get('/service-providers'),
+//   getServiceProvider: (id) => api.get(`/service-providers/${id}`),
+//   createServiceProvider: (data) => api.post('/service-providers', data),
+//   updateServiceProvider: (id, data) => api.put(`/service-providers/${id}`, data),
+
+//   // Service Categories
+//   getServiceCategories: () => api.get('/service-categories'),
+//   getServiceCategory: (id) => api.get(`/service-categories/${id}`),
+//   createServiceCategory: (data) => api.post('/service-categories', data),
+//   updateServiceCategory: (id, data) => api.put(`/service-categories/${id}`, data),
+
+//   // Requests
+//   getRequests: () => api.get('/requests'),
+//   getRequest: (id) => api.get(`/requests/${id}`),
+//   createRequest: (data) => api.post('/requests', data),
+//   updateRequest: (id, data) => api.put(`/requests/${id}`, data),
+
+//   // Clients
+//   getClients: () => api.get('/clients'),
+//   getClient: (id) => api.get(`/clients/${id}`),
+//   createClient: (data) => api.post('/clients', data),
+//   updateClient: (id, data) => api.put(`/clients/${id}`, data),
+// };
+
+// // Modified RequestCard with API data structure
+// const RequestCard = ({ request }) => (
+//   <div className="bg-white p-4 rounded-lg shadow">
+//     <div className="flex items-center justify-between mb-2">
+//       <span className={`px-2 py-1 text-sm rounded-full ${
+//         request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
+//         request.status === 'active' ? 'bg-green-100 text-green-800' :
+//         'bg-gray-100 text-gray-800'
+//       }`}>
+//         {request.status || 'New'}
+//       </span>
+//       <span className="text-sm text-gray-500">{new Date(request.service_date).toLocaleDateString()}</span>
+//     </div>
+//     <h3 className="font-medium mb-1">Service Request #{request.id}</h3>
+//     <p className="text-sm text-gray-600 mb-3">{request.description}</p>
+//     <div className="flex items-center gap-2">
+//       <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
+//       <span className="text-sm">Location: {request.service_location}</span>
+//     </div>
+//   </div>
+// );
+
+// // Modified RequestList with API integration
+// const RequestList = ({ requests }) => (
+//   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+//     {requests.map((request) => (
+//       <RequestCard key={request.id} request={request} />
+//     ))}
+//   </div>
+// );
+
+// // Modified Stats component with dynamic data
+// const Stats = ({ stats }) => (
+//   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+//     {stats.map((stat) => (
+//       <div key={stat.title} className="bg-white p-4 rounded-lg shadow">
+//         <p className="text-sm text-gray-500 mb-1">{stat.title}</p>
+//         <p className="text-2xl font-semibold">{stat.value}</p>
+//         <div className="flex items-center gap-1 text-sm">
+//           <span className={stat.trend > 0 ? 'text-green-600' : 'text-red-600'}>
+//             {stat.trend > 0 ? '↑' : '↓'} {Math.abs(stat.trend)}%
+//           </span>
+//           <span className="text-gray-500">vs last month</span>
+//         </div>
+//       </div>
+//     ))}
+//   </div>
+// );
+
+// // Modified AgentLayout with authentication
+// const AgentLayout = ({ children }) => {
+//   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+//   const [notifications, setNotifications] = useState([]);
+
+//   const menuItems = [
+//     { title: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
+//     { title: 'Requests', icon: <ClipboardList size={20} />, path: '/requests' },
+//     { title: 'Users', icon: <Users size={20} />, path: '/users' },
+//   ];
+
+//   const handleLogout = () => {
+//     setAuthToken(null);
+//     // Add your logout logic here
+//   };
+
+//   return (
+//     <div className="h-screen flex flex-col">
+//       {/* Header */}
+//       <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
+//         <div className="flex items-center gap-4">
+//           <button
+//             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
+//             className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
+//           >
+//             <Menu size={20} />
+//           </button>
+//           <h1 className="text-xl font-bold">Agent Portal</h1>
+//         </div>
+//         <div className="flex items-center gap-4">
+//           <button className="p-2 hover:bg-gray-100 rounded-lg relative">
+//             <Bell size={20} />
+//             {notifications.length > 0 && (
+//               <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></span>
+//             )}
+//           </button>
+//           <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
+//         </div>
+//       </header>
+
+//       <div className="flex flex-1 overflow-hidden">
+//         {/* Rest of the layout remains the same */}
+//         <aside 
+//           className={`
+//             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+//             fixed lg:static lg:translate-x-0 z-20 
+//             bg-white border-r border-gray-200 
+//             w-64 h-[calc(100vh-4rem)] 
+//             transition-transform duration-200 ease-in-out
+//           `}
+//         >
+//           <nav className="h-full flex flex-col p-4">
+//             <div className="flex-1 space-y-1">
+//               {menuItems.map((item) => (
+//                 <button
+//                   key={item.title}
+//                   className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
+//                 >
+//                   {item.icon}
+//                   <span>{item.title}</span>
+//                 </button>
+//               ))}
+//             </div>
+//             <button 
+//               onClick={handleLogout}
+//               className="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg"
+//             >
+//               <LogOut size={20} />
+//               <span>Logout</span>
+//             </button>
+//           </nav>
+//         </aside>
+
+//         <main className="flex-1 overflow-auto bg-gray-50 p-6">
+//           {children}
+//         </main>
+//       </div>
+//     </div>
+//   );
+// };
+
+// const RequestsPage = () => {
+//   const [requests, setRequests] = useState(dummyRequests);
+
+//   return (
+//     <AgentLayout>
+//       <div className="max-w-7xl mx-auto">
+//         <div className="flex justify-between items-center mb-6">
+//           <div>
+//             <h1 className="text-2xl font-bold text-gray-900">All Requests</h1>
+//             <p className="text-gray-500">Manage and track all support requests</p>
+//           </div>
+//           <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+//             New Request
+//           </button>
+//         </div>
+//         <RequestList requests={requests} />
+//       </div>
+//     </AgentLayout>
+//   );
+// };
+
+// // Modified AgentDashboard with API integration
+// const AgentDashboard = () => {
+//   const [requests, setRequests] = useState([]);
+//   const [stats, setStats] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     const fetchDashboardData = async () => {
+//       try {
+//         setLoading(true);
+//         const [requestsResponse, categoriesResponse] = await Promise.all([
+//           apiService.getRequests(),
+//           apiService.getServiceCategories()
+//         ]);
+
+//         setRequests(requestsResponse.data);
+
+//         // Calculate stats from the API data
+//         const activeRequests = requestsResponse.data.filter(r => r.status === 'active').length;
+//         const totalRequests = requestsResponse.data.length;
+        
+//         setStats([
+//           { title: "Total Requests", value: totalRequests.toString(), trend: 12 },
+//           { title: "Active Requests", value: activeRequests.toString(), trend: -5 },
+//           { title: "Service Categories", value: categoriesResponse.data.length.toString(), trend: 8 },
+//           { title: "Avg Response Time", value: "24m", trend: -15 }
+//         ]);
+
+//       } catch (err) {
+//         setError(err.message);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchDashboardData();
+//   }, []);
+
+//   if (loading) return <div className="text-center p-4">Loading...</div>;
+//   if (error) return <div className="text-red-600 p-4">Error: {error}</div>;
+
+//   return (
+//     <AgentLayout>
+//       <div className="max-w-7xl mx-auto">
+//         <div className="mb-6">
+//           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+//           <p className="text-gray-500">Welcome back! Here's what's happening today.</p>
+//         </div>
+        
+//         <Stats stats={stats} />
+        
+//         <div className="mb-6">
+//           <h2 className="text-xl font-semibold mb-4">Recent Requests</h2>
+//           <RequestList requests={requests.slice(0, 6)} />
+//         </div>
+//       </div>
+//     </AgentLayout>
+//   );
+// };
+
+// const UsersPage = () => {
+//   const [users, setUsers] = useState(dummyUsers);
+
+//   return (
+//     <AgentLayout>
+//       <div className="max-w-7xl mx-auto">
+//         <div className="flex justify-between items-center mb-6">
+//           <div>
+//             <h1 className="text-2xl font-bold text-gray-900">Users</h1>
+//             <p className="text-gray-500">Manage user accounts and permissions</p>
+//           </div>
+//           <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+//             Add User
+//           </button>
+//         </div>
+        
+//         <div className="bg-white rounded-lg shadow overflow-hidden">
+//           <table className="min-w-full divide-y divide-gray-200">
+//             <thead className="bg-gray-50">
+//               <tr>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Requests</th>
+//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Join Date</th>
+//               </tr>
+//             </thead>
+//             <tbody className="bg-white divide-y divide-gray-200">
+//               {users.map((user) => (
+//                 <tr key={user.id}>
+//                   <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
+//                   <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
+//                   <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
+//                   <td className="px-6 py-4 whitespace-nowrap">{user.requests}</td>
+//                   <td className="px-6 py-4 whitespace-nowrap">{user.joinDate}</td>
+//                 </tr>
+//               ))}
+//             </tbody>
+//           </table>
+//         </div>
+//       </div>
+//     </AgentLayout>
+//   );
+// };
+
+// export default AgentDashboard;
+// export { RequestsPage, UsersPage, apiService };
