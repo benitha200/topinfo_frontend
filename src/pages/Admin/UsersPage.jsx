@@ -229,11 +229,11 @@ const UsersPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 <button 
                                                     onClick={() => handleEditUser(user.id, {})}
-                                                    className="text-blue-500 hover:text-blue-700 mr-2"
+                                                    className="text-blue-500 border border-2 border-gray-300 p-2 rounded hover:text-blue-700 mr-2"
                                                 >
                                                     Edit
                                                 </button>
-                                                <button className="text-red-500 hover:text-red-700">
+                                                <button className="text-red-500 border border-2 border-gray-300 p-2 rounded hover:text-red-700">
                                                     Delete
                                                 </button>
                                             </td>

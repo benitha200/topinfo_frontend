@@ -8,7 +8,8 @@ import {
   Settings,
   LogOut,
   Menu,
-  X
+  X,
+  Activity
 } from 'lucide-react';
 
 const AdminLayout = ({ children }) => {
@@ -19,6 +20,8 @@ const AdminLayout = ({ children }) => {
     { icon: BarChart2, label: 'Overview', path: '/dashboard' },
     { icon: Users, label: 'Users', path: '/dashboard/users' },
     { icon: FileText, label: 'Requests', path: '/dashboard/requests' },
+    { icon: Activity, label: 'Service Providers', path: '/dashboard/service-providers' },
+    { icon: Activity, label: 'Services', path: '/dashboard/service' },
     { icon: CreditCard, label: 'Payments', path: '/dashboard/payments' },
     { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
   ];

@@ -15,6 +15,10 @@ import UsersPage from './pages/Admin/UsersPage';
 import RequestsPage from './pages/Admin/RequestsPage';
 import PaymentsPage from './pages/Admin/PaymentsPage';
 import SettingsPage from './pages/Admin/SettingsPage';
+import ServicesPage from './pages/Admin/ServicesPage';
+import ServiceCategoriesPage from './pages/Admin/ServicesPage';
+import ServiceProvidersPage from './pages/Admin/ServiceProvidersPage';
+import { RequestList } from './components/RequestListAgent';
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -173,6 +177,22 @@ const App = () => {
           }
         />
         <Route
+          path="/dashboard/service-providers"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <ServiceProvidersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/service"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <ServiceCategoriesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/dashboard/payments"
           element={
             <ProtectedRoute allowedRoles={['ADMIN']}>
@@ -193,6 +213,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={['AGENT']}>
               <AgentDashboard />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/requests-agent"
+          element={
+            <ProtectedRoute allowedRoles={['AGENT']}>
+              <RequestList />
             </ProtectedRoute>
           }
         />

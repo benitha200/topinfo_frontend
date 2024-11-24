@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Scale, SlidersHorizontal, User, Home, Car, Users, Building2, Mountain, UtensilsCrossed, HeartPulse, Book, Ambulance, MessageCircle, X } from 'lucide-react';
-
+import { paymentService } from '../services/payment.service';
 
 const API_BASE_URL = 'http://localhost:3050/api';
 
@@ -62,6 +62,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
 
       if (!clientResponse.ok) throw new Error('Failed to create client');
       const clientData = await clientResponse.json();
+      console.log(clientData.id);
 
       // Create service request
       const requestResponse = await fetch(`${API_BASE_URL}/requests`, {
@@ -178,12 +179,24 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
   );
 };
 
+
 // Payment Form Component
-const PaymentForm = ({ amount, onSubmit }) => {
+
+const PaymentForm = ({ amount, requestId, onSubmit }) => {
   const [paymentMethod, setPaymentMethod] = useState('momo');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [transactionDetails, setTransactionDetails] = useState(null);
+  const [statusCheckInterval, setStatusCheckInterval] = useState(null);
+
+  useEffect(() => {
+    return () => {
+      if (statusCheckInterval) {
+        clearInterval(statusCheckInterval);
+      }
+    };
+  }, [statusCheckInterval]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -191,12 +204,47 @@ const PaymentForm = ({ amount, onSubmit }) => {
     setError('');
 
     try {
-      // Simulate payment processing
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      onSubmit({ paymentMethod, phoneNumber });
+      // Initiate payment
+      const paymentResult = await paymentService.initiatePayment({
+        phone: phoneNumber,
+        amount,
+        description: 'Service payment',
+        requestId:3,
+        clientId: 1,
+      });
+
+      setTransactionDetails(paymentResult);
+
+      // Start checking payment status
+      const interval = setInterval(async () => {
+        try {
+          const statusResult = await paymentService.checkPaymentStatus(
+            paymentResult.transactionId,
+            paymentResult.requestTransactionId
+          );
+
+          if (statusResult.status === 'SUCCESSFUL') {
+            clearInterval(interval);
+            onSubmit({
+              paymentMethod,
+              phoneNumber,
+              transactionId: statusResult.transactionId,
+              status: 'completed'
+            });
+          } else if (statusResult.status === 'FAILED') {
+            clearInterval(interval);
+            setError('Payment failed. Please try again.');
+            setLoading(false);
+          }
+        } catch (error) {
+          console.error('Status check error:', error);
+          // Don't clear interval on network errors
+        }
+      }, 5000);
+
+      setStatusCheckInterval(interval);
     } catch (err) {
-      setError('Payment failed. Please try again.');
-    } finally {
+      setError(err.message);
       setLoading(false);
     }
   };
@@ -204,12 +252,17 @@ const PaymentForm = ({ amount, onSubmit }) => {
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {error && (
-        <>
-        {error}
-        </>
-        // <Alert variant="destructive">
-        //   <AlertDescription>{error}</AlertDescription>
-        // </Alert>
+        <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+          <p className="text-red-600">{error}</p>
+        </div>
+      )}
+
+      {transactionDetails && (
+        <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
+          <p className="text-blue-600">
+            Payment request sent. Please check your phone for the payment prompt.
+          </p>
+        </div>
       )}
 
       <div>
@@ -224,6 +277,7 @@ const PaymentForm = ({ amount, onSubmit }) => {
               checked={paymentMethod === 'momo'}
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="form-radio text-blue-600"
+              disabled={loading}
             />
             <span className="text-gray-700">MTN Mobile Money</span>
           </label>
@@ -234,6 +288,7 @@ const PaymentForm = ({ amount, onSubmit }) => {
               checked={paymentMethod === 'airtel'}
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="form-radio text-blue-600"
+              disabled={loading}
             />
             <span className="text-gray-700">Airtel Money</span>
           </label>
@@ -251,6 +306,7 @@ const PaymentForm = ({ amount, onSubmit }) => {
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
+          disabled={loading}
         />
       </div>
 
@@ -271,6 +327,99 @@ const PaymentForm = ({ amount, onSubmit }) => {
     </form>
   );
 };
+
+// const PaymentForm = ({ amount, onSubmit }) => {
+//   const [paymentMethod, setPaymentMethod] = useState('momo');
+//   const [phoneNumber, setPhoneNumber] = useState('');
+//   const [loading, setLoading] = useState(false);
+//   const [error, setError] = useState('');
+
+//   const handleSubmit = async (e) => {
+//     e.preventDefault();
+//     setLoading(true);
+//     setError('');
+
+//     try {
+//       // Simulate payment processing
+//       await new Promise(resolve => setTimeout(resolve, 1000));
+//       onSubmit({ paymentMethod, phoneNumber });
+//     } catch (err) {
+//       setError('Payment failed. Please try again.');
+//     } finally {
+//       setLoading(false);
+//     }
+//   };
+
+//   return (
+//     <form onSubmit={handleSubmit} className="space-y-4">
+//       {error && (
+//         <>
+//         {error}
+//         </>
+//         // <Alert variant="destructive">
+//         //   <AlertDescription>{error}</AlertDescription>
+//         // </Alert>
+//       )}
+
+//       <div>
+//         <span className="block text-sm font-medium text-gray-700 mb-2">
+//           Hitamo uburyo bwo kwishyura
+//         </span>
+//         <div className="space-y-2">
+//           <label className="flex items-center space-x-2 cursor-pointer">
+//             <input
+//               type="radio"
+//               value="momo"
+//               checked={paymentMethod === 'momo'}
+//               onChange={(e) => setPaymentMethod(e.target.value)}
+//               className="form-radio text-blue-600"
+//             />
+//             <span className="text-gray-700">MTN Mobile Money</span>
+//           </label>
+//           <label className="flex items-center space-x-2 cursor-pointer">
+//             <input
+//               type="radio"
+//               value="airtel"
+//               checked={paymentMethod === 'airtel'}
+//               onChange={(e) => setPaymentMethod(e.target.value)}
+//               className="form-radio text-blue-600"
+//             />
+//             <span className="text-gray-700">Airtel Money</span>
+//           </label>
+//         </div>
+//       </div>
+
+//       <div>
+//         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+//           Numero ya telefone
+//         </label>
+//         <input
+//           id="phone"
+//           type="tel"
+//           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//           value={phoneNumber}
+//           onChange={(e) => setPhoneNumber(e.target.value)}
+//           required
+//         />
+//       </div>
+
+//       <div className="border-t pt-4">
+//         <div className="flex justify-between mb-2">
+//           <span className="font-medium">Igiciro</span>
+//           <span>{amount} RWF</span>
+//         </div>
+//       </div>
+
+//       <button
+//         type="submit"
+//         disabled={loading}
+//         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+//       >
+//         {loading ? 'Tegereza...' : 'Ishyura'}
+//       </button>
+//     </form>
+//   );
+// };
 
 // Service Card Component
 const ServiceCard = ({ service }) => {

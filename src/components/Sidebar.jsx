@@ -15,6 +15,8 @@ const Sidebar = ({ user, onLogout }) => {
       { name: 'Dashboard', path: '/dashboard', icon: <HomeIcon size={20} /> },
       { name: 'Users', path: '/dashboard/users', icon: <Users size={20} /> },
       { name: 'Requests', path: '/dashboard/requests', icon: <Activity size={20} /> },
+      { name: 'Requests', path: '/dashboard/service-providers', icon: <Activity size={20} /> },
+      
       { name: 'Payments', path: '/dashboard/payments', icon: <CreditCard size={20} /> },
       { name: 'Settings', path: '/dashboard/settings', icon: <Settings size={20} /> },
     ],
