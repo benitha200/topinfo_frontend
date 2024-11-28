@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Scale, SlidersHorizontal, User, Home, Car, Users, Building2, Mountain, UtensilsCrossed, HeartPulse, Book, Ambulance, MessageCircle, X } from 'lucide-react';
 import { paymentService } from '../services/payment.service';
+import API_URL from '../constants/Constants';
 
-const API_BASE_URL = 'http://localhost:3050/api';
 
 // Modal Component
 const Modal = ({ isOpen, onClose, title, children }) => {
@@ -43,7 +43,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
 
     try {
       // Create client
-      const clientResponse = await fetch(`${API_BASE_URL}/clients`, {
+      const clientResponse = await fetch(`${API_URL}/clients`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -65,7 +65,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
       console.log(clientData.id);
 
       // Create service request
-      const requestResponse = await fetch(`${API_BASE_URL}/requests`, {
+      const requestResponse = await fetch(`${API_URL}/requests`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -485,7 +485,7 @@ const Services = () => {
   useEffect(() => {
     const fetchServices = async () => {
       try {
-        const response = await fetch(`${API_BASE_URL}/service-categories`, {
+        const response = await fetch(`${API_URL}/service-categories`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }

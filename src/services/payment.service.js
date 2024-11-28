@@ -1,7 +1,9 @@
+import API_URL from "../constants/Constants";
+
 const API_BASE_URL = 
   typeof window !== 'undefined' 
-    ? (window.ENV?.NEXT_PUBLIC_API_URL || 'http://localhost:3050/api')
-    : (process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3050/api');
+    ? (window.ENV?.NEXT_PUBLIC_API_URL || `${API_URL}`)
+    : (process.env.NEXT_PUBLIC_API_URL || `${API_URL}`);
 
 export const paymentService = {
   async initiatePayment(paymentData) {

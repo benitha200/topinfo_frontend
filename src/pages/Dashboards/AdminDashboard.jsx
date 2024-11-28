@@ -12,6 +12,7 @@ import {
   X
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import API_URL from '../../constants/Constants';
 
 const AdminDashboard = () => {
   // State management
@@ -25,8 +26,7 @@ const AdminDashboard = () => {
   
   const location = useLocation();
 
-  // API configuration
-  const API_BASE_URL = 'http://localhost:3050/api';
+
   const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
   
   const axiosConfig = {
@@ -39,7 +39,7 @@ const AdminDashboard = () => {
   // Fetch data functions
   const fetchClients = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/clients`, axiosConfig);
+      const response = await axios.get(`${API_URL}/clients`, axiosConfig);
       setUsers(response.data);
     } catch (err) {
       setError('Error fetching clients');
@@ -49,7 +49,7 @@ const AdminDashboard = () => {
 
   const fetchRequests = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/requests`, axiosConfig);
+      const response = await axios.get(`${API_URL}/requests`, axiosConfig);
       setRequests(response.data);
     } catch (err) {
       setError('Error fetching requests');
@@ -59,7 +59,7 @@ const AdminDashboard = () => {
 
   const fetchServiceProviders = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/service-providers`, axiosConfig);
+      const response = await axios.get(`${API_URL}/service-providers`, axiosConfig);
       setServiceProviders(response.data);
     } catch (err) {
       setError('Error fetching service providers');
@@ -69,7 +69,7 @@ const AdminDashboard = () => {
 
   const fetchServiceCategories = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/service-categories`, axiosConfig);
+      const response = await axios.get(`${API_URL}/service-categories`, axiosConfig);
       setServiceCategories(response.data);
     } catch (err) {
       setError('Error fetching service categories');

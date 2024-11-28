@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Users, Search, Filter } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import API_URL from '../../constants/Constants';
 
 const UsersPage = () => {
     const [users, setUsers] = useState([]);
@@ -11,8 +12,7 @@ const UsersPage = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [alertMessage, setAlertMessage] = useState('');
 
-    const API_BASE_URL = 'http://localhost:3050/api';
-    
+
     // Fetch users data combining both clients and service providers
     const fetchUsers = async () => {
         try {
@@ -21,12 +21,12 @@ const UsersPage = () => {
             
             // Fetch both clients and service providers
             const [clientsResponse, providersResponse] = await Promise.all([
-                fetch(`${API_BASE_URL}/clients`, {
+                fetch(`${API_URL}/clients`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 }),
-                fetch(`${API_BASE_URL}/service-providers`, {
+                fetch(`${API_URL}/service-providers`, {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -65,7 +65,7 @@ const UsersPage = () => {
     const handleAddUser = async (userData) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/clients`, {
+            const response = await fetch(`${API_URL}/clients`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -90,7 +90,7 @@ const UsersPage = () => {
     const handleEditUser = async (id, userData) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/clients/${id}`, {
+            const response = await fetch(`${API_URL}/clients/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

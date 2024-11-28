@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FileText, Search, Filter, Plus, Pencil, Trash2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import API_URL from '../../constants/Constants';
 
 const ServiceCategoriesPage = () => {
     const [categories, setCategories] = useState([]);
@@ -18,14 +19,13 @@ const ServiceCategoriesPage = () => {
         details: ''
     });
 
-    // API base URL
-    const API_BASE_URL = 'http://localhost:3050/api';
+
 
     // Fetch categories from the API
     const fetchCategories = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-categories`, {
+            const response = await fetch(`${API_URL}/service-categories`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -46,7 +46,7 @@ const ServiceCategoriesPage = () => {
     const createCategory = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-categories`, {
+            const response = await fetch(`${API_URL}/service-categories`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -67,7 +67,7 @@ const ServiceCategoriesPage = () => {
     const updateCategory = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-categories/${id}`, {
+            const response = await fetch(`${API_URL}/service-categories/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -89,7 +89,7 @@ const ServiceCategoriesPage = () => {
         if (window.confirm('Are you sure you want to delete this category?')) {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`${API_BASE_URL}/service-categories/${id}`, {
+                const response = await fetch(`${API_URL}/service-categories/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,

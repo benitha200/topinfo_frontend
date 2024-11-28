@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FileText, Search, Filter } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import API_URL from '../../constants/Constants';
 
 const RequestsPage = () => {
     const [requests, setRequests] = useState([]);
@@ -10,14 +11,13 @@ const RequestsPage = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredRequests, setFilteredRequests] = useState([]);
 
-    // API base URL
-    const API_BASE_URL = 'http://localhost:3050/api';
+
 
     // Fetch requests from the API
     const fetchRequests = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/requests`, {
+            const response = await fetch(`${API_URL}/requests`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -38,7 +38,7 @@ const RequestsPage = () => {
     const createRequest = async (requestData) => {
         try {
             const token = 'YOUR_AUTH_TOKEN';
-            const response = await fetch(`${API_BASE_URL}/requests`, {
+            const response = await fetch(`${API_URL}/requests`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -57,7 +57,7 @@ const RequestsPage = () => {
     const updateRequest = async (id, updateData) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/requests/${id}`, {
+            const response = await fetch(`${API_URL}/requests/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,

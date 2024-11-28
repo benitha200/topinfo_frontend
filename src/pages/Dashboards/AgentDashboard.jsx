@@ -333,11 +333,12 @@ import {
 } from 'lucide-react';
 import axios from 'axios';
 import { apiService } from '../../services/apiService';
+import API_URL from '../../constants/Constants';
 
 // API Configuration
-const API_BASE_URL = 'http://localhost:3050/api';
+
 const api = axios.create({
-  baseURL: API_BASE_URL
+  baseURL: API_URL
 });
 
 // Set auth token for all requests

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Search, Plus, Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import API_URL from '../../constants/Constants';
 
 const ServiceProvidersPage = () => {
     const [providers, setProviders] = useState([]);
@@ -28,14 +29,12 @@ const ServiceProvidersPage = () => {
         approved: false
     });
 
-    // API base URL
-    const API_BASE_URL = 'http://localhost:3050/api';
 
     // Fetch providers
     const fetchProviders = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-providers`, {
+            const response = await fetch(`${API_URL}/service-providers`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'

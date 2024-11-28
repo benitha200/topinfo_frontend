@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { CreditCard, TrendingUp, ArrowUpRight, ArrowDownRight, Search, Filter, Download } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import API_URL from '../../constants/Constants';
 
 const PaymentsPage = () => {
     const [dateRange, setDateRange] = useState('all');
@@ -15,7 +16,7 @@ const PaymentsPage = () => {
         const fetchPayments = async () => {
             try {
                 const token = localStorage.getItem('token'); // Assume token is stored in localStorage
-                const response = await fetch('http://localhost:3050/api/payments', {
+                const response = await fetch(`${API_URL}/payments`, {
                     headers: {
                         'Authorization': `Bearer ${token}`,
                     }

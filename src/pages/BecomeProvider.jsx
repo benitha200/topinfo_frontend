@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { AlertCircle } from 'lucide-react';
+import API_URL from '../constants/Constants';
 
 const BecomeProvider = () => {
   const [formData, setFormData] = useState({
@@ -30,8 +31,8 @@ const BecomeProvider = () => {
 
   const fetchServiceCategories = async () => {
     try {
-      const token = localStorage.getItem('token'); // Assuming token is stored in localStorage after login
-      const response = await fetch('http://localhost:3050/api/service-categories', {
+      const token = localStorage.getItem('token'); 
+      const response = await fetch(`${API_URL}/service-categories`, {
         method: 'GET',
         headers: {
           'Authorization': `Bearer ${token}`,
@@ -65,7 +66,7 @@ const BecomeProvider = () => {
 
     try {
       const token = localStorage.getItem('token');
-      const response = await fetch('http://localhost:3050/api/service-providers', {
+      const response = await fetch(`${API_URL}/service-providers`, {
         method: 'POST',
         headers: {
           'Authorization': `Bearer ${token}`,
