@@ -55,7 +55,7 @@ const ServiceProvidersPage = () => {
     const createProvider = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-providers`, {
+            const response = await fetch(`${API_URL}/service-providers`, {
                 method: 'POST',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -76,7 +76,7 @@ const ServiceProvidersPage = () => {
     const updateProvider = async (id) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-providers/${id}`, {
+            const response = await fetch(`${API_URL}/service-providers/${id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
@@ -98,7 +98,7 @@ const ServiceProvidersPage = () => {
         if (window.confirm('Are you sure you want to delete this provider?')) {
             try {
                 const token = localStorage.getItem('token');
-                const response = await fetch(`${API_BASE_URL}/service-providers/${id}`, {
+                const response = await fetch(`${API_URL}/service-providers/${id}`, {
                     method: 'DELETE',
                     headers: {
                         'Authorization': `Bearer ${token}`,
@@ -117,7 +117,7 @@ const ServiceProvidersPage = () => {
     const toggleApproval = async (provider) => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_BASE_URL}/service-providers/${provider.id}`, {
+            const response = await fetch(`${API_URL}/service-providers/${provider.id}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${token}`,
