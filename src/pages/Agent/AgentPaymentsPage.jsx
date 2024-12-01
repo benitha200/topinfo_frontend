@@ -193,6 +193,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import AgentLayout from './AgentLayout';
+import API_URL from '../../constants/Constants';
 
 const AgentPaymentsPage = () => {
   const [paymentsData, setPaymentsData] = useState([]);
@@ -213,7 +214,7 @@ const AgentPaymentsPage = () => {
     const fetchPayments = async () => {
       try {
         const token = localStorage.getItem('token');
-        const response = await fetch('http://localhost:3050/api/requests', {
+        const response = await fetch(`${API_URL}/requests`, {
           method: 'GET',
           headers: {
             'Authorization': `Bearer ${token}`,

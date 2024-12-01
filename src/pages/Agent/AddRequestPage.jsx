@@ -187,7 +187,7 @@ const AddRequestPage = () => {
                 `${API_URL}/payments/initiate`,
                 {
                     requestId: requestId,
-                    amount: paymentData.amount.toString(),
+                    amount: paymentData.amount.toString() || "100",
                     phone: paymentData.phoneNumber,
                     payment_method: paymentData.paymentMethod,
                     clientId: clientId,
@@ -205,7 +205,7 @@ const AddRequestPage = () => {
             console.error(error);
             setPaymentResult({
                 status: 'error',
-                message: 'An unexpected error occurred. Please try again.'
+                message: 'Please try again.'
             });
         } finally {
             setLoading(false);
@@ -271,12 +271,12 @@ const AddRequestPage = () => {
           <div className="bg-white rounded-lg shadow-md p-6 text-center">
             {paymentResult.status === 'success' ? (
               <>
-                <div className="text-green-500">
+                <div className="text-emerald-500">
                   <CheckCircle className="mx-auto mb-4" size={48} />
                 </div>
                 <h3 className="text-2xl font-bold mb-2">Payment Successful</h3>
                 <p className="text-gray-700 mb-4">{paymentResult.message}</p>
-                <a href="/agent-dashboard" className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded">
+                <a href="/agent-dashboard" className="bg-emerald-500 hover:bg-emerald-700 text-white py-3 px-4 rounded">
                   Return to Dashboard
                 </a>
               </>
@@ -543,7 +543,7 @@ const AddRequestPage = () => {
                     id="amount"
                     type="number"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                    value={paymentData.amount || 2000}
+                    value={paymentData.amount || 100 }
                     onChange={(e) => setPaymentData(prev => ({
                         ...prev,
                         amount: parseFloat(e.target.value)

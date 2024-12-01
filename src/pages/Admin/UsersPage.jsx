@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Users, Search, Filter } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import API_URL from '../../constants/Constants';
 
 const UsersPage = () => {
     const [users, setUsers] = useState([]);
@@ -15,7 +16,7 @@ const UsersPage = () => {
             setLoading(true);
             const token = localStorage.getItem('token');
             
-            const response = await fetch('http://localhost:3050/api/users', {
+            const response = await fetch(`${API_URL}/users`, {
                 headers: {
                     'Authorization': `Bearer ${token}`
                 }

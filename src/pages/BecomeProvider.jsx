@@ -181,7 +181,7 @@ const BecomeProvider = () => {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                  Imeri ya mbere
+                  Imeri yawe
                 </label>
                 <input
                   type="email"
