@@ -13,6 +13,8 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import API_URL from '../../constants/Constants';
+import AdminLayout from '../Admin/AdminLayout';
+
 
 const AdminDashboard = () => {
   // State management
@@ -26,84 +28,7 @@ const AdminDashboard = () => {
   
   const location = useLocation();
 
-
-  const token = localStorage.getItem('token'); // Assuming token is stored in localStorage
-  
-  const axiosConfig = {
-    headers: {
-      'Authorization': `Bearer ${token}`,
-      'Content-Type': 'application/json'
-    }
-  };
-
-  // Fetch data functions
-  const fetchClients = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/clients`, axiosConfig);
-      setUsers(response.data);
-    } catch (err) {
-      setError('Error fetching clients');
-      console.error('Error fetching clients:', err);
-    }
-  };
-
-  const fetchRequests = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/requests`, axiosConfig);
-      setRequests(response.data);
-    } catch (err) {
-      setError('Error fetching requests');
-      console.error('Error fetching requests:', err);
-    }
-  };
-
-  const fetchServiceProviders = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/service-providers`, axiosConfig);
-      setServiceProviders(response.data);
-    } catch (err) {
-      setError('Error fetching service providers');
-      console.error('Error fetching service providers:', err);
-    }
-  };
-
-  const fetchServiceCategories = async () => {
-    try {
-      const response = await axios.get(`${API_URL}/service-categories`, axiosConfig);
-      setServiceCategories(response.data);
-    } catch (err) {
-      setError('Error fetching service categories');
-      console.error('Error fetching service categories:', err);
-    }
-  };
-
-  // Load data on component mount
-  useEffect(() => {
-    const fetchData = async () => {
-      setIsLoading(true);
-      try {
-        await Promise.all([
-          fetchClients(),
-          fetchRequests(),
-          fetchServiceProviders(),
-          fetchServiceCategories()
-        ]);
-      } catch (err) {
-        setError('Error fetching data');
-        console.error('Error fetching data:', err);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  const handleLogout = () => {
-    localStorage.removeItem('token');
-    window.location.href = '/login';
-  };
-
+  // Navigation items
   const navItems = [
     { icon: BarChart2, label: 'Overview', path: '/dashboard' },
     { icon: Users, label: 'Users', path: '/dashboard/users' },
@@ -112,7 +37,48 @@ const AdminDashboard = () => {
     { icon: Settings, label: 'Settings', path: '/dashboard/settings' },
   ];
 
-  // Calculate statistics
+  // Authentication token (replace with your authentication logic)
+  const token = localStorage.getItem('token');
+  
+  const axiosConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  };
+
+  // Fetch data functions (mock implementations)
+  const fetchData = async () => {
+    try {
+      // Replace these with actual API calls
+      const usersResponse = await axios.get(`${API_URL}/users`, axiosConfig);
+      const requestsResponse = await axios.get(`${API_URL}/requests`, axiosConfig);
+      const providersResponse = await axios.get(`${API_URL}/service-providers`, axiosConfig);
+      const categoriesResponse = await axios.get(`${API_URL}/service-categories`, axiosConfig);
+
+      setUsers(usersResponse.data);
+      setRequests(requestsResponse.data);
+      setServiceProviders(providersResponse.data);
+      setServiceCategories(categoriesResponse.data);
+    } catch (err) {
+      setError('Error fetching dashboard data');
+      console.error('Dashboard fetch error:', err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  // Logout handler
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    window.location.href = '/login';
+  };
+
+  // Compute dashboard statistics
   const activeUsers = users.length;
   const activeRequests = requests.filter(request => 
     request.status === 'In Progress' || request.status === 'New'
@@ -120,88 +86,32 @@ const AdminDashboard = () => {
   const approvedProviders = serviceProviders.filter(provider => provider.approved).length;
   const totalCategories = serviceCategories.length;
 
+  // Loading state
   if (isLoading) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        Loading dashboard...
+      </div>
+    );
   }
 
+  // Error state
   if (error) {
-    return <div className="flex h-screen items-center justify-center text-red-600">{error}</div>;
+    return (
+      <div className="flex h-screen items-center justify-center text-red-600">
+        {error}
+      </div>
+    );
   }
 
   return (
-    <div className="flex h-screen bg-gray-100">
-      {/* Sidebar */}
-      <div
-        className={`${
-          isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } fixed inset-y-0 left-0 z-50 w-64 bg-white shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0`}
-      >
-        <div className="flex h-full flex-col">
-          {/* Sidebar Header */}
-          <div className="flex items-center justify-between px-4 py-6">
-            <Link to="/dashboard" className="text-xl font-bold text-blue-600">
-              TopInfo Admin
-            </Link>
-            <button
-              onClick={() => setIsSidebarOpen(false)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
-            >
-              <X className="h-6 w-6" />
-            </button>
-          </div>
-
-          {/* Navigation Items */}
-          <nav className="flex-1 space-y-1 px-2 py-4">
-            {navItems.map((item) => {
-              const Icon = item.icon;
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
-                    location.pathname === item.path
-                      ? 'bg-blue-50 text-blue-600'
-                      : 'text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  <Icon className="mr-3 h-5 w-5" />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-
-          {/* Logout Button */}
-          <div className="border-t border-gray-200 p-4">
-            <button
-              onClick={handleLogout}
-              className="flex w-full items-center px-4 py-3 text-sm font-medium text-red-600 hover:bg-red-50 rounded-lg"
-            >
-              <LogOut className="mr-3 h-5 w-5" />
-              Logout
-            </button>
-          </div>
-        </div>
-      </div>
+    <AdminLayout>
+      <div className="flex h-screen bg-gray-100">
+  
 
       {/* Main Content */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Bar */}
-        <header className="bg-white shadow-sm">
-          <div className="flex items-center justify-between px-6 py-4">
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
-            <h1 className="text-xl font-semibold text-gray-800">Dashboard</h1>
-            <div className="flex items-center space-x-4">
-              <span className="text-sm text-gray-600">Welcome, Admin</span>
-            </div>
-          </div>
-        </header>
-
+        
         {/* Dashboard Content */}
         <main className="flex-1 overflow-y-auto bg-gray-100 p-6">
           {/* Stats Cards */}
@@ -247,78 +157,11 @@ const AdminDashboard = () => {
               </CardContent>
             </Card>
           </div>
-
-          {/* Lists Section */}
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            {/* Users List */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Users</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {users.slice(0, 5).map((user) => (
-                    <div key={user.id} className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
-                        <Users className="h-4 w-4 text-blue-600" />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium">{`${user.firstname} ${user.lastname}`}</p>
-                        <p className="text-xs text-gray-500">{user.email}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Requests List */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Requests</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {requests.slice(0, 5).map((request) => (
-                    <div key={request.id} className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
-                        <FileText className="h-4 w-4 text-green-600" />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium">{request.description.substring(0, 30)}...</p>
-                        <p className="text-xs text-gray-500">Service Date: {new Date(request.service_date).toLocaleDateString()}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Service Providers List */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Recent Service Providers</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="space-y-4">
-                  {serviceProviders.slice(0, 5).map((provider) => (
-                    <div key={provider.id} className="flex items-center">
-                      <div className="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
-                        <Users className="h-4 w-4 text-purple-600" />
-                      </div>
-                      <div className="ml-4">
-                        <p className="text-sm font-medium">{`${provider.firstname} ${provider.lastname}`}</p>
-                        <p className="text-xs text-gray-500">{provider.experience} • {provider.location_district}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </div>
         </main>
       </div>
     </div>
+    </AdminLayout>
+    
   );
 };
 

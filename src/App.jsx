@@ -18,7 +18,14 @@ import SettingsPage from './pages/Admin/SettingsPage';
 import ServicesPage from './pages/Admin/ServicesPage';
 import ServiceCategoriesPage from './pages/Admin/ServicesPage';
 import ServiceProvidersPage from './pages/Admin/ServiceProvidersPage';
-import { RequestList } from './components/RequestListAgent';
+import RequestListAgent from './pages/Agent/RequestListAgent';
+import BecomeAgent from './pages/BecomeAgent';
+import AgentUsers from './pages/Agent/AgentUsers';
+import AddRequestPage from './pages/Agent/AddRequestPage';
+import PaymentApprovalPage from './pages/Agent/PaymentApprovalPage';
+import RequestDetailPage from './pages/Agent/RequestDetailPage';
+import AgentPaymentsPage from './pages/Agent/AgentPaymentsPage';
+import ClientsPage from './pages/Admin/ClientsPage';
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -43,14 +50,14 @@ const Navigation = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-4">
           <Link to="/" className="text-2xl font-bold text-blue-600">TopInfo</Link>
-          
+
 
         </div>
 
         <div className="flex items-center space-x-4">
-        <div className="hidden md:flex space-x-6 ml-6">
+          <div className="hidden md:flex space-x-6 ml-6">
             <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">Serivisi</Link>
-            <Link to="/become-provider" className="text-gray-700 hover:text-blue-600 transition-colors">Tanga Serivisi</Link>
+            <Link to="/become-agent" className="text-gray-700 hover:text-blue-600 transition-colors">Ba Agent</Link>
           </div>
           <Link
             to="/login"
@@ -86,7 +93,7 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">Serivisi</h4>
             <ul className="space-y-2">
               <li><Link to="/services" className="text-gray-300 hover:text-white">Reba Serivisi</Link></li>
-              <li><Link to="/become-provider" className="text-gray-300 hover:text-white">Tanga Serivisi</Link></li>
+              <li><Link to="/become-provider" className="text-gray-300 hover:text-white">Ba Agent</Link></li>
               <li><Link to="/categories" className="text-gray-300 hover:text-white">Imitungo</Link></li>
             </ul>
           </div>
@@ -101,9 +108,9 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Twandikire</h4>
             <div className="flex space-x-2">
-              <input 
-                type="email" 
-                placeholder="Andikira amakuru" 
+              <input
+                type="email"
+                placeholder="Andikira amakuru"
                 className="px-4 py-2 bg-gray-800 text-white rounded-l-md flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
               <button className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition-colors">
@@ -132,7 +139,7 @@ const LayoutWrapper = ({ children }) => {
   // Only render Navigation and Footer for non-protected routes
   return (
     <div className="flex flex-col min-h-screen">
-      <Navigation/>
+      <Navigation />
       <div className="flex-1 pt-20">
         {children}
       </div>
@@ -150,6 +157,7 @@ const App = () => {
         <Route path="/login" element={<LayoutWrapper><Login /></LayoutWrapper>} />
         <Route path="/services" element={<LayoutWrapper><Services /></LayoutWrapper>} />
         <Route path="/become-provider" element={<LayoutWrapper><BecomeProvider /></LayoutWrapper>} />
+        <Route path="/become-agent" element={<LayoutWrapper><BecomeAgent /></LayoutWrapper>} />
 
         {/* Protected Routes (without Layout) */}
         <Route
@@ -162,6 +170,22 @@ const App = () => {
         />
         <Route
           path="/dashboard/users"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <UsersPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/clients"
+          element={
+            <ProtectedRoute allowedRoles={['ADMIN']}>
+              <ClientsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/agents"
           element={
             <ProtectedRoute allowedRoles={['ADMIN']}>
               <UsersPage />
@@ -220,11 +244,45 @@ const App = () => {
           path="/agent-dashboard/requests-agent"
           element={
             <ProtectedRoute allowedRoles={['AGENT']}>
-              <RequestList />
+              <RequestListAgent />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/agent-dashboard/requests-agent/create"
+          element={
+            <ProtectedRoute allowedRoles={['AGENT']}>
+              <AddRequestPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/agent-users"
+          element={
+            <ProtectedRoute allowedRoles={['AGENT']}>
+              <AgentUsers />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/requests-agent/view/:id"
+          element={
+            <ProtectedRoute allowedRoles={['AGENT','ADMIN']}>
+              <RequestDetailPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/payments-agent"
+          element={
+            <ProtectedRoute allowedRoles={['AGENT','ADMIN']}>
+              <AgentPaymentsPage />
             </ProtectedRoute>
           }
         />
       </Routes>
+
     </Router>
   );
 };

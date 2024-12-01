@@ -17,8 +17,8 @@ const Navigation = () => {
               <Link to="/services" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
                 Serivisi
               </Link>
-              <Link to="/become-provider" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
-                Tanga Serivisi
+              <Link to="/become-Agent" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
+                Ba Agent
               </Link>
               <Link to="/about" className="px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors">
                 Inyobora
@@ -53,8 +53,8 @@ const Navigation = () => {
             <Link to="/services" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
               Serivisi
             </Link>
-            <Link to="/become-provider" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
-              Tanga Serivisi
+            <Link to="/become-agent" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
+              Ba Agent
             </Link>
             <Link to="/about" className="block px-4 py-2 text-gray-700 hover:bg-gray-100 rounded-lg">
               Inyobora
@@ -173,7 +173,7 @@ const Home = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 overflow-hidden">
+      <div className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-blue-500 overflow-hidden">
       <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
         <div className="absolute inset-y-0 right-0 -mr-48 w-1/2 bg-gradient-to-l from-blue-500/20 transform rotate-12 blur-3xl" />
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-40">
@@ -278,7 +278,7 @@ const Home = () => {
       {/* CTA Section */}
       <div className="bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 to-indigo-700 rounded-3xl p-12">
+          <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-500 rounded-3xl p-12">
             <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
             <div className="relative text-center">
               <h2 className="text-4xl font-bold text-white mb-6">Witegure gutangira?</h2>

@@ -97,9 +97,6 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         <>
         {error}
         </>
-        // <Alert variant="destructive">
-        //   <AlertDescription>{error}</AlertDescription>
-        // </Alert>
       )}
       
       <div>
@@ -207,7 +204,7 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
       // Initiate payment
       const paymentResult = await paymentService.initiatePayment({
         phone: phoneNumber,
-        amount,
+        amount: amount,
         description: 'Service payment',
         requestId:3,
         clientId: 1,

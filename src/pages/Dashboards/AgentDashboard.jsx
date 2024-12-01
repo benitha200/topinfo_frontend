@@ -1,121 +1,70 @@
-// import React from 'react';
-// import { useState } from 'react';
-// import { 
-//   Users, 
-//   LayoutDashboard, 
-//   ClipboardList, 
-//   LogOut, 
-//   Menu,
-//   Bell
-// } from 'lucide-react';
+// import React, { useState, useEffect } from 'react';
+// import { LayoutDashboard } from 'lucide-react';
+// import axios from 'axios';
+// import AgentLayout from '../Agent/AgentLayout';
+// import API_URL from '../../constants/Constants';
 
-// // Define AgentLayout component first since it's used by other components
-// const AgentLayout = ({ children }) => {
-//   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
+// // Axios instance
+// const api = axios.create({
+//   baseURL: API_URL,
+// });
 
-//   const menuItems = [
-//     { title: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
-//     { title: 'Requests', icon: <ClipboardList size={20} />, path: '/requests' },
-//     { title: 'Users', icon: <Users size={20} />, path: '/users' },
-//   ];
+// // Function to set Authorization token
+// const setAuthToken = (token) => {
+//   if (token) {
+//     api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+//   } else {
+//     delete api.defaults.headers.common['Authorization'];
+//   }
+// };
 
+// // Components
+
+// const RequestCard = ({ request }) => {
+//   const { id, service_location, service_date, description, status, client, service_category } = request;
 //   return (
-//     <div className="h-screen flex flex-col">
-//       {/* Header */}
-//       <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
-//         <div className="flex items-center gap-4">
-//           <button
-//             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-//             className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
-//           >
-//             <Menu size={20} />
-//           </button>
-//           <h1 className="text-xl font-bold">Agent Portal</h1>
-//         </div>
-//         <div className="flex items-center gap-4">
-//           <button className="p-2 hover:bg-gray-100 rounded-lg relative">
-//             <Bell size={20} />
-//             <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></span>
-//           </button>
-//           <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-//         </div>
-//       </header>
-
-//       <div className="flex flex-1 overflow-hidden">
-//         {/* Sidebar */}
-//         <aside 
-//           className={`
-//             ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-//             fixed lg:static lg:translate-x-0 z-20 
-//             bg-white border-r border-gray-200 
-//             w-64 h-[calc(100vh-4rem)] 
-//             transition-transform duration-200 ease-in-out
-//           `}
-//         >
-//           <nav className="h-full flex flex-col p-4">
-//             <div className="flex-1 space-y-1">
-//               {menuItems.map((item) => (
-//                 <button
-//                   key={item.title}
-//                   className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-//                 >
-//                   {item.icon}
-//                   <span>{item.title}</span>
-//                 </button>
-//               ))}
-//             </div>
-//             <button className="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg">
-//               <LogOut size={20} />
-//               <span>Logout</span>
-//             </button>
-//           </nav>
-//         </aside>
-
-//         {/* Main Content */}
-//         <main className="flex-1 overflow-auto bg-gray-50 p-6">
-//           {children}
-//         </main>
+//     <div className="bg-white p-4 rounded-lg shadow">
+//       <div className="flex items-center justify-between mb-2">
+//         <span className={`px-2 py-1 text-sm rounded-full ${
+//           status === 'COMPLETED' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
+//         }`}>
+//           {status}
+//         </span>
+//         <span className="text-sm text-gray-500">
+//           {service_date ? new Date(service_date).toLocaleDateString() : 'No date'}
+//         </span>
 //       </div>
+//       <h3 className="font-medium mb-1">Service Request #{id}</h3>
+//       <p className="text-sm text-gray-600 mb-2">{description}</p>
+//       <p className="text-sm text-gray-600 mb-2">
+//         Service: {service_category?.name} <br />
+//         Location: {service_location}
+//       </p>
+//       <p className="text-sm text-gray-600">
+//         Client: {client?.firstname} {client?.lastname} ({client?.phone})
+//       </p>
 //     </div>
 //   );
 // };
 
-// // Add missing RequestCard component
-// const RequestCard = ({ request }) => (
-//   <div className="bg-white p-4 rounded-lg shadow">
-//     <div className="flex items-center justify-between mb-2">
-//       <span className={`px-2 py-1 text-sm rounded-full ${
-//         request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-//         request.status === 'active' ? 'bg-green-100 text-green-800' :
-//         'bg-gray-100 text-gray-800'
-//       }`}>
-//         {request.status}
-//       </span>
-//       <span className="text-sm text-gray-500">{request.date}</span>
-//     </div>
-//     <h3 className="font-medium mb-1">{request.title}</h3>
-//     <p className="text-sm text-gray-600 mb-3">{request.description}</p>
-//     <div className="flex items-center gap-2">
-//       <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
-//       <span className="text-sm">{request.user}</span>
-//     </div>
-//   </div>
-// );
-
-// // Add missing RequestList component
-// const RequestList = ({ requests }) => (
+// const RequestList = ({ requests = [] }) => (
 //   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-//     {requests.map((request) => (
-//       <RequestCard key={request.id} request={request} />
-//     ))}
+//     {requests.length > 0 ? (
+//       requests.map((request) => (
+//         <RequestCard key={request.id} request={request} />
+//       ))
+//     ) : (
+//       <div className="col-span-full text-center py-8 text-gray-500">
+//         No requests found
+//       </div>
+//     )}
 //   </div>
 // );
 
-// // Add missing Stats component
-// const Stats = ({ stats }) => (
+// const Stats = ({ stats = [] }) => (
 //   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-//     {stats.map((stat) => (
-//       <div key={stat.title} className="bg-white p-4 rounded-lg shadow">
+//     {stats.map((stat, index) => (
+//       <div key={index} className="bg-white p-4 rounded-lg shadow">
 //         <p className="text-sm text-gray-500 mb-1">{stat.title}</p>
 //         <p className="text-2xl font-semibold">{stat.value}</p>
 //         <div className="flex items-center gap-1 text-sm">
@@ -129,111 +78,80 @@
 //   </div>
 // );
 
-// // Dummy data definitions remain the same
-// const dummyRequests = [
-//   {
-//     id: 1,
-//     title: "Technical Support Request",
-//     description: "User experiencing issues with login authentication",
-//     status: "pending",
-//     date: "2024-03-15",
-//     user: "John Doe"
-//   },
-//   {
-//     id: 2,
-//     title: "Account Access Issue",
-//     description: "Password reset needed for corporate account",
-//     status: "active",
-//     date: "2024-03-14",
-//     user: "Jane Smith"
-//   },
-//   {
-//     id: 3,
-//     title: "Software Integration Problem",
-//     description: "API connection failing during data sync",
-//     status: "resolved",
-//     date: "2024-03-13",
-//     user: "Mike Johnson"
-//   },
-//   {
-//     id: 4,
-//     title: "Email Configuration",
-//     description: "Need to set up custom domain email forwarding",
-//     status: "active",
-//     date: "2024-03-15",
-//     user: "Sarah Wilson"
-//   },
-//   {
-//     id: 5,
-//     title: "Database Backup Request",
-//     description: "Scheduled backup failed to complete",
-//     status: "pending",
-//     date: "2024-03-14",
-//     user: "Alex Thompson"
-//   },
-//   {
-//     id: 6,
-//     title: "VPN Access Setup",
-//     description: "New employee needs VPN configuration",
-//     status: "active",
-//     date: "2024-03-15",
-//     user: "Chris Anderson"
-//   }
-// ];
-
-// const dummyUsers = [
-//   {
-//     id: 1,
-//     name: "John Doe",
-//     email: "john@example.com",
-//     role: "Customer",
-//     requests: 5,
-//     joinDate: "2024-01-15"
-//   },
-//   {
-//     id: 2,
-//     name: "Jane Smith",
-//     email: "jane@example.com",
-//     role: "Admin",
-//     requests: 3,
-//     joinDate: "2024-02-01"
-//   },
-//   {
-//     id: 3,
-//     name: "Mike Johnson",
-//     email: "mike@example.com",
-//     role: "Customer",
-//     requests: 8,
-//     joinDate: "2023-12-10"
-//   },
-//   {
-//     id: 4,
-//     name: "Sarah Wilson",
-//     email: "sarah@example.com",
-//     role: "Customer",
-//     requests: 2,
-//     joinDate: "2024-03-01"
-//   },
-//   {
-//     id: 5,
-//     name: "Alex Thompson",
-//     email: "alex@example.com",
-//     role: "Support",
-//     requests: 0,
-//     joinDate: "2024-03-10"
-//   }
-// ];
-
-// const dummyStats = [
-//   { title: "Total Requests", value: "128", trend: 12 },
-//   { title: "Active Requests", value: "28", trend: -5 },
-//   { title: "Resolved Today", value: "15", trend: 8 },
-//   { title: "Avg Response Time", value: "24m", trend: -15 }
-// ];
-
 // const AgentDashboard = () => {
-//   const [requests, setRequests] = useState(dummyRequests);
+//   const [requests, setRequests] = useState([]);
+//   const [stats, setStats] = useState([
+//     { title: "Total Requests", value: "0", trend: 0 },
+//     { title: "Completed Requests", value: "0", trend: 0 },
+//     { title: "Service Categories", value: "0", trend: 0 },
+//     { title: "Avg Response Time", value: "0m", trend: 0 },
+//   ]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+
+//   useEffect(() => {
+//     // Retrieve token from storage or context
+//     const token = localStorage.getItem('token'); // Replace with your token retrieval method
+//     setAuthToken(token);
   
+//     const fetchDashboardData = async () => {
+//       try {
+//         setLoading(true);
+//         const response = await api.get('/requests'); // Replace with the correct endpoint
+  
+//         // Assuming the response is an array of requests
+//         const requests = response.data; // No need to destructure further
+  
+//         const completedRequests = requests.filter((req) => req.status === 'COMPLETED').length;
+  
+//         // Assuming you have predefined service categories for now
+//         const uniqueCategories = Array.from(
+//           new Set(requests.map((req) => req.service_category?.id))
+//         );
+  
+//         setRequests(requests);
+//         setStats([
+//           { title: "Total Requests", value: requests.length.toString(), trend: 5 },
+//           { title: "Completed Requests", value: completedRequests.toString(), trend: 3 },
+//           { title: "Service Categories", value: uniqueCategories.length.toString(), trend: 2 },
+//           { title: "Avg Response Time", value: "24m", trend: -1 },
+//         ]);
+//       } catch (err) {
+//         setError('Failed to load dashboard data');
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+  
+//     fetchDashboardData();
+//   }, []);
+  
+
+//   if (loading) {
+//     return (
+//       <AgentLayout>
+//         <div className="flex items-center justify-center h-full">
+//           <div className="text-center">
+//             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+//             <p className="text-gray-500">Loading dashboard data...</p>
+//           </div>
+//         </div>
+//       </AgentLayout>
+//     );
+//   }
+
+//   if (error) {
+//     return (
+//       <AgentLayout>
+//         <div className="max-w-7xl mx-auto">
+//           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+//             <p className="text-red-600">{error}</p>
+//           </div>
+//         </div>
+//       </AgentLayout>
+//     );
+//   }
+
 //   return (
 //     <AgentLayout>
 //       <div className="max-w-7xl mx-auto">
@@ -241,78 +159,10 @@
 //           <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
 //           <p className="text-gray-500">Welcome back! Here's what's happening today.</p>
 //         </div>
-        
-//         <Stats stats={dummyStats} />
-        
+//         <Stats stats={stats} />
 //         <div className="mb-6">
 //           <h2 className="text-xl font-semibold mb-4">Recent Requests</h2>
-//           <RequestList requests={requests} />
-//         </div>
-//       </div>
-//     </AgentLayout>
-//   );
-// };
-
-// const RequestsPage = () => {
-//   const [requests, setRequests] = useState(dummyRequests);
-
-//   return (
-//     <AgentLayout>
-//       <div className="max-w-7xl mx-auto">
-//         <div className="flex justify-between items-center mb-6">
-//           <div>
-//             <h1 className="text-2xl font-bold text-gray-900">All Requests</h1>
-//             <p className="text-gray-500">Manage and track all support requests</p>
-//           </div>
-//           <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-//             New Request
-//           </button>
-//         </div>
-//         <RequestList requests={requests} />
-//       </div>
-//     </AgentLayout>
-//   );
-// };
-
-// const UsersPage = () => {
-//   const [users, setUsers] = useState(dummyUsers);
-
-//   return (
-//     <AgentLayout>
-//       <div className="max-w-7xl mx-auto">
-//         <div className="flex justify-between items-center mb-6">
-//           <div>
-//             <h1 className="text-2xl font-bold text-gray-900">Users</h1>
-//             <p className="text-gray-500">Manage user accounts and permissions</p>
-//           </div>
-//           <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-//             Add User
-//           </button>
-//         </div>
-        
-//         <div className="bg-white rounded-lg shadow overflow-hidden">
-//           <table className="min-w-full divide-y divide-gray-200">
-//             <thead className="bg-gray-50">
-//               <tr>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Requests</th>
-//                 <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Join Date</th>
-//               </tr>
-//             </thead>
-//             <tbody className="bg-white divide-y divide-gray-200">
-//               {users.map((user) => (
-//                 <tr key={user.id}>
-//                   <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap">{user.requests}</td>
-//                   <td className="px-6 py-4 whitespace-nowrap">{user.joinDate}</td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
+//           <RequestList requests={requests.slice(0, 6)} />
 //         </div>
 //       </div>
 //     </AgentLayout>
@@ -320,67 +170,64 @@
 // };
 
 // export default AgentDashboard;
-// export { RequestsPage, UsersPage };
 
-import React, { useState, useEffect } from 'react';
-import { 
-  Users, 
-  LayoutDashboard, 
-  ClipboardList, 
-  LogOut, 
-  Menu,
-  Bell
-} from 'lucide-react';
-import axios from 'axios';
-import { apiService } from '../../services/apiService';
-import API_URL from '../../constants/Constants';
 
-// API Configuration
+import React, { useState, useEffect } from "react";
+import { LayoutDashboard } from "lucide-react";
+import axios from "axios";
+import AgentLayout from "../Agent/AgentLayout";
+import API_URL from "../../constants/Constants";
 
+// Axios instance
 const api = axios.create({
-  baseURL: API_URL
+  baseURL: API_URL,
 });
 
-// Set auth token for all requests
+// Function to set Authorization token
 const setAuthToken = (token) => {
   if (token) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   } else {
-    delete api.defaults.headers.common['Authorization'];
+    delete api.defaults.headers.common["Authorization"];
   }
 };
 
-// Modified RequestCard with API data structure
-const RequestCard = ({ request }) => (
-  <div className="bg-white p-4 rounded-lg shadow">
-    <div className="flex items-center justify-between mb-2">
-      <span className={`px-2 py-1 text-sm rounded-full ${
-        request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-        request.status === 'active' ? 'bg-green-100 text-green-800' :
-        'bg-gray-100 text-gray-800'
-      }`}>
-        {request.status || 'New'}
-      </span>
-      <span className="text-sm text-gray-500">
-        {request.service_date ? new Date(request.service_date).toLocaleDateString() : 'No date'}
-      </span>
-    </div>
-    <h3 className="font-medium mb-1">Service Request #{request.id}</h3>
-    <p className="text-sm text-gray-600 mb-3">{request.description}</p>
-    <div className="flex items-center gap-2">
-      <div className="w-6 h-6 bg-gray-200 rounded-full"></div>
-      <span className="text-sm">Location: {request.service_location}</span>
-    </div>
-  </div>
-);
+// Components
+const RequestCard = ({ request }) => {
+  const { id, service_location, service_date, description, status, client, service_category } = request;
+  const statusColor = {
+    COMPLETED: "bg-emerald-100 text-slate-800",
+    PENDING: "bg-amber-100 text-slate-800",
+    CANCELLED: "bg-red-100 text-slate-800",
+  };
 
-// Modified RequestList with API integration and empty state
+  return (
+    <div className="bg-gradient-to-r from-white to-slate-50 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+      <div className="flex items-center justify-between mb-2">
+        <span className={`px-2 py-1 text-sm tracking-wide rounded-full ${statusColor[status] || "bg-gray-300 text-gray-800"}`}>
+          {status}
+        </span>
+        <span className="text-sm text-gray-500 tracking-wide">
+          {service_date ? new Date(service_date).toLocaleDateString() : "No date"}
+        </span>
+      </div>
+      <h3 className="font-semibold text-blue-700 mb-1">Service Request #{id}</h3>
+      <p className="text-sm text-gray-700 mb-2 tracking-wide">{description}</p>
+      <p className="text-sm text-gray-600 mb-2 tracking-wide">
+        <strong>Service:</strong> {service_category?.name} <br />
+        <strong>Location:</strong> {service_location}
+      </p>
+      <p className="text-sm text-gray-600">
+        <strong>Client:</strong> {client?.firstname} {client?.lastname} ({client?.phone})
+      </p>
+    </div>
+  );
+};
+
 const RequestList = ({ requests = [] }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {requests.length > 0 ? (
-      requests.map((request) => (
-        <RequestCard key={request.id} request={request} />
-      ))
+      requests.map((request) => <RequestCard key={request.id} request={request} />)
     ) : (
       <div className="col-span-full text-center py-8 text-gray-500">
         No requests found
@@ -389,143 +236,57 @@ const RequestList = ({ requests = [] }) => (
   </div>
 );
 
-// Modified Stats component with default values
 const Stats = ({ stats = [] }) => (
-  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
-    {stats.map((stat) => (
-      <div key={stat.title} className="bg-white p-4 rounded-lg shadow">
-        <p className="text-sm text-gray-500 mb-1">{stat.title}</p>
-        <p className="text-2xl font-semibold">{stat.value}</p>
-        <div className="flex items-center gap-1 text-sm">
-          <span className={stat.trend > 0 ? 'text-green-600' : 'text-red-600'}>
-            {stat.trend > 0 ? '↑' : '↓'} {Math.abs(stat.trend)}%
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+    {stats.map((stat, index) => (
+      <div key={index} className="bg-white rounded text-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+        <p className="text-sm mb-1">{stat.title}</p>
+        <p className="text-3xl font-bold">{stat.value}</p>
+        <div className="flex items-center gap-1 text-sm mt-2">
+          <span className={stat.trend > 0 ? "text-green-300" : "text-red-300"}>
+            {stat.trend > 0 ? "▲" : "▼"} {Math.abs(stat.trend)}%
           </span>
-          <span className="text-gray-500">vs last month</span>
+          <span className="text-gray-800">vs last month</span>
         </div>
       </div>
     ))}
   </div>
 );
 
-// Modified AgentLayout with authentication
-const AgentLayout = ({ children }) => {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
-  const [notifications, setNotifications] = useState([]);
-
-  const menuItems = [
-    { title: 'Dashboard', icon: <LayoutDashboard size={20} />, path: '/dashboard' },
-    { title: 'Requests', icon: <ClipboardList size={20} />, path: '/agent-dashboard/requests-agent' },
-    { title: 'Users', icon: <Users size={20} />, path: '/users' },
-  ];
-
-  const handleLogout = () => {
-    setAuthToken(null);
-    // Add your logout logic here
-  };
-
-  return (
-    <div className="h-screen flex flex-col">
-      {/* Header */}
-      <header className="bg-white border-b border-gray-200 h-16 flex items-center justify-between px-4 lg:px-6">
-        <div className="flex items-center gap-4">
-          <button
-            onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
-          >
-            <Menu size={20} />
-          </button>
-          <h1 className="text-xl font-bold">Agent Portal</h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <button className="p-2 hover:bg-gray-100 rounded-lg relative">
-            <Bell size={20} />
-            {notifications.length > 0 && (
-              <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></span>
-            )}
-          </button>
-          <div className="w-8 h-8 bg-gray-200 rounded-full"></div>
-        </div>
-      </header>
-
-      <div className="flex flex-1 overflow-hidden">
-        <aside 
-          className={`
-            ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-            fixed lg:static lg:translate-x-0 z-20 
-            bg-white border-r border-gray-200 
-            w-64 h-[calc(100vh-4rem)] 
-            transition-transform duration-200 ease-in-out
-          `}
-        >
-          <nav className="h-full flex flex-col p-4">
-            <div className="flex-1 space-y-1">
-              {menuItems.map((item) => (
-                <button
-                  key={item.title}
-                  className="w-full flex items-center gap-3 px-3 py-2 text-gray-700 hover:bg-gray-100 rounded-lg"
-                >
-                  {item.icon}
-                  <span>{item.title}</span>
-                </button>
-              ))}
-            </div>
-            <button 
-              onClick={handleLogout}
-              className="flex items-center gap-3 px-3 py-2 text-red-600 hover:bg-red-50 rounded-lg"
-            >
-              <LogOut size={20} />
-              <span>Logout</span>
-            </button>
-          </nav>
-        </aside>
-
-        <main className="flex-1 overflow-auto bg-gray-50 p-6">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
-};
-
-// Modified AgentDashboard with proper error handling
 const AgentDashboard = () => {
   const [requests, setRequests] = useState([]);
   const [stats, setStats] = useState([
     { title: "Total Requests", value: "0", trend: 0 },
-    { title: "Active Requests", value: "0", trend: 0 },
+    { title: "Completed Requests", value: "0", trend: 0 },
     { title: "Service Categories", value: "0", trend: 0 },
-    { title: "Avg Response Time", value: "0m", trend: 0 }
+    { title: "Avg Response Time", value: "0m", trend: 0 },
   ]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("token"); // Replace with your token retrieval method
+    setAuthToken(token);
+
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        
-        // Get requests data
-        const requestsData = await apiService.getRequests();
-        const requests = Array.isArray(requestsData) ? requestsData : [];
+        const response = await api.get("/requests"); // Replace with the correct endpoint
+        const requests = response.data;
+
+        const completedRequests = requests.filter((req) => req.status === "COMPLETED").length;
+
+        const uniqueCategories = Array.from(new Set(requests.map((req) => req.service_category?.id)));
+
         setRequests(requests);
-
-        // Get categories data
-        const categoriesData = await apiService.getServiceCategories();
-        const categories = Array.isArray(categoriesData) ? categoriesData : [];
-
-        // Calculate stats
-        const activeRequests = requests.filter(r => r.status === 'active').length;
-        
         setStats([
-          { title: "Total Requests", value: requests.length.toString(), trend: 12 },
-          { title: "Active Requests", value: activeRequests.toString(), trend: -5 },
-          { title: "Service Categories", value: categories.length.toString(), trend: 8 },
-          { title: "Avg Response Time", value: "24m", trend: -15 }
+          { title: "Total Requests", value: requests.length.toString(), trend: 5 },
+          { title: "Completed Requests", value: completedRequests.toString(), trend: 3 },
+          { title: "Service Categories", value: uniqueCategories.length.toString(), trend: 2 },
+          { title: "Avg Response Time", value: "24m", trend: -1 },
         ]);
-
       } catch (err) {
-        console.error('Dashboard data fetch error:', err);
-        setError(err.message || 'Failed to load dashboard data');
+        setError("Failed to load dashboard data");
       } finally {
         setLoading(false);
       }
@@ -539,7 +300,7 @@ const AgentDashboard = () => {
       <AgentLayout>
         <div className="flex items-center justify-center h-full">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500 mx-auto mb-4"></div>
             <p className="text-gray-500">Loading dashboard data...</p>
           </div>
         </div>
@@ -551,7 +312,7 @@ const AgentDashboard = () => {
     return (
       <AgentLayout>
         <div className="max-w-7xl mx-auto">
-          <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+          <div className="bg-red-100 border border-red-300 rounded-lg p-4 mb-6">
             <p className="text-red-600">{error}</p>
           </div>
         </div>
@@ -563,14 +324,12 @@ const AgentDashboard = () => {
     <AgentLayout>
       <div className="max-w-7xl mx-auto">
         <div className="mb-6">
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
+          <h1 className="text-3xl font-bold text-slate-600">Dashboard</h1>
           <p className="text-gray-500">Welcome back! Here's what's happening today.</p>
         </div>
-        
         <Stats stats={stats} />
-        
         <div className="mb-6">
-          <h2 className="text-xl font-semibold mb-4">Recent Requests</h2>
+          <h2 className="text-2xl font-semibold text-gray-700 mb-4">Recent Requests</h2>
           <RequestList requests={requests.slice(0, 6)} />
         </div>
       </div>
@@ -578,72 +337,4 @@ const AgentDashboard = () => {
   );
 };
 
-
-const RequestsPage = () => {
-  const [requests, setRequests] = useState(dummyRequests);
-
-  return (
-    <AgentLayout>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">All Requests</h1>
-            <p className="text-gray-500">Manage and track all support requests</p>
-          </div>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            New Request
-          </button>
-        </div>
-        <RequestList requests={requests} />
-      </div>
-    </AgentLayout>
-  );
-};
-
-const UsersPage = () => {
-  const [users, setUsers] = useState([]);
-
-  return (
-    <AgentLayout>
-      <div className="max-w-7xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <div>
-            <h1 className="text-2xl font-bold text-gray-900">Users</h1>
-            <p className="text-gray-500">Manage user accounts and permissions</p>
-          </div>
-          <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-            Add User
-          </button>
-        </div>
-        
-        <div className="bg-white rounded-lg shadow overflow-hidden">
-          <table className="min-w-full divide-y divide-gray-200">
-            <thead className="bg-gray-50">
-              <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Name</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Email</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Role</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Requests</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Join Date</th>
-              </tr>
-            </thead>
-            <tbody className="bg-white divide-y divide-gray-200">
-              {users.map((user) => (
-                <tr key={user.id}>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.name}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.requests}</td>
-                  <td className="px-6 py-4 whitespace-nowrap">{user.joinDate}</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </AgentLayout>
-  );
-};
-
 export default AgentDashboard;
-export { RequestsPage, UsersPage };
