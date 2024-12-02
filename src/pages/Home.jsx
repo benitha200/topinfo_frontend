@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { Search, Shield, Sparkles, Users, Menu, ArrowRight, X, Bell, ChevronDown } from 'lucide-react';
-
+import { Search, Shield, Sparkles, Users, ArrowRight } from 'lucide-react';
 
 const Home = () => {
   const featuredServices = [
@@ -33,44 +32,42 @@ const Home = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Hero Section */}
-      <div className="relative bg-gradient-to-br from-blue-600 via-blue-500 to-blue-500 overflow-hidden">
-      <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
-        <div className="absolute inset-y-0 right-0 -mr-48 w-1/2 bg-gradient-to-l from-blue-500/20 transform rotate-12 blur-3xl" />
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-40">
-          <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-4xl md:text-6xl font-bold text-white mb-8 leading-tight">
-              Urubuga ruhuza abashaka serivisi n'abazitanga
+      {/* Enhanced CTA Section as Hero */}
+      <div className="relative bg-gradient-to-br from-blue-500 via-blue-500 to-blue-400 overflow-hidden py-24">
+        <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/30 to-blue-500/10 opacity-50 blur-3xl" />
+        
+        <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
+            <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
+              Umwuga Wose Hari Aho
             </h1>
-            <p className="text-xl md:text-2xl text-blue-100 mb-12">
-              Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye
+            <p className="text-2xl text-blue-100 mb-10 max-w-3xl mx-auto">
+              Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, iminsi mike, ubukonje n'ubufatanye
             </p>
-            <div className="relative max-w-2xl mx-auto">
-              <div className="relative flex items-center">
-                <input
-                  type="text"
-                  placeholder="Shakisha serivisi ukeneye..."
-                  className="w-full px-8 py-6 rounded-2xl text-lg border-0 ring-1 ring-white/20 bg-white/10 backdrop-blur-sm text-white placeholder-blue-100 focus:ring-2 focus:ring-white/30 focus:outline-none shadow-xl"
-                />
-                <button className="absolute right-3 p-3 bg-white rounded-xl text-blue-600 hover:bg-blue-50 transition-colors">
-                  <Search size={24} />
-                </button>
-              </div>
-              <div className="mt-4 flex justify-center space-x-4 text-sm text-blue-100">
-                <span>Ibishakwa cyane:</span>
-                <a href="#" className="hover:text-white">Noteri</a>
-                <span>•</span>
-                <a href="#" className="hover:text-white">Ubutaka</a>
-                <span>•</span>
-                <a href="#" className="hover:text-white">Umunyamategeko</a>
-              </div>
+            
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Link 
+                to="/services"
+                className="px-10 py-5 bg-white text-blue-600 rounded-xl hover:bg-blue-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
+              >
+                Reba Serivisi 
+                <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
+              </Link>
+              <Link 
+                to="/become-provider"
+                className="px-10 py-5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
+              >
+                Ba Umutanga Serivisi 
+                <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
+              </Link>
             </div>
           </div>
         </div>
       </div>
 
       {/* Featured Services */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-10">
+      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {featuredServices.map(service => {
             const ServiceIcon = service.icon;
@@ -103,7 +100,7 @@ const Home = () => {
             );
           })}
         </div>
-      </div>
+      </div> */}
 
       {/* Benefits Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
