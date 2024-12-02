@@ -40,7 +40,7 @@ const Home = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
             <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
-              Umwuga Wose Hari Aho
+              Urubuga ruhuza abatanga service n'abazitanga
             </h1>
             <p className="text-2xl text-blue-100 mb-10 max-w-3xl mx-auto">
               Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, iminsi mike, ubukonje n'ubufatanye
