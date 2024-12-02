@@ -589,7 +589,7 @@ const AddRequestPage = () => {
                                     {step === 3 && 'Payment'}
                                 </CardTitle>
                                 <CardDescription>
-                                    {step === 1 && 'Enter your personal details'}
+                                    {step === 1 && 'Enter client personal details'}
                                     {step === 2 && 'Provide service request information'}
                                     {step === 3 && 'Complete your payment'}
                                 </CardDescription>

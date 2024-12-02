@@ -26,6 +26,7 @@ import PaymentApprovalPage from './pages/Agent/PaymentApprovalPage';
 import RequestDetailPage from './pages/Agent/RequestDetailPage';
 import AgentPaymentsPage from './pages/Agent/AgentPaymentsPage';
 import ClientsPage from './pages/Admin/ClientsPage';
+import ServiceProviderListAgent from './pages/Agent/ServiceProviderListAgent';
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -58,13 +59,13 @@ const Navigation = () => {
           <div className="hidden md:flex space-x-6 ml-6">
             <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">Abasaba Serivisi</Link>
             <Link
-            to="/become-provider"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-          >
-            Abatanga service
+              to="/become-provider"
+              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+            >
+              Abatanga service
             </Link>
             <Link to="/become-agent" className="text-gray-700 hover:text-blue-600 transition-colors">Aba Agent</Link>
-            
+
           </div>
           <Link
             to="/login"
@@ -72,7 +73,7 @@ const Navigation = () => {
           >
             Injira
           </Link>
-          
+
           <button className="md:hidden">
             <Menu size={24} className="text-gray-700" />
           </button>
@@ -251,6 +252,15 @@ const App = () => {
         />
 
         <Route
+          path="/agent-dashboard/service-provider-agent"
+          element={
+            <ProtectedRoute allowedRoles={['AGENT']}>
+              <ServiceProviderListAgent />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
           path="/agent-dashboard/requests-agent/create"
           element={
             <ProtectedRoute allowedRoles={['AGENT']}>
@@ -269,7 +279,7 @@ const App = () => {
         <Route
           path="/agent-dashboard/requests-agent/view/:id"
           element={
-            <ProtectedRoute allowedRoles={['AGENT','ADMIN']}>
+            <ProtectedRoute allowedRoles={['AGENT', 'ADMIN']}>
               <RequestDetailPage />
             </ProtectedRoute>
           }
@@ -277,7 +287,7 @@ const App = () => {
         <Route
           path="/agent-dashboard/payments-agent"
           element={
-            <ProtectedRoute allowedRoles={['AGENT','ADMIN']}>
+            <ProtectedRoute allowedRoles={['AGENT', 'ADMIN']}>
               <AgentPaymentsPage />
             </ProtectedRoute>
           }

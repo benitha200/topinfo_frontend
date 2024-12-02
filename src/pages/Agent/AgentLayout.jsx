@@ -299,8 +299,13 @@ const AgentLayout = ({ children }) => {
         },
         { 
             icon: ClipboardList, 
-            label: 'Requests', 
+            label: 'Client', 
             path: '/agent-dashboard/requests-agent' 
+        },
+        { 
+            icon: ClipboardList, 
+            label: 'Service Provider', 
+            path: '/agent-dashboard/service-provider-agent' 
         },
         { 
             icon: ClipboardList, 
