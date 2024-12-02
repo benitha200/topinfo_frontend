@@ -63,7 +63,7 @@ const Navigation = () => {
               className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
             > */}
             <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">
-              Abatanga service
+              Abatanga  Serivisi
             </Link>
             <Link to="/become-agent" className="text-gray-700 hover:text-blue-600 transition-colors">Aba Agent</Link>
 

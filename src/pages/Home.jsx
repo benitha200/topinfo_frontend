@@ -3,32 +3,6 @@ import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import { Search, Shield, Sparkles, Users, ArrowRight } from 'lucide-react';
 
 const Home = () => {
-  const featuredServices = [
-    {
-      id: 1,
-      title: "Noteri",
-      description: "Kwemeza inyandiko zigenwe n'amategeko",
-      rating: 4.8,
-      users: "2,400+",
-      icon: Shield
-    },
-    {
-      id: 2,
-      title: "Umuhesha w'inkiko",
-      description: "Umuhesha w'inkiko",
-      rating: 4.9,
-      users: "3,200+",
-      icon: Sparkles
-    },
-    {
-      id: 3,
-      title: "Upima butaka",
-      description: "Upima butaka",
-      rating: 4.7,
-      users: "1,800+",
-      icon: Users
-    }
-  ];
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -40,7 +14,7 @@ const Home = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
             <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
-              Urubuga ruhuza abatanga service n'abazitanga
+              Urubuga ruhuza Abatanga  Serivisi n'abazitanga
             </h1>
             <p className="text-2xl text-blue-100 mb-10 max-w-3xl mx-auto">
               Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, iminsi mike, ubukonje n'ubufatanye
@@ -65,42 +39,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {/* Featured Services */}
-      {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-24 relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {featuredServices.map(service => {
-            const ServiceIcon = service.icon;
-            return (
-              <div 
-                key={service.id} 
-                className="bg-white rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 p-8 group hover:scale-105"
-              >
-                <div className="mb-6 p-4 bg-blue-50 rounded-xl inline-block group-hover:bg-blue-100 transition-colors">
-                  <ServiceIcon className="text-blue-600 group-hover:text-blue-700 transition-colors" size={36} />
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">{service.title}</h3>
-                <p className="text-gray-600 mb-6">{service.description}</p>
-                <div className="flex justify-between items-center">
-                  <div className="flex flex-col">
-                    <span className="text-lg font-medium text-yellow-500 flex items-center">
-                      ★ {service.rating}
-                    </span>
-                    <span className="text-sm text-gray-500">{service.users} abakoresha</span>
-                  </div>
-                  <Link 
-                    to={`/service/${service.id}`} 
-                    className="flex items-center text-blue-600 hover:text-blue-700 font-medium group"
-                  >
-                    Saba service 
-                    <ArrowRight size={20} className="ml-2 transform group-hover:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div> */}
 
       {/* Benefits Section */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
