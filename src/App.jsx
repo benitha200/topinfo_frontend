@@ -56,8 +56,15 @@ const Navigation = () => {
 
         <div className="flex items-center space-x-4">
           <div className="hidden md:flex space-x-6 ml-6">
-            <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">Serivisi</Link>
-            <Link to="/become-agent" className="text-gray-700 hover:text-blue-600 transition-colors">Ba Agent</Link>
+            <Link to="/services" className="text-gray-700 hover:text-blue-600 transition-colors">Abasaba Serivisi</Link>
+            <Link
+            to="/become-provider"
+            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+          >
+            Abatanga service
+            </Link>
+            <Link to="/become-agent" className="text-gray-700 hover:text-blue-600 transition-colors">Aba Agent</Link>
+            
           </div>
           <Link
             to="/login"
@@ -65,12 +72,7 @@ const Navigation = () => {
           >
             Injira
           </Link>
-          <Link
-            to="/become-provider"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
-          >
-            Iyandikishe muba tanga service
-            </Link>
+          
           <button className="md:hidden">
             <Menu size={24} className="text-gray-700" />
           </button>
