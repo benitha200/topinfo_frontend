@@ -58,7 +58,7 @@ const Home = () => {
                 to="/become-provider"
                 className="px-10 py-5 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
               >
-                Ba Umutanga Serivisi 
+                Ba Utanga Serivisi 
                 <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
               </Link>
             </div>
@@ -153,7 +153,7 @@ const Home = () => {
                   to="/become-provider"
                   className="px-8 py-4 bg-blue-500 text-white rounded-xl hover:bg-blue-600 transition-all text-lg font-bold shadow-lg hover:shadow-xl flex items-center justify-center group"
                 >
-                  Ba Umutanga Serivisi 
+                  Ba Utanga Serivisi 
                   <ArrowRight className="ml-2 transform group-hover:translate-x-1 transition-transform" size={24} />
                 </Link>
               </div>
