@@ -69,8 +69,8 @@ const Navigation = () => {
             to="/become-provider"
             className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
           >
-            Iyandikishe
-          </Link>
+            Iyandikishe muba tanga service
+            </Link>
           <button className="md:hidden">
             <Menu size={24} className="text-gray-700" />
           </button>
@@ -93,7 +93,7 @@ const Footer = () => {
             <h4 className="font-semibold mb-4">Serivisi</h4>
             <ul className="space-y-2">
               <li><Link to="/services" className="text-gray-300 hover:text-white">Reba Serivisi</Link></li>
-              <li><Link to="/become-provider" className="text-gray-300 hover:text-white">Ba Agent</Link></li>
+              <li><Link to="/become-agent" className="text-gray-300 hover:text-white">Ba Agent</Link></li>
               <li><Link to="/categories" className="text-gray-300 hover:text-white">Imitungo</Link></li>
             </ul>
           </div>

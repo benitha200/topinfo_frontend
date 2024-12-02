@@ -146,7 +146,7 @@ const ServiceCategoriesPage = () => {
         <AdminLayout>
             <div className="p-6 space-y-6">
                 <div className="flex justify-between items-center">
-                    <h1 className="text-2xl font-bold">Service Categories Management</h1>
+                    <h1 className="text-2xl font-bold">Service Categories </h1>
                     <button 
                         className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
                         onClick={() => setIsAddModalOpen(true)}
