@@ -367,8 +367,8 @@ const AgentPaymentsPage = () => {
                       <TableCell>{request.service_category.name}</TableCell>
                       {/* <TableCell>{request.client.phone}</TableCell>
                       <TableCell>{request.client.email}</TableCell> */}
-                      <TableCell>{request.client.phone.substring(0, 2) + 'xxx' + request.client.phone.slice(-2)}</TableCell>
-                      <TableCell>{request.client.email.split('@')[0].substring(0, 2) + 'xxxxx' + request.client.email.split('@')[0].slice(-2) + '@' + request.client.email.split('@')[1]}</TableCell>
+                      <TableCell>{request.client.phone.substring(0, 3) + 'xxxxx' + request.client.phone.slice(-2)}</TableCell>
+                      <TableCell>{request.client.email.split('@')[0].substring(0, 2) + 'xxxxxxxx' + request.client.email.split('@')[0].slice(-2) + '@' + request.client.email.split('@')[1]}</TableCell>
                       <TableCell>{successfulPayment.amount} RWF</TableCell>
                       <TableCell>{successfulPayment.request_transaction_id}</TableCell>
                     </TableRow>
