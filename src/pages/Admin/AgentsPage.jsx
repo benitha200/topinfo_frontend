@@ -5,7 +5,7 @@ import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
 
-const UsersPage = () => {
+const AgentsPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,7 +19,9 @@ const UsersPage = () => {
     lastname: "",
     email: "",
     phone: "",
-    role: "ADMIN",
+    location_province: "",
+    location_district: "",
+    location_sector: "",
   });
 
   const [provinces, setProvinces] = useState([]);
@@ -32,7 +34,7 @@ const UsersPage = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/users?role=ADMIN`, {
+      const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=no`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -190,31 +192,31 @@ const UsersPage = () => {
     <AdminLayout>
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Users</h1>
+          <h1 className="text-2xl font-bold">Agents</h1>
           <button
             onClick={() => setIsAddModalOpen(true)}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            Add New User
+            Add New Agent
           </button>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Users Statistics</CardTitle>
+            <CardTitle>Agent Statistics</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
               <Users className="h-8 w-8 text-blue-500" />
               <div>
-                <p className="text-sm text-gray-500">Total Users</p>
+                <p className="text-sm text-gray-500">Total Agents</p>
                 <p className="text-2xl font-bold">{users.length}</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
               <Users className="h-8 w-8 text-green-500" />
               <div>
-                <p className="text-sm text-gray-500">Active Users</p>
+                <p className="text-sm text-gray-500">Active Agents</p>
                 <p className="text-2xl font-bold">
                   {users.filter((user) => user.isActive).length}
                 </p>
@@ -225,7 +227,7 @@ const UsersPage = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Users List</CardTitle>
+            <CardTitle>Agents List</CardTitle>
             <div className="flex space-x-2">
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
@@ -482,4 +484,4 @@ const UsersPage = () => {
   );
 };
 
-export default UsersPage;
+export default AgentsPage;

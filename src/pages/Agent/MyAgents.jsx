@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Users, Search, Filter } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
+import AgentLayout from "./AgentLayout";
 
-const UsersPage = () => {
+const MyAgents = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -19,20 +19,21 @@ const UsersPage = () => {
     lastname: "",
     email: "",
     phone: "",
-    role: "ADMIN",
+    location_province: "",
+    location_district: "",
+    location_sector: "",
   });
 
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [sectors, setSectors] = useState([]);
 
-  // Fetch users data only from the specified endpoint
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/users?role=ADMIN`, {
+      const response = await fetch(`${API_URL}/users/my-agents`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -43,10 +44,8 @@ const UsersPage = () => {
       }
 
       const data = await response.json();
-
-      // const agentUsers = data.users.filter(user => user.role === 'AGENT');
-
-      setUsers(data.users);
+      
+      setUsers(data.agents);
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch users");
@@ -54,11 +53,10 @@ const UsersPage = () => {
     }
   };
 
-  // Create a new agent user
   const createUser = async () => {
     try {
       const token = localStorage.getItem("token");
-      const response = await fetch(`${API_URL}/users`, {
+      const response = await fetch(`${API_URL}/users/add-agent`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
@@ -86,6 +84,7 @@ const UsersPage = () => {
       location_sector: "",
     });
   };
+
 
   useEffect(() => {
     setProvinces(Provinces());
@@ -186,35 +185,36 @@ const UsersPage = () => {
   if (loading) return <div className="p-6">Loading...</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
+
   return (
-    <AdminLayout>
+    <AgentLayout>
       <div className="p-6 space-y-6">
         <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">Users</h1>
+          <h1 className="text-2xl font-bold">My Agents</h1>
           <button
             onClick={() => setIsAddModalOpen(true)}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            Add New User
+            Add New Agent
           </button>
         </div>
 
         <Card>
           <CardHeader>
-            <CardTitle>Users Statistics</CardTitle>
+            <CardTitle>Statistics</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
               <Users className="h-8 w-8 text-blue-500" />
               <div>
-                <p className="text-sm text-gray-500">Total Users</p>
+                <p className="text-sm text-gray-500">Total Agents</p>
                 <p className="text-2xl font-bold">{users.length}</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
               <Users className="h-8 w-8 text-green-500" />
               <div>
-                <p className="text-sm text-gray-500">Active Users</p>
+                <p className="text-sm text-gray-500">Active Agents</p>
                 <p className="text-2xl font-bold">
                   {users.filter((user) => user.isActive).length}
                 </p>
@@ -225,7 +225,7 @@ const UsersPage = () => {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Users List</CardTitle>
+            <CardTitle>Agents List</CardTitle>
             <div className="flex space-x-2">
               <div className="relative">
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
@@ -478,8 +478,8 @@ const UsersPage = () => {
           </div>
         )}
       </div>
-    </AdminLayout>
+    </AgentLayout>
   );
 };
 
-export default UsersPage;
+export default MyAgents;
