@@ -1,8 +1,23 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Scale, SlidersHorizontal, User, Home, Car, Users, Building2, Mountain, UtensilsCrossed, HeartPulse, Book, Ambulance, MessageCircle, X } from 'lucide-react';
-import { paymentService } from '../services/payment.service';
-import API_URL from '../constants/Constants';
-
+import React, { useState, useEffect } from "react";
+import {
+  Search,
+  Scale,
+  SlidersHorizontal,
+  User,
+  Home,
+  Car,
+  Users,
+  Building2,
+  Mountain,
+  UtensilsCrossed,
+  HeartPulse,
+  Book,
+  Ambulance,
+  MessageCircle,
+  X,
+} from "lucide-react";
+import { paymentService } from "../services/payment.service";
+import API_URL from "../constants/Constants";
 
 // Modal Component
 const Modal = ({ isOpen, onClose, title, children }) => {
@@ -10,11 +25,17 @@ const Modal = ({ isOpen, onClose, title, children }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center">
-      <div className="fixed inset-0 bg-black bg-opacity-50" onClick={onClose}></div>
+      <div
+        className="fixed inset-0 bg-black bg-opacity-50"
+        onClick={onClose}
+      ></div>
       <div className="bg-white rounded-lg p-6 z-10 w-full max-w-3xl mx-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{title}</h2>
-          <button onClick={onClose} className="text-gray-500 hover:text-gray-700">
+          <button
+            onClick={onClose}
+            className="text-gray-500 hover:text-gray-700"
+          >
             <X size={20} />
           </button>
         </div>
@@ -23,53 +44,51 @@ const Modal = ({ isOpen, onClose, title, children }) => {
     </div>
   );
 };
-
 // Service Request Form Component
 const ServiceRequestForm = ({ service, onSubmit }) => {
   const [formData, setFormData] = useState({
-    amazina: '',
-    telefone: '',
-    imeyili: '',
-    aderesi: '',
-    ubutumwa: ''
+    amazina: "",
+    telefone: "",
+    imeyili: "",
+    aderesi: "",
+    ubutumwa: "",
   });
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Create client
       const clientResponse = await fetch(`${API_URL}/clients`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-          firstname: formData.amazina.split(' ')[0],
-          lastname: formData.amazina.split(' ').slice(1).join(' '),
+          firstname: formData.amazina.split(" ")[0],
+          lastname: formData.amazina.split(" ").slice(1).join(" "),
           email: formData.imeyili,
           phone: formData.telefone,
           location_sector: formData.aderesi,
-          location_province: 'Kigali',
-          location_district: 'Unknown'
-        })
+          location_province: "Kigali",
+          location_district: "Unknown",
+        }),
       });
 
-      if (!clientResponse.ok) throw new Error('Failed to create client');
+      if (!clientResponse.ok) throw new Error("Failed to create client");
       const clientData = await clientResponse.json();
-      console.log(clientData.id);
 
       // Create service request
       const requestResponse = await fetch(`${API_URL}/requests`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
           client_id: clientData.id,
@@ -77,13 +96,19 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
           service_category_id: service.id,
           your_location: formData.aderesi,
           service_location: formData.aderesi,
-          service_date: new Date().toISOString().split('T')[0]
-        })
+          service_date: new Date().toISOString().split("T")[0],
+        }),
       });
 
-      if (!requestResponse.ok) throw new Error('Failed to create request');
-      
-      onSubmit(formData);
+      if (!requestResponse.ok) throw new Error("Failed to create request");
+      const requestData = await requestResponse.json();
+      const updatedFormData = {
+        ...formData,
+        clientId: clientData.id,
+        requestId: requestData.id,
+      };
+
+      onSubmit(updatedFormData);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -93,27 +118,31 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 max-w-4xl">
-      {error && (
-        <>
-        {error}
-        </>
-      )}
-      
+      {error && <span className="text-red-500">{error}</span>}
+
       <div>
-        <label htmlFor="amazina" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="amazina"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Amazina yawe yose
         </label>
         <input
           id="amazina"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={formData.amazina}
-          onChange={(e) => setFormData({ ...formData, amazina: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, amazina: e.target.value })
+          }
           required
         />
       </div>
 
       <div>
-        <label htmlFor="telefone" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="telefone"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Telefone
         </label>
         <input
@@ -121,13 +150,18 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
           type="tel"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={formData.telefone}
-          onChange={(e) => setFormData({ ...formData, telefone: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, telefone: e.target.value })
+          }
           required
         />
       </div>
 
       <div>
-        <label htmlFor="imeyili" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="imeyili"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Imeyili
         </label>
         <input
@@ -135,33 +169,45 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
           type="email"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={formData.imeyili}
-          onChange={(e) => setFormData({ ...formData, imeyili: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, imeyili: e.target.value })
+          }
           required
         />
       </div>
 
       <div>
-        <label htmlFor="aderesi" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="aderesi"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Aderesi
         </label>
         <input
           id="aderesi"
           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={formData.aderesi}
-          onChange={(e) => setFormData({ ...formData, aderesi: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, aderesi: e.target.value })
+          }
           required
         />
       </div>
 
       <div>
-        <label htmlFor="ubutumwa" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="ubutumwa"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Ubutumwa
         </label>
         <textarea
           id="ubutumwa"
           className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
           value={formData.ubutumwa}
-          onChange={(e) => setFormData({ ...formData, ubutumwa: e.target.value })}
+          onChange={(e) =>
+            setFormData({ ...formData, ubutumwa: e.target.value })
+          }
         />
       </div>
 
@@ -170,23 +216,22 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         disabled={loading}
         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
       >
-        {loading ? 'Tegereza...' : 'Komeza'}
+        {loading ? "Tegereza..." : "Komeza"}
       </button>
     </form>
   );
 };
 
-
 // Payment Form Component
 
-const PaymentForm = ({ amount, requestId, onSubmit }) => {
-  const [paymentMethod, setPaymentMethod] = useState('momo');
-  const [phoneNumber, setPhoneNumber] = useState('');
+const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
+  const [paymentMethod, setPaymentMethod] = useState("momo");
+  const [phoneNumber, setPhoneNumber] = useState(requestInfo.telefone);
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
   const [transactionDetails, setTransactionDetails] = useState(null);
   const [statusCheckInterval, setStatusCheckInterval] = useState(null);
-
+  const origin = window.location.origin;
   useEffect(() => {
     return () => {
       if (statusCheckInterval) {
@@ -198,48 +243,57 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
-    setError('');
+    setError("");
 
     try {
       // Initiate payment
       const paymentResult = await paymentService.initiatePayment({
+        name: requestInfo.amazina,
+        email: requestInfo.imeyili,
         phone: phoneNumber,
         amount: amount,
-        description: 'Service payment',
-        requestId:3,
-        clientId: 1,
+        requestId: requestInfo.requestId,
+        clientId: requestInfo.clientId,
+        currentUrl: `${origin}/payment-callback`,
       });
+
+      console.log(paymentResult);
+      console.log(paymentResult.response);
+      const response = paymentResult.response;
+      if (response.status === "success") {
+        window.location.href = response.meta.authorization.redirect;
+      }
 
       setTransactionDetails(paymentResult);
 
       // Start checking payment status
-      const interval = setInterval(async () => {
-        try {
-          const statusResult = await paymentService.checkPaymentStatus(
-            paymentResult.transactionId,
-            paymentResult.requestTransactionId
-          );
+      // const interval = setInterval(async () => {
+      //   try {
+      //     const statusResult = await paymentService.checkPaymentStatus(
+      //       paymentResult.transactionId,
+      //       paymentResult.requestTransactionId
+      //     );
 
-          if (statusResult.status === 'SUCCESSFUL') {
-            clearInterval(interval);
-            onSubmit({
-              paymentMethod,
-              phoneNumber,
-              transactionId: statusResult.transactionId,
-              status: 'completed'
-            });
-          } else if (statusResult.status === 'FAILED') {
-            clearInterval(interval);
-            setError('Payment failed. Please try again.');
-            setLoading(false);
-          }
-        } catch (error) {
-          console.error('Status check error:', error);
-          // Don't clear interval on network errors
-        }
-      }, 5000);
+      //     if (statusResult.status === 'SUCCESSFUL') {
+      //       clearInterval(interval);
+      //       onSubmit({
+      //         paymentMethod,
+      //         phoneNumber,
+      //         transactionId: statusResult.transactionId,
+      //         status: 'completed'
+      //       });
+      //     } else if (statusResult.status === 'FAILED') {
+      //       clearInterval(interval);
+      //       setError('Payment failed. Please try again.');
+      //       setLoading(false);
+      //     }
+      //   } catch (error) {
+      //     console.error('Status check error:', error);
+      //     // Don't clear interval on network errors
+      //   }
+      // }, 5000);
 
-      setStatusCheckInterval(interval);
+      // setStatusCheckInterval(interval);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -257,7 +311,8 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
       {transactionDetails && (
         <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
           <p className="text-blue-600">
-            Payment request sent. Please check your phone for the payment prompt.
+            Payment request sent. Please check your phone for the payment
+            prompt.
           </p>
         </div>
       )}
@@ -271,7 +326,7 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
             <input
               type="radio"
               value="momo"
-              checked={paymentMethod === 'momo'}
+              checked={paymentMethod === "momo"}
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="form-radio text-blue-600"
               disabled={loading}
@@ -282,7 +337,7 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
             <input
               type="radio"
               value="airtel"
-              checked={paymentMethod === 'airtel'}
+              checked={paymentMethod === "airtel"}
               onChange={(e) => setPaymentMethod(e.target.value)}
               className="form-radio text-blue-600"
               disabled={loading}
@@ -293,7 +348,10 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
       </div>
 
       <div>
-        <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+        <label
+          htmlFor="phone"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
           Numero ya telefone
         </label>
         <input
@@ -319,7 +377,7 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
         disabled={loading}
         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
       >
-        {loading ? 'Tegereza...' : 'Ishyura'}
+        {loading ? "Tegereza..." : "Ishyura"}
       </button>
     </form>
   );
@@ -422,19 +480,21 @@ const PaymentForm = ({ amount, requestId, onSubmit }) => {
 const ServiceCard = ({ service }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
+  const [requestInfo, setRequestInfo] = useState({});
 
   const handleRequestSubmit = async (formData) => {
+    setRequestInfo(formData);
     setShowPaymentForm(true);
   };
 
   const handlePaymentSubmit = async (paymentData) => {
-    try {
-      console.log('Payment submitted:', paymentData);
-      setIsModalOpen(false);
-      setShowPaymentForm(false);
-    } catch (error) {
-      console.error('Payment failed:', error);
-    }
+    // try {
+    //   console.log('Payment submitted:', paymentData);
+    //   setIsModalOpen(false);
+    //   setShowPaymentForm(false);
+    // } catch (error) {
+    //   console.error('Payment failed:', error);
+    // }
   };
 
   return (
@@ -459,12 +519,19 @@ const ServiceCard = ({ service }) => {
           setIsModalOpen(false);
           setShowPaymentForm(false);
         }}
-        title={showPaymentForm ? 'Kwishyura' : `Saba ${service.title}`}
+        title={showPaymentForm ? "Kwishyura" : `Saba ${service.title}`}
       >
         {showPaymentForm ? (
-          <PaymentForm amount={5000} onSubmit={handlePaymentSubmit} />
+          <PaymentForm
+            amount={100}
+            requestInfo={requestInfo}
+            onSubmit={handlePaymentSubmit}
+          />
         ) : (
-          <ServiceRequestForm service={service} onSubmit={handleRequestSubmit} />
+          <ServiceRequestForm
+            service={service}
+            onSubmit={handleRequestSubmit}
+          />
         )}
       </Modal>
     </>
@@ -474,37 +541,37 @@ const ServiceCard = ({ service }) => {
 // Main Services Component
 const Services = () => {
   const [services, setServices] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
+  const [searchTerm, setSearchTerm] = useState("");
   const [filteredServices, setFilteredServices] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState('');
+  const [error, setError] = useState("");
 
   useEffect(() => {
     const fetchServices = async () => {
       try {
         const response = await fetch(`${API_URL}/service-categories`, {
           headers: {
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
         });
-        
-        if (!response.ok) throw new Error('Failed to fetch services');
+
+        if (!response.ok) throw new Error("Failed to fetch services");
         const data = await response.json();
-        
-        const mappedServices = data.map(service => ({
+
+        const mappedServices = data.map((service) => ({
           id: service.id,
           title: service.name,
           subtitle: service.details,
           icon: getCategoryIcon(service.name),
-          category: service.category || 'Other',
-          price: service.client_price
+          category: service.category || "Other",
+          price: service.client_price,
         }));
 
         setServices(mappedServices);
         setFilteredServices(mappedServices);
       } catch (err) {
-        setError('Failed to load services. Please try again later.');
-        console.error('Error fetching services:', err);
+        setError("Failed to load services. Please try again later.");
+        console.error("Error fetching services:", err);
       } finally {
         setLoading(false);
       }
@@ -515,12 +582,16 @@ const Services = () => {
 
   const getCategoryIcon = (name) => {
     const iconMap = {
-      'lawyer': <Scale size={24} className="text-blue-600" />,
-      'notary': <User size={24} className="text-blue-600" />,
-      'bailiff': <Scale size={24} className="text-blue-600" />,
+      lawyer: <Scale size={24} className="text-blue-600" />,
+      notary: <User size={24} className="text-blue-600" />,
+      bailiff: <Scale size={24} className="text-blue-600" />,
     };
 
-    return iconMap[name.toLowerCase()] || <Users size={24} className="text-blue-600" />;
+    return (
+      iconMap[name.toLowerCase()] || (
+        <Users size={24} className="text-blue-600" />
+      )
+    );
   };
 
   useEffect(() => {
@@ -565,9 +636,7 @@ const Services = () => {
           <h1 className="text-4xl font-bold text-gray-900 mb-4">
             Saba guhuzwa n'utanga serivisi
           </h1>
-          <p className="text-lg text-gray-600">
-            Hitamo serivisi ukeneye
-          </p>
+          <p className="text-lg text-gray-600">Hitamo serivisi ukeneye</p>
         </div>
 
         <div className="max-w-4xl mx-auto mb-12">
@@ -579,7 +648,10 @@ const Services = () => {
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full px-12 py-4 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all duration-200 shadow-sm"
             />
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={20} />
+            <Search
+              className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+              size={20}
+            />
           </div>
         </div>
 
@@ -591,9 +663,7 @@ const Services = () => {
 
         {filteredServices.length === 0 && (
           <div className="text-center py-12">
-            <p className="text-gray-500 text-lg">
-              Nta serivisi zabonetse
-            </p>
+            <p className="text-gray-500 text-lg">Nta serivisi zabonetse</p>
           </div>
         )}
       </div>
