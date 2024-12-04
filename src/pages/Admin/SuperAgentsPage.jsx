@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter } from "lucide-react";
+import { Users, Search, Filter, Loader2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
@@ -13,6 +13,7 @@ const SuperAgentsPage = () => {
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingRow, setEditingUser] = useState(null);
+  const [modalLoading, setModalLoading] = useState(false);
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -60,6 +61,7 @@ const SuperAgentsPage = () => {
   // Create a new agent user
   const createUser = async () => {
     try {
+      setModalLoading(true);
       const token = localStorage.getItem("token");
       const response = await fetch(`${API_URL}/users`, {
         method: "POST",
@@ -70,11 +72,13 @@ const SuperAgentsPage = () => {
         body: JSON.stringify(formData),
       });
       if (!response.ok) throw new Error("Failed to create user");
-      fetchUsers();
+      await fetchUsers();
       setIsAddModalOpen(false);
       resetForm();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setModalLoading(false);
     }
   };
 
@@ -141,6 +145,7 @@ const SuperAgentsPage = () => {
 
   const updateUser = async (id) => {
     try {
+      setModalLoading(true);
       const token = localStorage.getItem("token");
       const response = await fetch(`${API_URL}/users/${id}`, {
         method: "PUT",
@@ -151,11 +156,13 @@ const SuperAgentsPage = () => {
         body: JSON.stringify(formData),
       });
       if (!response.ok) throw new Error("Failed to update users");
-      fetchUsers();
+      await fetchUsers();
       setEditingUser(null);
       resetForm();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setModalLoading(false);
     }
   };
 
@@ -198,7 +205,7 @@ const SuperAgentsPage = () => {
             onClick={() => setIsAddModalOpen(true)}
             className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           >
-            Add New Agent
+            Add New Super Agent
           </button>
         </div>
 
@@ -454,32 +461,37 @@ const SuperAgentsPage = () => {
               </div>
 
               <div className="flex justify-end space-x-2">
-                <button
-                  className="px-4 py-2 text-gray-600 border rounded hover:bg-gray-50"
-                  onClick={() => {
-                    setIsAddModalOpen(false);
-                    setEditingUser(null);
-                    resetForm();
-                  }}
-                >
-                  Cancel
-                </button>
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  onClick={() => {
-                    if (editingRow) {
-                      updateUser(editingRow.id);
-                    } else {
-                      createUser();
-                    }
-                  }}
-                >
-                  {editingRow ? "Update" : "Create"}
-                </button>
-              </div>
+              <button
+                className="px-4 py-2 text-gray-600 border rounded hover:bg-gray-50"
+                onClick={() => {
+                  setIsAddModalOpen(false);
+                  setEditingUser(null);
+                  resetForm();
+                }}
+                disabled={modalLoading}
+              >
+                Cancel
+              </button>
+              <button
+                className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+                onClick={() => {
+                  if (editingRow) {
+                    updateUser(editingRow.id);
+                  } else {
+                    createUser();
+                  }
+                }}
+                disabled={modalLoading}
+              >
+                {modalLoading && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {editingRow ? "Update" : "Create"}
+              </button>
             </div>
           </div>
-        )}
+        </div>
+      )};
       </div>
     </AdminLayout>
   );

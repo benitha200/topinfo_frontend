@@ -14,10 +14,10 @@ const Home = () => {
         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
             <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
-              Urubuga ruhuza Abatanga  Serivisi n'abazitanga
+              Urubuga ruhuza Abakeneye  Serivisi n'abazitanga
             </h1>
             <p className="text-2xl text-blue-100 mb-10 max-w-3xl mx-auto">
-              Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, iminsi mike, ubukonje n'ubufatanye
+              Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, kandi bwihuse.
             </p>
             
             <div className="flex flex-col sm:flex-row justify-center gap-6">
@@ -25,7 +25,7 @@ const Home = () => {
                 to="/services"
                 className="px-10 py-5 bg-white text-blue-600 rounded-xl hover:bg-blue-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
               >
-                Reba Serivisi 
+                Ba Usaba Serivisi 
                 <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
               </Link>
               <Link 
