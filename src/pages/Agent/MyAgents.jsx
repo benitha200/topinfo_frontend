@@ -132,6 +132,7 @@ const MyAgents = () => {
       location_province: user.location_province,
       location_district: user.location_district,
       location_sector: user.location_sector,
+      isActive:true
     });
     setDistricts(Districts(user.location_province));
     if (user.location_district) {
@@ -324,7 +325,7 @@ const MyAgents = () => {
                         {`${user.location_province || "N/A"}, ${user.location_district || "N/A"
                           }, ${user.location_sector || "N/A"}`}
                       </td>
-                      <td className="px-4 py-3 text-sm">
+                      {/* <td className="px-4 py-3 text-sm">
                         <span
                           className={`px-2 py-1 rounded-full text-xs ${user.isActive
                             ? "bg-green-100 text-green-800"
@@ -333,7 +334,8 @@ const MyAgents = () => {
                         >
                           {user.isActive ? "Active" : "Inactive"}
                         </span>
-                      </td>
+                      </td> */}
+                      
                       <td className="px-4 py-3 text-sm flex items-center space-x-2">
                         <button
                           className="inline-flex items-center justify-center px-3 py-1.5 
