@@ -131,7 +131,7 @@ const RequestListAgent = () => {
 
   // Navigate to create request page
   const handleAddRequest = () => {
-    navigate('/agent-dashboard/requests-agent/create');
+    navigate('/agent-dashboard/requests-agent/select-services');
   };
 
   // Navigate to request detail page

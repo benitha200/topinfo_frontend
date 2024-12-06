@@ -54,6 +54,7 @@ import AddServiceProvidersPageAgent from "./pages/Agent/AddServiceProvidersPageA
 import CreateService from "./pages/Admin/Services/Create";
 import ClientRequest from "./pages/ClientRequest";
 import ProviderPaymentCallback from "./pages/ProviderPaymentCallback";
+import ServiceSelectionPage from "./pages/Agent/ServiceSelectionPage";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -445,7 +446,15 @@ const App = () => {
           }
         />
         <Route
-          path="/agent-dashboard/requests-agent/create"
+          path="/agent-dashboard/requests-agent/select-services"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <ServiceSelectionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/requests-agent/create/:serviceId"
           element={
             <ProtectedRoute allowedRoles={["AGENT"]}>
               <AddRequestPage />
