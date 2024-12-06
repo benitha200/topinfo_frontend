@@ -10,8 +10,7 @@ const ServiceProvidersPage = () => {
     const [providers, setProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [searchTerm, setSearchTerm] = useState(''); 
-    // const [filteredProviders, setFilteredProviders] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
     const [startDate, setStartDate] = useState('');
     const [endDate, setEndDate] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
@@ -27,6 +26,7 @@ const ServiceProvidersPage = () => {
 
     // Service categories state
     const [serviceCategories, setServiceCategories] = useState([]);
+    const [selectedServiceCategory, setSelectedServiceCategory] = useState('');
 
     const [formData, setFormData] = useState({
         firstname: '',
@@ -89,7 +89,7 @@ const ServiceProvidersPage = () => {
     const fetchProviders = async () => {
         try {
             const token = localStorage.getItem('token');
-            
+
             // Construct query parameters
             const params = new URLSearchParams();
             if (startDate) params.append('startDate', startDate);
@@ -114,7 +114,7 @@ const ServiceProvidersPage = () => {
 
     const filteredProviders = useMemo(() => {
         return providers.filter(provider => {
-            const matchesSearch = 
+            const matchesSearch =
                 provider.firstname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 provider.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
                 provider.email?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -124,13 +124,19 @@ const ServiceProvidersPage = () => {
             const start = startDate ? new Date(startDate) : null;
             const end = endDate ? new Date(endDate) : null;
 
-            const matchesDateRange = 
-                (!start || providerDate >= start) && 
+            const matchesDateRange =
+                (!start || providerDate >= start) &&
                 (!end || providerDate <= end);
 
-            return matchesSearch && matchesDateRange;
+            // Service category filtering
+            const matchesServiceCategory =
+                !selectedServiceCategory ||
+                (provider.service_category &&
+                    String(provider.service_category.id) === String(selectedServiceCategory));
+
+            return matchesSearch && matchesDateRange && matchesServiceCategory;
         });
-    }, [providers, searchTerm, startDate, endDate]);
+    }, [providers, searchTerm, startDate, endDate, selectedServiceCategory]);
 
     // Pagination
     const indexOfLastProvider = currentPage * providersPerPage;
@@ -233,7 +239,7 @@ const ServiceProvidersPage = () => {
     };
 
     const downloadProviders = () => {
-        // Prepare data for download
+        // Prepare data for download using filtered providers
         const downloadData = filteredProviders.map(provider => ({
             'First Name': provider.firstname || 'N/A',
             'Last Name': provider.lastname || 'N/A',
@@ -246,9 +252,11 @@ const ServiceProvidersPage = () => {
             'Service Area': provider.location_serve || 'N/A',
             'Experience': provider.experience || 'N/A',
             'Description': provider.description || 'N/A',
+            'Service Category': serviceCategories.find(cat => cat.id === provider.service_category_id)?.name || 'N/A',
             'Status': provider.approved ? 'Approved' : 'Pending',
             'Created At': new Date(provider.createdAt).toLocaleDateString() || 'N/A'
         }));
+
         // Create worksheet
         const worksheet = XLSX.utils.json_to_sheet(downloadData);
         const workbook = XLSX.utils.book_new();
@@ -327,34 +335,54 @@ const ServiceProvidersPage = () => {
                 </div>
 
                 <Card>
-                    <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle>Providers List</CardTitle>
-                        <div className="flex space-x-2 items-center">
-                            {/* Date Range Filters */}
-                            <div className="flex items-center space-x-2">
-                                <label className="text-sm font-medium">From:</label>
-                                <input
-                                    type="date"
-                                    className="p-2 border rounded"
-                                    value={startDate}
-                                    onChange={(e) => setStartDate(e.target.value)}
-                                />
-                                <label className="text-sm font-medium">To:</label>
-                                <input
-                                    type="date"
-                                    className="p-2 border rounded"
-                                    value={endDate}
-                                    onChange={(e) => setEndDate(e.target.value)}
-                                />
+                    <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0">
+                        <CardTitle className="text-xl font-bold">Providers List</CardTitle>
+                        <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 items-start md:items-center w-full md:w-auto">
+                            {/* Service Category Filter */}
+                            <div className="w-full md:w-auto">
+                                <select
+                                    className="w-full md:w-auto p-2 border rounded"
+                                    value={selectedServiceCategory}
+                                    onChange={(e) => setSelectedServiceCategory(e.target.value)}
+                                >
+                                    <option value="">All Service Categories</option>
+                                    {serviceCategories.map((category) => (
+                                        <option key={category.id} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    ))}
+                                </select>
                             </div>
-                            
+
+                            {/* Date Range Filters */}
+                            <div className="flex flex-col md:flex-row items-start md:items-center space-y-2 md:space-y-0 md:space-x-2 w-full md:w-auto">
+                                <div className="flex items-center space-x-2 w-full md:w-auto">
+                                    <label className="text-sm font-medium whitespace-nowrap">From:</label>
+                                    <input
+                                        type="date"
+                                        className="w-full md:w-auto p-2 border rounded"
+                                        value={startDate}
+                                        onChange={(e) => setStartDate(e.target.value)}
+                                    />
+                                </div>
+                                <div className="flex items-center space-x-2 w-full md:w-auto">
+                                    <label className="text-sm font-medium whitespace-nowrap">To:</label>
+                                    <input
+                                        type="date"
+                                        className="w-full md:w-auto p-2 border rounded"
+                                        value={endDate}
+                                        onChange={(e) => setEndDate(e.target.value)}
+                                    />
+                                </div>
+                            </div>
+
                             {/* Search Input */}
-                            <div className="relative">
+                            <div className="relative w-full md:w-auto">
                                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
                                 <input
                                     type="text"
                                     placeholder="Search providers..."
-                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -370,6 +398,7 @@ const ServiceProvidersPage = () => {
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Email</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Phone</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Location</th>
+                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service category</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
                                     </tr>
@@ -383,8 +412,9 @@ const ServiceProvidersPage = () => {
                                             <td className="px-4 py-3 text-sm">{provider.email}</td>
                                             <td className="px-4 py-3 text-sm">{provider.phone}</td>
                                             <td className="px-4 py-3 text-sm">
-                                                {provider.location_sector}, {provider.location_district}
+                                                {provider.location_sector}, {provider?.location_district}
                                             </td>
+                                            <td className="px-4 py-3 text-sm">{provider?.service_category?.name}</td>
                                             <td className="px-4 py-3 text-sm">
                                                 <button
                                                     onClick={() => toggleApproval(provider)}
@@ -425,8 +455,8 @@ const ServiceProvidersPage = () => {
                                     Showing {indexOfFirstProvider + 1} to {Math.min(indexOfLastProvider, filteredProviders.length)} of {filteredProviders.length} providers
                                 </div>
                                 <div className="flex items-center space-x-2">
-                                    <button 
-                                        onClick={() => paginate(currentPage - 1)} 
+                                    <button
+                                        onClick={() => paginate(currentPage - 1)}
                                         disabled={currentPage === 1}
                                         className="p-2 border rounded disabled:opacity-50 hover:bg-gray-100"
                                     >
@@ -438,17 +468,16 @@ const ServiceProvidersPage = () => {
                                         <button
                                             key={i}
                                             onClick={() => paginate(i + 1)}
-                                            className={`px-3 py-1 border rounded ${
-                                                currentPage === i + 1 
-                                                ? 'bg-sky-500 text-white' 
+                                            className={`px-3 py-1 border rounded ${currentPage === i + 1
+                                                ? 'bg-sky-500 text-white'
                                                 : 'hover:bg-gray-100'
-                                            }`}
+                                                }`}
                                         >
                                             {i + 1}
                                         </button>
                                     ))}
-                                    <button 
-                                        onClick={() => paginate(currentPage + 1)} 
+                                    <button
+                                        onClick={() => paginate(currentPage + 1)}
                                         disabled={currentPage === Math.ceil(filteredProviders.length / providersPerPage)}
                                         className="p-2 border rounded disabled:opacity-50 hover:bg-gray-100"
                                     >
