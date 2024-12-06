@@ -266,7 +266,7 @@ const ClientRequest = () => {
             <h1 className="text-2xl font-bold mb-4">Step 1: Amakuru y'ibanze</h1>
             <form onSubmit={handleSubmitStep1}>
               <div className="grid grid-cols-2 gap-4">
-                {["firstname", "lastname", "email", "phone"].map((field) => (
+                {["Izina rya mbere", "Izina rya kabiri", "Imeri", "Numero ya Telephone"].map((field) => (
                   <div key={field} className="mb-4">
                     <label className="block text-sm font-medium mb-1">
                       {field.charAt(0).toUpperCase() + field.slice(1)}
@@ -456,7 +456,7 @@ const ClientRequest = () => {
             <form onSubmit={handleSubmitStep3}>
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-1">
-                  District
+                  Akarere ukeneyemo service
                 </label>
                 <Select
                   options={districtOptions}
