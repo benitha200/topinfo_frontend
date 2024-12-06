@@ -204,10 +204,10 @@ const ClientRequest = () => {
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
         {/* Step 1: Static Fields */}
-        {step === 1 && (
+        {/* {step === 1 && (
           <>
             <h1 className="text-2xl font-bold mb-4">
-              Step 1: Personal Details
+              Step 1: Amakuru y'ibanze
             </h1>
             <form onSubmit={handleSubmitStep1}>
               {["firstname", "lastname", "email", "phone"].map((field) => (
@@ -249,6 +249,62 @@ const ClientRequest = () => {
               ))}
 
               <div className="flex justify-end">
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Continue
+                </button>
+              </div>
+            </form>
+          </>
+        )} */}
+
+        {step === 1 && (
+          <>
+            <h1 className="text-2xl font-bold mb-4">Step 1: Amakuru y'ibanze</h1>
+            <form onSubmit={handleSubmitStep1}>
+              <div className="grid grid-cols-2 gap-4">
+                {["firstname", "lastname", "email", "phone"].map((field) => (
+                  <div key={field} className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      {field.charAt(0).toUpperCase() + field.slice(1)}
+                    </label>
+                    <input
+                      type={field === "email" ? "email" : "text"}
+                      className="w-full p-2 border rounded"
+                      onChange={(e) =>
+                        handleStaticFieldChange(field, e.target.value)
+                      }
+                      value={formData[field]}
+                      required
+                    />
+                  </div>
+                ))}
+
+                {[
+                  "location_province",
+                  "location_district",
+                  "location_sector",
+                ].map((field) => (
+                  <div key={field} className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      {field.replace("location_", "").replace("_", " ")}
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full p-2 border rounded"
+                      onChange={(e) =>
+                        handleStaticFieldChange(field, e.target.value)
+                      }
+                      value={formData[field]}
+                      required
+                    />
+                  </div>
+                ))}
+              </div>
+
+              <div className="flex justify-end mt-4">
                 <button
                   type="submit"
                   className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter } from "lucide-react";
+import { Users, Search, Filter, Trash2, User, PlusCircle, Edit } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
@@ -10,9 +10,14 @@ const MyAgents = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
+  const [isCreating, setIsCreating] = useState(false);
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingRow, setEditingUser] = useState(null);
+  const [deleteConfirmation, setDeleteConfirmation] = useState({
+    isOpen: false,
+    userId: null,
+  });
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -44,7 +49,7 @@ const MyAgents = () => {
       }
 
       const data = await response.json();
-      
+
       setUsers(data.agents);
       setLoading(false);
     } catch (err) {
@@ -55,6 +60,7 @@ const MyAgents = () => {
 
   const createUser = async () => {
     try {
+      setIsCreating(true);
       const token = localStorage.getItem("token");
       const response = await fetch(`${API_URL}/users/add-agent`, {
         method: "POST",
@@ -70,6 +76,8 @@ const MyAgents = () => {
       resetForm();
     } catch (err) {
       setError(err.message);
+    } finally {
+      setIsCreating(false);
     }
   };
 
@@ -156,21 +164,19 @@ const MyAgents = () => {
   };
 
   const deleteUser = async (id) => {
-    if (window.confirm("Are you sure you want to delete this record?")) {
-      try {
-        const token = localStorage.getItem("token");
-        const response = await fetch(`${API_URL}/users/${id}`, {
-          method: "DELETE",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        });
-        if (!response.ok) throw new Error("Failed to delete");
-        fetchUsers();
-      } catch (err) {
-        setError(err.message);
-      }
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_URL}/users/${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+      });
+      if (!response.ok) throw new Error("Failed to delete");
+      fetchUsers();
+    } catch (err) {
+      setError(err.message);
     }
   };
 
@@ -222,6 +228,45 @@ const MyAgents = () => {
             </div>
           </CardContent>
         </Card>
+
+        {deleteConfirmation.isOpen && (
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl max-w-md w-full overflow-hidden">
+              <div className="bg-red-50 py-3  px-3 flex items-center">
+                <div className="bg-red-100 rounded-full p-1 mr-1">
+                  <Trash2 className="h-5 w-5 text-red-600" strokeWidth={2} />
+                </div>
+                <h2 className="text-lg align-center font-bold text-red-700">
+                  Delete Agent
+                </h2>
+              </div>
+              <div className="p-6 space-y-4">
+                <p className="text-gray-700 text-center">
+                  Are you absolutely sure you want to delete this agent?
+                  <br />
+                  <span className="font-medium text-gray-500">
+                    This action cannot be undone and will permanently remove the agent's information.
+                  </span>
+                </p>
+                <div className="flex justify-center space-x-4 pt-2">
+                  <button
+                    className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    onClick={() => setDeleteConfirmation({ isOpen: false, userId: null })}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center"
+                    onClick={() => deleteUser(deleteConfirmation.userId)}
+                  >
+                    <Trash2 className="h-4 w-4 mr-2" />
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
@@ -276,32 +321,73 @@ const MyAgents = () => {
                       <td className="px-4 py-3 text-sm">{user.email}</td>
                       <td className="px-4 py-3 text-sm">{user.phone}</td>
                       <td className="px-4 py-3 text-sm">
-                        {`${user.location_province || "N/A"}, ${
-                          user.location_district || "N/A"
-                        }, ${user.location_sector || "N/A"}`}
+                        {`${user.location_province || "N/A"}, ${user.location_district || "N/A"
+                          }, ${user.location_sector || "N/A"}`}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs ${
-                            user.isActive
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+                          className={`px-2 py-1 rounded-full text-xs ${user.isActive
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                            }`}
                         >
                           {user.isActive ? "Active" : "Inactive"}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-sm">
+                      <td className="px-4 py-3 text-sm flex items-center space-x-2">
                         <button
-                          className="text-blue-500 border border-2 border-gray-300 p-2 rounded hover:text-blue-700 mr-2"
+                          className="inline-flex items-center justify-center px-3 py-1.5 
+                                      bg-blue-50 text-blue-600 
+                                      hover:bg-blue-100 
+                                      border border-blue-200 
+                                      rounded
+                                      text-sm 
+                                      font-medium 
+                                      transition-colors 
+                                      focus:outline-none 
+                                      focus:ring-2 
+                                      focus:ring-blue-300"
                           onClick={() => handleEditClick(user)}
                         >
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                          </svg>
                           Edit
                         </button>
                         <button
-                          className="text-red-500 border border-2 border-gray-300 p-2 rounded hover:text-red-700"
-                          onClick={() => deleteUser(user.id)}
+                          className="inline-flex items-center justify-center px-3 py-1.5 
+                                      bg-red-50 text-red-600 
+                                      hover:bg-red-100 
+                                      border border-red-200 
+                                      rounded 
+                                      text-sm 
+                                      font-medium 
+                                      transition-colors 
+                                      focus:outline-none 
+                                      focus:ring-2 
+                                      focus:ring-red-300"
+                          onClick={() =>
+                            setDeleteConfirmation({
+                              isOpen: true,
+                              userId: user.id
+                            })
+                          }
                         >
+                          <svg xmlns="http://www.w3.org/2000/svg"
+                            className="h-4 w-4 mr-1.5"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                            strokeWidth={2}
+                          >
+                            <path strokeLinecap="round" strokeLinejoin="round" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                          </svg>
                           Delete
                         </button>
                       </td>
@@ -314,165 +400,231 @@ const MyAgents = () => {
         </Card>
         {/* Add/Edit Modal */}
         {(isAddModalOpen || editingRow) && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg w-full max-w-xl">
-              <h2 className="text-xl font-bold mb-4">
-                {editingRow ? "Edit Agent" : "Add New Agent"}
-              </h2>
-              <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    First Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    value={formData.firstname}
-                    onChange={(e) =>
-                      setFormData({ ...formData, firstname: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Last Name
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    value={formData.lastname}
-                    onChange={(e) =>
-                      setFormData({ ...formData, lastname: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Email
-                  </label>
-                  <input
-                    type="email"
-                    className="w-full p-2 border rounded"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium mb-1">
-                    Phone number
-                  </label>
-                  <input
-                    type="text"
-                    className="w-full p-2 border rounded"
-                    value={formData.phone}
-                    onChange={(e) =>
-                      setFormData({ ...formData, phone: e.target.value })
-                    }
-                  />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                <div>
-                  <label
-                    htmlFor="location_province"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Province
-                  </label>
-
-                  <select
-                    className="w-full p-2 border rounded"
-                    name="location_province"
-                    id="location_province"
-                    value={formData.location_province}
-                    onChange={(e) => handleProvinceChange(e.target.value)}
-                  >
-                    <option value="">Select a Province</option>
-                    {provinces.map((province, index) => (
-                      <option key={index} value={province}>
-                        {province}
-                      </option>
-                    ))}
-                  </select>
+          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
+              {/* Modal Header */}
+              <div className="bg-blue-50 flex px-6 py-4 border-b border-blue-100 flex items-center justify-between">
+              
+                <div className="flex items-center space-x-2">
+                  {editingRow ? (
+                    <Edit className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                  ) : (
+                    <PlusCircle className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                  )}
+                  <h2 className="text-xl font-semibold text-gray-800">
+                    {editingRow ? "Edit Agent" : "Add New Agent"}
+                  </h2>
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="location_district"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    District
-                  </label>
-                  <select
-                    className="w-full p-2 border rounded"
-                    name="location_district"
-                    id="location_district"
-                    value={formData.location_district}
-                    onChange={(e) => handleDistrictChange(e.target.value)}
-                  >
-                    <option value="">Select a District</option>
-                    {districts.map((district, index) => (
-                      <option key={index} value={district}>
-                        {district}
-                      </option>
-                    ))}
-                  </select>
-                </div>
 
-                <div>
-                  <label
-                    htmlFor="location_sector"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Sector
-                  </label>
-                  <select
-                    className="w-full p-2 border rounded"
-                    name="location_sector"
-                    id="location_sector"
-                    value={formData.location_sector}
-                    onChange={(e) =>
-                      setFormData({
-                        ...formData,
-                        location_sector: e.target.value,
-                      })
-                    }
-                  >
-                    <option value="">Select a Sector</option>
-                    {sectors.map((sector, index) => (
-                      <option key={index} value={sector}>
-                        {sector}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-              </div>
-
-              <div className="flex justify-end space-x-2">
                 <button
-                  className="px-4 py-2 text-gray-600 border rounded hover:bg-gray-50"
                   onClick={() => {
                     setIsAddModalOpen(false);
                     setEditingUser(null);
                     resetForm();
                   }}
+                  className="text-gray-500 hover:text-gray-700 transition-colors"
                 >
-                  Cancel
+                  <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
                 </button>
-                <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-                  onClick={() => {
-                    if (editingRow) {
-                      updateUser(editingRow.id);
-                    } else {
-                      createUser();
-                    }
-                  }}
-                >
-                  {editingRow ? "Update" : "Create"}
-                </button>
+              </div>
+
+              {/* Modal Body */}
+              <div className="p-6 space-y-6">
+                {/* Personal Information Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      First Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.firstname}
+                      onChange={(e) =>
+                        setFormData({ ...formData, firstname: e.target.value })
+                      }
+                      placeholder="Enter first name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Last Name
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.lastname}
+                      onChange={(e) =>
+                        setFormData({ ...formData, lastname: e.target.value })
+                      }
+                      placeholder="Enter last name"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Email
+                    </label>
+                    <input
+                      type="email"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      placeholder="Enter email address"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Phone Number
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.phone}
+                      onChange={(e) =>
+                        setFormData({ ...formData, phone: e.target.value })
+                      }
+                      placeholder="Enter phone number"
+                    />
+                  </div>
+                </div>
+
+                {/* Location Information Grid */}
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Province
+                    </label>
+                    <select
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.location_province}
+                      onChange={(e) => handleProvinceChange(e.target.value)}
+                    >
+                      <option value="">Select a Province</option>
+                      {provinces.map((province, index) => (
+                        <option key={index} value={province}>
+                          {province}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      District
+                    </label>
+                    <select
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.location_district}
+                      onChange={(e) => handleDistrictChange(e.target.value)}
+                    >
+                      <option value="">Select a District</option>
+                      {districts.map((district, index) => (
+                        <option key={index} value={district}>
+                          {district}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-2">
+                      Sector
+                    </label>
+                    <select
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                      value={formData.location_sector}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          location_sector: e.target.value,
+                        })
+                      }
+                    >
+                      <option value="">Select a Sector</option>
+                      {sectors.map((sector, index) => (
+                        <option key={index} value={sector}>
+                          {sector}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                </div>
+
+                {/* Action Buttons */}
+                <div className="flex justify-end space-x-3 pt-4">
+                  <button
+                    className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md 
+            hover:bg-gray-100 transition-colors"
+                    onClick={() => {
+                      setIsAddModalOpen(false);
+                      setEditingUser(null);
+                      resetForm();
+                    }}
+                    disabled={loading}
+                  >
+                    Cancel
+                  </button>
+                  <button
+                    className={`px-4 py-2 rounded-md text-white transition-all duration-200 
+            ${isCreating
+                        ? "bg-blue-300 cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                      }`}
+                    onClick={() => {
+                      if (editingRow) {
+                        updateUser(editingRow.id);
+                      } else {
+                        createUser();
+                      }
+                    }}
+                    disabled={isCreating}
+                  >
+                    {isCreating ? (
+                      <div className="flex items-center justify-center">
+                        <svg
+                          className="animate-spin h-5 w-5 mr-3 text-white"
+                          xmlns="http://www.w3.org/2000/svg"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                        >
+                          <circle
+                            className="opacity-25"
+                            cx="12"
+                            cy="12"
+                            r="10"
+                            stroke="currentColor"
+                            strokeWidth="4"
+                          ></circle>
+                          <path
+                            className="opacity-75"
+                            fill="currentColor"
+                            d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                          ></path>
+                        </svg>
+                        Creating...
+                      </div>
+                    ) : (
+                      editingRow ? "Update Agent" : "Create Agent"
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
           </div>

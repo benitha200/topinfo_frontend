@@ -77,7 +77,7 @@ const Home = () => {
           <div className="relative overflow-hidden bg-gradient-to-br from-blue-500 to-blue-500 rounded-3xl p-12">
             <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
             <div className="relative text-center">
-              <h2 className="text-4xl font-bold text-white mb-6">Witegure gutangira?</h2>
+              <h2 className="text-4xl font-bold text-white mb-6">Witeguye gutangira?</h2>
               <p className="text-xl text-blue-100 mb-12">Injira mu muryango w'abanyamwuga</p>
               <div className="flex flex-col sm:flex-row justify-center gap-6">
                 <Link 

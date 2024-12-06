@@ -49,6 +49,8 @@ import SuperAgentsPage from "./pages/Admin/SuperAgentsPage";
 import AgentsPage from "./pages/Admin/AgentsPage";
 import MyAgents from "./pages/Agent/MyAgents";
 import PaymentCallback from "./pages/PaymentCallback";
+import ServiceProvidersPageAgent from "./pages/Agent/ServiceProvidersPageAgent";
+import AddServiceProvidersPageAgent from "./pages/Agent/AddServiceProvidersPageAgent";
 import CreateService from "./pages/Admin/Services/Create";
 import ClientRequest from "./pages/ClientRequest";
 import ProviderPaymentCallback from "./pages/ProviderPaymentCallback";
@@ -410,6 +412,14 @@ const App = () => {
           }
         />
         <Route
+          path="/agent-dashboard/service-providers"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <ServiceProvidersPageAgent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/agent-dashboard/my-agents"
           element={
             <ProtectedRoute allowedRoles={["AGENT"]}>
@@ -426,7 +436,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/agent-dashboard/serviceprovider-agent/create"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <AddServiceProvidersPageAgent />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/agent-dashboard/requests-agent/create"
           element={
@@ -435,6 +452,7 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+
         <Route
           path="/agent-dashboard/agent-users"
           element={

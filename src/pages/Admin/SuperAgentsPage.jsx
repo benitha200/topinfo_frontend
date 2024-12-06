@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter, Loader2 } from "lucide-react";
+import { Users, Search, Filter, Loader2, Download } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
+import * as XLSX from 'xlsx';
 
 const SuperAgentsPage = () => {
   const [users, setUsers] = useState([]);
@@ -14,6 +15,10 @@ const SuperAgentsPage = () => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingRow, setEditingUser] = useState(null);
   const [modalLoading, setModalLoading] = useState(false);
+
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -31,12 +36,49 @@ const SuperAgentsPage = () => {
   const [sectors, setSectors] = useState([]);
 
   // Fetch users data only from the specified endpoint
+  // const fetchUsers = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem("token");
+
+  //     const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=yes`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch users");
+  //     }
+
+  //     const data = await response.json();
+
+  //     // const agentUsers = data.users.filter(user => user.role === 'AGENT');
+
+  //     setUsers(data.users);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     setError("Failed to fetch users");
+  //     setLoading(false);
+  //   }
+  // };
+
   const fetchUsers = async () => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=yes`, {
+      // Construct query parameters
+      const params = new URLSearchParams({
+        role: "AGENT",
+        isSuperAgent: "yes",
+      });
+
+      // Add date filtering if dates are provided
+      if (startDate) params.append('startDate', startDate);
+      if (endDate) params.append('endDate', endDate);
+
+      const response = await fetch(`${API_URL}/users?${params.toString()}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -47,9 +89,6 @@ const SuperAgentsPage = () => {
       }
 
       const data = await response.json();
-
-      // const agentUsers = data.users.filter(user => user.role === 'AGENT');
-
       setUsers(data.users);
       setLoading(false);
     } catch (err) {
@@ -185,13 +224,47 @@ const SuperAgentsPage = () => {
     }
   };
 
+  const downloadUsers = () => {
+    // Prepare data for download
+    const downloadData = filteredUsers.map(user => ({
+      Name: `${user.firstname} ${user.lastname}`,
+      Email: user.email,
+      Phone: user.phone,
+      Province: user.location_province || 'N/A',
+      District: user.location_district || 'N/A',
+      Sector: user.location_sector || 'N/A',
+      Status: user.isActive ? 'Active' : 'Inactive',
+      'Registered Date': new Date(user.createdAt).toLocaleDateString()
+    }));
+
+    // Create worksheet
+    const worksheet = XLSX.utils.json_to_sheet(downloadData);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Super Agents");
+
+    // Generate and download Excel file
+    XLSX.writeFile(workbook, `super_agents_${new Date().toISOString().split('T')[0]}.xlsx`);
+  };
+
   // Filter users based on search term
-  const filteredUsers = users.filter(
-    (user) =>
+  const filteredUsers = users.filter(user => {
+    // Search term filtering
+    const matchesSearch = 
       user.firstname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      user.email?.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+      user.email?.toLowerCase().includes(searchTerm.toLowerCase());
+
+    // Date range filtering
+    const userDate = new Date(user.createdAt);
+    const start = startDate ? new Date(startDate) : null;
+    const end = endDate ? new Date(endDate) : null;
+
+    const matchesDateRange = 
+      (!start || userDate >= start) && 
+      (!end || userDate <= end);
+
+    return matchesSearch && matchesDateRange;
+  });
 
   if (loading) return <div className="p-6">Loading...</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
@@ -210,8 +283,61 @@ const SuperAgentsPage = () => {
         </div>
 
         <Card>
-          <CardHeader>
+          {/* <CardHeader>
             <CardTitle>Agent Statistics</CardTitle>
+          </CardHeader> */}
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle>Super Agents List</CardTitle>
+            <div className="flex space-x-2 items-center">
+              {/* Date Range Inputs */}
+              <div className="flex space-x-2 mr-4">
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">Start Date</label>
+                  <input 
+                    type="date" 
+                    value={startDate}
+                    onChange={(e) => setStartDate(e.target.value)}
+                    className="p-2 border rounded text-sm"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs text-gray-600 mb-1">End Date</label>
+                  <input 
+                    type="date" 
+                    value={endDate}
+                    onChange={(e) => setEndDate(e.target.value)}
+                    className="p-2 border rounded text-sm"
+                  />
+                </div>
+                {/* <button 
+                  onClick={fetchUsers}
+                  className="self-end p-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                >
+                  Filter
+                </button> */}
+              </div>
+
+              {/* Existing search and filter */}
+              {/* <div className="relative">
+                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                <input
+                  type="text"
+                  placeholder="Search agents..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+              </div>
+               */}
+              {/* Download button */}
+              <button 
+                onClick={downloadUsers}
+                className="p-2 border bg-emerald-500 text-white rounded hover:bg-gray-50 flex items-center mt-4"
+                title="Download Super Agents"
+              >
+                <Download className="h-4 w-4" /> Download Super Agents
+              </button>
+            </div>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
