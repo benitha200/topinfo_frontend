@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { FileText, Search, Filter, Plus, Pencil, Trash2 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import AdminLayout from './AdminLayout';
-import API_URL from '../../constants/Constants';
+import AdminLayout from '../AdminLayout';
+import API_URL from '../../../constants/Constants';
+import { Link } from 'react-router-dom';
 
 const ServiceCategoriesPage = () => {
     const [categories, setCategories] = useState([]);
@@ -147,13 +148,12 @@ const ServiceCategoriesPage = () => {
             <div className="p-6 space-y-6">
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Service Categories </h1>
-                    <button 
+                    <Link to="/dashboard/service/create" 
                         className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
-                        onClick={() => setIsAddModalOpen(true)}
                     >
                         <Plus className="h-4 w-4" />
                         Add Category
-                    </button>
+                    </Link>
                 </div>
 
                 <Card>

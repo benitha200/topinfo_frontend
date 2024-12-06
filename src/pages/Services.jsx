@@ -18,6 +18,7 @@ import {
 } from "lucide-react";
 import { paymentService } from "../services/payment.service";
 import API_URL from "../constants/Constants";
+import { useNavigate } from "react-router-dom";
 
 // Modal Component
 const Modal = ({ isOpen, onClose, title, children }) => {
@@ -482,6 +483,8 @@ const ServiceCard = ({ service }) => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [requestInfo, setRequestInfo] = useState({});
 
+  
+
   const handleRequestSubmit = async (formData) => {
     setRequestInfo(formData);
     setShowPaymentForm(true);
@@ -496,11 +499,17 @@ const ServiceCard = ({ service }) => {
     //   console.error('Payment failed:', error);
     // }
   };
+  const navigate = useNavigate();
+
+  const handleServiceClick = (service) => {
+    navigate(`/client-request/${service}`);
+  };
+
 
   return (
     <>
       <div
-        onClick={() => setIsModalOpen(true)}
+        onClick={() => handleServiceClick(service.id)}
         className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-all"
       >
         <div className="flex flex-col items-center text-center">
@@ -513,7 +522,7 @@ const ServiceCard = ({ service }) => {
         </div>
       </div>
 
-      <Modal
+      {/* <Modal
         isOpen={isModalOpen}
         onClose={() => {
           setIsModalOpen(false);
@@ -533,7 +542,7 @@ const ServiceCard = ({ service }) => {
             onSubmit={handleRequestSubmit}
           />
         )}
-      </Modal>
+      </Modal> */}
     </>
   );
 };
