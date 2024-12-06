@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Select from 'react-select';
 import { AlertCircle } from 'lucide-react';
-import { Provinces, Districts } from 'rwanda';
+import { Provinces, Districts, Sectors } from 'rwanda';
 import API_URL from '../constants/Constants';
 
 const BecomeProvider = () => {
@@ -13,9 +13,11 @@ const BecomeProvider = () => {
     phone: '',
     description: '',
     experience: '',
+    location_province: '',
+    location_district: '',
+    location_sector: '',
     provinces: [], // Array of selected province objects
     districts: [], // Array of selected district objects
-    location_sector: '',
     location_serve: '',
     additional_info: '',
     service_category_id: '',
@@ -27,15 +29,18 @@ const BecomeProvider = () => {
   const [availableDistricts, setAvailableDistricts] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState(null);
+  const [provinces, setProvinces] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [sectors, setSectors] = useState([]);
 
-  // Fetch service categories on component mount
   useEffect(() => {
+    setProvinces(Provinces());
     fetchServiceCategories();
   }, []);
 
   const fetchServiceCategories = async () => {
     try {
-      const token = localStorage.getItem('token'); 
+      const token = localStorage.getItem('token');
       const response = await fetch(`${API_URL}/service-categories`, {
         method: 'GET',
         headers: {
@@ -56,27 +61,46 @@ const BecomeProvider = () => {
     }
   };
 
-  // Province select handler
-  const handleProvinceChange = (selectedProvinces) => {
-    // Get districts for selected provinces
-    const districts = selectedProvinces.flatMap(province => 
-      Districts(province.value).map(district => ({ 
-        value: district, 
-        label: `${district} (${province.value})` 
-      }))
-    );
+  const handleSingleProvinceChange = (province) => {
+    setFormData({
+      ...formData,
+      location_province: province,
+      location_district: "",
+      location_sector: "",
+    });
+    setDistricts(Districts(province));
+    setSectors([]);
+  };
 
+  const handleSingleDistrictChange = (district) => {
+    setFormData({
+      ...formData,
+      location_district: district,
+      location_sector: "",
+    });
+    const { location_province } = formData;
+    if (location_province) {
+      setSectors(Sectors(location_province, district));
+    }
+  };
+
+  const handleMultiProvinceChange = (selectedProvinces) => {
     setFormData(prevState => ({
       ...prevState,
       provinces: selectedProvinces,
-      districts: [], // Reset districts when provinces change
-      total_district_cost: 0
     }));
-    setAvailableDistricts(districts);
+
+    // Calculate available districts based on selected provinces
+    const availableDistrictOptions = selectedProvinces.flatMap(province =>
+      Districts(province.value).map(district => ({
+        value: district,
+        label: district
+      }))
+    );
+    setAvailableDistricts(availableDistrictOptions);
   };
 
-  // District select handler
-  const handleDistrictChange = (selectedDistricts) => {
+  const handleMultiDistrictChange = (selectedDistricts) => {
     const districtCost = selectedDistricts.length * 3000;
 
     setFormData(prevState => ({
@@ -128,7 +152,7 @@ const BecomeProvider = () => {
       }
 
       const responseData = await response.json();
-      
+
       setShowSuccess(true);
       // Reset form after successful submission
       setFormData({
@@ -142,6 +166,8 @@ const BecomeProvider = () => {
         provinces: [],
         districts: [],
         location_sector: '',
+        location_province: '',
+        location_district: '',
         location_serve: '',
         additional_info: '',
         service_category_id: '',
@@ -157,7 +183,6 @@ const BecomeProvider = () => {
       setError(err.message);
     }
   };
-
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
@@ -264,7 +289,7 @@ const BecomeProvider = () => {
                 id="description"
                 name="description"
                 required
-                rows={4}
+                rows={2}
                 value={formData.description}
                 onChange={handleInputChange}
                 className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
@@ -311,7 +336,7 @@ const BecomeProvider = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               <div>
                 <label htmlFor="location_province" className="block text-sm font-medium text-gray-700 mb-1">
                   Intara
@@ -359,9 +384,75 @@ const BecomeProvider = () => {
                   placeholder="Andika umurenge"
                 />
               </div>
+            </div> */}
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Intara
+                </label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                  value={formData.location_province}
+                  onChange={(e) => handleSingleProvinceChange(e.target.value)}
+                >
+                  <option value="">Select a Province</option>
+                  {provinces.map((province, index) => (
+                    <option key={index} value={province}>
+                      {province}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Akarere
+                </label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                  value={formData.location_district}
+                  onChange={(e) => handleSingleDistrictChange(e.target.value)}
+                >
+                  <option value="">Select a District</option>
+                  {districts.map((district, index) => (
+                    <option key={index} value={district}>
+                      {district}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Umurenge
+                </label>
+                <select
+                  className="w-full px-3 py-2 border border-gray-300 rounded-md 
+              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              transition-all duration-200"
+                  value={formData.location_sector}
+                  onChange={(e) =>
+                    setFormData({
+                      ...formData,
+                      location_sector: e.target.value,
+                    })
+                  }
+                >
+                  <option value="">Select a Sector</option>
+                  {sectors.map((sector, index) => (
+                    <option key={index} value={sector}>
+                      {sector}
+                    </option>
+                  ))}
+                </select>
+              </div>
             </div>
 
-            <div>
+
+            <div className="mt-6">
               <label htmlFor="provinces" className="block text-sm font-medium text-gray-700 mb-1">
                 Intara ushaka gutanga serivisi
               </label>
@@ -372,13 +463,14 @@ const BecomeProvider = () => {
                 className="basic-multi-select"
                 classNamePrefix="select"
                 value={formData.provinces}
-                onChange={handleProvinceChange}
+                onChange={handleMultiProvinceChange}
                 placeholder="Hitamo intara"
               />
             </div>
 
+            {/* Multi-Select Districts */}
             {formData.provinces.length > 0 && (
-              <div>
+              <div className="mt-6">
                 <label htmlFor="districts" className="block text-sm font-medium text-gray-700 mb-1">
                   Akarere (3,000 Rwf per district)
                 </label>
@@ -389,7 +481,7 @@ const BecomeProvider = () => {
                   className="basic-multi-select"
                   classNamePrefix="select"
                   value={formData.districts}
-                  onChange={handleDistrictChange}
+                  onChange={handleMultiDistrictChange}
                   placeholder="Hitamo akarere"
                 />
                 {formData.districts.length > 0 && (
@@ -404,16 +496,21 @@ const BecomeProvider = () => {
               <label htmlFor="experience" className="block text-sm font-medium text-gray-700 mb-1">
                 Uburambe
               </label>
-              <textarea
+              <select
                 id="experience"
                 name="experience"
                 required
-                rows={3}
                 value={formData.experience}
                 onChange={handleInputChange}
                 className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
-                placeholder="Sobanura uburambe ufite..."
-              />
+              >
+                <option value="">Hitamo uburambe bwawe</option>
+                <option value="0-1 year">Munsi y'umwaka umwe</option>
+                <option value="1-2 years">Hagati y'umwaka 1 ni 2</option>
+                <option value="2-3 years">Hagati y'umwaka 2 ni 3</option>
+                <option value="3-5 years">Hagati ya 3 na 5 myaka</option>
+                <option value="5+ years">Imyaka 5 kuzamura</option>
+              </select>
             </div>
 
             <div>
@@ -423,7 +520,7 @@ const BecomeProvider = () => {
               <textarea
                 id="additional_info"
                 name="additional_info"
-                rows={3}
+                rows={2}
                 value={formData.additional_info}
                 onChange={handleInputChange}
                 className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
