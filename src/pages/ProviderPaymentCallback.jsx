@@ -28,10 +28,10 @@ const ProviderPaymentCallback = () => {
       <div className="bg-white p-8 rounded-xl shadow-lg w-full max-w-md space-y-8">
         <div>
           <h2 className="text-3xl font-bold text-gray-900 text-center">
-            Success Message
+           Murakoze gukoresha TopInfo!
           </h2>
           <p className="mt-2 text-center text-gray-600">
-            Injira kugira ngo ubone serivisi zacu
+            Ukeneye Ubundi bufasha watwandikira kuri +250785283910
           </p>
         </div>
       </div>

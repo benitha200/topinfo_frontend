@@ -803,7 +803,7 @@ const BecomeProvider = () => {
         body: JSON.stringify({
           ...formData,
           service_category_id: parseInt(formData.service_category_id),
-          approved: false,
+          approved: true,
           approved_by: null,
           provinces: formData.provinces.map((p) => p.value).join(", "),
           districts: formData.districts.map((d) => d.value).join(", "),
@@ -818,6 +818,8 @@ const BecomeProvider = () => {
       }
 
       const responseData = await response.json();
+      setAmountToPay(responseData.total_district_cost);
+      setProviderID(responseData.id)
       
       setShowSuccess(true);
       // Reset form after successful submission
@@ -1171,8 +1173,8 @@ const BecomeProvider = () => {
                     placeholder="Hitamo akarere"
                   />
                   {formData.districts.length > 0 && (
-                    <div className="mt-2 flex text-md font-semibold text-red-600">
-                      <AlertCircle className="h-5 w-5 text-red-600 mr-1" />{" "}
+                    <div className="mt-2 flex text-md font-semibold text-sky-600">
+                      <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />{" "}
                       Total District Cost:{" "}
                       {formData.total_district_cost.toLocaleString()} Rwf
                     </div>
@@ -1216,7 +1218,7 @@ const BecomeProvider = () => {
                   rows={3}
                   value={formData.additional_info}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Amakuru yinyongera ku murimo wawe..."
                 />
               </div>
@@ -1224,7 +1226,7 @@ const BecomeProvider = () => {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full rounded-lg bg-blue-600 px-6 py-3 text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                  className="w-full rounded-lg bg-sky-500 px-6 py-3 text-lg font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                 >
                   Ohereza
                 </button>
@@ -1289,10 +1291,10 @@ const BecomeProvider = () => {
                   />
                 </div>
 
-                <div className="mb-6 bg-red-50 border border-red-200 p-4 flex items-start">
-                  <AlertCircle className="h-7 w-7 text-red-600 mr-3" />
+                <div className="mb-6 bg-emerald-50 border border-emerald-200 p-4 flex items-start">
+                  <AlertCircle className="h-7 w-7 text-emerald-600 mr-3" />
                   <div>
-                    <h2 className="text-center font-semibold text-red-400">
+                    <h2 className="text-center font-semibold text-emerald-600">
                       AMOUNT TO PAY :{" "}
                       <strong>{amountToPay}</strong> FRW
                     </h2>
@@ -1303,7 +1305,7 @@ const BecomeProvider = () => {
                   <button
                     type="submit"
                     disabled={paymentInit}
-                    className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                    className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
                   >
                     {paymentInit ? "Tegereza..." : "Ishyura"}
                   </button>

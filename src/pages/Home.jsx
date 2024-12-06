@@ -158,26 +158,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Service Categories Section */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 bg-white">
-        <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-gray-900 mb-4">Ategorie z'Serivisi Duhuza</h2>
-          <p className="text-xl text-gray-600">Serivisi zitandukanye, Abakora umwuga bemewe</p>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-          {serviceCategories.map((category, index) => (
-            <div 
-              key={index} 
-              className="flex flex-col items-center p-8 rounded-2xl bg-sky-50 hover:bg-sky-100 transition-all text-center group"
-            >
-              <div className="mb-6 p-4 bg-white rounded-xl shadow-md">
-                {category.icon}
-              </div>
-              <h3 className="text-xl font-bold text-gray-900">{category.name}</h3>
-            </div>
-          ))}
-        </div>
-      </div>
 
       {/* How It Works Section */}
       <div className="bg-gray-100 py-24">
