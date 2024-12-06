@@ -51,6 +51,7 @@ import MyAgents from "./pages/Agent/MyAgents";
 import PaymentCallback from "./pages/PaymentCallback";
 import CreateService from "./pages/Admin/Services/Create";
 import ClientRequest from "./pages/ClientRequest";
+import ProviderPaymentCallback from "./pages/ProviderPaymentCallback";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -206,9 +207,16 @@ const Footer = () => {
 
 const LayoutWrapper = ({ children }) => {
   const userString = localStorage.getItem("user");
-  const user = userString ? JSON.parse(userString) : null;
+  let user = null;
 
-  // Only render Navigation and Footer for non-protected routes
+  // Validate the userString before parsing
+  try {
+    user = userString ? JSON.parse(userString) : null;
+  } catch (error) {
+    console.error("Error parsing user data from localStorage:", error);
+    user = null; // Fallback to null if parsing fails
+  }
+
   return (
     <div className="flex flex-col min-h-screen">
       <Navigation />
@@ -217,6 +225,7 @@ const LayoutWrapper = ({ children }) => {
     </div>
   );
 };
+
 
 const App = () => {
   return (
@@ -275,6 +284,14 @@ const App = () => {
           element={
             <LayoutWrapper>
               <BecomeProvider />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/provider-payment-callback"
+          element={
+            <LayoutWrapper>
+              <ProviderPaymentCallback />
             </LayoutWrapper>
           }
         />

@@ -74,14 +74,31 @@ const ClientRequest = () => {
     }));
   };
 
-  const handleDynamicFieldChange = (fieldId, value) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      dynamicFields: {
-        ...prevData.dynamicFields,
-        [fieldId]: value,
-      },
-    }));
+  const handleDynamicFieldChange = (fieldId, value, isChecked = null) => {
+    setFormData((prevData) => {
+      if (isChecked === null) {
+        // For select or radio buttons
+        return {
+          ...prevData,
+          dynamicFields: {
+            ...prevData.dynamicFields,
+            [fieldId]: value,
+          },
+        };
+      } else {
+        // For checkboxes
+        const currentValues = prevData.dynamicFields[fieldId] || [];
+        return {
+          ...prevData,
+          dynamicFields: {
+            ...prevData.dynamicFields,
+            [fieldId]: isChecked
+              ? [...currentValues, value] // Add value if checked
+              : currentValues.filter((item) => item !== value), // Remove value if unchecked
+          },
+        };
+      }
+    });
   };
 
   // Step form submission handlers
@@ -172,7 +189,7 @@ const ClientRequest = () => {
       if (!paymentResponse.ok)
         throw new Error("Failed to initial payment request");
       const result = await paymentResponse.json();
-      
+
       if (result.response.status === "success") {
         window.location.href = result.response.meta.authorization.redirect;
       }
@@ -266,6 +283,16 @@ const ClientRequest = () => {
                       required={field.isRequired}
                     />
                   )}
+                  {field.inputType === "date" && (
+                    <input
+                      type="date"
+                      className="w-full p-2 border rounded"
+                      onChange={(e) =>
+                        handleDynamicFieldChange(field.id, e.target.value)
+                      }
+                      required={field.isRequired}
+                    />
+                  )}
 
                   {field.inputType === "textarea" && (
                     <textarea
@@ -292,6 +319,48 @@ const ClientRequest = () => {
                         </option>
                       ))}
                     </select>
+                  )}
+
+                  {field.inputType === "radio" && (
+                    <div className="w-full p-2 border rounded">
+                      {field.options.map((option, idx) => (
+                        <label key={idx} className="block">
+                          <input
+                            type="radio"
+                            name={field.id} // Group radios by field ID
+                            value={option}
+                            className="mr-2"
+                            onChange={(e) =>
+                              handleDynamicFieldChange(field.id, e.target.value)
+                            }
+                            required={field.isRequired}
+                          />
+                          {option}
+                        </label>
+                      ))}
+                    </div>
+                  )}
+                  {field.inputType === "checkbox" && (
+                    <div className="w-full p-2 border rounded">
+                      {field.options.map((option, idx) => (
+                        <label key={idx} className="block">
+                          <input
+                            type="checkbox"
+                            value={option}
+                            className="mr-2"
+                            onChange={(e) =>
+                              handleDynamicFieldChange(
+                                field.id,
+                                option,
+                                e.target.checked
+                              )
+                            }
+                            required={field.isRequired}
+                          />
+                          {option}
+                        </label>
+                      ))}
+                    </div>
                   )}
                 </div>
               ))}
