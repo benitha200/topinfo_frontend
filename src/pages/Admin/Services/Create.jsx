@@ -3,12 +3,23 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "../AdminLayout";
 import { v4 as uuidv4 } from "uuid";
 import API_URL from "../../../constants/Constants";
+import { Trash2 } from "lucide-react";
 
 const CreateService = () => {
   const [serviceName, setServiceName] = useState("");
   const [clientPrice, setClientPrice] = useState("");
   const [providerPrice, setProviderPrice] = useState("");
   const [description, setDescription] = useState("");
+
+  const defaultfields = [
+    'Izina rya mbere',
+    'Izina rya kabiri',
+    'Imeri',
+    'Numero ya telephone',
+    'Intara',
+    'Akarere',
+    'Umurenge'
+  ];
 
   // Initialize with one default field with one option for dropdown
   const [fields, setFields] = useState([
@@ -51,9 +62,9 @@ const CreateService = () => {
       fields.map((field) =>
         field.id === id
           ? {
-              ...field,
-              options: [...field.options, `Option ${field.options.length + 1}`],
-            }
+            ...field,
+            options: [...field.options, `Option ${field.options.length + 1}`],
+          }
           : field
       )
     );
@@ -64,11 +75,11 @@ const CreateService = () => {
       fields.map((field) =>
         field.id === fieldId
           ? {
-              ...field,
-              options: field.options.filter(
-                (_, index) => index !== optionIndex
-              ),
-            }
+            ...field,
+            options: field.options.filter(
+              (_, index) => index !== optionIndex
+            ),
+          }
           : field
       )
     );
@@ -79,11 +90,11 @@ const CreateService = () => {
       fields.map((field) =>
         field.id === fieldId
           ? {
-              ...field,
-              options: field.options.map((option, index) =>
-                index === optionIndex ? value : option
-              ),
-            }
+            ...field,
+            options: field.options.map((option, index) =>
+              index === optionIndex ? value : option
+            ),
+          }
           : field
       )
     );
@@ -123,9 +134,6 @@ const CreateService = () => {
         </div>
 
         <Card className="bg-white">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Categories List</CardTitle>
-          </CardHeader>
           <CardContent>
             <div className="p-4">
               <form onSubmit={handleSubmit}>
@@ -177,11 +185,31 @@ const CreateService = () => {
                   </div>
                 </div>
 
+
+                <Card className="w-full mx-auto bg-emerald-50 rounded mb-4">
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-emerald-800 mb-2">Default Fields</CardTitle>
+                  </CardHeader>
+                  <CardContent className="flex flex-wrap justify-between gap-x-4 gap-y-1 items-center">
+                    {defaultfields.map((field, index) => (
+                      <div
+                        key={index}
+                        className="text-emerald-700 text-sm"
+                      >
+                        {field}
+                      </div>
+                    ))}
+                  </CardContent>
+                </Card>
+
+
+                <span className="font-semibold text-xl pb-4">Add Additional Fields</span>
+
                 {/* Dynamic Fields */}
                 {fields.map((field, index) => (
                   <div
                     key={field.id}
-                    className="grid grid-cols-5 gap-4 mb-4 border p-4 rounded"
+                    className="grid grid-cols-5 gap-4 mt-4 mb-4 border p-4 rounded"
                   >
                     {/* Field Name */}
                     <div className="col-span-3">
@@ -232,9 +260,9 @@ const CreateService = () => {
                       <button
                         type="button"
                         onClick={() => handleRemoveField(field.id)}
-                        className="px-3 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                        className="px-3 py-3 bg-red-400 text-white rounded hover:bg-red-600"
                       >
-                        Remove
+                        <Trash2 size={16} />
                       </button>
                     </div>
 
@@ -307,7 +335,7 @@ const CreateService = () => {
                 <button
                   type="button"
                   onClick={handleAddField}
-                  className="px-4 py-2 mr-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                  className="px-4 py-2 mr-3 bg-sky-400 text-white rounded hover:bg-blue-600"
                 >
                   Add New Field
                 </button>
@@ -315,7 +343,7 @@ const CreateService = () => {
                 {/* Submit Button */}
                 <button
                   type="submit"
-                  className="mt-4 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600"
+                  className="mt-4 px-4 py-2 bg-emerald-400 text-white rounded hover:bg-green-600"
                 >
                   Save Service
                 </button>

@@ -58,8 +58,8 @@ const BecomeAgent = () => {
         location_sector: ''
       });
 
-      // Hide success message after 3 seconds
-      setTimeout(() => setShowSuccess(false), 3000);
+      // Hide success message after 8 seconds
+      setTimeout(() => setShowSuccess(false), 8000);
     } catch (err) {
       console.error('Submission error:', err);
       setError(err.message);
