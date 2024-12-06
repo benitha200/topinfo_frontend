@@ -23,7 +23,7 @@
 // const RequestCard = ({ request }) => {
 //   const { id, service_location, service_date, description, status, client, service_category } = request;
 //   return (
-//     <div className="bg-white p-4 rounded-lg shadow">
+//     <div className="bg-white p-4 rounded shadow">
 //       <div className="flex items-center justify-between mb-2">
 //         <span className={`px-2 py-1 text-sm rounded-full ${
 //           status === 'COMPLETED' ? 'bg-green-100 text-green-800' : 'bg-gray-100 text-gray-800'
@@ -64,7 +64,7 @@
 // const Stats = ({ stats = [] }) => (
 //   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
 //     {stats.map((stat, index) => (
-//       <div key={index} className="bg-white p-4 rounded-lg shadow">
+//       <div key={index} className="bg-white p-4 rounded shadow">
 //         <p className="text-sm text-gray-500 mb-1">{stat.title}</p>
 //         <p className="text-2xl font-semibold">{stat.value}</p>
 //         <div className="flex items-center gap-1 text-sm">
@@ -144,7 +144,7 @@
 //     return (
 //       <AgentLayout>
 //         <div className="max-w-7xl mx-auto">
-//           <div className="bg-red-50 border border-red-200 rounded-lg p-4 mb-6">
+//           <div className="bg-red-50 border border-red-200 rounded p-4 mb-6">
 //             <p className="text-red-600">{error}</p>
 //           </div>
 //         </div>
@@ -202,7 +202,7 @@ const RequestCard = ({ request }) => {
   };
 
   return (
-    <div className="bg-gradient-to-r from-white to-slate-50 p-4 rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300">
+    <div className="bg-gradient-to-r from-white to-slate-50 p-4 rounded shadow-md hover:shadow-lg transition-shadow duration-300">
       <div className="flex items-center justify-between mb-2">
         <span className={`px-2 py-1 text-sm tracking-wide rounded-full ${statusColor[status] || "bg-gray-300 text-gray-800"}`}>
           {status}
@@ -239,7 +239,7 @@ const RequestList = ({ requests = [] }) => (
 const Stats = ({ stats = [] }) => (
   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
     {stats.map((stat, index) => (
-      <div key={index} className="bg-white rounded text-gray-700 p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
+      <div key={index} className="bg-white rounded text-gray-700 p-6 rounded shadow-lg hover:shadow-xl transition-shadow duration-300">
         <p className="text-sm mb-1">{stat.title}</p>
         <p className="text-3xl font-bold">{stat.value}</p>
         <div className="flex items-center gap-1 text-sm mt-2">
@@ -312,7 +312,7 @@ const AgentDashboard = () => {
     return (
       <AgentLayout>
         <div className="max-w-7xl mx-auto">
-          <div className="bg-red-100 border border-red-300 rounded-lg p-4 mb-6">
+          <div className="bg-red-100 border border-red-300 rounded p-4 mb-6">
             <p className="text-red-600">{error}</p>
           </div>
         </div>

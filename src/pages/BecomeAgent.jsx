@@ -75,7 +75,7 @@ const BecomeAgent = () => {
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
+          <div className="mb-6 bg-red-50 border border-red-200 rounded p-4 flex items-start">
             <AlertCircle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
             <div>
               <h3 className="text-red-800 font-medium">Error Occurred!</h3>
@@ -85,7 +85,7 @@ const BecomeAgent = () => {
         )}
 
         {showSuccess && (
-          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start">
+          <div className="mb-6 bg-green-50 border border-green-200 rounded p-4 flex items-start">
             <AlertCircle className="h-5 w-5 text-green-600 mr-3 mt-0.5" />
             <div>
               <h3 className="text-green-800 font-medium">Success!</h3>
@@ -108,7 +108,7 @@ const BecomeAgent = () => {
                   required
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your first name"
                 />
               </div>
@@ -124,7 +124,7 @@ const BecomeAgent = () => {
                   required
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your last name"
                 />
               </div>
@@ -141,7 +141,7 @@ const BecomeAgent = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 placeholder="Enter your email"
               />
             </div>
@@ -156,7 +156,7 @@ const BecomeAgent = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 placeholder="Enter your phone number"
               />
             </div>
@@ -172,7 +172,7 @@ const BecomeAgent = () => {
                   name="location_province"
                   value={formData.location_province}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your province"
                 />
               </div>
@@ -187,7 +187,7 @@ const BecomeAgent = () => {
                   name="location_district"
                   value={formData.location_district}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your district"
                 />
               </div>
@@ -202,7 +202,7 @@ const BecomeAgent = () => {
                   name="location_sector"
                   value={formData.location_sector}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your sector"
                 />
               </div>

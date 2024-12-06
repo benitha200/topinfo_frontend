@@ -31,14 +31,14 @@ const AgentLayout = () => {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-            className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
+            className="p-2 hover:bg-gray-100 rounded lg:hidden"
           >
             <Menu size={20} />
           </button>
           <h1 className="text-xl font-bold">Agent Portal</h1>
         </div>
         <div className="flex items-center gap-4">
-          <button className="p-2 hover:bg-gray-100 rounded-lg relative">
+          <button className="p-2 hover:bg-gray-100 rounded relative">
             <Bell size={20} />
             {notifications.length > 0 && (
               <span className="absolute top-1 right-1 bg-red-500 rounded-full w-2 h-2"></span>

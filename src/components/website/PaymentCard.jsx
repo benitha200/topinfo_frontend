@@ -2,7 +2,7 @@ import React from 'react';
 
 const PaymentCard = ({ payment }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-white rounded shadow-md p-4">
       <h3 className="text-lg font-medium mb-2">{payment.service.title}</h3>
       <p className="text-gray-600 mb-2">Amount: ${payment.amount}</p>
       <p className="font-bold text-green-500">Status: {payment.status}</p>

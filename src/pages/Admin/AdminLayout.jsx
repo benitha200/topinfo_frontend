@@ -65,7 +65,7 @@
 //                 <Link
 //                   key={item.path}
 //                   to={item.path}
-//                   className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
+//                   className={`flex items-center px-4 py-3 text-sm font-medium rounded ${
 //                     location.pathname === item.path
 //                       ? 'bg-sky-700 text-white'
 //                       : 'text-white hover:bg-sky-500'
@@ -241,7 +241,7 @@ const AdminLayout = ({ children }) => {
                 w-full flex items-center justify-center 
                 px-4 py-2.5 text-sm 
                 bg-red-50 text-red-600 
-                rounded-lg 
+                rounded 
                 hover:bg-red-100 
                 transition-colors duration-200
               "

@@ -6,7 +6,7 @@
 //   return (
 //     <AgentLayout>
 //       <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] bg-gray-50 p-6">
-//         <div className="text-center bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+//         <div className="text-center bg-white shadow-lg rounded p-8 max-w-md w-full">
 //           <Mobile className="mx-auto mb-6 text-sky-500" size={64} />
 //           <h1 className="text-2xl font-bold mb-4 text-gray-800">Awaiting Transaction Approval</h1>
 //           <p className="text-gray-600 mb-6">
@@ -32,7 +32,7 @@ const PaymentApprovalPage = () => {
     return (
         <AgentLayout>
             <div className="flex items-center justify-center min-h-[calc(100vh-4rem)] bg-gray-50 p-6">
-                <div className="text-center bg-white shadow-lg rounded-lg p-8 max-w-md w-full">
+                <div className="text-center bg-white shadow-lg rounded p-8 max-w-md w-full">
                     <Phone className="mx-auto mb-6 text-sky-500" size={64} />
                     <h1 className="text-2xl font-bold mb-4 text-gray-800">Awaiting Transaction Approval</h1>
                     <p className="text-gray-600 mb-6">

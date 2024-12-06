@@ -253,7 +253,7 @@ const ServiceProvidersPageAgent = () => {
                     <h1 className="text-2xl font-bold">Service Providers</h1>
 
                     <button
-                        className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 flex items-center gap-2"
+                        className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center gap-2"
                         onClick={() => setIsAddModalOpen(true)}
                     >
                         <Plus className="h-4 w-4" />
@@ -270,7 +270,7 @@ const ServiceProvidersPageAgent = () => {
                                 <input
                                     type="text"
                                     placeholder="Search providers..."
-                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />

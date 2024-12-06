@@ -56,7 +56,7 @@
 //                 <div className="flex items-center gap-4">
 //                     <button
 //                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-//                         className="p-2 hover:bg-gray-100 rounded-lg lg:hidden"
+//                         className="p-2 hover:bg-gray-100 rounded lg:hidden"
 //                     >
 //                         {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
 //                     </button>
@@ -204,7 +204,7 @@
 //                                 <Link
 //                                     key={item.path}
 //                                     to={item.path}
-//                                     className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
+//                                     className={`flex items-center px-4 py-3 text-sm font-medium rounded ${
 //                                         location.pathname === item.path
 //                                             ? 'bg-sky-700 text-white'
 //                                             : 'text-white hover:bg-sky-500'
@@ -362,7 +362,7 @@ const AgentLayout = ({ children }) => {
                   to={item.path}
                   className={`
                                         flex items-center px-4 py-3 
-                                        text-sm rounded-lg transition-all 
+                                        text-sm rounded transition-all 
                                         ${
                                           location.pathname === item.path
                                             ? "bg-sky-100 text-sky-700 font-semibold"
@@ -385,7 +385,7 @@ const AgentLayout = ({ children }) => {
                                 flex w-full items-center 
                                 px-4 py-3 text-sm 
                                 text-red-500 hover:bg-red-50 
-                                rounded-lg transition-colors
+                                rounded transition-colors
                             "
             >
               <LogOut className="mr-3 h-5 w-5" />

@@ -249,7 +249,7 @@
 //         </div>
 
 //         {error && (
-//           <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
+//           <div className="mb-6 bg-red-50 border border-red-200 rounded p-4 flex items-start">
 //             <AlertCircle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
 //             <div>
 //               <h3 className="text-red-800 font-medium">Habonetse Ikosa!</h3>
@@ -259,7 +259,7 @@
 //         )}
 
 //         {showSuccess && (
-//           <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start">
+//           <div className="mb-6 bg-green-50 border border-green-200 rounded p-4 flex items-start">
 //             <AlertCircle className="h-5 w-5 text-green-600 mr-3 mt-0.5" />
 //             <div>
 //               <h3 className="text-green-800 font-medium">Byagenze neza!</h3>
@@ -288,7 +288,7 @@
 //                     required
 //                     value={formData.firstname}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="Andika izina ryawe"
 //                   />
 //                 </div>
@@ -307,7 +307,7 @@
 //                     required
 //                     value={formData.lastname}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="Andika izina ryanyuma"
 //                   />
 //                 </div>
@@ -328,7 +328,7 @@
 //                     required
 //                     value={formData.email}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="Andika imeri yawe"
 //                   />
 //                 </div>
@@ -346,7 +346,7 @@
 //                     name="work_email"
 //                     value={formData.work_email}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="Imeri yo mu kazi (igihe ufite)"
 //                   />
 //                 </div>
@@ -363,7 +363,7 @@
 //                 rows={2}
 //                 value={formData.description}
 //                 onChange={handleInputChange}
-//                 className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+//                 className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
 //                 placeholder="Sobanura serivisi utanga..."
 //               />
 //             </div>
@@ -381,7 +381,7 @@
 //                   rows={4}
 //                   value={formData.description}
 //                   onChange={handleInputChange}
-//                   className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                   className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                   placeholder="Sobanura serivisi utanga..."
 //                 />
 //               </div>
@@ -401,7 +401,7 @@
 //                     required
 //                     value={formData.phone}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="07xxxxxxxx"
 //                   />
 //                 </div>
@@ -419,7 +419,7 @@
 //                     required
 //                     value={formData.service_category_id}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                   >
 //                     <option value="">Hitamo icyiciro</option>
 //                     {categories.map((category) => (
@@ -443,7 +443,7 @@
 //                   required
 //                   value={formData.location_province}
 //                   onChange={handleInputChange}
-//                   className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+//                   className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
 //                   placeholder="Andika intara"
 //                 />
 //               </div>
@@ -462,7 +462,7 @@
 //                     required
 //                     value={formData.location_district}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="Andika akarere"
 //                   />
 //                 </div>
@@ -481,7 +481,7 @@
 //                     required
 //                     value={formData.location_sector}
 //                     onChange={handleInputChange}
-//                     className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                     className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                     placeholder="Andika umurenge"
 //                   />
 //                 </div>
@@ -546,7 +546,7 @@
 //                 required
 //                 value={formData.experience}
 //                 onChange={handleInputChange}
-//                 className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+//                 className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
 //               >
 //                 <option value="">Hitamo uburambe bwawe</option>
 //                 <option value="0-1 year">Munsi y'umwaka umwe</option>
@@ -570,7 +570,7 @@
 //                   rows={3}
 //                   value={formData.additional_info}
 //                   onChange={handleInputChange}
-//                   className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+//                   className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
 //                   placeholder="Amakuru yinyongera ku murimo wawe..."
 //                 />
 //               </div>
@@ -578,7 +578,7 @@
 //               <div className="pt-4">
 //                 <button
 //                   type="submit"
-//                   className="w-full rounded-lg bg-blue-600 px-6 py-3 text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+//                   className="w-full rounded bg-blue-600 px-6 py-3 text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
 //                 >
 //                   Ohereza
 //                 </button>
@@ -902,7 +902,7 @@ const BecomeProvider = () => {
         </div>
 
         {error && (
-          <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
+          <div className="mb-6 bg-red-50 border border-red-200 rounded p-4 flex items-start">
             <AlertCircle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
             <div>
               <h3 className="text-red-800 font-medium">Habonetse Ikosa!</h3>
@@ -912,7 +912,7 @@ const BecomeProvider = () => {
         )}
 
         {showSuccess && (
-          <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start">
+          <div className="mb-6 bg-green-50 border border-green-200 rounded p-4 flex items-start">
             <AlertCircle className="h-5 w-5 text-green-600 mr-3 mt-0.5" />
             <div>
               <h3 className="text-green-800 font-medium">Byagenze neza!</h3>
@@ -942,7 +942,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.firstname}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Andika izina ryawe"
                   />
                 </div>
@@ -961,7 +961,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.lastname}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Andika izina ryanyuma"
                   />
                 </div>
@@ -983,7 +983,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Andika imeri yawe"
                   />
                 </div>
@@ -1001,7 +1001,7 @@ const BecomeProvider = () => {
                     name="work_email"
                     value={formData.work_email}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Imeri yo mu kazi (igihe ufite)"
                   />
                 </div>
@@ -1022,7 +1022,7 @@ const BecomeProvider = () => {
                   rows={4}
                   value={formData.description}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                   placeholder="Sobanura serivisi utanga..."
                 />
               </div>
@@ -1043,7 +1043,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.phone}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="07xxxxxxxx"
                   />
                 </div>
@@ -1061,7 +1061,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.service_category_id}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                   >
                     <option value="">Hitamo icyiciro</option>
                     {categories.map((category) => (
@@ -1089,7 +1089,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.location_province}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Andika intara"
                   />
                 </div>
@@ -1108,7 +1108,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.location_district}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Andika akarere"
                   />
                 </div>
@@ -1127,7 +1127,7 @@ const BecomeProvider = () => {
                     required
                     value={formData.location_sector}
                     onChange={handleInputChange}
-                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                     placeholder="Andika umurenge"
                   />
                 </div>
@@ -1193,7 +1193,7 @@ const BecomeProvider = () => {
                   required
                   value={formData.experience}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
                 >
                   <option value="">Hitamo uburambe bwawe</option>
                   <option value="0-1 year">Munsi y'umwaka umwe</option>
@@ -1218,7 +1218,7 @@ const BecomeProvider = () => {
                   rows={3}
                   value={formData.additional_info}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Amakuru yinyongera ku murimo wawe..."
                 />
               </div>
@@ -1226,7 +1226,7 @@ const BecomeProvider = () => {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="w-full rounded-lg bg-sky-500 px-6 py-3 text-lg font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                  className="w-full rounded bg-sky-500 px-6 py-3 text-lg font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                 >
                   Ohereza
                 </button>

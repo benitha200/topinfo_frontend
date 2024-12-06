@@ -19,7 +19,7 @@ const SettingsPage = () => {
                 {/* Page Header */}
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Settings</h1>
-                    <button className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 flex items-center">
+                    <button className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center">
                         <Save className="h-4 w-4 mr-2" />
                         Save Changes
                     </button>
@@ -41,7 +41,7 @@ const SettingsPage = () => {
                                     <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
                                         <User className="h-8 w-8 text-gray-500" />
                                     </div>
-                                    <button className="px-3 py-1 border rounded-lg hover:bg-gray-50">
+                                    <button className="px-3 py-1 border rounded hover:bg-gray-50">
                                         Change
                                     </button>
                                 </div>
@@ -51,7 +51,7 @@ const SettingsPage = () => {
                                 <input
                                     type="text"
                                     defaultValue="Admin User"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -59,7 +59,7 @@ const SettingsPage = () => {
                                 <input
                                     type="email"
                                     defaultValue="admin@example.com"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                         </CardContent>
@@ -110,21 +110,21 @@ const SettingsPage = () => {
                                 <label className="text-sm font-medium">Current Password</label>
                                 <input
                                     type="password"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">New Password</label>
                                 <input
                                     type="password"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Confirm New Password</label>
                                 <input
                                     type="password"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="flex items-center justify-between mt-4">
@@ -151,7 +151,7 @@ const SettingsPage = () => {
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Language</label>
-                                <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <select className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500">
                                     <option value="en">English</option>
                                     <option value="es">Spanish</option>
                                     <option value="fr">French</option>
@@ -160,7 +160,7 @@ const SettingsPage = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Time Zone</label>
-                                <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
+                                <select className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500">
                                     <option value="utc">UTC</option>
                                     <option value="est">Eastern Time</option>
                                     <option value="pst">Pacific Time</option>

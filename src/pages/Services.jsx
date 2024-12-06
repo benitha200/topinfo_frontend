@@ -30,7 +30,7 @@ const Modal = ({ isOpen, onClose, title, children }) => {
         className="fixed inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       ></div>
-      <div className="bg-white rounded-lg p-6 z-10 w-full max-w-3xl mx-4">
+      <div className="bg-white rounded p-6 z-10 w-full max-w-3xl mx-4">
         <div className="flex justify-between items-center mb-4">
           <h2 className="text-xl font-semibold">{title}</h2>
           <button
@@ -516,7 +516,7 @@ const ServiceCard = ({ service }) => {
           <div className="mb-4">{service.icon}</div>
           <h3 className="font-semibold text-gray-900 mb-1">{service.title}</h3>
           <p className="text-sm text-gray-500">{service.subtitle}</p>
-          <button className="m-4 px-4 py-2 border border-sky-500 text-sky-500 rounded-lg hover:bg-sky-50 transition-colors text-sm font-medium">
+          <button className="m-4 px-4 py-2 border border-sky-500 text-sky-500 rounded hover:bg-sky-50 transition-colors text-sm font-medium">
             Saba Service
           </button>
         </div>

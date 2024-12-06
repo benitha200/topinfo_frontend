@@ -251,13 +251,13 @@ const MyAgents = () => {
                 </p>
                 <div className="flex justify-center space-x-4 pt-2">
                   <button
-                    className="px-6 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
+                    className="px-6 py-2 bg-gray-100 text-gray-700 rounded hover:bg-gray-200 transition-colors"
                     onClick={() => setDeleteConfirmation({ isOpen: false, userId: null })}
                   >
                     Cancel
                   </button>
                   <button
-                    className="px-6 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors flex items-center"
+                    className="px-6 py-2 bg-red-600 text-white rounded hover:bg-red-700 transition-colors flex items-center"
                     onClick={() => deleteUser(deleteConfirmation.userId)}
                   >
                     <Trash2 className="h-4 w-4 mr-2" />
@@ -280,10 +280,10 @@ const MyAgents = () => {
                   placeholder="Search agents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
               </div>
-              <button className="p-2 border rounded-lg hover:bg-gray-50">
+              <button className="p-2 border rounded hover:bg-gray-50">
                 <Filter className="h-4 w-4" />
               </button>
             </div>

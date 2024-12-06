@@ -51,7 +51,7 @@ const ServiceSelectionPage = () => {
                             <div 
                                 key={service.id} 
                                 onClick={() => handleServiceSelect(service.id)}
-                                className="border rounded-lg p-4 cursor-pointer hover:bg-gray-100 transition-colors"
+                                className="border rounded p-4 cursor-pointer hover:bg-gray-100 transition-colors"
                             >
                                 <h2 className="text-lg font-semibold mb-2">{service.name}</h2>
                                 <p className="text-sm text-gray-600">{service.description}</p>

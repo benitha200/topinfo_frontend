@@ -288,7 +288,7 @@ const AgentPaymentsPage = () => {
       <div className="p-6 space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-emerald-50 rounded hover:bg-emerald-100 transition-colors rounded-lg border-emerald-200 shadow-md">
+          <Card className="bg-emerald-50 rounded hover:bg-emerald-100 transition-colors rounded border-emerald-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-emerald-900">Total Payments</CardTitle>
               <DollarSign className="h-5 w-5 text-emerald-600" />
@@ -300,7 +300,7 @@ const AgentPaymentsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-sky-50 rounded hover:bg-sky-100 transition-colors rounded-lg border-sky-200 shadow-md">
+          <Card className="bg-sky-50 rounded hover:bg-sky-100 transition-colors rounded border-sky-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-sky-900">Total Commission</CardTitle>
               <CreditCard className="h-5 w-5 text-sky-600" />
@@ -312,7 +312,7 @@ const AgentPaymentsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-yellow-50 hover:bg-yellow-100 rounded transition-colors rounded-lg border-yellow-200 shadow-md">
+          <Card className="bg-yellow-50 hover:bg-yellow-100 rounded transition-colors rounded border-yellow-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-yellow-900">Completed Payments</CardTitle>
               <Users className="h-5 w-5 text-yellow-600" />

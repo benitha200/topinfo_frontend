@@ -2,7 +2,7 @@ import React from 'react';
 
 const UserList = ({ users }) => {
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
+    <div className="bg-white rounded shadow-md p-4">
       <table className="w-full">
         <thead>
           <tr>

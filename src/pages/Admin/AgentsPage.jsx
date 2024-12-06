@@ -236,10 +236,10 @@ const AgentsPage = () => {
                   placeholder="Search agents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
               </div>
-              <button className="p-2 border rounded-lg hover:bg-gray-50">
+              <button className="p-2 border rounded hover:bg-gray-50">
                 <Filter className="h-4 w-4" />
               </button>
             </div>
@@ -317,7 +317,7 @@ const AgentsPage = () => {
         {/* Add/Edit Modal */}
         {(isAddModalOpen || editingRow) && (
           <Card className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-            <div className="bg-white p-6 rounded-lg w-full max-w-xl">
+            <div className="bg-white p-6 rounded w-full max-w-xl">
               <h2 className="text-xl font-bold mb-4">
                 {editingRow ? "Edit Agent" : "Add New Agent"}
               </h2>

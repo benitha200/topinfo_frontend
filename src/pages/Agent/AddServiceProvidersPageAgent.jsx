@@ -198,7 +198,7 @@ const AddServiceProvidersPageAgent = () => {
                     </div>
 
                     {error && (
-                        <div className="mb-6 bg-red-50 border border-red-200 rounded-lg p-4 flex items-start">
+                        <div className="mb-6 bg-red-50 border border-red-200 rounded p-4 flex items-start">
                             <AlertCircle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
                             <div>
                                 <h3 className="text-red-800 font-medium">Habonetse Ikosa!</h3>
@@ -208,7 +208,7 @@ const AddServiceProvidersPageAgent = () => {
                     )}
 
                     {showSuccess && (
-                        <div className="mb-6 bg-green-50 border border-green-200 rounded-lg p-4 flex items-start">
+                        <div className="mb-6 bg-green-50 border border-green-200 rounded p-4 flex items-start">
                             <AlertCircle className="h-5 w-5 text-green-600 mr-3 mt-0.5" />
                             <div>
                                 <h3 className="text-green-800 font-medium">Byagenze neza!</h3>
@@ -231,7 +231,7 @@ const AddServiceProvidersPageAgent = () => {
                                         required
                                         value={formData.firstname}
                                         onChange={handleInputChange}
-                                        className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Andika izina ryawe"
                                     />
                                 </div>
@@ -247,7 +247,7 @@ const AddServiceProvidersPageAgent = () => {
                                         required
                                         value={formData.lastname}
                                         onChange={handleInputChange}
-                                        className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Andika izina ryanyuma"
                                     />
                                 </div>
@@ -265,7 +265,7 @@ const AddServiceProvidersPageAgent = () => {
                                         required
                                         value={formData.email}
                                         onChange={handleInputChange}
-                                        className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Andika imeri ex: Email"
                                     />
                                 </div>
@@ -281,7 +281,7 @@ const AddServiceProvidersPageAgent = () => {
                                         required
                                         value={formData.work_email}
                                         onChange={handleInputChange}
-                                        className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="Imeri yo mu kazi (igihe ufite)"
                                     />
                                 </div>
@@ -298,7 +298,7 @@ const AddServiceProvidersPageAgent = () => {
                                     rows={2}
                                     value={formData.description}
                                     onChange={handleInputChange}
-                                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                     placeholder="Sobanura serivisi utanga..."
                                 />
                             </div>
@@ -315,7 +315,7 @@ const AddServiceProvidersPageAgent = () => {
                                         required
                                         value={formData.phone}
                                         onChange={handleInputChange}
-                                        className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                         placeholder="07xxxxxxxx"
                                     />
                                 </div>
@@ -330,7 +330,7 @@ const AddServiceProvidersPageAgent = () => {
                                         required
                                         value={formData.service_category_id}
                                         onChange={handleInputChange}
-                                        className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                     >
                                         <option value="">Hitamo icyiciro</option>
                                         {categories.map((category) => (
@@ -463,7 +463,7 @@ const AddServiceProvidersPageAgent = () => {
                                     required
                                     value={formData.experience}
                                     onChange={handleInputChange}
-                                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                 >
                                     <option value="">Hitamo uburambe bwawe</option>
                                     <option value="0-1 year">Munsi y'umwaka umwe</option>
@@ -485,7 +485,7 @@ const AddServiceProvidersPageAgent = () => {
                                     value={formData.additional_info}
                                     onChange={handleInputChange}
                                     required
-                                    className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                                     placeholder="Amakuru yinyongera ku murimo wawe..."
                                 />
                             </div>
@@ -493,7 +493,7 @@ const AddServiceProvidersPageAgent = () => {
                             <div className="pt-4">
                                 <button
                                     type="submit"
-                                    className="w-full rounded-lg bg-sky-600 px-6 py-3 text-lg font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                                    className="w-full rounded bg-sky-600 px-6 py-3 text-lg font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
                                 >
                                     Ohereza
                                 </button>

@@ -21,7 +21,7 @@ const ServiceDetails = () => {
 
   return (
     <div className="container mx-auto py-8">
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white rounded shadow-md p-6">
         <h1 className="text-3xl font-bold mb-4">{service.title}</h1>
         <p className="text-gray-600 mb-4">{service.description}</p>
         <p className="font-bold text-green-500 text-2xl mb-4">

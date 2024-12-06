@@ -15,7 +15,7 @@ const Register = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+      <div className="bg-white p-8 rounded shadow-md w-full max-w-md">
         <h2 className="text-2xl font-bold mb-4">Register</h2>
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
@@ -28,13 +28,13 @@ const Register = () => {
               name="name"
               value={formData.name}
               onChange={handleInputChange}
-              className="border rounded-lg px-4 py-2 w-full"
+              className="border rounded px-4 py-2 w-full"
             />
           </div>
           {/* Email and password fields */}
           <button
             type="submit"
-            className="bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-4 rounded-lg w-full"
+            className="bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-4 rounded w-full"
           >
             Register
           </button>

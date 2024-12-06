@@ -153,12 +153,12 @@
 //                                 <input
 //                                     type="text"
 //                                     placeholder="Search requests..."
-//                                     className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+//                                     className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
 //                                     value={searchTerm}
 //                                     onChange={(e) => setSearchTerm(e.target.value)}
 //                                 />
 //                             </div>
-//                             <button className="p-2 border rounded-lg hover:bg-gray-50">
+//                             <button className="p-2 border rounded hover:bg-gray-50">
 //                                 <Filter className="h-4 w-4" />
 //                             </button>
 //                         </div>
@@ -265,7 +265,7 @@ const RequestDetailsView = ({ request, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded-lg w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
+            <div className="bg-white rounded w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
                 <button 
                     onClick={onClose} 
                     className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -519,12 +519,12 @@ const RequestsPage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search requests..."
-                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
                             </div>
-                            <button className="p-2 border rounded-lg hover:bg-gray-50">
+                            <button className="p-2 border rounded hover:bg-gray-50">
                                 <Filter className="h-4 w-4" />
                             </button>
                         </div>

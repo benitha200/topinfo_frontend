@@ -165,7 +165,7 @@ const ServiceCategoriesPage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search categories..."
-                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -216,7 +216,7 @@ const ServiceCategoriesPage = () => {
                 {/* Add/Edit Modal */}
                 {(isAddModalOpen || editingCategory) && (
                     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                        <div className="bg-white p-6 rounded-lg w-full max-w-md">
+                        <div className="bg-white p-6 rounded w-full max-w-md">
                             <h2 className="text-xl font-bold mb-4">
                                 {editingCategory ? 'Edit Category' : 'Add New Category'}
                             </h2>
