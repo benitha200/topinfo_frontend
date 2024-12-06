@@ -316,7 +316,7 @@ const AgentsPage = () => {
         </Card>
         {/* Add/Edit Modal */}
         {(isAddModalOpen || editingRow) && (
-          <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+          <Card className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded-lg w-full max-w-xl">
               <h2 className="text-xl font-bold mb-4">
                 {editingRow ? "Edit Agent" : "Add New Agent"}
@@ -477,7 +477,7 @@ const AgentsPage = () => {
                 </button>
               </div>
             </div>
-          </div>
+          </Card>
         )}
       </div>
     </AdminLayout>

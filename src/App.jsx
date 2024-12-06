@@ -33,8 +33,8 @@ import UsersPage from "./pages/Admin/UsersPage";
 import RequestsPage from "./pages/Admin/RequestsPage";
 import PaymentsPage from "./pages/Admin/PaymentsPage";
 import SettingsPage from "./pages/Admin/SettingsPage";
-import ServicesPage from "./pages/Admin/ServicesPage";
-import ServiceCategoriesPage from "./pages/Admin/ServicesPage";
+import ServicesPage from "./pages/Admin/Services/ServicesPage";
+import ServiceCategoriesPage from "./pages/Admin/Services/ServicesPage";
 import ServiceProvidersPage from "./pages/Admin/ServiceProvidersPage";
 import RequestListAgent from "./pages/Agent/RequestListAgent";
 import BecomeAgent from "./pages/BecomeAgent";
@@ -51,6 +51,8 @@ import MyAgents from "./pages/Agent/MyAgents";
 import PaymentCallback from "./pages/PaymentCallback";
 import ServiceProvidersPageAgent from "./pages/Agent/ServiceProvidersPageAgent";
 import AddServiceProvidersPageAgent from "./pages/Agent/AddServiceProvidersPageAgent";
+import CreateService from "./pages/Admin/Services/Create";
+import ClientRequest from "./pages/ClientRequest";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -255,6 +257,14 @@ const App = () => {
           }
         />
         <Route
+          path="/client-request/:serviceId"
+          element={
+            <LayoutWrapper>
+              <ClientRequest />
+            </LayoutWrapper>
+          }
+        />
+        <Route
           path="/payment-callback"
           element={
             <LayoutWrapper>
@@ -341,6 +351,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={["ADMIN"]}>
               <ServiceCategoriesPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/service/create"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <CreateService />
             </ProtectedRoute>
           }
         />

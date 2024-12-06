@@ -1,16 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { Search, Plus, Pencil, Trash2, CheckCircle, XCircle } from 'lucide-react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { Search, Plus, Pencil, Trash2, CheckCircle, XCircle, Download, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Provinces, Districts, Sectors } from 'rwanda';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
+import * as XLSX from 'xlsx';
 
 const ServiceProvidersPage = () => {
     const [providers, setProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [filteredProviders, setFilteredProviders] = useState([]);
+    const [searchTerm, setSearchTerm] = useState(''); 
+    // const [filteredProviders, setFilteredProviders] = useState([]);
+    const [startDate, setStartDate] = useState('');
+    const [endDate, setEndDate] = useState('');
+    const [currentPage, setCurrentPage] = useState(1);
+    const [providersPerPage] = useState(10);
+
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [editingProvider, setEditingProvider] = useState(null);
 
@@ -83,7 +89,13 @@ const ServiceProvidersPage = () => {
     const fetchProviders = async () => {
         try {
             const token = localStorage.getItem('token');
-            const response = await fetch(`${API_URL}/service-providers`, {
+            
+            // Construct query parameters
+            const params = new URLSearchParams();
+            if (startDate) params.append('startDate', startDate);
+            if (endDate) params.append('endDate', endDate);
+
+            const response = await fetch(`${API_URL}/service-providers?${params.toString()}`, {
                 headers: {
                     'Authorization': `Bearer ${token}`,
                     'Content-Type': 'application/json'
@@ -92,7 +104,7 @@ const ServiceProvidersPage = () => {
             if (!response.ok) throw new Error('Failed to fetch providers');
             const data = await response.json();
             setProviders(data);
-            setFilteredProviders(data);
+            setCurrentPage(1);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -100,32 +112,40 @@ const ServiceProvidersPage = () => {
         }
     };
 
+    const filteredProviders = useMemo(() => {
+        return providers.filter(provider => {
+            const matchesSearch = 
+                provider.firstname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                provider.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                provider.email?.toLowerCase().includes(searchTerm.toLowerCase());
+
+            // Date range filtering
+            const providerDate = new Date(provider.createdAt || Date.now());
+            const start = startDate ? new Date(startDate) : null;
+            const end = endDate ? new Date(endDate) : null;
+
+            const matchesDateRange = 
+                (!start || providerDate >= start) && 
+                (!end || providerDate <= end);
+
+            return matchesSearch && matchesDateRange;
+        });
+    }, [providers, searchTerm, startDate, endDate]);
+
+    // Pagination
+    const indexOfLastProvider = currentPage * providersPerPage;
+    const indexOfFirstProvider = indexOfLastProvider - providersPerPage;
+    const currentProviders = filteredProviders.slice(indexOfFirstProvider, indexOfLastProvider);
+
+    const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+
     // Initial fetch for provinces and service categories
     useEffect(() => {
         setProvinces(Provinces());
         fetchServiceCategories();
         fetchProviders();
     }, []);
-    // Fetch providers
-    // const fetchProviders = async () => {
-    //     try {
-    //         const token = localStorage.getItem('token');
-    //         const response = await fetch(`${API_URL}/service-providers`, {
-    //             headers: {
-    //                 'Authorization': `Bearer ${token}`,
-    //                 'Content-Type': 'application/json'
-    //             }
-    //         });
-    //         if (!response.ok) throw new Error('Failed to fetch providers');
-    //         const data = await response.json();
-    //         setProviders(data);
-    //         setFilteredProviders(data);
-    //     } catch (err) {
-    //         setError(err.message);
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // };
 
     // Create provider
     const createProvider = async () => {
@@ -212,6 +232,32 @@ const ServiceProvidersPage = () => {
         }
     };
 
+    const downloadProviders = () => {
+        // Prepare data for download
+        const downloadData = filteredProviders.map(provider => ({
+            'First Name': provider.firstname || 'N/A',
+            'Last Name': provider.lastname || 'N/A',
+            'Email': provider.email || 'N/A',
+            'Work Email': provider.work_email || 'N/A',
+            'Phone': provider.phone || 'N/A',
+            'Province': provider.location_province || 'N/A',
+            'District': provider.location_district || 'N/A',
+            'Sector': provider.location_sector || 'N/A',
+            'Service Area': provider.location_serve || 'N/A',
+            'Experience': provider.experience || 'N/A',
+            'Description': provider.description || 'N/A',
+            'Status': provider.approved ? 'Approved' : 'Pending',
+            'Created At': new Date(provider.createdAt).toLocaleDateString() || 'N/A'
+        }));
+        // Create worksheet
+        const worksheet = XLSX.utils.json_to_sheet(downloadData);
+        const workbook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(workbook, worksheet, "Service Providers");
+
+        // Generate and download Excel file
+        XLSX.writeFile(workbook, `service_providers_${new Date().toISOString().split('T')[0]}.xlsx`);
+    };
+
     // Filter providers based on search term
     useEffect(() => {
         const filtered = providers.filter(provider =>
@@ -219,13 +265,13 @@ const ServiceProvidersPage = () => {
             provider.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
             provider.email?.toLowerCase().includes(searchTerm.toLowerCase())
         );
-        setFilteredProviders(filtered);
+        // setFilteredProviders(filtered);
     }, [searchTerm, providers]);
 
     // Initial fetch
     useEffect(() => {
         fetchProviders();
-    }, []);
+    }, [startDate, endDate]);
 
     // Reset form
     const resetForm = () => {
@@ -262,19 +308,47 @@ const ServiceProvidersPage = () => {
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Service Providers</h1>
 
-                    <button
-                        className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
-                        onClick={() => setIsAddModalOpen(true)}
-                    >
-                        <Plus className="h-4 w-4" />
-                        Add Provider
-                    </button>
+                    <div className="flex items-center space-x-2">
+                        <button
+                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center gap-2"
+                            onClick={downloadProviders}
+                        >
+                            <Download className="h-4 w-4" />
+                            Download
+                        </button>
+                        <button
+                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
+                            onClick={() => setIsAddModalOpen(true)}
+                        >
+                            <Plus className="h-4 w-4" />
+                            Add Provider
+                        </button>
+                    </div>
                 </div>
 
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle>Providers List</CardTitle>
-                        <div className="flex space-x-2">
+                        <div className="flex space-x-2 items-center">
+                            {/* Date Range Filters */}
+                            <div className="flex items-center space-x-2">
+                                <label className="text-sm font-medium">From:</label>
+                                <input
+                                    type="date"
+                                    className="p-2 border rounded"
+                                    value={startDate}
+                                    onChange={(e) => setStartDate(e.target.value)}
+                                />
+                                <label className="text-sm font-medium">To:</label>
+                                <input
+                                    type="date"
+                                    className="p-2 border rounded"
+                                    value={endDate}
+                                    onChange={(e) => setEndDate(e.target.value)}
+                                />
+                            </div>
+                            
+                            {/* Search Input */}
                             <div className="relative">
                                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
                                 <input
@@ -301,7 +375,7 @@ const ServiceProvidersPage = () => {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredProviders.map((provider) => (
+                                    {currentProviders.map((provider) => (
                                         <tr key={provider.id} className="border-b">
                                             <td className="px-4 py-3 text-sm">
                                                 {provider.firstname} {provider.lastname}
@@ -344,10 +418,47 @@ const ServiceProvidersPage = () => {
                                     ))}
                                 </tbody>
                             </table>
+
+                            {/* Pagination */}
+                            <div className="flex justify-between items-center mt-4">
+                                <div className="text-sm text-gray-600">
+                                    Showing {indexOfFirstProvider + 1} to {Math.min(indexOfLastProvider, filteredProviders.length)} of {filteredProviders.length} providers
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                    <button 
+                                        onClick={() => paginate(currentPage - 1)} 
+                                        disabled={currentPage === 1}
+                                        className="p-2 border rounded disabled:opacity-50 hover:bg-gray-100"
+                                    >
+                                        <ChevronLeft className="h-4 w-4" />
+                                    </button>
+                                    {Array.from({
+                                        length: Math.ceil(filteredProviders.length / providersPerPage)
+                                    }, (_, i) => (
+                                        <button
+                                            key={i}
+                                            onClick={() => paginate(i + 1)}
+                                            className={`px-3 py-1 border rounded ${
+                                                currentPage === i + 1 
+                                                ? 'bg-blue-500 text-white' 
+                                                : 'hover:bg-gray-100'
+                                            }`}
+                                        >
+                                            {i + 1}
+                                        </button>
+                                    ))}
+                                    <button 
+                                        onClick={() => paginate(currentPage + 1)} 
+                                        disabled={currentPage === Math.ceil(filteredProviders.length / providersPerPage)}
+                                        className="p-2 border rounded disabled:opacity-50 hover:bg-gray-100"
+                                    >
+                                        <ChevronRight className="h-4 w-4" />
+                                    </button>
+                                </div>
+                            </div>
                         </div>
                     </CardContent>
                 </Card>
-
                 {/* Add/Edit Modal */}
                 {(isAddModalOpen || editingProvider) && (
                     <div className="fixed inset-0 z-50 overflow-y-auto bg-black/50 flex items-center justify-center p-4">
@@ -550,11 +661,11 @@ const ServiceProvidersPage = () => {
                                         {editingProvider ? 'Update Provider' : 'Create Provider'}
                                     </button>
                                 </div>
-                                </div>
                             </div>
                         </div>
-                )}
                     </div>
+                )}
+            </div>
         </AdminLayout>
     );
 };
