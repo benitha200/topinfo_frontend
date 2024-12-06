@@ -195,7 +195,7 @@ const AgentsPage = () => {
           <h1 className="text-2xl font-bold">Agents</h1>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
           >
             Add New Agent
           </button>
@@ -206,8 +206,8 @@ const AgentsPage = () => {
             <CardTitle>Agent Statistics</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-              <Users className="h-8 w-8 text-blue-500" />
+            <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+              <Users className="h-8 w-8 text-sky-500" />
               <div>
                 <p className="text-sm text-gray-500">Total Agents</p>
                 <p className="text-2xl font-bold">{users.length}</p>
@@ -236,7 +236,7 @@ const AgentsPage = () => {
                   placeholder="Search agents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
               </div>
               <button className="p-2 border rounded-lg hover:bg-gray-50">
@@ -295,7 +295,7 @@ const AgentsPage = () => {
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <button
-                          className="text-blue-500 border border-2 border-gray-300 p-2 rounded hover:text-blue-700 mr-2"
+                          className="text-sky-500 border border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
                           onClick={() => handleEditClick(user)}
                         >
                           Edit
@@ -464,7 +464,7 @@ const AgentsPage = () => {
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
                   onClick={() => {
                     if (editingRow) {
                       updateUser(editingRow.id);

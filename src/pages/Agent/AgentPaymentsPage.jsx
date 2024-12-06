@@ -99,7 +99,7 @@
 //             </CardContent>
 //           </Card>
 
-//           <Card className="bg-blue-50 rounded border-0">
+//           <Card className="bg-sky-50 rounded border-0">
 //             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
 //               <CardTitle className="text-sm font-medium">Total Commission</CardTitle>
 //               <CreditCard className="h-4 w-4 text-muted-foreground" />
@@ -300,13 +300,13 @@ const AgentPaymentsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-blue-50 rounded hover:bg-blue-100 transition-colors rounded-lg border-blue-200 shadow-md">
+          <Card className="bg-sky-50 rounded hover:bg-sky-100 transition-colors rounded-lg border-sky-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-blue-900">Total Commission</CardTitle>
-              <CreditCard className="h-5 w-5 text-blue-600" />
+              <CardTitle className="text-sm font-medium text-sky-900">Total Commission</CardTitle>
+              <CreditCard className="h-5 w-5 text-sky-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-blue-800">
+              <div className="text-2xl font-bold text-sky-800">
                 {summaryStats.totalCommission.toLocaleString()} RWF
               </div>
             </CardContent>

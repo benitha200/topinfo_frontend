@@ -41,7 +41,7 @@
 //       <div
 //         className={`${
 //           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
-//         } fixed inset-y-0 left-0 z-50 w-64 bg-blue-500 shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0`}
+//         } fixed inset-y-0 left-0 z-50 w-64 bg-sky-500 shadow-lg transform transition-transform duration-300 ease-in-out lg:relative lg:translate-x-0`}
 //       >
 //         <div className="flex h-full flex-col">
 //           {/* Sidebar Header */}
@@ -67,8 +67,8 @@
 //                   to={item.path}
 //                   className={`flex items-center px-4 py-3 text-sm font-medium rounded-lg ${
 //                     location.pathname === item.path
-//                       ? 'bg-blue-700 text-white'
-//                       : 'text-white hover:bg-blue-500'
+//                       ? 'bg-sky-700 text-white'
+//                       : 'text-white hover:bg-sky-500'
 //                   }`}
 //                 >
 //                   <Icon className="mr-3 h-5 w-5" />
@@ -106,7 +106,7 @@
 //               {navItems.find(item => item.path === location.pathname)?.label || 'Dashboard'}
 //             </h1>
 //             <header className="flex items-center gap-4">
-//               <div className="w-12 h-12 bg-blue-500 text-white flex items-center justify-center rounded-full font-semibold">
+//               <div className="w-12 h-12 bg-sky-500 text-white flex items-center justify-center rounded-full font-semibold">
 //                 {initials}
 //               </div>
 //               <div>
@@ -196,7 +196,7 @@ const AdminLayout = ({ children }) => {
           <div className="flex items-center justify-between px-6 py-5 border-b">
             <Link 
               to="/dashboard" 
-              className="text-2xl font-bold text-blue-600 tracking-tight"
+              className="text-2xl font-bold text-sky-600 tracking-tight"
             >
               TopInfo
             </Link>
@@ -221,7 +221,7 @@ const AdminLayout = ({ children }) => {
                     transition-colors duration-200
                     ${
                       location.pathname === item.path
-                        ? 'bg-blue-50 text-blue-600 font-semibold'
+                        ? 'bg-sky-50 text-sky-600 font-semibold'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                     }
                   `}
@@ -271,7 +271,7 @@ const AdminLayout = ({ children }) => {
             
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-blue-100 text-blue-600 flex items-center justify-center rounded-full font-semibold">
+                <div className="w-10 h-10 bg-sky-100 text-sky-600 flex items-center justify-center rounded-full font-semibold">
                   {initials}
                 </div>
                 <div>

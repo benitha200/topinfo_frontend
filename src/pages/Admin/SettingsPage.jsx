@@ -19,7 +19,7 @@ const SettingsPage = () => {
                 {/* Page Header */}
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Settings</h1>
-                    <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center">
+                    <button className="px-4 py-2 bg-sky-500 text-white rounded-lg hover:bg-sky-600 flex items-center">
                         <Save className="h-4 w-4 mr-2" />
                         Save Changes
                     </button>
@@ -30,7 +30,7 @@ const SettingsPage = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <User className="h-5 w-5 mr-2 text-blue-500" />
+                                <User className="h-5 w-5 mr-2 text-sky-500" />
                                 Profile Settings
                             </CardTitle>
                         </CardHeader>
@@ -51,7 +51,7 @@ const SettingsPage = () => {
                                 <input
                                     type="text"
                                     defaultValue="Admin User"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -59,7 +59,7 @@ const SettingsPage = () => {
                                 <input
                                     type="email"
                                     defaultValue="admin@example.com"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                         </CardContent>
@@ -81,7 +81,7 @@ const SettingsPage = () => {
                                 </div>
                                 <label className="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" className="sr-only peer" defaultChecked />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-sky-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
                                 </label>
                             </div>
                             <div className="flex items-center justify-between">
@@ -91,7 +91,7 @@ const SettingsPage = () => {
                                 </div>
                                 <label className="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" className="sr-only peer" defaultChecked />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-sky-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
                                 </label>
                             </div>
                         </CardContent>
@@ -110,21 +110,21 @@ const SettingsPage = () => {
                                 <label className="text-sm font-medium">Current Password</label>
                                 <input
                                     type="password"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">New Password</label>
                                 <input
                                     type="password"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Confirm New Password</label>
                                 <input
                                     type="password"
-                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="flex items-center justify-between mt-4">
@@ -134,7 +134,7 @@ const SettingsPage = () => {
                                 </div>
                                 <label className="relative inline-flex items-center cursor-pointer">
                                     <input type="checkbox" className="sr-only peer" />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-blue-500"></div>
+                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-sky-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
                                 </label>
                             </div>
                         </CardContent>
@@ -151,7 +151,7 @@ const SettingsPage = () => {
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Language</label>
-                                <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
                                     <option value="en">English</option>
                                     <option value="es">Spanish</option>
                                     <option value="fr">French</option>
@@ -160,7 +160,7 @@ const SettingsPage = () => {
                             </div>
                             <div className="space-y-2">
                                 <label className="text-sm font-medium">Time Zone</label>
-                                <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                <select className="w-full px-3 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500">
                                     <option value="utc">UTC</option>
                                     <option value="est">Eastern Time</option>
                                     <option value="pst">Pacific Time</option>

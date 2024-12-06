@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import API_URL from "../constants/Constants";
 import { Districts, Provinces, Sectors } from "rwanda";
 import Select from "react-select";
+import { ArrowRight, ChevronRight } from "lucide-react";
 
 const ClientRequest = () => {
   const { serviceId } = useParams();
@@ -234,7 +235,7 @@ const ClientRequest = () => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
                 >
                   Continue
                 </button>
@@ -288,11 +289,12 @@ const ClientRequest = () => {
               </div>
 
               <div className="flex justify-end mt-4">
+              
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
                 >
-                  Continue
+                  <span className="font-semibold">Continue </span><ArrowRight size={20} className="mt-1"/>
                 </button>
               </div>
             </form>
@@ -306,7 +308,7 @@ const ClientRequest = () => {
               Step 2: Service Details <span> Client Id : {clientId}</span>
             </h1>
             <form onSubmit={handleSubmitStep2}>
-              {service.fields.map((field) => (
+              {service?.fields?.map((field) => (
                 <div key={field.id} className="mb-4">
                   <label className="block text-sm font-medium mb-1">
                     {field.fieldName}
@@ -355,7 +357,7 @@ const ClientRequest = () => {
               <div className="flex justify-end">
                 <button
                   type="submit"
-                  className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
                 >
                   Continue
                 </button>
@@ -375,8 +377,8 @@ const ClientRequest = () => {
             )}
 
             {paymentInit && (
-              <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
-                <p className="text-blue-600">
+              <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
+                <p className="text-sky-600">
                   Payment request sent. Please check your phone for the payment
                   prompt.
                 </p>
@@ -452,7 +454,7 @@ const ClientRequest = () => {
                 <button
                   type="submit"
                   disabled={paymentInit}
-                  className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                  className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
                 >
                   {paymentInit ? "Tegereza..." : "Ishyura"}
                 </button>

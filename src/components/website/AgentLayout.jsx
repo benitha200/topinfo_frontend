@@ -67,7 +67,7 @@ const AgentLayout = () => {
                   className={`
                     w-full flex items-center gap-3 px-3 py-2 rounded-lg
                     ${location.pathname === item.path
-                      ? 'bg-gray-100 text-blue-600'
+                      ? 'bg-gray-100 text-sky-600'
                       : 'text-gray-700 hover:bg-gray-100'
                     }
                   `}

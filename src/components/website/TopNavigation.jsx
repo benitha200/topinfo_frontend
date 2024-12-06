@@ -22,7 +22,7 @@ const TopNavigation = ({
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <Link to="/" className="flex items-center">
-            <span className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-400 bg-clip-text text-transparent">
+            <span className="text-xl font-bold bg-gradient-to-r from-sky-600 to-sky-400 bg-clip-text text-transparent">
               TopInfo
             </span>
           </Link>
@@ -32,7 +32,7 @@ const TopNavigation = ({
               <Link 
                 key={item.path} 
                 to={item.path} 
-                className="text-gray-700 hover:text-blue-600 transition-colors"
+                className="text-gray-700 hover:text-sky-600 transition-colors"
               >
                 {item.name}
               </Link>
@@ -41,13 +41,13 @@ const TopNavigation = ({
             <div className="space-x-4">
               <Link 
                 to="/login" 
-                className="px-4 py-2 border border-blue-500 text-blue-600 rounded-md hover:bg-blue-50 transition-colors"
+                className="px-4 py-2 border border-sky-500 text-sky-600 rounded-md hover:bg-sky-50 transition-colors"
               >
                 Login
               </Link>
               <Link 
                 to="/register" 
-                className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 transition-colors"
               >
                 Register
               </Link>

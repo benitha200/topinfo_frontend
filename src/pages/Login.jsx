@@ -99,7 +99,7 @@ const Login = () => {
                   name="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                   placeholder="urugero@gmail.com"
                   required
                 />
@@ -120,7 +120,7 @@ const Login = () => {
                   name="password"
                   value={formData.password}
                   onChange={handleInputChange}
-                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                  className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                   placeholder="••••••••"
                   required
                 />
@@ -146,7 +146,7 @@ const Login = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                  className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-gray-700">
                   Unyibuke
@@ -154,7 +154,7 @@ const Login = () => {
               </div>
   
               <div className="text-sm">
-                <Link to="/forgot-password" className="font-medium text-blue-600 hover:text-blue-500">
+                <Link to="/forgot-password" className="font-medium text-sky-600 hover:text-sky-500">
                   Wibagiwe ijambo ry'ibanga?
                 </Link>
               </div>
@@ -162,7 +162,7 @@ const Login = () => {
   
             <button
               type="submit"
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors"
+              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-colors"
             >
               Injira
             </button>

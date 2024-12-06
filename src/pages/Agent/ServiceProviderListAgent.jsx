@@ -185,8 +185,8 @@ const ServiceProviderListAgent = () => {
         <div className="grid grid-cols-3 gap-4 mb-6">
           <Card>
             <CardContent className="pt-6 flex items-center">
-              <div className="mr-4 bg-blue-100 p-3 rounded-full">
-                <Eye className="text-blue-600" size={24} />
+              <div className="mr-4 bg-sky-100 p-3 rounded-full">
+                <Eye className="text-sky-600" size={24} />
               </div>
               <div>
                 <p className="text-sm text-gray-500">Total Service Providers</p>
@@ -326,7 +326,7 @@ const ServiceProviderListAgent = () => {
                           <Button
                             size="sm"
                             onClick={() => handleViewServiceProvider(serviceProvider.id)}
-                            className="hover:bg-blue-200 bg-blue-100 rounded text-blue-700"
+                            className="hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
                           >
                             <Eye className="mr-2" size={16} /> View
                           </Button>

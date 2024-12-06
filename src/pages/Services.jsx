@@ -130,7 +130,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         </label>
         <input
           id="amazina"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           value={formData.amazina}
           onChange={(e) =>
             setFormData({ ...formData, amazina: e.target.value })
@@ -149,7 +149,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         <input
           id="telefone"
           type="tel"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           value={formData.telefone}
           onChange={(e) =>
             setFormData({ ...formData, telefone: e.target.value })
@@ -168,7 +168,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         <input
           id="imeyili"
           type="email"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           value={formData.imeyili}
           onChange={(e) =>
             setFormData({ ...formData, imeyili: e.target.value })
@@ -186,7 +186,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         </label>
         <input
           id="aderesi"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           value={formData.aderesi}
           onChange={(e) =>
             setFormData({ ...formData, aderesi: e.target.value })
@@ -204,7 +204,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
         </label>
         <textarea
           id="ubutumwa"
-          className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full min-h-[100px] px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           value={formData.ubutumwa}
           onChange={(e) =>
             setFormData({ ...formData, ubutumwa: e.target.value })
@@ -215,7 +215,7 @@ const ServiceRequestForm = ({ service, onSubmit }) => {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+        className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
       >
         {loading ? "Tegereza..." : "Komeza"}
       </button>
@@ -310,8 +310,8 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
       )}
 
       {transactionDetails && (
-        <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
-          <p className="text-blue-600">
+        <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
+          <p className="text-sky-600">
             Payment request sent. Please check your phone for the payment
             prompt.
           </p>
@@ -329,7 +329,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
               value="momo"
               checked={paymentMethod === "momo"}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="form-radio text-blue-600"
+              className="form-radio text-sky-600"
               disabled={loading}
             />
             <span className="text-gray-700">MTN Mobile Money</span>
@@ -340,7 +340,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
               value="airtel"
               checked={paymentMethod === "airtel"}
               onChange={(e) => setPaymentMethod(e.target.value)}
-              className="form-radio text-blue-600"
+              className="form-radio text-sky-600"
               disabled={loading}
             />
             <span className="text-gray-700">Airtel Money</span>
@@ -358,7 +358,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
         <input
           id="phone"
           type="tel"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
           value={phoneNumber}
           onChange={(e) => setPhoneNumber(e.target.value)}
           required
@@ -376,7 +376,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
       <button
         type="submit"
         disabled={loading}
-        className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+        className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
       >
         {loading ? "Tegereza..." : "Ishyura"}
       </button>
@@ -428,7 +428,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
 //               value="momo"
 //               checked={paymentMethod === 'momo'}
 //               onChange={(e) => setPaymentMethod(e.target.value)}
-//               className="form-radio text-blue-600"
+//               className="form-radio text-sky-600"
 //             />
 //             <span className="text-gray-700">MTN Mobile Money</span>
 //           </label>
@@ -438,7 +438,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
 //               value="airtel"
 //               checked={paymentMethod === 'airtel'}
 //               onChange={(e) => setPaymentMethod(e.target.value)}
-//               className="form-radio text-blue-600"
+//               className="form-radio text-sky-600"
 //             />
 //             <span className="text-gray-700">Airtel Money</span>
 //           </label>
@@ -452,7 +452,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
 //         <input
 //           id="phone"
 //           type="tel"
-//           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+//           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
 //           value={phoneNumber}
 //           onChange={(e) => setPhoneNumber(e.target.value)}
 //           required
@@ -469,7 +469,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
 //       <button
 //         type="submit"
 //         disabled={loading}
-//         className="w-full bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+//         className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
 //       >
 //         {loading ? 'Tegereza...' : 'Ishyura'}
 //       </button>
@@ -516,7 +516,7 @@ const ServiceCard = ({ service }) => {
           <div className="mb-4">{service.icon}</div>
           <h3 className="font-semibold text-gray-900 mb-1">{service.title}</h3>
           <p className="text-sm text-gray-500">{service.subtitle}</p>
-          <button className="m-4 px-4 py-2 border border-blue-500 text-blue-500 rounded-lg hover:bg-blue-50 transition-colors text-sm font-medium">
+          <button className="m-4 px-4 py-2 border border-sky-500 text-sky-500 rounded-lg hover:bg-sky-50 transition-colors text-sm font-medium">
             Saba Service
           </button>
         </div>
@@ -591,14 +591,14 @@ const Services = () => {
 
   const getCategoryIcon = (name) => {
     const iconMap = {
-      lawyer: <Scale size={24} className="text-blue-600" />,
-      notary: <User size={24} className="text-blue-600" />,
-      bailiff: <Scale size={24} className="text-blue-600" />,
+      lawyer: <Scale size={24} className="text-sky-600" />,
+      notary: <User size={24} className="text-sky-600" />,
+      bailiff: <Scale size={24} className="text-sky-600" />,
     };
 
     return (
       iconMap[name.toLowerCase()] || (
-        <Users size={24} className="text-blue-600" />
+        <Users size={24} className="text-sky-600" />
       )
     );
   };
@@ -621,7 +621,7 @@ const Services = () => {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
           <p className="mt-4 text-gray-600">Tegereza gato...</p>
         </div>
       </div>
@@ -655,7 +655,7 @@ const Services = () => {
               placeholder="Shakisha serivisi..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
-              className="w-full px-12 py-4 rounded-xl border border-gray-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-100 focus:outline-none transition-all duration-200 shadow-sm"
+              className="w-full px-12 py-4 rounded-xl border border-gray-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 focus:outline-none transition-all duration-200 shadow-sm"
             />
             <Search
               className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"

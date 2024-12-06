@@ -90,7 +90,7 @@ const RequestListAgent = () => {
     const statusColors = {
       PENDING: 'bg-yellow-100 text-yellow-800',
       ACCEPTED: 'bg-green-100 text-green-800',
-      COMPLETED: 'bg-blue-100 text-blue-800',
+      COMPLETED: 'bg-sky-100 text-sky-800',
       CANCELLED: 'bg-red-100 text-red-800'
     };
 
@@ -168,8 +168,8 @@ const RequestListAgent = () => {
         <div className="grid grid-cols-4 gap-4 mb-6">
           <Card>
             <CardContent className="pt-6 flex items-center">
-              <div className="mr-4 bg-blue-100 p-3 rounded-full">
-                <FileText className="text-blue-600" size={24} />
+              <div className="mr-4 bg-sky-100 p-3 rounded-full">
+                <FileText className="text-sky-600" size={24} />
               </div>
               <div>
                 <p className="text-sm text-gray-500">Total Requests</p>
@@ -298,7 +298,7 @@ const RequestListAgent = () => {
                             // variant="outline" 
                             size="sm"
                             onClick={() => handleViewRequest(request.id)}
-                            className="hover:bg-blue-200 bg-blue-100 rounded text-blue-700"
+                            className="hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
                           >
                             <Eye className="mr-2" size={16} /> View
                           </Button>

@@ -295,16 +295,16 @@ const CreateService = () => {
                               onClick={() =>
                                 handleRemoveOption(field.id, optionIndex)
                               }
-                              className="px-3 py-1 bg-red-500 text-white rounded-lg hover:bg-red-600"
+                              className="px-3 py-3 bg-red-400 text-white rounded hover:bg-red-600"
                             >
-                              Remove
+                              <Trash2 size={16} />
                             </button>
                           </div>
                         ))}
                         <button
                           type="button"
                           onClick={() => handleAddOption(field.id)}
-                          className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+                          className="px-4 py-2 bg-sky-400 rounded text-white hover:bg-sky-600"
                         >
                           Add Option
                         </button>
@@ -335,7 +335,7 @@ const CreateService = () => {
                 <button
                   type="button"
                   onClick={handleAddField}
-                  className="px-4 py-2 mr-3 bg-sky-400 text-white rounded hover:bg-blue-600"
+                  className="px-4 py-2 mr-3 bg-sky-400 text-white rounded hover:bg-sky-600"
                 >
                   Add New Field
                 </button>

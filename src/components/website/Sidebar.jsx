@@ -29,7 +29,7 @@ const Sidebar = ({ user, onLogout }) => {
   return (
     <div className="w-64 bg-white border-r h-screen fixed left-0 top-0 flex flex-col shadow-md">
       <div className="p-5 border-b">
-        <h2 className="text-xl font-bold text-blue-600">TopInfo</h2>
+        <h2 className="text-xl font-bold text-sky-600">TopInfo</h2>
         <p className="text-sm text-gray-500">{user.role} Dashboard</p>
       </div>
       <nav className="flex-1 p-4 overflow-y-auto">
@@ -37,7 +37,7 @@ const Sidebar = ({ user, onLogout }) => {
           <Link
             key={item.path}
             to={item.path}
-            className="flex items-center px-4 py-2 hover:bg-blue-50 rounded-md text-gray-700 hover:text-blue-600 mb-2"
+            className="flex items-center px-4 py-2 hover:bg-sky-50 rounded-md text-gray-700 hover:text-sky-600 mb-2"
           >
             {item.icon}
             <span className="ml-3">{item.name}</span>

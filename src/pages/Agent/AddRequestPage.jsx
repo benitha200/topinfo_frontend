@@ -255,7 +255,7 @@ const AddRequestPage = () => {
     //             {paymentResult.status !== 'SUCCESSFULL' && (
     //                 <Button
     //                     onClick={handleReset}
-    //                     className="mt-4 bg-blue-500 text-white hover:bg-blue-600"
+    //                     className="mt-4 bg-sky-500 text-white hover:bg-sky-600"
     //                 >
     //                     Try Again
     //                 </Button>
@@ -289,7 +289,7 @@ const AddRequestPage = () => {
                 <p className="text-gray-700 mb-4">{paymentResult.message}</p>
                 <Button
                   onClick={handleReset}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                  className="bg-sky-500 hover:bg-sky-600 text-white font-bold py-2 px-4 rounded"
                 >
                   Try Again
                 </Button>
@@ -369,7 +369,7 @@ const AddRequestPage = () => {
             </div>
 
             <div className="flex justify-end">
-                <Button type="submit" className="w-1/2 bg-blue-500 text-white hover:bg-blue-600">
+                <Button type="submit" className="w-1/2 bg-sky-500 text-white hover:bg-sky-600">
                     Next: Request Details
                 </Button>
             </div>
@@ -469,7 +469,7 @@ const AddRequestPage = () => {
                 </Button>
                 <Button
                     type="submit"
-                    className="flex items-center justify-center px-4 py-2 bg-blue-500 text-white hover:bg-blue-600 rounded-md transition-colors"
+                    className="flex items-center justify-center px-4 py-2 bg-sky-500 text-white hover:bg-sky-600 rounded-md transition-colors"
                 >
                     Next: Payment
                     <ArrowRight className="ml-2" size={16} />
@@ -495,7 +495,7 @@ const AddRequestPage = () => {
                                 ...prev,
                                 paymentMethod: e.target.value
                             }))}
-                            className="form-radio text-blue-600"
+                            className="form-radio text-sky-600"
                             disabled={loading}
                         />
                         <span className="text-gray-700">MTN Mobile Money</span>
@@ -509,7 +509,7 @@ const AddRequestPage = () => {
                                 ...prev,
                                 paymentMethod: e.target.value
                             }))}
-                            className="form-radio text-blue-600"
+                            className="form-radio text-sky-600"
                             disabled={loading}
                         />
                         <span className="text-gray-700">Airtel Money</span>
@@ -524,7 +524,7 @@ const AddRequestPage = () => {
                 <input
                     id="phone"
                     type="tel"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                     value={paymentData.phoneNumber}
                     onChange={(e) => setPaymentData(prev => ({
                         ...prev,
@@ -542,7 +542,7 @@ const AddRequestPage = () => {
                 <input
                     id="amount"
                     type="number"
-                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
                     value={paymentData.amount || 100 }
                     onChange={(e) => setPaymentData(prev => ({
                         ...prev,

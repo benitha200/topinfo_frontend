@@ -113,8 +113,8 @@
 //                         <CardTitle>Request Statistics</CardTitle>
 //                     </CardHeader>
 //                     <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4">
-//                         <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-//                             <FileText className="h-8 w-8 text-blue-500" />
+//                         <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+//                             <FileText className="h-8 w-8 text-sky-500" />
 //                             <div>
 //                                 <p className="text-sm text-gray-500">Total Requests</p>
 //                                 <p className="text-2xl font-bold">{stats.total}</p>
@@ -153,7 +153,7 @@
 //                                 <input
 //                                     type="text"
 //                                     placeholder="Search requests..."
-//                                     className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                                     className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
 //                                     value={searchTerm}
 //                                     onChange={(e) => setSearchTerm(e.target.value)}
 //                                 />
@@ -184,7 +184,7 @@
 //                                             <td className="px-4 py-3 text-sm">
 //                                                 <span className={`px-2 py-1 rounded-full text-xs ${
 //                                                     request.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-//                                                     request.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
+//                                                     request.status === 'IN_PROGRESS' ? 'bg-sky-100 text-sky-800' :
 //                                                     'bg-yellow-100 text-yellow-800'
 //                                                 }`}>
 //                                                     {request.status || 'Pending'}
@@ -192,7 +192,7 @@
 //                                             </td>
 //                                             <td className="px-4 py-3 text-sm">
 //                                                 <button 
-//                                                     className="text-blue-500 border-2 border-gray-300 p-2 rounded hover:text-blue-700 mr-2"
+//                                                     className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
 //                                                     onClick={() => {
 //                                                         // Handle view action
 //                                                     }}
@@ -258,7 +258,7 @@ const RequestDetailsView = ({ request, onClose }) => {
     const getStatusColor = (status) => {
         switch (status) {
             case 'COMPLETED': return 'bg-green-100 text-green-800';
-            case 'IN_PROGRESS': return 'bg-blue-100 text-blue-800';
+            case 'IN_PROGRESS': return 'bg-sky-100 text-sky-800';
             default: return 'bg-yellow-100 text-yellow-800';
         }
     };
@@ -479,8 +479,8 @@ const RequestsPage = () => {
                         <CardTitle>Request Statistics</CardTitle>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-                            <FileText className="h-8 w-8 text-blue-500" />
+                        <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+                            <FileText className="h-8 w-8 text-sky-500" />
                             <div>
                                 <p className="text-sm text-gray-500">Total Requests</p>
                                 <p className="text-2xl font-bold">{stats.total}</p>
@@ -500,8 +500,8 @@ const RequestsPage = () => {
                                 <p className="text-2xl font-bold">{stats.completed}</p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-                            <FileText className="h-8 w-8 text-blue-800" />
+                        <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+                            <FileText className="h-8 w-8 text-sky-800" />
                             <div>
                                 <p className="text-sm text-gray-500">In Progress</p>
                                 <p className="text-2xl font-bold">{stats.inProgress}</p>
@@ -519,7 +519,7 @@ const RequestsPage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search requests..."
-                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -550,7 +550,7 @@ const RequestsPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 <span className={`px-2 py-1 rounded-full text-xs ${
                                                     request.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-                                                    request.status === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
+                                                    request.status === 'IN_PROGRESS' ? 'bg-sky-100 text-sky-800' :
                                                     'bg-yellow-100 text-yellow-800'
                                                 }`}>
                                                     {request.status || 'Pending'}
@@ -558,7 +558,7 @@ const RequestsPage = () => {
                                             </td>
                                             <td className="px-4 py-3 text-sm gap-2">
                                                 <button 
-                                                    className="text-blue-500 border-2 border-gray-300 p-2 rounded hover:text-blue-700 mr-2"
+                                                    className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
                                                     onClick={() => setSelectedRequest(request)}
                                                 >
                                                     View

@@ -76,7 +76,7 @@ const Navigation = () => {
     <nav className="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
         <div className="flex items-center space-x-4">
-          <Link to="/" className="text-2xl font-bold text-blue-600">
+          <Link to="/" className="text-2xl font-bold text-sky-600">
             TopInfo
           </Link>
         </div>
@@ -85,30 +85,30 @@ const Navigation = () => {
           <div className="hidden md:flex space-x-6 ml-6">
             <Link
               to="/services"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-gray-700 hover:text-sky-600 transition-colors"
             >
               Abasaba Serivisi
             </Link>
             {/* <Link
               to="/become-provider"
-              className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+              className="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors"
             > */}
             <Link
               to="/become-provider"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-gray-700 hover:text-sky-600 transition-colors"
             >
               Abatanga Serivisi
             </Link>
             <Link
               to="/become-agent"
-              className="text-gray-700 hover:text-blue-600 transition-colors"
+              className="text-gray-700 hover:text-sky-600 transition-colors"
             >
               Aba Agent
             </Link>
           </div>
           <Link
             to="/login"
-            className="px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition-colors"
+            className="px-4  py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
           >
             Injira
           </Link>
@@ -128,7 +128,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4 text-blue-400">TopInfo</h3>
+            <h3 className="text-xl font-bold mb-4 text-sky-400">TopInfo</h3>
             <p className="text-gray-400">
               Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye
             </p>
@@ -177,9 +177,9 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Andikira amakuru"
-                className="px-4 py-2 bg-gray-800 text-white rounded-l-md flex-grow focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="px-4 py-2 bg-gray-800 text-white rounded-l-md flex-grow focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
-              <button className="bg-blue-500 text-white px-4 py-2 rounded-r-md hover:bg-blue-600 transition-colors">
+              <button className="bg-sky-500 text-white px-4 py-2 rounded-r-md hover:bg-sky-600 transition-colors">
                 <ArrowRight size={20} />
               </button>
             </div>

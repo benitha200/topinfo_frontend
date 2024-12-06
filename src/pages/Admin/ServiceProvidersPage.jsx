@@ -310,14 +310,14 @@ const ServiceProvidersPage = () => {
 
                     <div className="flex items-center space-x-2">
                         <button
-                            className="px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 flex items-center gap-2"
+                            className="px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 flex items-center gap-2"
                             onClick={downloadProviders}
                         >
                             <Download className="h-4 w-4" />
                             Download
                         </button>
                         <button
-                            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 flex items-center gap-2"
+                            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center gap-2"
                             onClick={() => setIsAddModalOpen(true)}
                         >
                             <Plus className="h-4 w-4" />
@@ -354,7 +354,7 @@ const ServiceProvidersPage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search providers..."
-                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -402,7 +402,7 @@ const ServiceProvidersPage = () => {
                                             </td>
                                             <td className="px-4 py-3 text-sm">
                                                 <button
-                                                    className="text-blue-500 p-2 rounded hover:bg-blue-50 mr-2"
+                                                    className="text-sky-500 p-2 rounded hover:bg-sky-50 mr-2"
                                                     onClick={() => handleEditClick(provider)}
                                                 >
                                                     <Pencil className="h-4 w-4" />
@@ -440,7 +440,7 @@ const ServiceProvidersPage = () => {
                                             onClick={() => paginate(i + 1)}
                                             className={`px-3 py-1 border rounded ${
                                                 currentPage === i + 1 
-                                                ? 'bg-blue-500 text-white' 
+                                                ? 'bg-sky-500 text-white' 
                                                 : 'hover:bg-gray-100'
                                             }`}
                                         >
@@ -475,7 +475,7 @@ const ServiceProvidersPage = () => {
                                         <label className="block text-sm font-medium text-gray-700 mb-2">First Name</label>
                                         <input
                                             type="text"
-                                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-colors"
+                                            className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-colors"
                                             value={formData.firstname}
                                             onChange={(e) => setFormData({ ...formData, firstname: e.target.value })}
                                         />
@@ -631,7 +631,7 @@ const ServiceProvidersPage = () => {
                                                 type="checkbox"
                                                 checked={formData.approved}
                                                 onChange={(e) => setFormData({ ...formData, approved: e.target.checked })}
-                                                className="form-checkbox h-4 w-4 text-blue-500"
+                                                className="form-checkbox h-4 w-4 text-sky-500"
                                             />
                                             <span className="text-sm font-medium">Approved</span>
                                         </label>
@@ -649,7 +649,7 @@ const ServiceProvidersPage = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                                        className="px-4 py-2 bg-sky-600 text-white rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors"
                                         onClick={() => {
                                             if (editingProvider) {
                                                 updateProvider(editingProvider.id);

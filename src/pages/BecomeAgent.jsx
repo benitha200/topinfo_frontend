@@ -99,7 +99,7 @@ const BecomeAgent = () => {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               <div>
                 <label htmlFor="firstname" className="block text-sm font-medium text-gray-700 mb-1">
-                  First Name
+                  Izina rya mbere
                 </label>
                 <input
                   type="text"
@@ -108,14 +108,14 @@ const BecomeAgent = () => {
                   required
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your first name"
                 />
               </div>
 
               <div>
                 <label htmlFor="lastname" className="block text-sm font-medium text-gray-700 mb-1">
-                  Last Name
+                  Izina rya Kabiri
                 </label>
                 <input
                   type="text"
@@ -124,7 +124,7 @@ const BecomeAgent = () => {
                   required
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your last name"
                 />
               </div>
@@ -132,7 +132,7 @@ const BecomeAgent = () => {
 
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email
+                Imeri
               </label>
               <input
                 type="email"
@@ -141,14 +141,14 @@ const BecomeAgent = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 placeholder="Enter your email"
               />
             </div>
 
             <div>
               <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
+                Numero ya Telephone
               </label>
               <input
                 type="tel"
@@ -156,7 +156,7 @@ const BecomeAgent = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 placeholder="Enter your phone number"
               />
             </div>
@@ -164,7 +164,7 @@ const BecomeAgent = () => {
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               <div>
                 <label htmlFor="location_province" className="block text-sm font-medium text-gray-700 mb-1">
-                  Province
+                  Intara
                 </label>
                 <input
                   type="text"
@@ -172,14 +172,14 @@ const BecomeAgent = () => {
                   name="location_province"
                   value={formData.location_province}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your province"
                 />
               </div>
 
               <div>
                 <label htmlFor="location_district" className="block text-sm font-medium text-gray-700 mb-1">
-                  District
+                  Akarere
                 </label>
                 <input
                   type="text"
@@ -187,14 +187,14 @@ const BecomeAgent = () => {
                   name="location_district"
                   value={formData.location_district}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your district"
                 />
               </div>
 
               <div>
                 <label htmlFor="location_sector" className="block text-sm font-medium text-gray-700 mb-1">
-                  Sector
+                  Umurenge
                 </label>
                 <input
                   type="text"
@@ -202,7 +202,7 @@ const BecomeAgent = () => {
                   name="location_sector"
                   value={formData.location_sector}
                   onChange={handleInputChange}
-                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded-lg border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                   placeholder="Enter your sector"
                 />
               </div>
@@ -211,7 +211,7 @@ const BecomeAgent = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full rounded-lg bg-blue-600 px-6 py-3 text-lg font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                className="w-full rounded bg-sky-600 px-6 py-3 text-lg font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
               >
                 Submit
               </button>

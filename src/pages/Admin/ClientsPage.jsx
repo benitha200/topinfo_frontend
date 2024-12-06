@@ -90,8 +90,8 @@
 //                         <CardTitle>Client Statistics</CardTitle>
 //                     </CardHeader>
 //                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-//                         <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-//                             <Users className="h-8 w-8 text-blue-500" />
+//                         <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+//                             <Users className="h-8 w-8 text-sky-500" />
 //                             <div>
 //                                 <p className="text-sm text-gray-500">Total Clients</p>
 //                                 <p className="text-2xl font-bold">{users.length}</p>
@@ -121,7 +121,7 @@
 //                                     placeholder="Search users..."
 //                                     value={searchTerm}
 //                                     onChange={(e) => setSearchTerm(e.target.value)}
-//                                     className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+//                                     className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
 //                                 />
 //                             </div>
 //                             <button className="p-2 border rounded-lg hover:bg-gray-50">
@@ -165,7 +165,7 @@
 //                                             <td className="px-4 py-3 text-sm">
 //                                                 <button 
 //                                                     onClick={() => handleEditUser(user.id, {})}
-//                                                     className="text-blue-500 border border-2 border-gray-300 p-2 rounded hover:text-blue-700 mr-2"
+//                                                     className="text-sky-500 border border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
 //                                                 >
 //                                                     Edit
 //                                                 </button>
@@ -327,7 +327,7 @@ const ClientsPage = () => {
     if (loading) return (
         <AdminLayout>
             <div className="flex justify-center items-center h-full p-6">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-500"></div>
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500"></div>
             </div>
         </AdminLayout>
     );
@@ -358,8 +358,8 @@ const ClientsPage = () => {
                         <CardTitle>Client Statistics</CardTitle>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-                            <Users className="h-8 w-8 text-blue-500" />
+                        <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+                            <Users className="h-8 w-8 text-sky-500" />
                             <div>
                                 <p className="text-sm text-gray-500">Total Clients</p>
                                 <p className="text-2xl font-bold">{users.length}</p>
@@ -389,7 +389,7 @@ const ClientsPage = () => {
                                     placeholder="Search users..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
-                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                    className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <button className="p-2 border rounded-lg hover:bg-gray-50">
@@ -433,7 +433,7 @@ const ClientsPage = () => {
                                             <td className="px-4 py-3 text-sm flex space-x-2">
                                                 <button 
                                                     onClick={() => openEditCard(user)}
-                                                    className="text-blue-500 hover:bg-blue-50 p-2 rounded-full"
+                                                    className="text-sky-500 hover:bg-sky-50 p-2 rounded-full"
                                                 >
                                                     <Edit className="h-4 w-4" />
                                                 </button>

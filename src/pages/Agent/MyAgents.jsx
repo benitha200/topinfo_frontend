@@ -199,7 +199,7 @@ const MyAgents = () => {
           <h1 className="text-2xl font-bold">My Agents</h1>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
           >
             Add New Agent
           </button>
@@ -210,8 +210,8 @@ const MyAgents = () => {
             <CardTitle>Statistics</CardTitle>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center space-x-4 p-4 bg-blue-50 rounded-lg">
-              <Users className="h-8 w-8 text-blue-500" />
+            <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
+              <Users className="h-8 w-8 text-sky-500" />
               <div>
                 <p className="text-sm text-gray-500">Total Agents</p>
                 <p className="text-2xl font-bold">{users.length}</p>
@@ -279,7 +279,7 @@ const MyAgents = () => {
                   placeholder="Search agents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  className="pl-8 pr-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
                 />
               </div>
               <button className="p-2 border rounded-lg hover:bg-gray-50">
@@ -337,16 +337,16 @@ const MyAgents = () => {
                       <td className="px-4 py-3 text-sm flex items-center space-x-2">
                         <button
                           className="inline-flex items-center justify-center px-3 py-1.5 
-                                      bg-blue-50 text-blue-600 
-                                      hover:bg-blue-100 
-                                      border border-blue-200 
+                                      bg-sky-50 text-sky-600 
+                                      hover:bg-sky-100 
+                                      border border-sky-200 
                                       rounded
                                       text-sm 
                                       font-medium 
                                       transition-colors 
                                       focus:outline-none 
                                       focus:ring-2 
-                                      focus:ring-blue-300"
+                                      focus:ring-sky-300"
                           onClick={() => handleEditClick(user)}
                         >
                           <svg xmlns="http://www.w3.org/2000/svg"
@@ -403,13 +403,13 @@ const MyAgents = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
             <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
               {/* Modal Header */}
-              <div className="bg-blue-50 flex px-6 py-4 border-b border-blue-100 flex items-center justify-between">
+              <div className="bg-sky-50 flex px-6 py-4 border-b border-sky-100 flex items-center justify-between">
               
                 <div className="flex items-center space-x-2">
                   {editingRow ? (
-                    <Edit className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                    <Edit className="w-5 h-5 text-sky-600" strokeWidth={2} />
                   ) : (
-                    <PlusCircle className="w-5 h-5 text-blue-600" strokeWidth={2} />
+                    <PlusCircle className="w-5 h-5 text-sky-600" strokeWidth={2} />
                   )}
                   <h2 className="text-xl font-semibold text-gray-800">
                     {editingRow ? "Edit Agent" : "Add New Agent"}
@@ -442,7 +442,7 @@ const MyAgents = () => {
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.firstname}
                       onChange={(e) =>
@@ -458,7 +458,7 @@ const MyAgents = () => {
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.lastname}
                       onChange={(e) =>
@@ -474,7 +474,7 @@ const MyAgents = () => {
                     <input
                       type="email"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.email}
                       onChange={(e) =>
@@ -490,7 +490,7 @@ const MyAgents = () => {
                     <input
                       type="text"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.phone}
                       onChange={(e) =>
@@ -509,7 +509,7 @@ const MyAgents = () => {
                     </label>
                     <select
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.location_province}
                       onChange={(e) => handleProvinceChange(e.target.value)}
@@ -528,7 +528,7 @@ const MyAgents = () => {
                     </label>
                     <select
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.location_district}
                       onChange={(e) => handleDistrictChange(e.target.value)}
@@ -547,7 +547,7 @@ const MyAgents = () => {
                     </label>
                     <select
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-blue-500 
+              focus:outline-none focus:ring-2 focus:ring-sky-500 
               transition-all duration-200"
                       value={formData.location_sector}
                       onChange={(e) =>
@@ -584,8 +584,8 @@ const MyAgents = () => {
                   <button
                     className={`px-4 py-2 rounded-md text-white transition-all duration-200 
             ${isCreating
-                        ? "bg-blue-300 cursor-not-allowed"
-                        : "bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-opacity-50"
+                        ? "bg-sky-300 cursor-not-allowed"
+                        : "bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50"
                       }`}
                     onClick={() => {
                       if (editingRow) {
