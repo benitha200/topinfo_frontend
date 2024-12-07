@@ -265,7 +265,7 @@ const ClientRequest = () => {
           <>
             <h1 className="text-2xl font-bold mb-4">Step 1: Amakuru y'ibanze</h1>
             <form onSubmit={handleSubmitStep1}>
-            <div className="grid grid-cols-2 gap-4">
+              {/* <div className="grid grid-cols-2 gap-4">
             {["firstname", "lastname", "email", "phone"].map((field) => (
                   <div key={field} className="mb-4">
                     <label className="block text-sm font-medium mb-1">
@@ -303,15 +303,56 @@ const ClientRequest = () => {
                     />
                   </div>
                 ))}
+              </div> */}
+
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { field: "firstname", label: "Izina rya mbere" },
+                  { field: "lastname", label: "Izina rya nyuma" },
+                  { field: "email", label: "Imeri" },
+                  { field: "phone", label: "Nomero ya telefone" }
+                ].map(({ field, label }) => (
+                  <div key={field} className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      {label}
+                    </label>
+                    <input
+                      type={field === "email" ? "email" : "text"}
+                      className="w-full p-2 border rounded"
+                      onChange={(e) => handleStaticFieldChange(field, e.target.value)}
+                      value={formData[field]}
+                      required
+                    />
+                  </div>
+                ))}
+
+                {[
+                  { field: "location_province", label: "Intara" },
+                  { field: "location_district", label: "Akarere" },
+                  { field: "location_sector", label: "Umurenge" }
+                ].map(({ field, label }) => (
+                  <div key={field} className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      {label}
+                    </label>
+                    <input
+                      type="text"
+                      className="w-full p-2 border rounded"
+                      onChange={(e) => handleStaticFieldChange(field, e.target.value)}
+                      value={formData[field]}
+                      required
+                    />
+                  </div>
+                ))}
               </div>
 
               <div className="flex justify-end mt-4">
-              
+
                 <button
                   type="submit"
                   className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
                 >
-                  <span className="font-semibold">Continue </span><ArrowRight size={20} className="mt-1"/>
+                  <span className="font-semibold">Komeza </span><ArrowRight size={20} className="mt-1" />
                 </button>
               </div>
             </form>
@@ -428,7 +469,7 @@ const ClientRequest = () => {
                   type="submit"
                   className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
                 >
-                  Continue
+                  <span className="font-semibold">Komeza </span><ArrowRight size={20} className="mt-1" />
                 </button>
               </div>
             </form>
