@@ -156,21 +156,32 @@ const Footer = () => {
           <div>
             <h4 className="font-semibold mb-4">Urubuga</h4>
             <ul className="space-y-2">
-              <li>
-                <Link to="/about" className="text-gray-300 hover:text-white">
-                  Inyobora
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-300 hover:text-white">
-                  Twandukuye
+            <li>
+                <Link to="/help" className="text-gray-300 hover:text-white">
+                Privacy Policy
                 </Link>
               </li>
               <li>
                 <Link to="/help" className="text-gray-300 hover:text-white">
-                  Ubufasha
+                Terms of Service
                 </Link>
               </li>
+              <li>
+                <Link to="/about" className="text-gray-300 hover:text-white">
+                  About Us
+                </Link>
+              </li>
+              <li>
+                <Link to="/contact" className="text-gray-300 hover:text-white">
+                  Contact Us
+                </Link>
+              </li>
+              {/* <li>
+                <Link to="/help" className="text-gray-300 hover:text-white">
+                  Help
+                </Link>
+              </li> */}
+              
             </ul>
           </div>
           <div>
@@ -187,13 +198,13 @@ const Footer = () => {
             </div>
             <div className="mt-4 flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-white">
-                Twitter
+                X
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
                 Facebook
               </a>
               <a href="#" className="text-gray-400 hover:text-white">
-                LinkedIn
+                Youtube
               </a>
             </div>
           </div>

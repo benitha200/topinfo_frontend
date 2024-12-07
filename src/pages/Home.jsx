@@ -239,30 +239,6 @@ const Home = () => {
           </div>
         </div>
       </div>
-
-      {/* Final CTA Section */}
-      <div className="bg-gradient-to-br from-sky-600 to-sky-500 py-24">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-5xl font-bold text-white mb-6">Witeguye gutangira?</h2>
-          <p className="text-2xl text-sky-100 mb-12">Injira mu muryango w'abanyamwuga n'abashoramari</p>
-          <div className="flex flex-col sm:flex-row justify-center gap-6">
-            <Link 
-              to="/services"
-              className="px-10 py-5 bg-white text-sky-600 rounded-xl hover:bg-sky-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
-            >
-              Reba Serivisi 
-              <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
-            </Link>
-            <Link 
-              to="/become-provider"
-              className="px-10 py-5 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
-            >
-              Ba Utanga Serivisi 
-              <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
-            </Link>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
