@@ -143,14 +143,14 @@ const Home = () => {
                 to="/services"
                 className="px-10 py-5 bg-white text-sky-600 rounded-xl hover:bg-sky-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
               >
-                Ba Usaba Serivisi 
+                Gusaba Serivisi 
                 <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
               </Link>
               <Link 
                 to="/become-provider"
                 className="px-10 py-5 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
               >
-                Ba Utanga Serivisi 
+                Gutanga Serivisi 
                 <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
               </Link>
             </div>
@@ -175,6 +175,15 @@ const Home = () => {
               </div>
               <h3 className="text-2xl font-bold mb-4">Shakisha Serivisi</h3>
               <p className="text-gray-600">Shakisha serivisi ukeneye</p>
+
+              <Link 
+                to="/services"
+                className="px-10 py-5 bg-white text-sky-600 rounded-xl hover:bg-sky-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
+              >
+                Serivisi 
+                <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
+              </Link>
+              
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
               <div className="mb-6 flex justify-center">
@@ -183,7 +192,7 @@ const Home = () => {
                 </div>
               </div>
               <h3 className="text-2xl font-bold mb-4">Uzuza amakuru Asabwa</h3>
-              <p className="text-gray-600">Uzuza amakuru ajyanye na service usaba</p>
+              <p className="text-gray-600">Uzuza amakuru ajyanye na Serivisi usaba</p>
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
               <div className="mb-6 flex justify-center">
@@ -191,7 +200,7 @@ const Home = () => {
                   <Star className="text-sky-600" size={40} />
                 </div>
               </div>
-              <h3 className="text-2xl font-bold mb-4">Huzwa n'umunyamwuga utanga service wifuza</h3>
+              <h3 className="text-2xl font-bold mb-4">Huzwa n'umunyamwuga utanga Serivisi wifuza</h3>
               <p className="text-gray-600">Huzwa n'umunyamwuga wizewe utanga servisi ushaka</p>
             </div>
           </div>
@@ -209,7 +218,7 @@ const Home = () => {
             <ul className="space-y-4">
               <li className="flex items-center">
                 <CheckCircle className="mr-3 text-sky-600" size={24} />
-                <span>Verification ya buri mucuruzi</span>
+                <span>Tugenzura abatanga serivisi ko bemewe</span>
               </li>
               <li className="flex items-center">
                 <CheckCircle className="mr-3 text-sky-600" size={24} />
