@@ -61,6 +61,7 @@ import AboutUs from "./pages/AboutUs";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Footer from "./components/website/Footer";
+import ContactUs from "./pages/ContactUs";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -256,6 +257,14 @@ const App = () => {
           element={
             <LayoutWrapper>
               <TermsOfService />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/contact-us"
+          element={
+            <LayoutWrapper>
+              <ContactUs />
             </LayoutWrapper>
           }
         />
