@@ -19,6 +19,8 @@ import {
   ArrowRight,
   Sparkles,
   Users,
+  Facebook,
+  Youtube,
 } from "lucide-react";
 
 // Import your pages
@@ -55,6 +57,10 @@ import CreateService from "./pages/Admin/Services/Create";
 import ClientRequest from "./pages/ClientRequest";
 import ProviderPaymentCallback from "./pages/ProviderPaymentCallback";
 import ServiceSelectionPage from "./pages/Agent/ServiceSelectionPage";
+import AboutUs from "./pages/AboutUs";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import TermsOfService from "./pages/TermsOfService";
+import Footer from "./components/website/Footer";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -72,6 +78,8 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
   return children;
 };
+
+
 
 const Navigation = () => {
   return (
@@ -124,107 +132,7 @@ const Navigation = () => {
   );
 };
 
-const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-          <div>
-            <h3 className="text-xl font-bold mb-4 text-sky-400">TopInfo</h3>
-            <p className="text-gray-400">
-              Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye
-            </p>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Serivisi</h4>
-            <ul className="space-y-2">
-              <li>
-                <Link to="/services" className="text-gray-300 hover:text-white">
-                  Reba Serivisi
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/become-agent"
-                  className="text-gray-300 hover:text-white"
-                >
-                  Ba Agent
-                </Link>
-              </li><li>
-                <Link
-                  to="/become-provider"
-                  className="text-gray-300 hover:text-white"
-                >
-                  Abatanga Serivisi
-                </Link>
-              </li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Urubuga</h4>
-            <ul className="space-y-2">
-            <li>
-                <Link to="/help" className="text-gray-300 hover:text-white">
-                Privacy Policy
-                </Link>
-              </li>
-              <li>
-                <Link to="/help" className="text-gray-300 hover:text-white">
-                Terms of Service
-                </Link>
-              </li>
-              <li>
-                <Link to="/about" className="text-gray-300 hover:text-white">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link to="/contact" className="text-gray-300 hover:text-white">
-                  Contact Us
-                </Link>
-              </li>
-              {/* <li>
-                <Link to="/help" className="text-gray-300 hover:text-white">
-                  Help
-                </Link>
-              </li> */}
-              
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Twandikire</h4>
-            <div className="flex space-x-2">
-              <input
-                type="email"
-                placeholder="Andikira amakuru"
-                className="px-4 py-2 bg-gray-800 text-white rounded-l-md flex-grow focus:outline-none focus:ring-2 focus:ring-sky-500"
-              />
-              <button className="bg-sky-500 text-white px-4 py-2 rounded-r-md hover:bg-sky-600 transition-colors">
-                <ArrowRight size={20} />
-              </button>
-            </div>
-            <div className="mt-4 flex space-x-4">
-              <a href="#" className="text-gray-400 hover:text-white">
-                X
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white">
-                Facebook
-              </a>
-              <a href="#" className="text-gray-400 hover:text-white">
-                Youtube
-              </a>
-            </div>
-          </div>
-        </div>
-        <div className="mt-12 pt-8 border-t border-gray-800 text-center">
-          <p className="text-gray-500">
-            © 2024 TopInfo.rw 
-          </p>
-        </div>
-      </div>
-    </footer>
-  );
-};
+
 
 const LayoutWrapper = ({ children }) => {
   const userString = localStorage.getItem("user");
@@ -249,6 +157,7 @@ const LayoutWrapper = ({ children }) => {
 
 
 const App = () => {
+  
   return (
     <Router>
       <Routes>
@@ -308,6 +217,7 @@ const App = () => {
             </LayoutWrapper>
           }
         />
+
         <Route
           path="/provider-payment-callback"
           element={
@@ -321,6 +231,31 @@ const App = () => {
           element={
             <LayoutWrapper>
               <BecomeAgent />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/about-us"
+          element={
+            <LayoutWrapper>
+              <AboutUs />
+            </LayoutWrapper>
+          }
+        />
+
+        <Route
+          path="/privacy-policy"
+          element={
+            <LayoutWrapper>
+              <PrivacyPolicy />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/terms-of-service"
+          element={
+            <LayoutWrapper>
+              <TermsOfService />
             </LayoutWrapper>
           }
         />
