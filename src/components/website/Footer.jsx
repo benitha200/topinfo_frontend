@@ -17,8 +17,6 @@ import {
     Search,
     Shield,
     ArrowRight,
-    Sparkles,
-    Users,
     Facebook,
     Youtube,
   } from "lucide-react";
@@ -36,9 +34,9 @@ const Footer = () => {
       {
         name: 'Facebook',
         icon: Facebook,
-        url: '#',
+        url: 'https://web.facebook.com/profile.php?id=61570290956165',
         strokeWidth: 2,
-        external: false
+        external: true
       },
       {
         name: 'YouTube',
