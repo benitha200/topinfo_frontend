@@ -150,6 +150,13 @@ const Footer = () => {
                 >
                   Ba Agent
                 </Link>
+              </li>\<li>
+                <Link
+                  to="/become-provider"
+                  className="text-gray-300 hover:text-white"
+                >
+                  Abatanga Serivisi
+                </Link>
               </li>
             </ul>
           </div>
@@ -211,7 +218,7 @@ const Footer = () => {
         </div>
         <div className="mt-12 pt-8 border-t border-gray-800 text-center">
           <p className="text-gray-500">
-            © 2024 TopInfo. Amafaranga yose ateganyijwe.
+            © 2024 TopInfo.rw 
           </p>
         </div>
       </div>
