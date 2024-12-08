@@ -248,7 +248,7 @@ const UsersPage = () => {
                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
                 <input
                   type="text"
-                  placeholder="Search agents..."
+                  placeholder="Search users..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
                   className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"

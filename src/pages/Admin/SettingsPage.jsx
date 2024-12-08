@@ -10,11 +10,13 @@ import {
     Save,
     DollarSign,
     Mail as MailIcon,
-    CheckCircle2
+    CheckCircle2,
+    Coins
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import { toast } from 'sonner';
+import API_URL from '../../constants/Constants';
 
 const SettingsPage = () => {
     const [settings, setSettings] = useState({
@@ -31,7 +33,7 @@ const SettingsPage = () => {
         const fetchSettings = async () => {
             try {
                 const myHeaders = new Headers();
-                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTczMzY3MTY3NCwiZXhwIjoxNzMzNzU4MDc0fQ.4bSz_QQ4lq1QSQiCXI5IZFzBXoqdhrv-mmjKkOQCKgw");
+                myHeaders.append("Authorization", `Bearer ${localStorage.getItem('token')}`);
                 
                 const requestOptions = {
                     method: "GET",
@@ -39,7 +41,7 @@ const SettingsPage = () => {
                     redirect: "follow"
                 };
 
-                const response = await fetch("http://localhost:3050/api/settings", requestOptions);
+                const response = await fetch(`${API_URL}/settings`, requestOptions);
                 const result = await response.json();
                 
                 setSettings(result);
@@ -80,7 +82,7 @@ const SettingsPage = () => {
                 redirect: "follow"
             };
 
-            const response = await fetch("http://localhost:3050/api/settings", requestOptions);
+            const response = await fetch(`${API_URL}/settings`, requestOptions);
             const result = await response.json();
             
             // Show success message
@@ -135,7 +137,7 @@ const SettingsPage = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <DollarSign className="h-5 w-5 mr-2 text-green-500" />
+                                <Coins className="h-5 w-5 mr-2 text-green-500" />
                                 Pricing Settings
                             </CardTitle>
                         </CardHeader>

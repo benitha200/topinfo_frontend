@@ -114,14 +114,14 @@ const PaymentsPage = () => {
 
     // Compute statistics
     const totalRevenue = filteredPayments
-        .filter(p => p.status === 'SUCCESSFULL')
+        .filter(p => p.status === 'SUCCESSFULL' || 'COMPLETED')
         .reduce((sum, payment) => sum + payment.amount, 0);
 
     const pendingAmount = filteredPayments
         .filter(p => p.status === 'PENDING')
         .reduce((sum, payment) => sum + payment.amount, 0);
 
-    const successRate = (filteredPayments.filter(p => p.status === 'SUCCESSFULL').length /
+    const successRate = (filteredPayments.filter(p => p.status === 'COMPLETED').length /
         (filteredPayments.length || 1) * 100).toFixed(1);
 
     const handlePageChange = (pageNumber) => {
@@ -262,7 +262,7 @@ const PaymentsPage = () => {
                                     <tr>
                                         {[
                                             'ID', 'Client', 'Amount', 'Location',
-                                            'Phone Number', 'Status', 'Date', 'Actions'
+                                            'Phone Number', 'Status', 'Date'
                                         ].map((header, index) => (
                                             <th
                                                 key={index}
@@ -288,7 +288,7 @@ const PaymentsPage = () => {
                                                 {payment.phone_number}
                                             </td>
                                             <td className="px-4 py-3">
-                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${payment.status === 'SUCCESSFULL' ? 'bg-green-100 text-green-800' :
+                                                <span className={`px-2 py-1 rounded-full text-xs font-medium ${payment.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
                                                     payment.status === 'PENDING' ? 'bg-yellow-100 text-yellow-800' :
                                                         'bg-red-100 text-red-800'
                                                     }`}>
@@ -299,12 +299,12 @@ const PaymentsPage = () => {
                                                 {payment.date.toLocaleDateString()}
                                             </td>
                                             <td className="px-4 py-3 flex space-x-2">
-                                                <button className="text-sky-500 border border-sky-200 px-3 py-1 rounded hover:bg-sky-50 text-sm transition-colors">
+                                                {/* <button className="text-sky-500 border border-sky-200 px-3 py-1 rounded hover:bg-sky-50 text-sm transition-colors">
                                                     View
-                                                </button>
-                                                <button className="text-red-500 border border-red-200 px-3 py-1 rounded hover:bg-red-50 text-sm transition-colors">
+                                                </button> */}
+                                                {/* <button className="text-red-500 border border-red-200 px-3 py-1 rounded hover:bg-red-50 text-sm transition-colors">
                                                     Cancel
-                                                </button>
+                                                </button> */}
                                             </td>
                                         </tr>
                                     ))}
