@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter } from "lucide-react";
+import { Users, Search, Filter, AlertCircle } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
@@ -8,6 +8,7 @@ import { Provinces, Districts, Sectors } from "rwanda";
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [isSubmiting, setIsSubmiting] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -19,12 +20,24 @@ const UsersPage = () => {
     lastname: "",
     email: "",
     phone: "",
-    role: "ADMIN",
+    role: "",
   });
 
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [sectors, setSectors] = useState([]);
+
+  const userRole = {
+    OPERATIONS: {
+      title: "Operations",
+    },
+    ADMIN: {
+      title: "Administrator",
+    },
+    CUSTOMER_SUPPORT: {
+      title: "Customer Support",
+    },
+  };
 
   // Fetch users data only from the specified endpoint
   const fetchUsers = async () => {
@@ -56,6 +69,7 @@ const UsersPage = () => {
 
   // Create a new agent user
   const createUser = async () => {
+    setIsSubmiting(true);
     try {
       const token = localStorage.getItem("token");
       const response = await fetch(`${API_URL}/users`, {
@@ -69,9 +83,11 @@ const UsersPage = () => {
       if (!response.ok) throw new Error("Failed to create user");
       fetchUsers();
       setIsAddModalOpen(false);
+      setIsSubmiting(false);
       resetForm();
     } catch (err) {
       setError(err.message);
+      setIsSubmiting(false);
     }
   };
 
@@ -122,6 +138,7 @@ const UsersPage = () => {
       lastname: user.lastname,
       email: user.email,
       phone: user.phone,
+      role: user.role,
       location_province: user.location_province,
       location_district: user.location_district,
       location_sector: user.location_sector,
@@ -257,7 +274,7 @@ const UsersPage = () => {
                       Phone
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
-                      Location
+                      Role
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
                       Status
@@ -276,9 +293,7 @@ const UsersPage = () => {
                       <td className="px-4 py-3 text-sm">{user.email}</td>
                       <td className="px-4 py-3 text-sm">{user.phone}</td>
                       <td className="px-4 py-3 text-sm">
-                        {`${user.location_province || "N/A"}, ${
-                          user.location_district || "N/A"
-                        }, ${user.location_sector || "N/A"}`}
+                        {userRole[user.role].title}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <span
@@ -293,13 +308,13 @@ const UsersPage = () => {
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <button
-                          className="text-sky-500 border border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
+                          className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
                           onClick={() => handleEditClick(user)}
                         >
                           Edit
                         </button>
                         <button
-                          className="text-red-500 border border-2 border-gray-300 p-2 rounded hover:text-red-700"
+                          className="text-red-500 border-2 border-gray-300 p-2 rounded hover:text-red-700"
                           onClick={() => deleteUser(user.id)}
                         >
                           Delete
@@ -319,13 +334,25 @@ const UsersPage = () => {
               <h2 className="text-xl font-bold mb-4">
                 {editingRow ? "Edit Agent" : "Add New Agent"}
               </h2>
+              {error && (
+                  <div className="mb-6 bg-red-50 border border-red-200 rounded p-4 flex items-start">
+                    <AlertCircle className="h-5 w-5 text-red-600 mr-3 mt-0.5" />
+                    <div>
+                      <h3 className="text-red-800 font-medium">
+                        Habonetse Ikosa!
+                      </h3>
+                      <p className="text-red-700">{error}</p>
+                    </div>
+                  </div>
+                )}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="firstname" className="block text-sm font-medium mb-1">
                     First Name
                   </label>
                   <input
                     type="text"
+                    id="firstname"
                     className="w-full p-2 border rounded"
                     value={formData.firstname}
                     onChange={(e) =>
@@ -334,11 +361,12 @@ const UsersPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="lastname" className="block text-sm font-medium mb-1">
                     Last Name
                   </label>
                   <input
                     type="text"
+                    id="lastname"
                     className="w-full p-2 border rounded"
                     value={formData.lastname}
                     onChange={(e) =>
@@ -347,11 +375,12 @@ const UsersPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium mb-1">
                     Email
                   </label>
                   <input
                     type="email"
+                    id="email"
                     className="w-full p-2 border rounded"
                     value={formData.email}
                     onChange={(e) =>
@@ -360,11 +389,12 @@ const UsersPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="phone" className="block text-sm font-medium mb-1">
                     Phone number
                   </label>
                   <input
                     type="text"
+                    id="phone"
                     className="w-full p-2 border rounded"
                     value={formData.phone}
                     onChange={(e) =>
@@ -373,6 +403,34 @@ const UsersPage = () => {
                   />
                 </div>
               </div>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="col-span-2 mb-3">
+                  <label
+                    htmlFor="role"
+                    className="block text-sm font-medium text-gray-700 mb-1"
+                  >
+                    User Role
+                  </label>
+                  <select
+                    className="w-full p-2 border rounded"
+                    name="role"
+                    id="role"
+                    value={formData.role}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        role: e.target.value,
+                      })
+                    }
+                  >
+                    <option value="">-- Select --</option>
+                    <option value="OPERATIONS">Operations</option>
+                    <option value="ADMIN">Administrator</option>
+                    <option value="CUSTOMER_SUPPORT">Customer Support</option>
+                  </select>
+                </div>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
@@ -462,16 +520,23 @@ const UsersPage = () => {
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                  className={`px-4 py-2 text-white rounded ${
+                    isSubmiting
+                      ? "bg-gray-400 cursor-not-allowed"
+                      : "bg-sky-500 hover:bg-sky-600"
+                  }`}
                   onClick={() => {
-                    if (editingRow) {
-                      updateUser(editingRow.id);
-                    } else {
-                      createUser();
+                    if (!isSubmiting) {
+                      if (editingRow) {
+                        updateUser(editingRow.id);
+                      } else {
+                        createUser();
+                      }
                     }
                   }}
+                  disabled={isSubmiting}
                 >
-                  {editingRow ? "Update" : "Create"}
+                  {isSubmiting ? "Loading..." : editingRow ? "Update" : "Create"}
                 </button>
               </div>
             </div>

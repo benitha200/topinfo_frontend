@@ -62,6 +62,7 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsOfService from "./pages/TermsOfService";
 import Footer from "./components/website/Footer";
 import ContactUs from "./pages/ContactUs";
+import UpdateService from "./pages/Admin/Services/Update";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -339,6 +340,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={["ADMIN"]}>
               <CreateService />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/service/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
+              <UpdateService />
             </ProtectedRoute>
           }
         />
