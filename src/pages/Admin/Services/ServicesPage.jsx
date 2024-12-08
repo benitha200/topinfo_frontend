@@ -13,14 +13,7 @@ const ServiceCategoriesPage = () => {
     const [filteredCategories, setFilteredCategories] = useState([]);
     const [isAddModalOpen, setIsAddModalOpen] = useState(false);
     const [editingCategory, setEditingCategory] = useState(null);
-    const [formData, setFormData] = useState({
-        name: '',
-        provider_price: '',
-        client_price: '',
-        details: ''
-    });
-
-
+  
 
     // Fetch categories from the API
     const fetchCategories = async () => {
@@ -43,26 +36,7 @@ const ServiceCategoriesPage = () => {
         }
     };
 
-    // Create a new category
-    const createCategory = async () => {
-        try {
-            const token = localStorage.getItem('token');
-            const response = await fetch(`${API_URL}/service-categories`, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            });
-            if (!response.ok) throw new Error('Failed to create category');
-            fetchCategories();
-            setIsAddModalOpen(false);
-            resetForm();
-        } catch (err) {
-            setError(err.message);
-        }
-    };
+ 
 
     // Update category
     const updateCategory = async (id) => {
@@ -119,27 +93,7 @@ const ServiceCategoriesPage = () => {
         fetchCategories();
     }, []);
 
-    // Reset form
-    const resetForm = () => {
-        setFormData({
-            name: '',
-            provider_price: '',
-            client_price: '',
-            details: ''
-        });
-    };
-
-    // Handle edit click
-    const handleEditClick = (category) => {
-        setEditingCategory(category);
-        setFormData({
-            name: category.name,
-            provider_price: category.provider_price,
-            client_price: category.client_price,
-            details: category.details
-        });
-    };
-
+   
     if (loading) return <div className="p-6">Loading...</div>;
     if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
@@ -177,27 +131,24 @@ const ServiceCategoriesPage = () => {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b">
+                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">#</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
-                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Provider Price</th>
-                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Client Price</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Details</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {filteredCategories.map((category) => (
+                                    {filteredCategories.map((category,index) => (
                                         <tr key={category.id} className="border-b">
+                                            <td className="px-4 py-3 text-sm">{index + 1}</td>
                                             <td className="px-4 py-3 text-sm">{category.name}</td>
-                                            <td className="px-4 py-3 text-sm">{category.provider_price}</td>
-                                            <td className="px-4 py-3 text-sm">{category.client_price}</td>
                                             <td className="px-4 py-3 text-sm">{category.details}</td>
-                                            <td className="px-4 py-3 text-sm">
-                                                <button 
+                                            <td className="px-4 py-3 text-sm flex">
+                                                <Link to={`/dashboard/service/edit/${category.id}`} 
                                                     className="text-sky-500 p-2 rounded hover:bg-sky-50 mr-2"
-                                                    onClick={() => handleEditClick(category)}
                                                 >
                                                     <Pencil className="h-4 w-4" />
-                                                </button>
+                                                </Link>
                                                 <button 
                                                     className="text-red-500 p-2 rounded hover:bg-red-50"
                                                     onClick={() => deleteCategory(category.id)}

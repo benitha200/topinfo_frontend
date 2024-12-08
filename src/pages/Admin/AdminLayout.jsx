@@ -158,7 +158,7 @@ const AdminLayout = ({ children }) => {
   const navItems = [
     { icon: BarChart2, label: 'Overview', path: '/dashboard' },
     { icon: Users, label: 'Clients', path: '/dashboard/clients' },
-    // { icon: User2Icon, label: 'Users', path: '/dashboard/users' },
+    { icon: User2Icon, label: 'Users', path: '/dashboard/users' },
     { icon: CreditCard, label: 'Agents', path: '/dashboard/agents' },
     { icon: BookUser, label: 'Super Agents', path: '/dashboard/super-agents' },
     { icon: FileText, label: 'Requests', path: '/dashboard/requests' },
