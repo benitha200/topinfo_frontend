@@ -28,7 +28,7 @@ import AgentLayout from './AgentLayout';
 import axios from 'axios';
 import { toast } from 'sonner';
 import API_URL from '../../constants/Constants';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CheckCircle } from 'lucide-react';
 
 const ServiceProviderListAgent = () => {
@@ -44,6 +44,30 @@ const ServiceProviderListAgent = () => {
 
   // Fetch the token
   const token = localStorage.getItem('token');
+
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+
+  const resp = queryParams.get("resp");
+  if (resp) { 
+    const response = JSON.parse(resp);
+  
+    if (response.status === "success") {
+      const tx_ref = response.data.txRef;
+      fetch(`${API_URL}/payments/provider-callback`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          tx_ref,
+        }),
+      });
+    }
+  }
+
+
 
   // Get user ID from localStorage
   const userData = JSON.parse(localStorage.getItem('user'));

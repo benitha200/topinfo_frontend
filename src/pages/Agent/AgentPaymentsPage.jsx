@@ -231,14 +231,14 @@ const AgentPaymentsPage = () => {
         // Filter only completed payments
         const completedPayments = data.filter(request => 
           request.payments.length > 0 && 
-          request.payments.some(payment => payment.status === 'SUCCESSFULL')
+          request.payments.some(payment => payment.status === 'COMPLETED')
         );
 
         setPaymentsData(completedPayments);
 
         // Calculate summary statistics
         const totalPayments = completedPayments.reduce((sum, request) => {
-          const payment = request.payments.find(p => p.status === 'SUCCESSFULL');
+          const payment = request.payments.find(p => p.status === 'COMPLETED');
           return sum + (payment ? parseFloat(payment.amount) : 0);
         }, 0);
 
@@ -300,7 +300,7 @@ const AgentPaymentsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-sky-50 rounded hover:bg-sky-100 transition-colors rounded border-sky-200 shadow-md">
+          <Card className="bg-sky-50  hover:bg-sky-100 transition-colors rounded border-sky-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-sky-900">Total Commission</CardTitle>
               <CreditCard className="h-5 w-5 text-sky-600" />
@@ -359,7 +359,7 @@ const AgentPaymentsPage = () => {
               </TableHeader>
               <TableBody>
                 {paginatedData.map((request) => {
-                  const successfulPayment = request.payments.find(p => p.status === 'SUCCESSFULL');
+                  const successfulPayment = request.payments.find(p => p.status === 'COMPLETED');
                   return successfulPayment ? (
                     <TableRow key={request.id} className="hover:bg-gray-50 transition-colors">
                       <TableCell>{new Date(request.service_date).toLocaleDateString()}</TableCell>

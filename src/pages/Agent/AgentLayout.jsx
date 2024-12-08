@@ -291,7 +291,7 @@ const AgentLayout = ({ children }) => {
     : "";
 
   const navItems = [
-    {
+    !user.isSuperAgent && {
       icon: LayoutDashboard,
       label: "Dashboard",
       path: "/agent-dashboard",
@@ -301,12 +301,12 @@ const AgentLayout = ({ children }) => {
       label: "My Agent",
       path: "/agent-dashboard/my-agents",
     },
-    {
+    !user.isSuperAgent && {
       icon: ClipboardList,
       label: "Client",
       path: "/agent-dashboard/requests-agent",
     },
-    {
+    !user.isSuperAgent && {
       icon: ClipboardList,
       label: "Service Provider",
       path: "/agent-dashboard/service-provider-agent",
@@ -427,7 +427,7 @@ const AgentLayout = ({ children }) => {
                   {user ? `${user.firstname} ${user.lastname}` : "Guest"}
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-wider">
-                  {user?.role}
+                   {user?.isSuperAgent ? "SUPER AGENT" : "AGENT"}
                 </p>
               </div>
             </div>

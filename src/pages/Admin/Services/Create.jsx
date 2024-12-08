@@ -152,11 +152,12 @@ const CreateService = () => {
                 )}
                 <div className="grid grid-cols-3 gap-4 mb-4 border p-4 rounded">
                   <div className="col-span-1">
-                    <label className="block text-sm font-medium mb-1">
+                    <label htmlFor="serviceName" className="block text-sm font-medium mb-1">
                       Service Name
                     </label>
                     <input
                       type="text"
+                      id="serviceName"
                       value={serviceName}
                       onChange={(e) => setServiceName(e.target.value)}
                       className="w-full p-2 border rounded"
@@ -164,11 +165,12 @@ const CreateService = () => {
                   </div>
 
                   <div className="col-span-2">
-                    <label className="block text-sm font-medium mb-1">
+                    <label htmlFor="description" className="block text-sm font-medium mb-1">
                       Description
                     </label>
                     <input
                       type="text"
+                      id="description"
                       value={description}
                       onChange={(e) => setDescription(e.target.value)}
                       className="w-full p-2 border rounded"
