@@ -52,12 +52,12 @@ const AdminDashboard = () => {
     try {
       // Replace these with actual API calls
       const usersResponse = await axios.get(`${API_URL}/users`, axiosConfig);
-      const requestsResponse = await axios.get(`${API_URL}/requests`, axiosConfig);
+      // const requestsResponse = await axios.get(`${API_URL}/requests`, axiosConfig);
       const providersResponse = await axios.get(`${API_URL}/service-providers`, axiosConfig);
       const categoriesResponse = await axios.get(`${API_URL}/service-categories`, axiosConfig);
 
       setUsers(usersResponse.data);
-      setRequests(requestsResponse.data);
+      // setRequests(requestsResponse.data);
       setServiceProviders(providersResponse.data);
       setServiceCategories(categoriesResponse.data);
     } catch (err) {
@@ -80,9 +80,9 @@ const AdminDashboard = () => {
 
   // Compute dashboard statistics
   const activeUsers = users.length;
-  const activeRequests = requests.filter(request => 
-    request.status === 'In Progress' || request.status === 'New'
-  ).length;
+  // const activeRequests = requests.filter(request => 
+  //   request.status === 'In Progress' || request.status === 'New'
+  // ).length;
   const approvedProviders = serviceProviders.filter(provider => provider.approved).length;
   const totalCategories = serviceCategories.length;
 
@@ -132,7 +132,7 @@ const AdminDashboard = () => {
                 <FileText className="h-4 w-4 text-green-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{activeRequests}</div>
+                {/* <div className="text-2xl font-bold">{activeRequests}</div> */}
                 <p className="text-xs text-gray-500">Pending and in-progress requests</p>
               </CardContent>
             </Card>
