@@ -63,6 +63,7 @@ import TermsOfService from "./pages/TermsOfService";
 import Footer from "./components/website/Footer";
 import ContactUs from "./pages/ContactUs";
 import UpdateService from "./pages/Admin/Services/Update";
+import Navigation from "./components/website/Navigation";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -83,56 +84,56 @@ const ProtectedRoute = ({ children, allowedRoles }) => {
 
 
 
-const Navigation = () => {
-  return (
-    <nav className="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-        <div className="flex items-center space-x-4">
-          <Link to="/" className="text-2xl font-bold text-sky-600">
-            TopInfo
-          </Link>
-        </div>
+// const Navigation = () => {
+//   return (
+//     <nav className="fixed top-0 left-0 w-full bg-white shadow-sm z-50">
+//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+//         <div className="flex items-center space-x-4">
+//           <Link to="/" className="text-2xl font-bold text-sky-600">
+//             TopInfo
+//           </Link>
+//         </div>
 
-        <div className="flex items-center space-x-4">
-          <div className="hidden md:flex space-x-6 ml-6">
-            <Link
-              to="/services"
-              className="text-gray-700 hover:text-sky-600 transition-colors"
-            >
-              Abasaba Serivisi
-            </Link>
-            {/* <Link
-              to="/become-provider"
-              className="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors"
-            > */}
-            <Link
-              to="/become-provider"
-              className="text-gray-700 hover:text-sky-600 transition-colors"
-            >
-              Abatanga Serivisi
-            </Link>
-            <Link
-              to="/become-agent"
-              className="text-gray-700 hover:text-sky-600 transition-colors"
-            >
-              Aba Agent
-            </Link>
-          </div>
-          <Link
-            to="/login"
-            className="px-4  py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
-          >
-            Injira
-          </Link>
+//         <div className="flex items-center space-x-4">
+//           <div className="hidden md:flex space-x-6 ml-6">
+//             <Link
+//               to="/services"
+//               className="text-gray-700 hover:text-sky-600 transition-colors"
+//             >
+//               Abasaba Serivisi
+//             </Link>
+//             {/* <Link
+//               to="/become-provider"
+//               className="px-4 py-2 bg-sky-500 text-white rounded-md hover:bg-sky-600 transition-colors"
+//             > */}
+//             <Link
+//               to="/become-provider"
+//               className="text-gray-700 hover:text-sky-600 transition-colors"
+//             >
+//               Abatanga Serivisi
+//             </Link>
+//             <Link
+//               to="/become-agent"
+//               className="text-gray-700 hover:text-sky-600 transition-colors"
+//             >
+//               Aba Agent
+//             </Link>
+//           </div>
+//           <Link
+//             to="/login"
+//             className="px-4  py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
+//           >
+//             Injira
+//           </Link>
 
-          <button className="md:hidden">
-            <Menu size={24} className="text-gray-700" />
-          </button>
-        </div>
-      </div>
-    </nav>
-  );
-};
+//           <button className="md:hidden">
+//             <Menu size={24} className="text-gray-700" />
+//           </button>
+//         </div>
+//       </div>
+//     </nav>
+//   );
+// };
 
 
 

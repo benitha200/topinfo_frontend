@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter, Trash2, User, PlusCircle, Edit, Upload } from "lucide-react";
+import { Users, Search, Filter, Trash2, User, PlusCircle, Edit, Upload, ChevronLeft, ChevronRight, Download } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
@@ -44,13 +44,23 @@ const MyAgents = () => {
     isUploading: false
   });
   const [uploadErrors, setUploadErrors] = useState([]);
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [totalPages, setTotalPages] = useState();
+  const [totalAgents, setTotalAgents] = useState();
 
-  const fetchUsers = async () => {
+
+
+
+
+
+  const fetchUsers = async (page = 1, limit = 10) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/users/my-agents`, {
+      const response = await fetch(`${API_URL}/users/my-agents?page=${page}&limit=${limit}&search=${searchTerm}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -62,7 +72,10 @@ const MyAgents = () => {
 
       const data = await response.json();
 
+      // Update states with server response
       setUsers(data.agents);
+      setTotalPages(data.totalPages);
+      setTotalAgents(data.totalAgents);
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch users");
@@ -94,30 +107,30 @@ const MyAgents = () => {
   // };
 
   // Convert phone to string
-const createUser = async () => {
-  try {
-    const token = localStorage.getItem("token");
-    const response = await fetch(`${API_URL}/users/add-agent`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        ...formData,
-        phone: formData.phone.toString() // Convert phone to string
-      }),
-    });
-    if (!response.ok) throw new Error("Failed to create user");
-    fetchUsers();
-    setIsAddModalOpen(false);
-    resetForm();
-  } catch (err) {
-    setError(err.message);
-  } finally {
-    setIsCreating(false);
-  }
-};
+  const createUser = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      const response = await fetch(`${API_URL}/users/add-agent`, {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          ...formData,
+          phone: formData.phone.toString() // Convert phone to string
+        }),
+      });
+      if (!response.ok) throw new Error("Failed to create user");
+      fetchUsers();
+      setIsAddModalOpen(false);
+      resetForm();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setIsCreating(false);
+    }
+  };
 
   const resetForm = () => {
     setFormData({
@@ -132,10 +145,35 @@ const createUser = async () => {
   };
 
 
+  const downloadAgentTemplate = () => {
+    // Define the headers for the template
+    const headers = [
+      'First Name', 
+      'Last Name', 
+      'Email', 
+      'Phone', 
+      'Province', 
+      'District', 
+      'Sector'
+    ];
+  
+    // Create a worksheet with just the headers
+    const worksheet = XLSX.utils.aoa_to_sheet([headers]);
+  
+    // Create a new workbook and add the worksheet
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, 'Agents');
+  
+    // Generate the Excel file
+    XLSX.writeFile(workbook, 'agent_upload_template.xlsx');
+  };
+
   useEffect(() => {
     setProvinces(Provinces());
-    fetchUsers();
-  }, []);
+    fetchUsers(currentPage, itemsPerPage);
+  }, [currentPage, searchTerm]);
+
+
 
   const handleProvinceChange = (province) => {
     setFormData({
@@ -220,6 +258,7 @@ const createUser = async () => {
   };
 
   // Filter users based on search term
+  // Filter users based on search term
   const filteredUsers = users.filter(
     (user) =>
       user.firstname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -227,91 +266,105 @@ const createUser = async () => {
       user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Pagination calculations
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentUsers = filteredUsers.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Calculate total pages
+  // const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+
+  // Pagination change handlers
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Pagination component
+  const PaginationControls = () => {
+    // Generate page numbers to display
+    const pageNumbers = [];
+    const maxPagesToShow = 5;
+    let startPage = Math.max(1, currentPage - Math.floor(maxPagesToShow / 2));
+    let endPage = Math.min(totalPages, startPage + maxPagesToShow - 1);
+
+    // Adjust start page if we're near the end
+    if (endPage - startPage + 1 < maxPagesToShow) {
+      startPage = Math.max(1, endPage - maxPagesToShow + 1);
+    }
+
+    for (let i = startPage; i <= endPage; i++) {
+      pageNumbers.push(i);
+    }
+
+    return (
+      <div className="flex justify-between items-center mt-4">
+        <div className="text-sm text-gray-600">
+          Showing {(currentPage - 1) * itemsPerPage + 1} to {Math.min(currentPage * itemsPerPage, totalAgents)} of {totalAgents} agents
+        </div>
+        <div className="flex items-center space-x-2">
+          <button
+            onClick={() => handlePageChange(currentPage - 1)}
+            disabled={currentPage === 1}
+            className="p-2 border rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronLeft className="h-4 w-4" />
+          </button>
+          {pageNumbers.map(number => (
+            <button
+              key={number}
+              onClick={() => handlePageChange(number)}
+              className={`px-3 py-1 border rounded ${currentPage === number
+                  ? 'bg-sky-500 text-white'
+                  : 'hover:bg-gray-50'
+                }`}
+            >
+              {number}
+            </button>
+          ))}
+          <button
+            onClick={() => handlePageChange(currentPage + 1)}
+            disabled={currentPage === totalPages}
+            className="p-2 border rounded hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <ChevronRight className="h-4 w-4" />
+          </button>
+        </div>
+      </div>
+    );
+  };
+
+  const handleSearch = (searchText) => {
+    setSearchTerm(searchText);
+    setCurrentPage(1); // Reset to first page when searching
+  };
+
   if (loading) return <div className="p-6">Loading...</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
-
-  // const handleExcelFileUpload = (e) => {
-  //   const file = e.target.files[0];
-  //   if (file) {
-  //     const allowedTypes = [
-  //       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
-  //       'application/vnd.ms-excel'
-  //     ];
-      
-  //     if (!allowedTypes.includes(file.type)) {
-  //       alert('Please upload a valid Excel file (.xlsx or .xls)');
-  //       return;
-  //     }
-  
-  //     try {
-  //       const reader = new FileReader();
-  //       reader.onload = (event) => {
-  //         try {
-  //           const workbook = XLSX.read(event.target.result, { type: 'binary' });
-  //           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-  //           const jsonData = XLSX.utils.sheet_to_json(worksheet, { 
-  //             header: 1,  // Use first row as headers
-  //             defval: ''  // Use empty string for missing values
-  //           });
-
-  //           // Skip header row and transform data
-  //           const transformedAgents = jsonData.slice(1).map(row => ({
-  //             firstname: row[0] || '',
-  //             lastname: row[1] || '',
-  //             email: row[2] || '',
-  //             phone: row[3] || '',
-  //             location_province: row[4] || '',
-  //             location_district: row[5] || '',
-  //             location_sector: row[6] || ''
-  //           })).filter(agent => agent.email);
-
-  //           if (transformedAgents.length === 0) {
-  //             alert('No valid agents found in the Excel file.');
-  //             return;
-  //           }
-
-  //           setExcelAgents(transformedAgents);
-  //           setIsUploadModalOpen(true);
-  //         } catch (parseError) {
-  //           console.error('Error parsing Excel file:', parseError);
-  //           alert('Error parsing the Excel file.');
-  //         }
-  //       };
-  
-  //       reader.readAsBinaryString(file);
-  //       setExcelFile(file);
-  //     } catch (error) {
-  //       console.error('Unexpected error in file upload:', error);
-  //       alert('An unexpected error occurred.');
-  //     }
-  //   }
-  // };
-  
   const handleExcelFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
       const allowedTypes = [
-        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 
+        'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.ms-excel'
       ];
-      
+
       if (!allowedTypes.includes(file.type)) {
         alert('Please upload a valid Excel file (.xlsx or .xls)');
         return;
       }
-  
+
       try {
         const reader = new FileReader();
         reader.onload = (event) => {
           try {
             const workbook = XLSX.read(event.target.result, { type: 'binary' });
             const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-            const jsonData = XLSX.utils.sheet_to_json(worksheet, { 
+            const jsonData = XLSX.utils.sheet_to_json(worksheet, {
               header: 1,  // Use first row as headers
               defval: ''  // Use empty string for missing values
             });
-  
+
             // Skip header row and transform data
             const transformedAgents = jsonData.slice(1).map(row => ({
               firstname: row[0] || '',
@@ -322,12 +375,12 @@ const createUser = async () => {
               location_district: row[5] || '',
               location_sector: row[6] || ''
             })).filter(agent => agent.email);
-  
+
             if (transformedAgents.length === 0) {
               alert('No valid agents found in the Excel file.');
               return;
             }
-  
+
             setExcelAgents(transformedAgents);
             setIsUploadModalOpen(true);  // Open the upload modal
           } catch (parseError) {
@@ -335,7 +388,7 @@ const createUser = async () => {
             alert('Error parsing the Excel file.');
           }
         };
-  
+
         reader.readAsBinaryString(file);
         setExcelFile(file);
       } catch (error) {
@@ -350,10 +403,10 @@ const createUser = async () => {
       const validAgents = excelAgents.map(agent => ({
         ...agent,
         phone: agent.phone ? agent.phone.toString() : '' // Convert phone to string
-      })).filter(agent => 
+      })).filter(agent =>
         agent.firstname && agent.lastname && agent.email
       );
-  
+
       if (validAgents.length === 0) {
         alert('No valid agents to upload.');
         return;
@@ -366,7 +419,7 @@ const createUser = async () => {
         isUploading: true
       });
       setUploadErrors([]);
-  
+
       // Parallel uploads with Promise.all and rate limiting
       const uploadBatch = async (batch) => {
         return Promise.all(batch.map(async (agent) => {
@@ -379,63 +432,63 @@ const createUser = async () => {
               },
               body: JSON.stringify(agent),
             });
-  
+
             if (!response.ok) {
               const errorText = await response.text();
-              return { 
-                email: agent.email, 
-                status: 'failed', 
-                error: errorText 
+              return {
+                email: agent.email,
+                status: 'failed',
+                error: errorText
               };
             }
-            return { 
-              email: agent.email, 
-              status: 'success' 
+            return {
+              email: agent.email,
+              status: 'success'
             };
           } catch (error) {
-            return { 
-              email: agent.email, 
-              status: 'error', 
-              error: error.message 
+            return {
+              email: agent.email,
+              status: 'error',
+              error: error.message
             };
           }
         }));
       };
-  
+
       // Process agents in batches of 10 with short delays
       const batchSize = 10;
       const uploadResults = [];
-  
+
       for (let i = 0; i < validAgents.length; i += batchSize) {
         const batch = validAgents.slice(i, i + batchSize);
         const batchResults = await uploadBatch(batch);
-  
+
         uploadResults.push(...batchResults);
-  
+
         // Update progress
         setUploadProgress(prev => ({
           ...prev,
           current: uploadResults.length
         }));
-  
+
         // Short delay between batches to prevent overwhelming the server
         await new Promise(resolve => setTimeout(resolve, 200));
       }
-  
+
       // Analyze upload results
       const successCount = uploadResults.filter(r => r.status === 'success').length;
       const failedCount = uploadResults.filter(r => r.status !== 'success').length;
-      
+
       // Collect and set detailed error information
       const errorDetails = uploadResults.filter(r => r.status !== 'success');
       setUploadErrors(errorDetails);
-  
+
       // Show summary alert
       alert(`Upload complete. 
         Successful: ${successCount}
         Failed: ${failedCount}
       `);
-  
+
       // Refresh users list and reset modals
       fetchUsers();
       setIsUploadModalOpen(false);
@@ -498,6 +551,14 @@ const createUser = async () => {
                 onChange={handleExcelFileUpload}
               />
             </label>
+
+            <button
+              onClick={downloadAgentTemplate}
+              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+            >
+              <Download className="mr-2 h-4 w-4" />
+              Download Template
+            </button>
           </div>
         </div>
       </div>
@@ -575,7 +636,7 @@ const createUser = async () => {
                 type="text"
                 placeholder="Search agents..."
                 value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
+                onChange={(e) => handleSearch(e.target.value)}
                 className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
               />
             </div>
@@ -694,6 +755,7 @@ const createUser = async () => {
               </tbody>
             </table>
           </div>
+          <PaginationControls />
         </CardContent>
       </Card>
       {/* Add/Edit Modal */}
@@ -1028,14 +1090,14 @@ const createUser = async () => {
                     </button>
                   </div>
                 </div>
-               
+
               </div>
             </div>
           )}
-     </div>)}
-     {renderUploadErrors()}
-     
-     </AgentLayout> 
+        </div>)}
+      {renderUploadErrors()}
+
+    </AgentLayout>
   );
 };
 

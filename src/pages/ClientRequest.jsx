@@ -13,7 +13,7 @@ const ClientRequest = () => {
   const [paymentInit, setPaymentInit] = useState(false);
   const [clientId, setClientId] = useState("");
   const [requestId, setRequestId] = useState("");
-  const [step, setStep] = useState(1); // State to track the current step
+  const [step, setStep] = useState(1);
   const origin = window.location.origin;
   const [formData, setFormData] = useState({
     firstname: "",
@@ -209,7 +209,7 @@ const ClientRequest = () => {
           service_category_id: parseInt(serviceId),
           fields: formData.dynamicFields,
           service_date: new Date().toISOString().split("T")[0],
-          message_preference: messagePreference, 
+          message_preference: messagePreference,
         }),
       });
 
@@ -226,43 +226,12 @@ const ClientRequest = () => {
     setStep(3); // Move to Step 3
   };
 
-  // const handleSubmitStep3 = async (e) => {
-  //   e.preventDefault();
-  //   setPaymentInit(true);
-  //   try {
-  //     const paymentResponse = await fetch(`${API_URL}/payments/initiate`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //       body: JSON.stringify({
-  //         service_location: formData.district,
-  //         paymentNumber: formData.paymentNumber,
-  //         request_id: requestId,
-  //         currentUrl: `${origin}/payment-callback`,
-  //       }),
-  //     });
-
-  //     if (!paymentResponse.ok)
-  //       throw new Error("Failed to initial payment request");
-  //     const result = await paymentResponse.json();
-  //     console.log(result);
-  //     if (result.response.status === "success") {
-  //       // window.location.href = result.response.meta.authorization.redirect;
-  //       console.log(result?.response)
-  //     }
-  //   } catch (err) {
-  //     setError(err.message);
-  //     console.log(err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  // with redirect
 
   const handleSubmitStep3 = async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Prevent form submission
     setPaymentInit(true);
+
     try {
       const paymentResponse = await fetch(`${API_URL}/payments/initiate`, {
         method: "POST",
@@ -277,34 +246,27 @@ const ClientRequest = () => {
           currentUrl: `${origin}/payment-callback`,
         }),
       });
-      
-      if (!paymentResponse.ok)
-        throw new Error("Failed to initial payment request");
-      
+
+      if (!paymentResponse.ok) {
+        throw new Error("Failed to initiate payment request");
+      }
+
       const result = await paymentResponse.json();
       console.log(result);
-      
+
       if (result.response.status === "success") {
-        // Redirect to Flutterwave checkout
+        // Get the redirect URL from the response
         const redirectUrl = result.response.meta.authorization.redirect;
-        console.log(redirectUrl)
-        
-        // Option 1: Standard redirect
-        // window.location.href = redirectUrl;
-        
-        // Option 2: If you want to prevent immediate closure
-        window.open(redirectUrl, '_blank');
-        
-        // Optional: Add a slight delay to ensure redirect
-        // setTimeout(() => {
-        //   window.location.href = redirectUrl;
-        // }, 100);
+
+        // Redirect in the same tab
+        window.location.href = redirectUrl;
       }
     } catch (err) {
       setError(err.message);
-      console.error('Payment initiation error:', err);
-      // Optional: Show error to user
-      // toast.error('Payment initiation failed');
+      console.error("Payment initiation error:", err);
+
+      // Optionally, display an error message to the user
+      // toast.error("Payment initiation failed");
     } finally {
       setLoading(false);
     }
@@ -523,41 +485,68 @@ const ClientRequest = () => {
                   )}
                 </div>
               ))}
+
+
               <div className="mb-4">
                 <span className="block text-sm font-medium mb-2">
                   Hitamo uburyo bwo kwakira ubutumwa
                 </span>
                 <div className="space-y-2">
+                  {/* Email Checkbox */}
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="messagePreference"
                       value="EMAIL"
                       className="mr-2"
-                      checked={formData.message_preference?.includes('EMAIL')}
+                      checked={formData.message_preference?.includes('EMAIL') || formData.message_preference?.includes('BOTH')}
                       onChange={(e) => {
                         const currentPreferences = formData.message_preference || [];
-                        const newPreferences = e.target.checked
-                          ? [...currentPreferences, 'EMAIL']
-                          : currentPreferences.filter(pref => pref !== 'EMAIL');
+                        let newPreferences;
+
+                        if (e.target.checked) {
+                          // Add EMAIL to preferences
+                          newPreferences = [...currentPreferences, 'EMAIL'];
+                        } else {
+                          // Remove EMAIL from preferences
+                          newPreferences = currentPreferences.filter((pref) => pref !== 'EMAIL');
+                        }
+
+                        // Set BOTH if both are selected
+                        if (newPreferences.includes('EMAIL') && newPreferences.includes('SMS')) {
+                          newPreferences = ['BOTH'];
+                        }
 
                         handleStaticFieldChange('message_preference', newPreferences);
                       }}
                     />
                     <span>Email</span>
                   </label>
+
+                  {/* SMS Checkbox */}
                   <label className="flex items-center">
                     <input
                       type="checkbox"
                       name="messagePreference"
                       value="SMS"
                       className="mr-2"
-                      checked={formData.message_preference?.includes('SMS')}
+                      checked={formData.message_preference?.includes('SMS') || formData.message_preference?.includes('BOTH')}
                       onChange={(e) => {
                         const currentPreferences = formData.message_preference || [];
-                        const newPreferences = e.target.checked
-                          ? [...currentPreferences, 'SMS']
-                          : currentPreferences.filter(pref => pref !== 'SMS');
+                        let newPreferences;
+
+                        if (e.target.checked) {
+                          // Add SMS to preferences
+                          newPreferences = [...currentPreferences, 'SMS'];
+                        } else {
+                          // Remove SMS from preferences
+                          newPreferences = currentPreferences.filter((pref) => pref !== 'SMS');
+                        }
+
+                        // Set BOTH if both are selected
+                        if (newPreferences.includes('EMAIL') && newPreferences.includes('SMS')) {
+                          newPreferences = ['BOTH'];
+                        }
 
                         handleStaticFieldChange('message_preference', newPreferences);
                       }}
@@ -566,6 +555,8 @@ const ClientRequest = () => {
                   </label>
                 </div>
               </div>
+
+
 
               <div className="flex justify-end">
                 <button
