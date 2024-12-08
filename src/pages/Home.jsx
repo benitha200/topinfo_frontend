@@ -10,7 +10,7 @@
 //       <div className="relative bg-gradient-to-br from-sky-500 via-sky-500 to-sky-400 overflow-hidden py-24">
 //         <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
 //         <div className="absolute inset-0 bg-gradient-to-r from-sky-600/30 to-sky-500/10 opacity-50 blur-3xl" />
-        
+
 //         <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 //           <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
 //             <h1 className="text-5xl font-bold text-white mb-6 leading-tight">
@@ -19,7 +19,7 @@
 //             <p className="text-2xl text-sky-100 mb-10 max-w-3xl mx-auto">
 //               Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, kandi bwihuse.
 //             </p>
-            
+
 //             <div className="flex flex-col sm:flex-row justify-center gap-6">
 //               <Link 
 //                 to="/services"
@@ -107,25 +107,23 @@
 
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
-import { 
-  Search, Shield, Sparkles, Users, ArrowRight, CheckCircle, 
-  Globe, Star, Headphones, BookOpen, MessageCircle 
+import {
+  Search, Shield, Sparkles, Users, ArrowRight, CheckCircle,
+  Globe, Star, Headphones, BookOpen, MessageCircle
 } from 'lucide-react';
+
+import HeroImg from "./../assets/img/22.png";
 
 const Home = () => {
   const [activeTab, setActiveTab] = useState('service-seekers');
 
-  const serviceCategories = [
-    { name: 'Ubuvuzi', icon: <Headphones className="text-sky-600" size={40} /> },
-    { name: 'Ubucuruzi', icon: <Globe className="text-sky-600" size={40} /> },
-    { name: 'Ubuhinzi', icon: <BookOpen className="text-sky-600" size={40} /> },
-    { name: 'Ubugeni', icon: <MessageCircle className="text-sky-600" size={40} /> }
-  ];
+
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section with Dynamic Background */}
-      <div className="relative bg-gradient-to-br from-sky-600 via-sky-500 to-sky-400 overflow-hidden py-24">
+      {/* <div className="relative bg-gradient-to-br from-sky-600 via-sky-500 to-sky-400 overflow-hidden py-24">
+        <img src={HeroImg} />
         <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
         <div className="absolute inset-0 bg-gradient-to-r from-sky-700/30 to-sky-500/10 opacity-50 blur-3xl" />
         
@@ -156,6 +154,50 @@ const Home = () => {
             </div>
           </div>
         </div>
+      </div> */}
+
+      <div className="relative bg-gradient-to-br from-sky-600 via-sky-500 to-sky-400 overflow-hidden py-24">
+        {/* Blended hero image with opacity and overlay */}
+        <div className="absolute inset-0 z-0">
+          <img
+            src={HeroImg}
+            alt="Background"
+            className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay"
+          />
+        </div>
+
+        {/* Grid and gradient overlays */}
+        <div className="absolute inset-0 bg-grid-white/[0.05] -z-1" />
+        <div className="absolute inset-0 bg-gradient-to-r from-sky-700/30 to-sky-500/10 opacity-50 blur-3xl" />
+
+        {/* Content container */}
+        <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center z-10">
+          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-12 border border-white/20 shadow-2xl">
+            <h1 className="text-5xl font-extrabold text-white mb-6 leading-tight">
+              TopInfo: Urubuga ruhuza Abakeneye Serivisi n'abazitanga
+            </h1>
+            <p className="text-2xl text-sky-100 mb-10 max-w-4xl mx-auto">
+              Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye, bwihuse kandi bwizewe.
+            </p>
+
+            <div className="flex flex-col sm:flex-row justify-center gap-6">
+              <Link
+                to="/services"
+                className="px-10 py-5 bg-white text-sky-600 rounded-xl hover:bg-sky-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
+              >
+                Gusaba Serivisi
+                <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
+              </Link>
+              <Link
+                to="/become-provider"
+                className="px-10 py-5 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
+              >
+                Gutanga Serivisi
+                <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
+              </Link>
+            </div>
+          </div>
+        </div>
       </div>
 
 
@@ -176,14 +218,14 @@ const Home = () => {
               <h3 className="text-2xl font-bold mb-4">Shakisha Serivisi</h3>
               <p className="text-gray-600">Shakisha serivisi ukeneye</p>
 
-              <Link 
+              <Link
                 to="/services"
                 className="px-10 py-5 bg-white text-sky-600 rounded-xl hover:bg-sky-50 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
               >
-                Serivisi 
+                Serivisi
                 <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
               </Link>
-              
+
             </div>
             <div className="bg-white p-8 rounded-2xl shadow-lg text-center">
               <div className="mb-6 flex justify-center">

@@ -323,17 +323,15 @@ const AgentsPage = () => {
                       <td className="px-4 py-3 text-sm">{user.email}</td>
                       <td className="px-4 py-3 text-sm">{user.phone}</td>
                       <td className="px-4 py-3 text-sm">
-                        {`${user.location_province || "N/A"}, ${
-                          user.location_district || "N/A"
-                        }, ${user.location_sector || "N/A"}`}
+                        {`${user.location_province || "N/A"}, ${user.location_district || "N/A"
+                          }, ${user.location_sector || "N/A"}`}
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs ${
-                            user.isActive
+                          className={`px-2 py-1 rounded-full text-xs ${user.isActive
                               ? "bg-green-100 text-green-800"
                               : "bg-red-100 text-red-800"
-                          }`}
+                            }`}
                         >
                           {user.isActive ? "Active" : "Inactive"}
                         </span>
@@ -399,7 +397,7 @@ const AgentsPage = () => {
                   <label htmlFor="email" className="block text-sm font-medium mb-1">
                     Email
                   </label>
-                  <input
+                  {/* <input
                     type="email"
                     id="email"
                     className="w-full p-2 border rounded"
@@ -407,6 +405,19 @@ const AgentsPage = () => {
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
+                  /> */}
+                  <input
+                    type="email"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md 
+    focus:outline-none focus:ring-2 focus:ring-sky-500 
+    transition-all duration-200
+    ${editingRow ? 'bg-gray-100 cursor-not-allowed' : ''}"
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    placeholder="Enter email address"
+                    disabled={!!editingRow}
                   />
                 </div>
                 <div>
