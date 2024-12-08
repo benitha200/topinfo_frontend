@@ -144,7 +144,8 @@ import {
   Activity,
   BookUser,
   User2Icon,
-  File
+  File,
+  Settings2
 } from 'lucide-react';
 
 const AdminLayout = ({ children }) => {
@@ -165,6 +166,7 @@ const AdminLayout = ({ children }) => {
     { icon: Users, label: 'Service Providers', path: '/dashboard/service-providers' },
     { icon: File, label: 'Services', path: '/dashboard/service' },
     { icon: CreditCard, label: 'Payments', path: '/dashboard/payments' },
+    { icon: Settings2, label: 'Settings', path: '/dashboard/settings' },
   ];
 
   const handleLogout = () => {

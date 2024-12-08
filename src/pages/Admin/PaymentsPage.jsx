@@ -154,14 +154,14 @@ const PaymentsPage = () => {
                     {[
                         {
                             title: 'Total Revenue',
-                            value: `$${totalRevenue.toLocaleString()}`,
+                            value: `${totalRevenue.toLocaleString()} RWF`,
                             icon: TrendingUp,
                             color: 'green',
                             subtitle: 'Active Requests'
                         },
                         {
                             title: 'Pending Amount',
-                            value: `$${pendingAmount.toLocaleString()}`,
+                            value: `${pendingAmount.toLocaleString()} RWF`,
                             icon: CreditCard,
                             color: 'yellow',
                             subtitle: `${filteredPayments.filter(p => p.status === 'PENDING').length} pending requests`

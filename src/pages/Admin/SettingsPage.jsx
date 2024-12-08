@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import {
     User,
     Bell,
@@ -7,172 +7,186 @@ import {
     Mail,
     Smartphone,
     Key,
-    Save
+    Save,
+    DollarSign,
+    Mail as MailIcon,
+    CheckCircle2
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
+import { toast } from 'sonner';
 
 const SettingsPage = () => {
+    const [settings, setSettings] = useState({
+        client_price: 2000,
+        provider_price: 3000,
+        support_email: 'support@topinfo.rw'
+    });
+
+    const [isEdited, setIsEdited] = useState(false);
+    const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+
+    // Fetch initial settings
+    useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const myHeaders = new Headers();
+                myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTczMzY3MTY3NCwiZXhwIjoxNzMzNzU4MDc0fQ.4bSz_QQ4lq1QSQiCXI5IZFzBXoqdhrv-mmjKkOQCKgw");
+                
+                const requestOptions = {
+                    method: "GET",
+                    headers: myHeaders,
+                    redirect: "follow"
+                };
+
+                const response = await fetch("http://localhost:3050/api/settings", requestOptions);
+                const result = await response.json();
+                
+                setSettings(result);
+            } catch (error) {
+                console.error('Failed to fetch settings:', error);
+                toast.error('Failed to load settings');
+            }
+        };
+
+        fetchSettings();
+    }, []);
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setSettings(prev => ({
+            ...prev,
+            [name]: name.includes('price') ? Number(value) : value
+        }));
+        setIsEdited(true);
+    };
+
+    const handleSaveSettings = async () => {
+        try {
+            const myHeaders = new Headers();
+            myHeaders.append("Content-Type", "application/json");
+            myHeaders.append("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjcsImlhdCI6MTczMzY3MTY3NCwiZXhwIjoxNzMzNzU4MDc0fQ.4bSz_QQ4lq1QSQiCXI5IZFzBXoqdhrv-mmjKkOQCKgw");
+            
+            const raw = JSON.stringify({
+                client_price: settings.client_price,
+                provider_price: settings.provider_price,
+                support_email: settings.support_email
+            });
+
+            const requestOptions = {
+                method: "PUT",
+                headers: myHeaders,
+                body: raw,
+                redirect: "follow"
+            };
+
+            const response = await fetch("http://localhost:3050/api/settings", requestOptions);
+            const result = await response.json();
+            
+            // Show success message
+            setShowSuccessMessage(true);
+            
+            // Hide success message after 3 seconds
+            setTimeout(() => {
+                setShowSuccessMessage(false);
+            }, 3000);
+
+            toast.success('Settings updated successfully');
+            setIsEdited(false);
+            setSettings(result);
+        } catch (error) {
+            console.error('Failed to update settings:', error);
+            toast.error('Failed to update settings');
+        }
+    };
+
     return (
         <AdminLayout>
+            {/* Success Message */}
+            {showSuccessMessage && (
+                <div className="fixed top-4 right-4 z-50">
+                    <div className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
+                        <CheckCircle2 className="mr-2 h-5 w-5" />
+                        Settings updated successfully!
+                    </div>
+                </div>
+            )}
+
             <div className="p-6 space-y-6">
                 {/* Page Header */}
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Settings</h1>
-                    <button className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center">
+                    <button 
+                        onClick={handleSaveSettings}
+                        disabled={!isEdited}
+                        className={`px-4 py-2 rounded flex items-center 
+                            ${isEdited 
+                                ? 'bg-sky-500 text-white hover:bg-sky-600' 
+                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                            }`}
+                    >
                         <Save className="h-4 w-4 mr-2" />
                         Save Changes
                     </button>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    {/* Profile Settings */}
+                    {/* Pricing Settings */}
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <User className="h-5 w-5 mr-2 text-sky-500" />
-                                Profile Settings
+                                <DollarSign className="h-5 w-5 mr-2 text-green-500" />
+                                Pricing Settings
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Profile Picture</label>
-                                <div className="flex items-center space-x-4">
-                                    <div className="w-16 h-16 rounded-full bg-gray-200 flex items-center justify-center">
-                                        <User className="h-8 w-8 text-gray-500" />
-                                    </div>
-                                    <button className="px-3 py-1 border rounded hover:bg-gray-50">
-                                        Change
-                                    </button>
-                                </div>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Full Name</label>
+                                <label className="text-sm font-medium">Client Price</label>
                                 <input
-                                    type="text"
-                                    defaultValue="Admin User"
+                                    type="number"
+                                    name="client_price"
+                                    value={settings.client_price}
+                                    onChange={handleInputChange}
                                     className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
                             </div>
                             <div className="space-y-2">
-                                <label className="text-sm font-medium">Email</label>
+                                <label className="text-sm font-medium">Provider Price</label>
+                                <input
+                                    type="number"
+                                    name="provider_price"
+                                    value={settings.provider_price}
+                                    onChange={handleInputChange}
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                />
+                            </div>
+                        </CardContent>
+                    </Card>
+
+                    {/* Support Settings */}
+                    <Card>
+                        <CardHeader>
+                            <CardTitle className="flex items-center">
+                                <MailIcon className="h-5 w-5 mr-2 text-blue-500" />
+                                Support Settings
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="space-y-4">
+                            <div className="space-y-2">
+                                <label className="text-sm font-medium">Support Email</label>
                                 <input
                                     type="email"
-                                    defaultValue="admin@example.com"
+                                    name="support_email"
+                                    value={settings.support_email}
+                                    onChange={handleInputChange}
                                     className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
                                 />
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Notification Settings */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <Bell className="h-5 w-5 mr-2 text-orange-500" />
-                                Notification Preferences
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
-                                    <Mail className="h-4 w-4 text-gray-500" />
-                                    <span className="text-sm font-medium">Email Notifications</span>
-                                </div>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" className="sr-only peer" defaultChecked />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-sky-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
-                                </label>
-                            </div>
-                            <div className="flex items-center justify-between">
-                                <div className="flex items-center space-x-2">
-                                    <Smartphone className="h-4 w-4 text-gray-500" />
-                                    <span className="text-sm font-medium">Push Notifications</span>
-                                </div>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" className="sr-only peer" defaultChecked />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-sky-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
-                                </label>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* Security Settings */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <Shield className="h-5 w-5 mr-2 text-green-500" />
-                                Security
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Current Password</label>
-                                <input
-                                    type="password"
-                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">New Password</label>
-                                <input
-                                    type="password"
-                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
-                                />
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Confirm New Password</label>
-                                <input
-                                    type="password"
-                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
-                                />
-                            </div>
-                            <div className="flex items-center justify-between mt-4">
-                                <div className="flex items-center space-x-2">
-                                    <Key className="h-4 w-4 text-gray-500" />
-                                    <span className="text-sm font-medium">Two-Factor Authentication</span>
-                                </div>
-                                <label className="relative inline-flex items-center cursor-pointer">
-                                    <input type="checkbox" className="sr-only peer" />
-                                    <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-sky-500 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-sky-500"></div>
-                                </label>
-                            </div>
-                        </CardContent>
-                    </Card>
-
-                    {/* System Settings */}
-                    <Card>
-                        <CardHeader>
-                            <CardTitle className="flex items-center">
-                                <Globe className="h-5 w-5 mr-2 text-purple-500" />
-                                System Preferences
-                            </CardTitle>
-                        </CardHeader>
-                        <CardContent className="space-y-4">
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Language</label>
-                                <select className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500">
-                                    <option value="en">English</option>
-                                    <option value="es">Spanish</option>
-                                    <option value="fr">French</option>
-                                    <option value="de">German</option>
-                                </select>
-                            </div>
-                            <div className="space-y-2">
-                                <label className="text-sm font-medium">Time Zone</label>
-                                <select className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500">
-                                    <option value="utc">UTC</option>
-                                    <option value="est">Eastern Time</option>
-                                    <option value="pst">Pacific Time</option>
-                                    <option value="cet">Central European Time</option>
-                                </select>
                             </div>
                         </CardContent>
                     </Card>
                 </div>
             </div>
         </AdminLayout>
-
     );
 };
 

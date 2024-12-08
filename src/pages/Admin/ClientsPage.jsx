@@ -191,7 +191,7 @@ const ClientsPage = () => {
                 {/* Users List Card */}
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
-                        <CardTitle>Users List</CardTitle>
+                        <CardTitle>Clients List</CardTitle>
                         <div className="flex space-x-2">
                             <div className="relative">
                                 <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
@@ -218,7 +218,7 @@ const ClientsPage = () => {
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Role</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Location</th>
-                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
+                                        {/* <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th> */}
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -227,7 +227,7 @@ const ClientsPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 {`${user.firstname} ${user.lastname}`}
                                             </td>
-                                            <td className="px-4 py-3 text-sm">{user.email}</td>
+                                            <td className="px-4 py-3 text-sm">{user.email || "-"}</td>
                                             <td className="px-4 py-3 text-sm">{user.role}</td>
                                             <td className="px-4 py-3 text-sm">
                                                 <span className={`px-2 py-1 rounded-full text-xs ${
@@ -241,7 +241,7 @@ const ClientsPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 {`${user.location_sector}, ${user.location_district}`}
                                             </td>
-                                            <td className="px-4 py-3 text-sm flex space-x-2">
+                                            {/* <td className="px-4 py-3 text-sm flex space-x-2">
                                                 <button 
                                                     onClick={() => openEditCard(user)}
                                                     className="text-sky-500 hover:bg-sky-50 p-2 rounded-full"
@@ -254,7 +254,7 @@ const ClientsPage = () => {
                                                 >
                                                     <Trash2 className="h-4 w-4" />
                                                 </button>
-                                            </td>
+                                            </td> */}
                                         </tr>
                                     ))}
                                 </tbody>
@@ -312,7 +312,7 @@ const ClientsPage = () => {
                                             <SelectTrigger>
                                                 <SelectValue placeholder="Select status" />
                                             </SelectTrigger>
-                                            <SelectContent>
+                                            <SelectContent className="bg-white">
                                                 <SelectItem value="Active">Active</SelectItem>
                                                 <SelectItem value="Pending">Pending</SelectItem>
                                                 <SelectItem value="Inactive">Inactive</SelectItem>

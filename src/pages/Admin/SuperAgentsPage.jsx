@@ -486,14 +486,27 @@ const SuperAgentsPage = () => {
                   <label className="block text-sm font-medium mb-1">
                     Email
                   </label>
-                  <input
+                  {/* <input
                     type="email"
                     className="w-full p-2 border rounded"
                     value={formData.email}
                     onChange={(e) =>
                       setFormData({ ...formData, email: e.target.value })
                     }
-                  />
+                  /> */}
+                   <input
+                      type="email"
+                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+    focus:outline-none focus:ring-2 focus:ring-sky-500 
+    transition-all duration-200
+    ${editingRow ? 'bg-gray-100 cursor-not-allowed' : ''}"
+                      value={formData.email}
+                      onChange={(e) =>
+                        setFormData({ ...formData, email: e.target.value })
+                      }
+                      placeholder="Enter email address"
+                      disabled={!!editingRow}
+                    />
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">

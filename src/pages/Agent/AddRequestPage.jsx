@@ -192,8 +192,11 @@ const AddRequestPage = () => {
                 }),
             });
 
-            if (!paymentResponse.ok)
+            if (!paymentResponse.ok){
+                console.log(paymentResponse);
                 throw new Error("Failed to initial payment request");
+            }
+           
             const result = await paymentResponse.json();
 
             if (result.response.status === "success") {
