@@ -59,7 +59,7 @@ const Login = () => {
         } else if (data.user.role === 'AGENT') {
           navigate('/agent-dashboard');
         } else {
-          navigate('/'); // Default redirect for other roles
+          navigate('/'); 
         }
         
       } catch (err) {
