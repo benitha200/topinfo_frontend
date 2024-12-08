@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter } from "lucide-react";
+import { Users, Search, Filter, Loader2 } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
@@ -10,7 +10,7 @@ const AgentsPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const [modalLoading, setModalLoading] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingRow, setEditingUser] = useState(null);
 
@@ -22,6 +22,8 @@ const AgentsPage = () => {
     location_province: "",
     location_district: "",
     location_sector: "",
+    profileImage : null,
+    nationalIdImage : null,
   });
 
   const [provinces, setProvinces] = useState([]);
@@ -59,14 +61,33 @@ const AgentsPage = () => {
   // Create a new agent user
   const createUser = async () => {
     try {
+      setModalLoading(true);
       const token = localStorage.getItem("token");
+      const formDataObj = new FormData();
+
+      // Append all form data
+      formDataObj.append("firstname", formData.firstname);
+      formDataObj.append("lastname", formData.lastname);
+      formDataObj.append("email", formData.email);
+      formDataObj.append("phone", formData.phone);
+      formDataObj.append("location_province", formData.location_province);
+      formDataObj.append("location_district", formData.location_district);
+      formDataObj.append("location_sector", formData.location_sector);
+
+      // Append files
+      if (formData.profileImage) {
+        formDataObj.append("profileImage", formData.profileImage);
+      }
+      if (formData.nationalIdImage) {
+        formDataObj.append("nationalIdImage", formData.nationalIdImage);
+      }
+
       const response = await fetch(`${API_URL}/users`, {
         method: "POST",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
       if (!response.ok) throw new Error("Failed to create user");
       fetchUsers();
@@ -74,6 +95,8 @@ const AgentsPage = () => {
       resetForm();
     } catch (err) {
       setError(err.message);
+    } finally{
+      setModalLoading(false);
     }
   };
 
@@ -140,14 +163,34 @@ const AgentsPage = () => {
 
   const updateUser = async (id) => {
     try {
+      setModalLoading(true);
+
       const token = localStorage.getItem("token");
+      const formDataObj = new FormData();
+
+      // Append all form data
+      formDataObj.append("firstname", formData.firstname);
+      formDataObj.append("lastname", formData.lastname);
+      formDataObj.append("email", formData.email);
+      formDataObj.append("phone", formData.phone);
+      formDataObj.append("location_province", formData.location_province);
+      formDataObj.append("location_district", formData.location_district);
+      formDataObj.append("location_sector", formData.location_sector);
+
+      // Append files
+      if (formData.profileImage) {
+        formDataObj.append("profileImage", formData.profileImage);
+      }
+      if (formData.nationalIdImage) {
+        formDataObj.append("nationalIdImage", formData.nationalIdImage);
+      }
+
       const response = await fetch(`${API_URL}/users/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
       if (!response.ok) throw new Error("Failed to update users");
       fetchUsers();
@@ -155,7 +198,9 @@ const AgentsPage = () => {
       resetForm();
     } catch (err) {
       setError(err.message);
-    }
+    }finally {
+      setModalLoading(false);
+    } 
   };
 
   const deleteUser = async (id) => {
@@ -323,11 +368,12 @@ const AgentsPage = () => {
               </h2>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="firstname" className="block text-sm font-medium mb-1">
                     First Name
                   </label>
                   <input
                     type="text"
+                    id="firstname"
                     className="w-full p-2 border rounded"
                     value={formData.firstname}
                     onChange={(e) =>
@@ -336,11 +382,12 @@ const AgentsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="lastname" className="block text-sm font-medium mb-1">
                     Last Name
                   </label>
                   <input
                     type="text"
+                    id="lastname"
                     className="w-full p-2 border rounded"
                     value={formData.lastname}
                     onChange={(e) =>
@@ -349,11 +396,12 @@ const AgentsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="email" className="block text-sm font-medium mb-1">
                     Email
                   </label>
                   <input
                     type="email"
+                    id="email"
                     className="w-full p-2 border rounded"
                     value={formData.email}
                     onChange={(e) =>
@@ -362,11 +410,12 @@ const AgentsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="phone" className="block text-sm font-medium mb-1">
                     Phone number
                   </label>
                   <input
                     type="text"
+                    id="phone"
                     className="w-full p-2 border rounded"
                     value={formData.phone}
                     onChange={(e) =>
@@ -423,7 +472,7 @@ const AgentsPage = () => {
                   </select>
                 </div>
 
-                <div>
+                <div className="col-span-2">
                   <label
                     htmlFor="location_sector"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -451,6 +500,42 @@ const AgentsPage = () => {
                   </select>
                 </div>
               </div>
+              <div className="grid grid-cols-2 gap-4 my-3">
+                <div>
+                <label htmlFor="profileImage" className="block text-sm font-medium mb-1">
+                    Passport Image
+                  </label>
+                  <input
+                    type="file"
+                    id="profileImage"
+                    className="w-full p-2 border rounded"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        profileImage: e.target.files[0],
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                <label htmlFor="national_id" className="block text-sm font-medium mb-1">
+                    National ID Image
+                  </label>
+                  <input
+                    type="file"
+                    id="national_id"
+                    className="w-full p-2 border rounded"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        nationalIdImage: e.target.files[0],
+                      })
+                    }
+                  />
+                </div>
+              </div>
 
               <div className="flex justify-end space-x-2">
                 <button
@@ -464,7 +549,7 @@ const AgentsPage = () => {
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center"
                   onClick={() => {
                     if (editingRow) {
                       updateUser(editingRow.id);
@@ -472,7 +557,11 @@ const AgentsPage = () => {
                       createUser();
                     }
                   }}
+                  disabled={modalLoading}
                 >
+                  {modalLoading && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
                   {editingRow ? "Update" : "Create"}
                 </button>
               </div>

@@ -4,7 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 
 const SuperAgentsPage = () => {
   const [users, setUsers] = useState([]);
@@ -19,7 +19,6 @@ const SuperAgentsPage = () => {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -29,6 +28,8 @@ const SuperAgentsPage = () => {
     location_district: "",
     location_sector: "",
     isSuperAgent: true,
+    profileImage : null,
+    nationalIdImage : null,
   });
 
   const [provinces, setProvinces] = useState([]);
@@ -75,8 +76,8 @@ const SuperAgentsPage = () => {
       });
 
       // Add date filtering if dates are provided
-      if (startDate) params.append('startDate', startDate);
-      if (endDate) params.append('endDate', endDate);
+      if (startDate) params.append("startDate", startDate);
+      if (endDate) params.append("endDate", endDate);
 
       const response = await fetch(`${API_URL}/users?${params.toString()}`, {
         headers: {
@@ -101,15 +102,36 @@ const SuperAgentsPage = () => {
   const createUser = async () => {
     try {
       setModalLoading(true);
+
       const token = localStorage.getItem("token");
+      const formDataObj = new FormData();
+
+      // Append all form data
+      formDataObj.append("firstname", formData.firstname);
+      formDataObj.append("lastname", formData.lastname);
+      formDataObj.append("email", formData.email);
+      formDataObj.append("phone", formData.phone);
+      formDataObj.append("location_province", formData.location_province);
+      formDataObj.append("location_district", formData.location_district);
+      formDataObj.append("location_sector", formData.location_sector);
+      formDataObj.append("isSuperAgent", formData.isSuperAgent);
+
+      // Append files
+      if (formData.profileImage) {
+        formDataObj.append("profileImage", formData.profileImage);
+      }
+      if (formData.nationalIdImage) {
+        formDataObj.append("nationalIdImage", formData.nationalIdImage);
+      }
+      
       const response = await fetch(`${API_URL}/users`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`, // Do not set "Content-Type" for FormData
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
+
       if (!response.ok) throw new Error("Failed to create user");
       await fetchUsers();
       setIsAddModalOpen(false);
@@ -186,13 +208,31 @@ const SuperAgentsPage = () => {
     try {
       setModalLoading(true);
       const token = localStorage.getItem("token");
+      const formDataObj = new FormData();
+
+      // Append all form data
+      formDataObj.append("firstname", formData.firstname);
+      formDataObj.append("lastname", formData.lastname);
+      formDataObj.append("email", formData.email);
+      formDataObj.append("phone", formData.phone);
+      formDataObj.append("location_province", formData.location_province);
+      formDataObj.append("location_district", formData.location_district);
+      formDataObj.append("location_sector", formData.location_sector);
+
+      // Append files
+      if (formData.profileImage) {
+        formDataObj.append("profileImage", formData.profileImage);
+      }
+      if (formData.nationalIdImage) {
+        formDataObj.append("nationalIdImage", formData.nationalIdImage);
+      }
+
       const response = await fetch(`${API_URL}/users/${id}`, {
         method: "PUT",
         headers: {
           Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
         },
-        body: JSON.stringify(formData),
+        body: formDataObj,
       });
       if (!response.ok) throw new Error("Failed to update users");
       await fetchUsers();
@@ -226,15 +266,15 @@ const SuperAgentsPage = () => {
 
   const downloadUsers = () => {
     // Prepare data for download
-    const downloadData = filteredUsers.map(user => ({
+    const downloadData = filteredUsers.map((user) => ({
       Name: `${user.firstname} ${user.lastname}`,
       Email: user.email,
       Phone: user.phone,
-      Province: user.location_province || 'N/A',
-      District: user.location_district || 'N/A',
-      Sector: user.location_sector || 'N/A',
-      Status: user.isActive ? 'Active' : 'Inactive',
-      'Registered Date': new Date(user.createdAt).toLocaleDateString()
+      Province: user.location_province || "N/A",
+      District: user.location_district || "N/A",
+      Sector: user.location_sector || "N/A",
+      Status: user.isActive ? "Active" : "Inactive",
+      "Registered Date": new Date(user.createdAt).toLocaleDateString(),
     }));
 
     // Create worksheet
@@ -243,13 +283,16 @@ const SuperAgentsPage = () => {
     XLSX.utils.book_append_sheet(workbook, worksheet, "Super Agents");
 
     // Generate and download Excel file
-    XLSX.writeFile(workbook, `super_agents_${new Date().toISOString().split('T')[0]}.xlsx`);
+    XLSX.writeFile(
+      workbook,
+      `super_agents_${new Date().toISOString().split("T")[0]}.xlsx`
+    );
   };
 
   // Filter users based on search term
-  const filteredUsers = users.filter(user => {
+  const filteredUsers = users.filter((user) => {
     // Search term filtering
-    const matchesSearch = 
+    const matchesSearch =
       user.firstname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase());
@@ -259,9 +302,8 @@ const SuperAgentsPage = () => {
     const start = startDate ? new Date(startDate) : null;
     const end = endDate ? new Date(endDate) : null;
 
-    const matchesDateRange = 
-      (!start || userDate >= start) && 
-      (!end || userDate <= end);
+    const matchesDateRange =
+      (!start || userDate >= start) && (!end || userDate <= end);
 
     return matchesSearch && matchesDateRange;
   });
@@ -281,7 +323,6 @@ const SuperAgentsPage = () => {
             Add New Super Agent
           </button>
         </div>
-
         <Card>
           {/* <CardHeader>
             <CardTitle>Agent Statistics</CardTitle>
@@ -292,18 +333,22 @@ const SuperAgentsPage = () => {
               {/* Date Range Inputs */}
               <div className="flex space-x-2 mr-4">
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">Start Date</label>
-                  <input 
-                    type="date" 
+                  <label className="block text-xs text-gray-600 mb-1">
+                    Start Date
+                  </label>
+                  <input
+                    type="date"
                     value={startDate}
                     onChange={(e) => setStartDate(e.target.value)}
                     className="p-2 border rounded text-sm"
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-600 mb-1">End Date</label>
-                  <input 
-                    type="date" 
+                  <label className="block text-xs text-gray-600 mb-1">
+                    End Date
+                  </label>
+                  <input
+                    type="date"
                     value={endDate}
                     onChange={(e) => setEndDate(e.target.value)}
                     className="p-2 border rounded text-sm"
@@ -330,7 +375,7 @@ const SuperAgentsPage = () => {
               </div>
                */}
               {/* Download button */}
-              <button 
+              <button
                 onClick={downloadUsers}
                 className="p-2 border bg-emerald-500 text-white rounded hover:bg-emerald-400 flex items-center mt-4"
                 title="Download Super Agents"
@@ -358,7 +403,6 @@ const SuperAgentsPage = () => {
             </div>
           </CardContent>
         </Card>
-
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Super Agents List</CardTitle>
@@ -429,13 +473,13 @@ const SuperAgentsPage = () => {
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <button
-                          className="text-sky-500 border border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
+                          className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
                           onClick={() => handleEditClick(user)}
                         >
                           Edit
                         </button>
                         <button
-                          className="text-red-500 border border-2 border-gray-300 p-2 rounded hover:text-red-700"
+                          className="text-red-500 border-2 border-gray-300 p-2 rounded hover:text-red-700"
                           onClick={() => deleteUser(user.id)}
                         >
                           Delete
@@ -457,10 +501,14 @@ const SuperAgentsPage = () => {
               </h2>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="firstname"
+                    className="block text-sm font-medium mb-1"
+                  >
                     First Name
                   </label>
                   <input
+                    id="firstname"
                     type="text"
                     className="w-full p-2 border rounded"
                     value={formData.firstname}
@@ -470,11 +518,15 @@ const SuperAgentsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="lastname"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Last Name
                   </label>
                   <input
                     type="text"
+                    id="lastname"
                     className="w-full p-2 border rounded"
                     value={formData.lastname}
                     onChange={(e) =>
@@ -483,11 +535,15 @@ const SuperAgentsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label
+                    htmlFor="email"
+                    className="block text-sm font-medium mb-1"
+                  >
                     Email
                   </label>
                   <input
                     type="email"
+                    id="email"
                     className="w-full p-2 border rounded"
                     value={formData.email}
                     onChange={(e) =>
@@ -496,11 +552,12 @@ const SuperAgentsPage = () => {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium mb-1">
+                  <label htmlFor="phone" className="block text-sm font-medium mb-1">
                     Phone number
                   </label>
                   <input
                     type="text"
+                    id="phone"
                     className="w-full p-2 border rounded"
                     value={formData.phone}
                     onChange={(e) =>
@@ -509,6 +566,7 @@ const SuperAgentsPage = () => {
                   />
                 </div>
               </div>
+             
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
@@ -557,7 +615,7 @@ const SuperAgentsPage = () => {
                   </select>
                 </div>
 
-                <div>
+                <div className="col-span-2">
                   <label
                     htmlFor="location_sector"
                     className="block text-sm font-medium text-gray-700 mb-1"
@@ -585,39 +643,76 @@ const SuperAgentsPage = () => {
                   </select>
                 </div>
               </div>
+              <div className="grid grid-cols-2 gap-4 my-3">
+                <div>
+                <label htmlFor="profileImage" className="block text-sm font-medium mb-1">
+                    Passport Image
+                  </label>
+                  <input
+                    type="file"
+                    id="profileImage"
+                    className="w-full p-2 border rounded"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        profileImage: e.target.files[0],
+                      })
+                    }
+                  />
+                </div>
+                <div>
+                <label htmlFor="national_id" className="block text-sm font-medium mb-1">
+                    National ID Image
+                  </label>
+                  <input
+                    type="file"
+                    id="national_id"
+                    className="w-full p-2 border rounded"
+                    accept="image/*"
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        nationalIdImage: e.target.files[0],
+                      })
+                    }
+                  />
+                </div>
+              </div>
 
               <div className="flex justify-end space-x-2">
-              <button
-                className="px-4 py-2 text-gray-600 border rounded hover:bg-gray-50"
-                onClick={() => {
-                  setIsAddModalOpen(false);
-                  setEditingUser(null);
-                  resetForm();
-                }}
-                disabled={modalLoading}
-              >
-                Cancel
-              </button>
-              <button
-                className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center"
-                onClick={() => {
-                  if (editingRow) {
-                    updateUser(editingRow.id);
-                  } else {
-                    createUser();
-                  }
-                }}
-                disabled={modalLoading}
-              >
-                {modalLoading && (
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                )}
-                {editingRow ? "Update" : "Create"}
-              </button>
+                <button
+                  className="px-4 py-2 text-gray-600 border rounded hover:bg-gray-50"
+                  onClick={() => {
+                    setIsAddModalOpen(false);
+                    setEditingUser(null);
+                    resetForm();
+                  }}
+                  disabled={modalLoading}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center"
+                  onClick={() => {
+                    if (editingRow) {
+                      updateUser(editingRow.id);
+                    } else {
+                      createUser();
+                    }
+                  }}
+                  disabled={modalLoading}
+                >
+                  {modalLoading && (
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  )}
+                  {editingRow ? "Update" : "Create"}
+                </button>
+              </div>
             </div>
           </div>
-        </div>
-      )};
+        )}
+        ;
       </div>
     </AdminLayout>
   );
