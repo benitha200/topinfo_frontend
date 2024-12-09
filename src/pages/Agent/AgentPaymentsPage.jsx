@@ -1,172 +1,3 @@
-// import React, { useState, useEffect } from 'react';
-// import { 
-//   Card, 
-//   CardContent, 
-//   CardHeader, 
-//   CardTitle 
-// } from '@/components/ui/card';
-// import { 
-//   Table, 
-//   TableBody, 
-//   TableCell, 
-//   TableHead, 
-//   TableHeader, 
-//   TableRow 
-// } from '@/components/ui/table';
-// import { 
-//   DollarSign, 
-//   CreditCard, 
-//   Users 
-// } from 'lucide-react';
-// import AgentLayout from './AgentLayout';
-
-// const AgentPaymentsPage = () => {
-//   const [paymentsData, setPaymentsData] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [summaryStats, setSummaryStats] = useState({
-//     totalPayments: 0,
-//     totalCommission: 0,
-//     completedPayments: 0
-//   });
-
-//   useEffect(() => {
-//     const fetchPayments = async () => {
-//       try {
-//         const token = localStorage.getItem('token');
-//         const response = await fetch('http://localhost:3050/api/requests', {
-//           method: 'GET',
-//           headers: {
-//             'Authorization': `Bearer ${token}`,
-//             'Content-Type': 'application/json'
-//           }
-//         });
-
-//         if (!response.ok) {
-//           throw new Error('Failed to fetch payments');
-//         }
-
-//         const data = await response.json();
-        
-//         // Filter only completed payments
-//         const completedPayments = data.filter(request => 
-//           request.payments.length > 0 && 
-//           request.payments.some(payment => payment.status === 'SUCCESSFULL')
-//         );
-
-//         setPaymentsData(completedPayments);
-
-//         // Calculate summary statistics
-//         const totalPayments = completedPayments.reduce((sum, request) => {
-//           const payment = request.payments.find(p => p.status === 'SUCCESSFULL');
-//           return sum + (payment ? parseFloat(payment.amount) : 0);
-//         }, 0);
-
-//         const totalCommission = totalPayments * 0.15;
-
-//         setSummaryStats({
-//           totalPayments,
-//           totalCommission,
-//           completedPayments: completedPayments.length
-//         });
-
-//         setLoading(false);
-//       } catch (err) {
-//         setError(err.message);
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchPayments();
-//   }, []);
-
-//   if (loading) return <div>Loading...</div>;
-//   if (error) return <div>Error: {error}</div>;
-
-//   return (
-//     <AgentLayout>
-//       <div className="p-6 space-y-6">
-//         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-//           <Card className="bg-emerald-50 rounded border-0">
-//             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//               <CardTitle className="text-sm font-medium">Total Payments</CardTitle>
-//               <DollarSign className="h-4 w-4 text-muted-foreground" />
-//             </CardHeader>
-//             <CardContent>
-//               <div className="text-2xl font-bold">
-//                 {summaryStats.totalPayments.toLocaleString()} RWF
-//               </div>
-//             </CardContent>
-//           </Card>
-
-//           <Card className="bg-sky-50 rounded border-0">
-//             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//               <CardTitle className="text-sm font-medium">Total Commission</CardTitle>
-//               <CreditCard className="h-4 w-4 text-muted-foreground" />
-//             </CardHeader>
-//             <CardContent>
-//               <div className="text-2xl font-bold">
-//                 {summaryStats.totalCommission.toLocaleString()} RWF
-//               </div>
-//             </CardContent>
-//           </Card>
-
-//           <Card className="bg-yellow-50 rounded border-0">
-//             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//               <CardTitle className="text-sm font-medium">Completed Payments</CardTitle>
-//               <Users className="h-4 w-4 text-muted-foreground" />
-//             </CardHeader>
-//             <CardContent>
-//               <div className="text-2xl font-bold">
-//                 {summaryStats.completedPayments}
-//               </div>
-//             </CardContent>
-//           </Card>
-//         </div>
-
-//         <Card>
-//           <CardHeader>
-//             <CardTitle>Payment Details</CardTitle>
-//           </CardHeader>
-//           <CardContent>
-//             <Table>
-//               <TableHeader>
-//                 <TableRow>
-//                   <TableHead>Date</TableHead>
-//                   <TableHead>Client Name</TableHead>
-//                   <TableHead>Service Category</TableHead>
-//                   <TableHead>Phone Number</TableHead>
-//                   <TableHead>Email</TableHead>
-//                   <TableHead>Amount</TableHead>
-//                   <TableHead>Transaction ID</TableHead>
-//                 </TableRow>
-//               </TableHeader>
-//               <TableBody>
-//                 {paymentsData.map((request) => {
-//                   const successfulPayment = request.payments.find(p => p.status === 'SUCCESSFULL');
-//                   return successfulPayment ? (
-//                     <TableRow key={request.id}>
-//                       <TableCell>{new Date(request.service_date).toLocaleDateString()}</TableCell>
-//                       <TableCell>{`${request.client.firstname} ${request.client.lastname}`}</TableCell>
-//                       <TableCell>{request.service_category.name}</TableCell>
-//                       <TableCell>{request.client.phone}</TableCell>
-//                       <TableCell>{request.client.email}</TableCell>
-//                       <TableCell>{successfulPayment.amount} RWF</TableCell>
-//                       <TableCell>{successfulPayment.request_transaction_id}</TableCell>
-//                     </TableRow>
-//                   ) : null;
-//                 })}
-//               </TableBody>
-//             </Table>
-//           </CardContent>
-//         </Card>
-//       </div>
-//     </AgentLayout>
-//   );
-// };
-
-// export default AgentPaymentsPage;
-
 import React, { useState, useEffect, useMemo } from 'react';
 import { 
   Card, 
@@ -228,6 +59,7 @@ const AgentPaymentsPage = () => {
 
         const data = await response.json();
         
+        
         // Filter only completed payments
         const completedPayments = data.filter(request => 
           request.payments.length > 0 && 
@@ -243,6 +75,9 @@ const AgentPaymentsPage = () => {
         }, 0);
 
         const totalCommission = totalPayments * 0.15;
+        // const user = JSON.parse(localStorage.getItem("user"));        
+        // const totalCommission = user.isSuperAdmin ? totalPayments * 0.5 : totalPayments * 0.15;
+
 
         setSummaryStats({
           totalPayments,
@@ -288,7 +123,7 @@ const AgentPaymentsPage = () => {
       <div className="p-6 space-y-6">
         {/* Summary Cards */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-emerald-50 rounded hover:bg-emerald-100 transition-colors rounded border-emerald-200 shadow-md">
+          <Card className="bg-emerald-50 hover:bg-emerald-100 transition-colors rounded border-emerald-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-emerald-900">Total Payments</CardTitle>
               <DollarSign className="h-5 w-5 text-emerald-600" />
