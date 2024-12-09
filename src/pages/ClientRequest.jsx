@@ -291,6 +291,7 @@ const ClientRequest = () => {
                       {label}
                     </label>
                     <input
+                      id={field}
                       type={field === "email" ? "email" : "text"}
                       className="w-full p-2 border rounded"
                       onChange={(e) => handleStaticFieldChange(field, e.target.value)}
