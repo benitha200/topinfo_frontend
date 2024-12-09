@@ -60,7 +60,8 @@ const MyAgents = () => {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/users/my-agents?page=${page}&limit=${limit}&search=${searchTerm}`, {
+      // const response = await fetch(`${API_URL}/users/my-agents?page=${page}&limit=${limit}&search=${searchTerm}`, {
+        const response = await fetch(`${API_URL}/users/my-agents?page=${page}&limit=${limit}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
