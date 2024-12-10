@@ -114,7 +114,7 @@ const SuperAgentsPage = () => {
       formDataObj.append("location_province", formData.location_province);
       formDataObj.append("location_district", formData.location_district);
       formDataObj.append("location_sector", formData.location_sector);
-      formDataObj.append("isSuperAgent", formData.isSuperAgent);
+      formDataObj.append("isSuperAgent", true);
 
       // Append files
       if (formData.profileImage) {
@@ -497,7 +497,7 @@ const SuperAgentsPage = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded w-full max-w-xl">
               <h2 className="text-xl font-bold mb-4">
-                {editingRow ? "Edit Agent" : "Add New Agent"}
+                {editingRow ? "Edit Super Agent" : "Add New Super Agent"}
               </h2>
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
@@ -658,14 +658,15 @@ const SuperAgentsPage = () => {
               </div>
               <div className="grid grid-cols-2 gap-4 my-3">
                 <div>
-                <label htmlFor="profileImage" className="block text-sm font-medium mb-1">
+                {/* <label hidden htmlFor="profileImage" className="block text-sm font-medium mb-1">
                     Passport Image
-                  </label>
+                  </label> */}
                   <input
                     type="file"
                     id="profileImage"
                     className="w-full p-2 border rounded"
                     accept="image/*"
+                    hidden
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -675,14 +676,15 @@ const SuperAgentsPage = () => {
                   />
                 </div>
                 <div>
-                <label htmlFor="national_id" className="block text-sm font-medium mb-1">
+                {/* <label hidden htmlFor="national_id" className="block text-sm font-medium mb-1">
                     National ID Image
-                  </label>
+                  </label> */}
                   <input
                     type="file"
                     id="national_id"
                     className="w-full p-2 border rounded"
                     accept="image/*"
+                    hidden
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -725,7 +727,7 @@ const SuperAgentsPage = () => {
             </div>
           </div>
         )}
-        ;
+        
       </div>
     </AdminLayout>
   );

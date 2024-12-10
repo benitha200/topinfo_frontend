@@ -41,6 +41,62 @@ const AgentPaymentsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 10;
 
+  // useEffect(() => {
+  //   const fetchPayments = async () => {
+  //     try {
+  //       const token = localStorage.getItem('token');
+  //       const response = await fetch(`${API_URL}/requests`, {
+  //         method: 'GET',
+  //         headers: {
+  //           'Authorization': `Bearer ${token}`,
+  //           'Content-Type': 'application/json'
+  //         }
+  //       });
+
+  //       if (!response.ok) {
+  //         throw new Error('Failed to fetch payments');
+  //       }
+
+  //       const data = await response.json();
+        
+        
+  //       // Filter only completed payments
+  //       const completedPayments = data?.filter(request => 
+  //         request.payments.length > 0 && 
+  //         request.payments.some(payment => payment.status === 'COMPLETED')
+  //       );
+
+  //       setPaymentsData(completedPayments);
+
+  //       // Calculate summary statistics
+  //       const totalPayments = completedPayments.reduce((sum, request) => {
+  //         const payment = request.payments.find(p => p.status === 'COMPLETED');
+  //         return sum + (payment ? parseFloat(payment.amount) : 0);
+  //       }, 0);
+
+  //       const totalCommission = totalPayments * 0.15;
+  //       // const user = JSON.parse(localStorage.getItem("user"));        
+  //       // const totalCommission = user.isSuperAdmin ? totalPayments * 0.5 : totalPayments * 0.15;
+
+
+  //       setSummaryStats({
+  //         totalPayments,
+  //         totalCommission,
+  //         completedPayments: completedPayments.length
+  //       });
+
+  //       setLoading(false);
+  //     } catch (err) {
+  //       setError(err.message);
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchPayments();
+  // }, []);
+
+  // Filtered and Paginated Data
+  
   useEffect(() => {
     const fetchPayments = async () => {
       try {
@@ -52,52 +108,51 @@ const AgentPaymentsPage = () => {
             'Content-Type': 'application/json'
           }
         });
-
+  
         if (!response.ok) {
           throw new Error('Failed to fetch payments');
         }
-
+  
         const data = await response.json();
         
-        
-        // Filter only completed payments
-        const completedPayments = data.filter(request => 
-          request.payments.length > 0 && 
-          request.payments.some(payment => payment.status === 'COMPLETED')
-        );
-
+        // Handle case when data is not an array
+        const completedPayments = Array.isArray(data?.requests) 
+          ? data.requests.filter(request => 
+              request.payments && 
+              request.payments.length > 0 && 
+              request.payments.some(payment => payment.status === 'COMPLETED')
+            )
+          : [];
+  
         setPaymentsData(completedPayments);
-
+  
         // Calculate summary statistics
         const totalPayments = completedPayments.reduce((sum, request) => {
           const payment = request.payments.find(p => p.status === 'COMPLETED');
           return sum + (payment ? parseFloat(payment.amount) : 0);
         }, 0);
-
+  
         const totalCommission = totalPayments * 0.15;
-        // const user = JSON.parse(localStorage.getItem("user"));        
-        // const totalCommission = user.isSuperAdmin ? totalPayments * 0.5 : totalPayments * 0.15;
-
-
+  
         setSummaryStats({
           totalPayments,
           totalCommission,
           completedPayments: completedPayments.length
         });
-
+  
         setLoading(false);
       } catch (err) {
         setError(err.message);
         setLoading(false);
       }
     };
-
+  
     fetchPayments();
   }, []);
 
-  // Filtered and Paginated Data
+  
   const filteredData = useMemo(() => {
-    return paymentsData.filter(request => {
+    return paymentsData?.filter(request => {
       const searchString = searchTerm.toLowerCase();
       return (
         `${request.client.firstname} ${request.client.lastname}`.toLowerCase().includes(searchString) ||

@@ -18,7 +18,7 @@ const DashboardPage = () => {
           apiService.getServiceCategories()
         ]);
 
-        const activeRequests = requestsData.filter(r => r.status === 'active').length;
+        const activeRequests = requestsData?.filter(r => r.status === 'active').length;
         
         setRequests(requestsData);
         setStats([

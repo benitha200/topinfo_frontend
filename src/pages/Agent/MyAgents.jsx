@@ -51,7 +51,18 @@ const MyAgents = () => {
   const [totalAgents, setTotalAgents] = useState();
 
 
-
+  const openAddModal = () => setIsAddModalOpen(true);
+  const closeAddModal = () => {
+    setIsAddModalOpen(false);
+    resetForm();
+  };
+  
+  const openUploadModal = () => setIsUploadModalOpen(true);
+  const closeUploadModal = () => {
+    setIsUploadModalOpen(false);
+    setExcelFile(null);
+    setExcelAgents([]);
+  };
 
 
 
@@ -342,6 +353,122 @@ const MyAgents = () => {
   if (loading) return <div className="p-6">Loading...</div>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
+  // const handleExcelFileUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const allowedTypes = [
+  //       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //       'application/vnd.ms-excel'
+  //     ];
+
+  //     if (!allowedTypes.includes(file.type)) {
+  //       alert('Please upload a valid Excel file (.xlsx or .xls)');
+  //       return;
+  //     }
+
+  //     try {
+  //       const reader = new FileReader();
+  //       reader.onload = (event) => {
+  //         try {
+  //           const workbook = XLSX.read(event.target.result, { type: 'binary' });
+  //           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  //           const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+  //             header: 1,  // Use first row as headers
+  //             defval: ''  // Use empty string for missing values
+  //           });
+
+  //           // Skip header row and transform data
+  //           const transformedAgents = jsonData.slice(1).map(row => ({
+  //             firstname: row[0] || '',
+  //             lastname: row[1] || '',
+  //             email: row[2] || '',
+  //             phone: row[3] || '',
+  //             location_province: row[4] || '',
+  //             location_district: row[5] || '',
+  //             location_sector: row[6] || ''
+  //           })).filter(agent => agent.email);
+
+  //           if (transformedAgents.length === 0) {
+  //             alert('No valid agents found in the Excel file.');
+  //             return;
+  //           }
+
+  //           setExcelAgents(transformedAgents);
+  //           setIsUploadModalOpen(true);  
+  //         } catch (parseError) {
+  //           console.error('Error parsing Excel file:', parseError);
+  //           alert('Error parsing the Excel file.');
+  //         }
+  //       };
+
+  //       reader.readAsBinaryString(file);
+  //       setExcelFile(file);
+  //     } catch (error) {
+  //       console.error('Unexpected error in file upload:', error);
+  //       alert('An unexpected error occurred.');
+  //     }
+  //   }
+  // };
+
+
+  // const handleExcelFileUpload = (e) => {
+  //   const file = e.target.files[0];
+  //   if (file) {
+  //     const allowedTypes = [
+  //       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+  //       'application/vnd.ms-excel'
+  //     ];
+
+  //     if (!allowedTypes.includes(file.type)) {
+  //       alert('Please upload a valid Excel file (.xlsx or .xls)');
+  //       return;
+  //     }
+
+  //     try {
+  //       const reader = new FileReader();
+  //       reader.onload = (event) => {
+  //         try {
+  //           const workbook = XLSX.read(event.target.result, { type: 'binary' });
+  //           const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+  //           const jsonData = XLSX.utils.sheet_to_json(worksheet, {
+  //             header: 1,  // Use first row as headers
+  //             defval: ''  // Use empty string for missing values
+  //           });
+
+  //           // Skip header row and transform data
+  //           const transformedAgents = jsonData.slice(1).map(row => ({
+  //             firstname: row[0] || '',
+  //             lastname: row[1] || '',
+  //             email: row[2] || '',
+  //             phone: row[3] || '',
+  //             location_province: row[4] || '',
+  //             location_district: row[5] || '',
+  //             location_sector: row[6] || ''
+  //           })).filter(agent => agent.email);
+
+  //           if (transformedAgents.length === 0) {
+  //             alert('No valid agents found in the Excel file.');
+  //             return;
+  //           }
+
+  //           setExcelAgents(transformedAgents);
+  //           setIsUploadModalOpen(true); 
+  //           setIsAddModalOpen(true); // Open upload modal directly
+  //         } catch (parseError) {
+  //           console.error('Error parsing Excel file:', parseError);
+  //           alert('Error parsing the Excel file.');
+  //         }
+  //       };
+
+  //       reader.readAsBinaryString(file);
+  //       setExcelFile(file);
+  //     } catch (error) {
+  //       console.error('Unexpected error in file upload:', error);
+  //       alert('An unexpected error occurred.');
+  //     }
+  //   }
+  // };
+
   const handleExcelFileUpload = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -349,12 +476,12 @@ const MyAgents = () => {
         'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
         'application/vnd.ms-excel'
       ];
-
+  
       if (!allowedTypes.includes(file.type)) {
         alert('Please upload a valid Excel file (.xlsx or .xls)');
         return;
       }
-
+  
       try {
         const reader = new FileReader();
         reader.onload = (event) => {
@@ -365,7 +492,7 @@ const MyAgents = () => {
               header: 1,  // Use first row as headers
               defval: ''  // Use empty string for missing values
             });
-
+  
             // Skip header row and transform data
             const transformedAgents = jsonData.slice(1).map(row => ({
               firstname: row[0] || '',
@@ -376,20 +503,22 @@ const MyAgents = () => {
               location_district: row[5] || '',
               location_sector: row[6] || ''
             })).filter(agent => agent.email);
-
+  
             if (transformedAgents.length === 0) {
               alert('No valid agents found in the Excel file.');
               return;
             }
-
+  
             setExcelAgents(transformedAgents);
-            setIsUploadModalOpen(true);  // Open the upload modal
+            openAddModal();
+          openUploadModal();
+    
           } catch (parseError) {
             console.error('Error parsing Excel file:', parseError);
             alert('Error parsing the Excel file.');
           }
         };
-
+  
         reader.readAsBinaryString(file);
         setExcelFile(file);
       } catch (error) {
@@ -533,7 +662,7 @@ const MyAgents = () => {
           <h1 className="text-2xl font-bold">My Agents</h1>
           <div className="flex space-x-2">
             <button
-              onClick={() => setIsAddModalOpen(true)}
+              onClick={openAddModal}
               className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
             >
               Add New Agent
@@ -946,11 +1075,12 @@ const MyAgents = () => {
                 <button
                   className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md 
             hover:bg-gray-100 transition-colors"
-                  onClick={() => {
-                    setIsAddModalOpen(false);
-                    setEditingUser(null);
-                    resetForm();
-                  }}
+                  // onClick={() => {
+                  //   setIsAddModalOpen(false);
+                  //   setEditingUser(null);
+                  //   resetForm();
+                  // }}
+                  onClick={closeAddModal}
                   disabled={loading}
                 >
                   Cancel
@@ -1002,7 +1132,7 @@ const MyAgents = () => {
             </div>
           </div>
           {isUploadModalOpen && (
-            <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+            <div className="fixed h-full inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
               <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
                 <div className="bg-sky-50 px-6 py-4 border-b border-sky-100 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
@@ -1066,11 +1196,12 @@ const MyAgents = () => {
                   <div className="flex justify-end space-x-3 pt-4">
                     <button
                       className="px-4 py-2 text-gray-600 border border-gray-300 rounded-md hover:bg-gray-100 transition-colors"
-                      onClick={() => {
-                        setIsUploadModalOpen(false);
-                        setExcelFile(null);
-                        setExcelAgents([]);
-                      }}
+                      // onClick={() => {
+                      //   setIsUploadModalOpen(false);
+                      //   setExcelFile(null);
+                      //   setExcelAgents([]);
+                      // }}
+                      onClick={closeUploadModal}
                       disabled={uploadProgress.isUploading}
                     >
                       Cancel
