@@ -266,7 +266,7 @@ const AddServiceProvidersPageAgent = () => {
           body: JSON.stringify({
             paymentNumber: formData.paymentNumber,
             providerID,
-            currentUrl: `${origin}/agent-dashboard/service-provider-agent`,
+            currentUrl: `${origin}/agent-dashboard/provider-payment-callback`,
           }),
         }
       );

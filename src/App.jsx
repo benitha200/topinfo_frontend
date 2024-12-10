@@ -64,6 +64,8 @@ import Footer from "./components/website/Footer";
 import ContactUs from "./pages/ContactUs";
 import UpdateService from "./pages/Admin/Services/Update";
 import Navigation from "./components/website/Navigation";
+import AgentPaymentCallback from "./pages/Agent/AgentPaymentCallback";
+import AgentProviderPaymentCallback from "./pages/Agent/AgentProviderPaymentCallback";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -414,6 +416,22 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={["AGENT"]}>
               <AddServiceProvidersPageAgent />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/payment-callback"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <AgentPaymentCallback />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/provider-payment-callback"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <AgentProviderPaymentCallback />
             </ProtectedRoute>
           }
         />

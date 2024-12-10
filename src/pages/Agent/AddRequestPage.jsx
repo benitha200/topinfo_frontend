@@ -284,7 +284,7 @@ const AddRequestPage = () => {
           service_location: formData.district,
           paymentNumber: formData.paymentNumber,
           request_id: requestId,
-          currentUrl: `${origin}/requests-agent/select-services`,
+          currentUrl: `${origin}/agent-dashboard/payment-callback`,
         }),
       });
 
@@ -292,23 +292,8 @@ const AddRequestPage = () => {
         throw new Error("Failed to initial payment request");
 
       const result = await paymentResponse.json();
-      console.log(result);
-
       if (result.response.status === "success") {
-        // Redirect to Flutterwave checkout
-        const redirectUrl = result.response.meta.authorization.redirect;
-        console.log(redirectUrl);
-
-        // Option 1: Standard redirect
-        // window.location.href = redirectUrl;
-
-        // Option 2: If you want to prevent immediate closure
-        window.open(redirectUrl, "_blank");
-
-        // Optional: Add a slight delay to ensure redirect
-        // setTimeout(() => {
-        //   window.location.href = redirectUrl;
-        // }, 100);
+        window.location.href = result.response.meta.authorization.redirect;
       }
     } catch (err) {
       setError(err.message);
