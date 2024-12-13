@@ -57,7 +57,7 @@ const Login = () => {
       if (data.user.role === "ADMIN") {
         navigate("/dashboard");
       } else if (data.user.role === "AGENT" && data.user.isSuperAgent) {
-        navigate("/agent-dashboard/payments-agent");
+        navigate("/agent-dashboard/payments-super-agent");
       } else if (data.user.role === "AGENT") {
         navigate("/agent-dashboard");
       } else {

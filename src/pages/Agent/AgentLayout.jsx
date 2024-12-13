@@ -311,10 +311,15 @@ const AgentLayout = ({ children }) => {
       label: "Service Provider",
       path: "/agent-dashboard/service-provider-agent",
     },
-    {
+    !user.isSuperAgent && {
       icon: ClipboardList,
       label: "Payments",
       path: "/agent-dashboard/payments-agent",
+    },
+    user.isSuperAgent && {
+      icon: ClipboardList,
+      label: "Payments",
+      path: "/agent-dashboard/payments-super-agent",
     },
   ].filter(Boolean);
   

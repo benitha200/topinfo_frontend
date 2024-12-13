@@ -66,6 +66,7 @@ import UpdateService from "./pages/Admin/Services/Update";
 import Navigation from "./components/website/Navigation";
 import AgentPaymentCallback from "./pages/Agent/AgentPaymentCallback";
 import AgentProviderPaymentCallback from "./pages/Agent/AgentProviderPaymentCallback";
+import SuperAgentPaymentsPage from "./pages/Agent/SuperAgentPaymentsPage";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -473,6 +474,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
               <AgentPaymentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/payments-super-agent"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
+              <SuperAgentPaymentsPage />
             </ProtectedRoute>
           }
         />

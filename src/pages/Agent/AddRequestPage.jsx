@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Districts, Provinces, Sectors } from "rwanda";
 import Select from "react-select";
-import { ArrowRight, ChevronRight } from "lucide-react";
+import { ArrowRight, CheckCircle, ChevronRight } from "lucide-react";
 import API_URL from "../../constants/Constants";
 import AgentLayout from "./AgentLayout";
 
