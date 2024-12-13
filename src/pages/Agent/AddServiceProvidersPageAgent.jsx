@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Select from "react-select";
-import { AlertCircle } from "lucide-react";
+import { AlertCircle, CheckCircle } from "lucide-react";
 import { Provinces, Districts, Sectors } from "rwanda";
 import API_URL from "../../constants/Constants";
 import AgentLayout from "./AgentLayout";
@@ -43,6 +43,9 @@ const AddServiceProvidersPageAgent = () => {
   const [providerID, setProviderID] = useState("");
   const [amountToPay, setAmountToPay] = useState("");
   const [settings, setSettings] = useState();
+
+  const [paymentFail, setPaymentFail] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
 
   const [provinces1] = useState(Provinces());
   const [districts, setDistricts] = useState([]);
@@ -256,7 +259,7 @@ const AddServiceProvidersPageAgent = () => {
     try {
       const token = localStorage.getItem("token");
       const paymentResponse = await fetch(
-        `${API_URL}/payments/provider-initiate`,
+        `${API_URL}/payments/initiate`,
         {
           method: "POST",
           headers: {
@@ -265,8 +268,8 @@ const AddServiceProvidersPageAgent = () => {
           },
           body: JSON.stringify({
             paymentNumber: formData.paymentNumber,
-            providerID,
-            currentUrl: `${origin}/agent-dashboard/provider-payment-callback`,
+          providerID,
+          type: "provider",
           }),
         }
       );
@@ -274,10 +277,13 @@ const AddServiceProvidersPageAgent = () => {
       if (!paymentResponse.ok)
         throw new Error("Failed to initial payment request");
       const result = await paymentResponse.json();
-
-      if (result.response.status === "success") {
-        window.location.href = result.response.meta.authorization.redirect;
+      if (!result.success) {
+        setPaymentInit(false);
+        setPaymentFail(result);
+      } else {
+        setPaymentSuccess(true);
       }
+
     } catch (err) {
       console.error("Submission error:", err);
       setError(err.message);
@@ -286,6 +292,43 @@ const AddServiceProvidersPageAgent = () => {
 
   return (
     <AgentLayout>
+        {paymentSuccess ? (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 px-4 sm:px-6 lg:px-8">
+          <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
+            <CheckCircle
+              size={80}
+              className="mx-auto text-green-500 mb-4"
+              strokeWidth={1.5}
+            />
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Byagenze Neza!
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Murakoze gukoresha TopInfo. Kwishyura Byagenze Neza!
+              </p>
+              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-sky-800 mb-2">Ibikurikira</h3>
+                <p className="text-sky-700">
+                  Mukanya gato, Ibindi bikurikira turabibamenyesha muri
+                  Imeli/SMS
+                </p>
+              </div>
+              <div className="border-t pt-6 text-sm text-gray-500">
+                <p>
+                  Ukeneye Ubufasha? Twandikira kuri:{" "}
+                  <a
+                    href="tel:+250785283910"
+                    className="text-sky-600 hover:underline"
+                  >
+                    +250 785 283 910
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
       <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-2xl mx-auto">
           <div className="text-center mb-8">
@@ -725,6 +768,11 @@ const AddServiceProvidersPageAgent = () => {
                     </p>
                   </div>
                 )}
+                  {paymentFail && (
+                    <div className="p-4 bg-red-200 border border-red-300 rounded-md mb-4">
+                      <p className="text-red-600">{paymentFail.message}</p>
+                    </div>
+                  )}
                 <form onSubmit={handleFinalStep}>
                   <div className="mb-4">
                     <span className="block text-sm font-medium mb-2">
@@ -792,6 +840,7 @@ const AddServiceProvidersPageAgent = () => {
           </div>
         </div>
       </div>
+        )}
     </AgentLayout>
   );
 };

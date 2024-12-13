@@ -12,6 +12,8 @@ const AddRequestPage = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [paymentInit, setPaymentInit] = useState(false);
+  const [paymentFail, setPaymentFail] = useState(null);
+  const [paymentSuccess, setPaymentSuccess] = useState(false);
   const [clientId, setClientId] = useState("");
   const [requestId, setRequestId] = useState("");
   const [step, setStep] = useState(1); // State to track the current step
@@ -284,7 +286,8 @@ const AddRequestPage = () => {
           service_location: formData.district,
           paymentNumber: formData.paymentNumber,
           request_id: requestId,
-          currentUrl: `${origin}/agent-dashboard/payment-callback`,
+          client_id: clientId,
+          type: "client",
         }),
       });
 
@@ -292,9 +295,17 @@ const AddRequestPage = () => {
         throw new Error("Failed to initial payment request");
 
       const result = await paymentResponse.json();
-      if (result.response.status === "success") {
-        window.location.href = result.response.meta.authorization.redirect;
+      if (!result.success) {
+        setLoading(false);
+        setPaymentInit(false);
+        setPaymentFail(result);
+      } else {
+        setPaymentSuccess(true);
       }
+
+      // if (result.response.status === "success") {
+      //   window.location.href = result.response.meta.authorization.redirect;
+      // }
     } catch (err) {
       setError(err.message);
       console.error("Payment initiation error:", err);
@@ -307,6 +318,43 @@ const AddRequestPage = () => {
 
   return (
     <AgentLayout>
+        {paymentSuccess ? (
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 px-4 sm:px-6 lg:px-8">
+          <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
+            <CheckCircle
+              size={80}
+              className="mx-auto text-green-500 mb-4"
+              strokeWidth={1.5}
+            />
+            <div>
+              <h2 className="text-3xl font-bold text-gray-900 mb-4">
+                Byagenze Neza!
+              </h2>
+              <p className="text-gray-600 mb-6">
+                Murakoze gukoresha TopInfo. Kwishyura Byagenze Neza!
+              </p>
+              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-sky-800 mb-2">Ibikurikira</h3>
+                <p className="text-sky-700">
+                  Mukanya gato, Ibindi bikurikira turabibamenyesha muri
+                  Imeli/SMS
+                </p>
+              </div>
+              <div className="border-t pt-6 text-sm text-gray-500">
+                <p>
+                  Ukeneye Ubufasha? Twandikira kuri:{" "}
+                  <a
+                    href="tel:+250785283910"
+                    className="text-sky-600 hover:underline"
+                  >
+                    +250 785 283 910
+                  </a>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      ) : (
       <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
           {step === 1 && (
@@ -336,26 +384,6 @@ const AddRequestPage = () => {
                       />
                     </div>
                   ))}
-
-                  {/* {[
-                  { field: "location_province", label: "Intara" },
-                  { field: "location_district", label: "Akarere" },
-                  { field: "location_sector", label: "Umurenge" }
-                ].map(({ field, label }) => (
-                  <div key={field} className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                      {label}
-                    </label>
-                    <input
-                      type="text"
-                      className="w-full p-2 border rounded"
-                      onChange={(e) => handleStaticFieldChange(field, e.target.value)}
-                      value={formData[field]}
-                      required
-                    />
-                  </div>
-                ))}
-              </div> */}
 
                   <div className="mb-4">
                     <label className="block text-sm font-medium mb-1">
@@ -612,102 +640,6 @@ const AddRequestPage = () => {
             </>
           )}
 
-          {/* Step 3: Finalize Request */}
-          {/* {step === 3 && (
-          <>
-            <h1 className="text-2xl font-bold mb-4">3: Uzuza Amakuru yo kwishyura</h1>
-            {error && (
-              <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                <p className="text-red-600">{error}</p>
-              </div>
-            )}
-
-            {paymentInit && (
-              <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
-                <p className="text-sky-600">
-                  Payment request sent. Please check your phone for the payment
-                  prompt.
-                </p>
-              </div>
-            )}
-            <form onSubmit={handleSubmitStep3}>
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">
-                  Akarere ukeneyemo service
-                </label>
-                <Select
-                  options={districtOptions}
-                  onChange={(selected) =>
-                    handleStaticFieldChange("district", selected.value)
-                  }
-                  value={
-                    formData.district
-                      ? { value: formData.district, label: formData.district }
-                      : null
-                  }
-                  placeholder="Choose a district"
-                />
-              </div>
-
-              <div className="mb-4">
-                <span className="block text-sm font-medium mb-2">
-                  Payment Method
-                </span>
-                <div className="space-y-2">
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="momo"
-                      onChange={(e) =>
-                        handleStaticFieldChange("paymentMethod", e.target.value)
-                      }
-                      checked={formData.paymentMethod === "momo"}
-                    />
-                    <span className="ml-2">MTN Mobile Money</span>
-                  </label>
-                  <label className="flex items-center">
-                    <input
-                      type="radio"
-                      name="paymentMethod"
-                      value="airtel"
-                      onChange={(e) =>
-                        handleStaticFieldChange("paymentMethod", e.target.value)
-                      }
-                      checked={formData.paymentMethod === "airtel"}
-                    />
-                    <span className="ml-2">Airtel Money</span>
-                  </label>
-                </div>
-              </div>
-
-              <div className="mb-4">
-                <label className="block text-sm font-medium mb-1">
-                  Payment Number
-                </label>
-                <input
-                  type="text"
-                  className="w-full p-2 border rounded"
-                  onChange={(e) =>
-                    handleStaticFieldChange("paymentNumber", e.target.value)
-                  }
-                  value={formData.paymentNumber}
-                  required
-                />
-              </div>
-
-              <div className="flex justify-end">
-                <button
-                  type="submit"
-                  disabled={paymentInit}
-                  className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-                >
-                  {paymentInit ? "Tegereza..." : "Ishyura"}
-                </button>
-              </div>
-            </form>
-          </>
-        )} */}
           {step === 3 && (
             <>
               <h1 className="text-2xl font-bold mb-4">
@@ -727,6 +659,12 @@ const AddRequestPage = () => {
                   </p>
                 </div>
               )}
+              {paymentFail && (
+                <div className="p-4 bg-red-200 border border-red-300 rounded-md mb-4">
+                  <p className="text-red-600">{paymentFail.message}</p>
+                </div>
+              )}
+
 
               <form onSubmit={handleSubmitStep3}>
                 <div className="mb-4">
@@ -817,6 +755,7 @@ const AddRequestPage = () => {
           )}
         </div>
       </div>
+      )}
     </AgentLayout>
   );
 };
