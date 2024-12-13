@@ -62,21 +62,25 @@ const SuperAgentPaymentsPage = () => {
         // Log the raw data for debugging
         console.log('Raw data:', data);
   
-        // Modify the filtering logic
-        const completedPayments = data.filter(request => 
-          request.payments && 
-          request.payments.some(payment => payment.status === 'COMPLETED')
-        );
+        // Add robust error checking for data type and structure
+        const completedPayments = Array.isArray(data) 
+          ? data.filter(request => 
+              request && 
+              request.payments && 
+              Array.isArray(request.payments) &&
+              request.payments.some(payment => payment && payment.status === 'COMPLETED')
+            )
+          : [];
   
         // Log completed payments for debugging
         console.log('Completed payments:', completedPayments);
   
         setPaymentsData(completedPayments);
   
-        // Calculate summary statistics
+        // Calculate summary statistics with additional checks
         const totalPayments = completedPayments.reduce((sum, request) => {
           const payment = request.payments.find(p => p.status === 'COMPLETED');
-          return sum + (payment ? parseFloat(payment.amount) : 0);
+          return sum + (payment && !isNaN(parseFloat(payment.amount)) ? parseFloat(payment.amount) : 0);
         }, 0);
   
         const totalCommission = totalPayments * 0.05;
@@ -99,15 +103,18 @@ const SuperAgentPaymentsPage = () => {
   }, []);
 
   const filteredData = useMemo(() => {
-    return paymentsData?.filter(request => {
-      const searchString = searchTerm.toLowerCase();
-      return (
-        `${request.client.firstname} ${request.client.lastname}`.toLowerCase().includes(searchString) ||
-        request.service_category.name.toLowerCase().includes(searchString) ||
-        request.client.email.toLowerCase().includes(searchString) ||
-        request.client.phone.toLowerCase().includes(searchString)
-      );
-    });
+    return Array.isArray(paymentsData) 
+      ? paymentsData.filter(request => {
+          const searchString = searchTerm.toLowerCase();
+          return (
+            request.client && 
+            `${request.client.firstname} ${request.client.lastname}`.toLowerCase().includes(searchString) ||
+            (request.service_category && request.service_category.name.toLowerCase().includes(searchString)) ||
+            (request.client.email && request.client.email.toLowerCase().includes(searchString)) ||
+            (request.client.phone && request.client.phone.toLowerCase().includes(searchString))
+          );
+        })
+      : [];
   }, [paymentsData, searchTerm]);
 
   const paginatedData = useMemo(() => {
