@@ -83,7 +83,7 @@ const ForgetPassword = () => {
                   className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg 
                     focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 
                     transition-all duration-300"
-                  placeholder="you@example.com"
+                  placeholder="your-email@gmail.com"
                 />
               </div>
             </div>
