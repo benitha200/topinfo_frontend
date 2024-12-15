@@ -66,6 +66,9 @@ import UpdateService from "./pages/Admin/Services/Update";
 import Navigation from "./components/website/Navigation";
 import AgentPaymentCallback from "./pages/Agent/AgentPaymentCallback";
 import AgentProviderPaymentCallback from "./pages/Agent/AgentProviderPaymentCallback";
+import SuperAgentPaymentsPage from "./pages/Agent/SuperAgentPaymentsPage";
+import ForgetPassword from "./components/website/ForgetPassword";
+import ResetPassword from "./components/website/ResetPassword";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -162,7 +165,7 @@ const LayoutWrapper = ({ children }) => {
 
 
 const App = () => {
-  
+
   return (
     <Router>
       <Routes>
@@ -187,6 +190,22 @@ const App = () => {
           element={
             <LayoutWrapper>
               <Login />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <LayoutWrapper>
+              <ForgetPassword />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <LayoutWrapper>
+              <ResetPassword />
             </LayoutWrapper>
           }
         />
@@ -473,6 +492,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
               <AgentPaymentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/payments-super-agent"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
+              <SuperAgentPaymentsPage />
             </ProtectedRoute>
           }
         />

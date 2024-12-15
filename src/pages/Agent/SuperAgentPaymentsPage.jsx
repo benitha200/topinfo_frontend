@@ -26,7 +26,7 @@ import { Button } from '@/components/ui/button';
 import AgentLayout from './AgentLayout';
 import API_URL from '../../constants/Constants';
 
-const AgentPaymentsPage = () => {
+const SuperAgentPaymentsPage = () => {
   const [paymentsData, setPaymentsData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -40,115 +40,6 @@ const AgentPaymentsPage = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 10;
-
-  // useEffect(() => {
-  //   const fetchPayments = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       const response = await fetch(`${API_URL}/requests`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch payments');
-  //       }
-
-  //       const data = await response.json();
-
-
-  //       // Filter only completed payments
-  //       const completedPayments = data?.filter(request => 
-  //         request.payments.length > 0 && 
-  //         request.payments.some(payment => payment.status === 'COMPLETED')
-  //       );
-
-  //       setPaymentsData(completedPayments);
-
-  //       // Calculate summary statistics
-  //       const totalPayments = completedPayments.reduce((sum, request) => {
-  //         const payment = request.payments.find(p => p.status === 'COMPLETED');
-  //         return sum + (payment ? parseFloat(payment.amount) : 0);
-  //       }, 0);
-
-  //       const totalCommission = totalPayments * 0.15;
-  //       // const user = JSON.parse(localStorage.getItem("user"));        
-  //       // const totalCommission = user.isSuperAdmin ? totalPayments * 0.5 : totalPayments * 0.15;
-
-
-  //       setSummaryStats({
-  //         totalPayments,
-  //         totalCommission,
-  //         completedPayments: completedPayments.length
-  //       });
-
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError(err.message);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchPayments();
-  // }, []);
-
-  // Filtered and Paginated Data
-
-  // useEffect(() => {
-  //   const fetchPayments = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       const response = await fetch(`${API_URL}/requests`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch payments');
-  //       }
-
-  //       const data = await response.json();
-
-  //       // Handle case when data is not an array
-  //       const completedPayments = Array.isArray(data?.requests)
-  //         ? data.requests.filter(request =>
-  //           request.payments &&
-  //           request.payments.some(payment => payment.status === 'COMPLETED')
-  //         )
-  //         : [];
-  //         console.log(completedPayments);
-
-  //       setPaymentsData(completedPayments);
-
-  //       // Calculate summary statistics
-  //       const totalPayments = completedPayments.reduce((sum, request) => {
-  //         const payment = request.payments.find(p => p.status === 'COMPLETED');
-  //         return sum + (payment ? parseFloat(payment.amount) : 0);
-  //       }, 0);
-
-  //       const totalCommission = totalPayments * 0.15;
-
-  //       setSummaryStats({
-  //         totalPayments,
-  //         totalCommission,
-  //         completedPayments: completedPayments.length
-  //       });
-
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError(err.message);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchPayments();
-  // }, []);
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -171,24 +62,28 @@ const AgentPaymentsPage = () => {
         // Log the raw data for debugging
         console.log('Raw data:', data);
   
-        // Modify the filtering logic
-        const completedPayments = data.filter(request => 
-          request.payments && 
-          request.payments.some(payment => payment.status === 'COMPLETED')
-        );
+        // Add robust error checking for data type and structure
+        const completedPayments = Array.isArray(data) 
+          ? data.filter(request => 
+              request && 
+              request.payments && 
+              Array.isArray(request.payments) &&
+              request.payments.some(payment => payment && payment.status === 'COMPLETED')
+            )
+          : [];
   
         // Log completed payments for debugging
         console.log('Completed payments:', completedPayments);
   
         setPaymentsData(completedPayments);
   
-        // Calculate summary statistics
+        // Calculate summary statistics with additional checks
         const totalPayments = completedPayments.reduce((sum, request) => {
           const payment = request.payments.find(p => p.status === 'COMPLETED');
-          return sum + (payment ? parseFloat(payment.amount) : 0);
+          return sum + (payment && !isNaN(parseFloat(payment.amount)) ? parseFloat(payment.amount) : 0);
         }, 0);
   
-        const totalCommission = totalPayments * 0.15;
+        const totalCommission = totalPayments * 0.05;
   
         setSummaryStats({
           totalPayments,
@@ -208,15 +103,18 @@ const AgentPaymentsPage = () => {
   }, []);
 
   const filteredData = useMemo(() => {
-    return paymentsData?.filter(request => {
-      const searchString = searchTerm.toLowerCase();
-      return (
-        `${request.client.firstname} ${request.client.lastname}`.toLowerCase().includes(searchString) ||
-        request.service_category.name.toLowerCase().includes(searchString) ||
-        request.client.email.toLowerCase().includes(searchString) ||
-        request.client.phone.toLowerCase().includes(searchString)
-      );
-    });
+    return Array.isArray(paymentsData) 
+      ? paymentsData.filter(request => {
+          const searchString = searchTerm.toLowerCase();
+          return (
+            request.client && 
+            `${request.client.firstname} ${request.client.lastname}`.toLowerCase().includes(searchString) ||
+            (request.service_category && request.service_category.name.toLowerCase().includes(searchString)) ||
+            (request.client.email && request.client.email.toLowerCase().includes(searchString)) ||
+            (request.client.phone && request.client.phone.toLowerCase().includes(searchString))
+          );
+        })
+      : [];
   }, [paymentsData, searchTerm]);
 
   const paginatedData = useMemo(() => {
@@ -295,6 +193,7 @@ const AgentPaymentsPage = () => {
               <TableHeader>
                 <TableRow>
                   <TableHead>Date</TableHead>
+                  <TableHead>Agent</TableHead>
                   <TableHead>Client Name</TableHead>
                   <TableHead>Service Category</TableHead>
                   <TableHead>Phone Number</TableHead>
@@ -309,6 +208,7 @@ const AgentPaymentsPage = () => {
                   return successfulPayment ? (
                     <TableRow key={request.id} className="hover:bg-gray-50 transition-colors">
                       <TableCell>{new Date(request.service_date).toLocaleDateString()}</TableCell>
+                      <TableCell>{`${request.agent.firstname} ${request.agent.lastname}`}</TableCell>
                       <TableCell>{`${request.client.firstname} ${request.client.lastname}`}</TableCell>
                       <TableCell>{request.service_category.name}</TableCell>
                       {/* <TableCell>{request.client.phone}</TableCell>
@@ -357,4 +257,4 @@ const AgentPaymentsPage = () => {
   );
 };
 
-export default AgentPaymentsPage;
+export default SuperAgentPaymentsPage;
