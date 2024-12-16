@@ -10,7 +10,7 @@ const TermsOfService = () => {
           </h1>
           
           <p className="text-gray-600 mb-4">
-            <strong>Effective Date:</strong> January 11, 2024
+            <strong>Effective Date:</strong> 1st November, 2024
           </p>
           
           <p className="text-gray-800 mb-6">
