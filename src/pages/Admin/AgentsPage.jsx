@@ -308,7 +308,7 @@ const AgentsPage = () => {
               <Users className="h-8 w-8 text-sky-500" />
               <div>
                 <p className="text-sm text-gray-500">Total Agents</p>
-                <p className="text-2xl font-bold">{users.length}</p>
+                <p className="text-2xl font-bold">{pagination.total}</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
@@ -316,7 +316,7 @@ const AgentsPage = () => {
               <div>
                 <p className="text-sm text-gray-500">Active Agents</p>
                 <p className="text-2xl font-bold">
-                  {users.filter((user) => user.isActive).length}
+                  {pagination.total}
                 </p>
               </div>
             </div>
