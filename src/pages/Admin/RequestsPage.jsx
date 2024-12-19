@@ -352,7 +352,7 @@
 // export default RequestsPage;
 
 import React, { useState, useEffect } from 'react';
-import { FileText, Search, Filter, X, Edit2 } from 'lucide-react';
+import { FileText, Search, Filter, X, Edit2, Save } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
@@ -360,10 +360,23 @@ import API_URL from '../../constants/Constants';
 // Edit Form Component
 const EditRequestForm = ({ request, onClose, onSave }) => {
     const [formData, setFormData] = useState({
+        your_location: request.your_location || '',
         service_location: request.service_location || '',
         service_date: request.service_date ? new Date(request.service_date).toISOString().split('T')[0] : '',
-        status: request.status || 'Pending'
+        status: request.status || 'PENDING',
+        message_preference: request.message_preference || 'EMAIL',
+        fields: request.fields || {}
     });
+
+    const handleFieldChange = (fieldId, value) => {
+        setFormData(prev => ({
+            ...prev,
+            fields: {
+                ...prev.fields,
+                [fieldId]: value
+            }
+        }));
+    };
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -372,7 +385,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded w-11/12 max-w-md p-6 relative">
+            <div className="bg-white rounded w-11/12 max-w-2xl p-6 relative">
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -382,45 +395,103 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
 
                 <h2 className="text-2xl font-bold mb-6">Edit Request</h2>
 
-                <form onSubmit={handleSubmit} className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Service Location
-                        </label>
-                        <input
-                            type="text"
-                            value={formData.service_location}
-                            onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
-                            className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                        />
+                <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Your Location
+                            </label>
+                            <input
+                                type="text"
+                                value={formData.your_location}
+                                onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
+                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Service Location
+                            </label>
+                            <input
+                                type="text"
+                                value={formData.service_location}
+                                onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
+                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Service Date
+                            </label>
+                            <input
+                                type="date"
+                                value={formData.service_date}
+                                onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
+                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            />
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Status
+                            </label>
+                            <select
+                                value={formData.status}
+                                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            >
+                                <option value="PENDING">Pending</option>
+                                <option value="IN_PROGRESS">In Progress</option>
+                                <option value="COMPLETED">Completed</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700">
+                                Message Preference
+                            </label>
+                            <select
+                                value={formData.message_preference}
+                                onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
+                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                            >
+                                <option value="EMAIL">Email</option>
+                                <option value="SMS">SMS</option>
+                            </select>
+                        </div>
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Service Date
-                        </label>
-                        <input
-                            type="date"
-                            value={formData.service_date}
-                            onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
-                            className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                        />
-                    </div>
-
-                    <div>
-                        <label className="block text-sm font-medium text-gray-700">
-                            Status
-                        </label>
-                        <select
-                            value={formData.status}
-                            onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                            className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                        >
-                            <option value="Pending">Pending</option>
-                            <option value="IN_PROGRESS">In Progress</option>
-                            <option value="COMPLETED">Completed</option>
-                        </select>
-                    </div>
+                    {request.service_category?.fields && (
+                        <div className="mt-6">
+                            <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Fields</h3>
+                            <div className="space-y-4">
+                                {request.service_category.fields.map((field) => (
+                                    <div key={field.id}>
+                                        <label className="block text-sm font-medium text-gray-700">
+                                            {field.fieldName}
+                                        </label>
+                                        {field.inputType === 'textarea' ? (
+                                            <textarea
+                                                value={formData.fields[field.id] || ''}
+                                                onChange={(e) => handleFieldChange(field.id, e.target.value)}
+                                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                rows={3}
+                                            />
+                                        ) : (
+                                            <input
+                                                type={field.inputType}
+                                                value={formData.fields[field.id] || ''}
+                                                onChange={(e) => handleFieldChange(field.id, e.target.value)}
+                                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                            />
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     <div className="flex justify-end space-x-3 mt-6">
                         <button
@@ -463,7 +534,7 @@ const RequestDetailsView = ({ request, onClose }) => {
 
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded w-11/12 max-w-2xl max-h-[90vh] overflow-y-auto p-6 relative">
+            <div className="bg-white rounded w-11/12 max-w-4xl max-h-[90vh] overflow-y-auto p-6 relative">
                 <button
                     onClick={onClose}
                     className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
@@ -473,24 +544,58 @@ const RequestDetailsView = ({ request, onClose }) => {
 
                 <h2 className="text-2xl font-bold mb-6 pb-4 border-b">Request Details</h2>
 
-                <div className="space-y-6">
-                    {/* Service Information */}
-                    <div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <Card className="p-4">
                         <h3 className="text-lg font-semibold mb-4">Service Information</h3>
-                        <div className="bg-gray-50 p-4 rounded-lg">
-                            <InfoRow label="Service Category" value={request.service_category?.name || 'N/A'} />
-                            <InfoRow label="Service Location" value={request.service_location || 'N/A'} />
+                        <div className="space-y-2">
+                            <InfoRow label="Request ID" value={request.id} />
+                            <InfoRow label="Service Category" value={request.service_category?.name} />
+                            <InfoRow label="Your Location" value={request.your_location} />
+                            <InfoRow label="Service Location" value={request.service_location} />
                             <InfoRow label="Service Date" value={new Date(request.service_date).toLocaleDateString()} />
+                            <InfoRow label="Message Preference" value={request.message_preference} />
                             <div className="flex justify-between py-2">
                                 <span className="text-gray-500">Status</span>
                                 <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(request.status)}`}>
-                                    {request.status || 'Pending'}
+                                    {request.status}
                                 </span>
                             </div>
                         </div>
-                    </div>
+                    </Card>
 
-                    {/* Rest of the details view remains the same... */}
+                    <Card className="p-4">
+                        <h3 className="text-lg font-semibold mb-4">Client Information</h3>
+                        <div className="space-y-2">
+                            <InfoRow label="Name" value={`${request.client?.firstname} ${request.client?.lastname}`} />
+                            <InfoRow label="Email" value={request.client?.email} />
+                            <InfoRow label="Phone" value={request.client?.phone} />
+                            <InfoRow label="Province" value={request.client?.location_province} />
+                            <InfoRow label="District" value={request.client?.location_district} />
+                            <InfoRow label="Sector" value={request.client?.location_sector} />
+                        </div>
+                    </Card>
+
+                    <Card className="p-4">
+                        <h3 className="text-lg font-semibold mb-4">Additional Information</h3>
+                        <div className="space-y-2">
+                            {request.service_category?.fields?.map((field) => (
+                                <InfoRow
+                                    key={field.id}
+                                    label={field.fieldName}
+                                    value={request.fields?.[field.id]}
+                                />
+                            ))}
+                        </div>
+                    </Card>
+
+                    <Card className="p-4">
+                        <h3 className="text-lg font-semibold mb-4">System Information</h3>
+                        <div className="space-y-2">
+                            <InfoRow label="Created At" value={new Date(request.createdAt).toLocaleString()} />
+                            <InfoRow label="Updated At" value={new Date(request.updatedAt).toLocaleString()} />
+                            <InfoRow label="Agent ID" value={request.agent_id || 'Not Assigned'} />
+                        </div>
+                    </Card>
                 </div>
             </div>
         </div>

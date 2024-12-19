@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
     CreditCard, TrendingUp, ArrowUpRight, ArrowDownRight,
-    Search, Filter, Download, ChevronLeft, ChevronRight, Calendar
+    Search, Filter, Download, ChevronLeft, ChevronRight, Calendar,
+    Clock,
+    CheckCircle,
+    User2,
+    AlertCircle
 } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
@@ -113,16 +117,32 @@ const PaymentsPage = () => {
     const totalPages = Math.ceil(filteredPayments.length / itemsPerPage);
 
     // Compute statistics
-    const totalRevenue = filteredPayments
-        .filter(p => p.status === 'SUCCESSFULL' || 'COMPLETED')
-        .reduce((sum, payment) => sum + payment.amount, 0);
+    // const totalRevenue = filteredPayments
+    //     .filter(p => p.status === 'SUCCESSFULL' || 'COMPLETED')
+    //     .reduce((sum, payment) => sum + payment.amount, 0);
 
-    const pendingAmount = filteredPayments
+    // const pendingAmount = filteredPayments
+    //     .filter(p => p.status === 'PENDING')
+    //     .reduce((sum, payment) => sum + payment.amount, 0);
+
+    // const successRate = (filteredPayments.filter(p => p.status === 'COMPLETED').length /
+    //     (filteredPayments.length || 1) * 100).toFixed(1);
+
+
+    const totalRevenue = payments
+        .filter(p => p.status === 'COMPLETED' || p.status === 'SUCCESSFULL')
+        .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
+
+    const pendingAmount = payments
         .filter(p => p.status === 'PENDING')
-        .reduce((sum, payment) => sum + payment.amount, 0);
+        .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
 
-    const successRate = (filteredPayments.filter(p => p.status === 'COMPLETED').length /
-        (filteredPayments.length || 1) * 100).toFixed(1);
+    const completedPayments = payments.filter(p => p.status === 'COMPLETED').length;
+    const totalPayments = payments.length;
+    const successRate = (completedPayments / (totalPayments || 1) * 100).toFixed(1);
+
+    const uniqueCustomers = new Set(payments.map(p => p.client_id)).size;
+    const averageTransactionValue = totalRevenue / (completedPayments || 1);
 
     const handlePageChange = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -150,7 +170,7 @@ const PaymentsPage = () => {
         <AdminLayout>
             <div className="p-6 space-y-6">
                 {/* Statistics Cards */}
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                     {[
                         {
                             title: 'Total Revenue',
@@ -196,6 +216,60 @@ const PaymentsPage = () => {
                                     </div>
                                     <div className={`mt-4 flex items-center text-sm text-${stat.color}-500`}>
                                         <ArrowUpRight className="h-4 w-4 mr-1" />
+                                        <span>{stat.subtitle}</span>
+                                    </div>
+                                </CardContent>
+                            </Card>
+                        );
+                    })}
+                </div> */}
+
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                    {[
+                        {
+                            title: 'Total Revenue',
+                            value: `${totalRevenue.toLocaleString()} RWF`,
+                            icon: TrendingUp,
+                            color: 'green',
+                            subtitle: 'Total processed payments'
+                        },
+                        {
+                            title: 'Pending Amount',
+                            value: `${pendingAmount.toLocaleString()} RWF`,
+                            icon: Clock,
+                            color: 'yellow',
+                            subtitle: `${payments.filter(p => p.status === 'PENDING').length} pending`
+                        },
+                        {
+                            title: 'Completed Payments',
+                            value: completedPayments,
+                            icon: CheckCircle,
+                            color: 'blue',
+                            subtitle: `${successRate}% completion rate`
+                        },
+                       
+                        {
+                            title: 'Total Transactions',
+                            value: totalPayments,
+                            icon: ArrowUpRight,
+                            color: 'sky',
+                            subtitle: 'All payment attempts'
+                        }
+                    ].map((stat, index) => {
+                        const Icon = stat.icon;
+                        return (
+                            <Card key={index} className="hover:shadow-md transition-shadow duration-300">
+                                <CardContent className="pt-6">
+                                    <div className="flex items-center justify-between">
+                                        <div>
+                                            <p className="text-sm font-medium text-gray-500">{stat.title}</p>
+                                            <p className="text-2xl font-bold">{stat.value}</p>
+                                        </div>
+                                        <div className={`h-12 w-12 bg-${stat.color}-100 rounded-full flex items-center justify-center`}>
+                                            <Icon className={`h-6 w-6 text-${stat.color}-500`} />
+                                        </div>
+                                    </div>
+                                    <div className="mt-4 flex items-center text-sm text-gray-600">
                                         <span>{stat.subtitle}</span>
                                     </div>
                                 </CardContent>
