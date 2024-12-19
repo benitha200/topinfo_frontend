@@ -72,6 +72,7 @@ const ContactUs = () => {
             <div className='flex flex-col'>
               <span>Beatitude House, </span>
             <span>Okapi Hotel, 4th Floor, Room 22</span>
+            <span>Muhima Sector, Nyarugenge District, Kigali City</span>
             </div>
             
           </div>

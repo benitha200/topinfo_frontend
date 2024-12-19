@@ -317,7 +317,7 @@ const BecomeProvider = () => {
                     href="tel:+250785283910"
                     className="text-sky-600 hover:underline"
                   >
-                    +250 785 283 910
+                    +250 785 025 495
                   </a>
                 </p>
               </div>
