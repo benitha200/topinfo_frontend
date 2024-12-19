@@ -65,14 +65,15 @@ const Footer = () => {
                   Reba Serivisi
                 </Link>
               </li>
-              <li>
+              {/* <li>
                 <Link
                   to="/become-agent"
                   className="text-gray-300 hover:text-white"
                 >
                   Ba Agent
                 </Link>
-              </li><li>
+              </li> */}
+              <li>
                 <Link
                   to="/become-provider"
                   className="text-gray-300 hover:text-white"

@@ -25,13 +25,13 @@ const Navigation = () => {
             >
                 Abatanga Serivisi
             </Link>
-            <Link
+            {/* <Link
                 to="/become-agent"
                 className="block py-2 md:py-0 text-gray-700 hover:text-sky-600 transition-colors"
                 onClick={toggleMobileMenu}
             >
                 Aba Agent
-            </Link>
+            </Link> */}
         </>
     );
 
