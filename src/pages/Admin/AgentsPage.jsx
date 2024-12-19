@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter, Loader2 } from "lucide-react";
+import { Users, Search, Filter, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
@@ -13,6 +13,12 @@ const AgentsPage = () => {
   const [modalLoading, setModalLoading] = useState(false);
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [editingRow, setEditingUser] = useState(null);
+
+  const [pagination, setPagination] = useState({
+    total: 0,
+    page: 1,
+    pages: 0
+  });
 
   const [formData, setFormData] = useState({
     firstname: "",
@@ -31,16 +37,46 @@ const AgentsPage = () => {
   const [sectors, setSectors] = useState([]);
 
   // Fetch users data only from the specified endpoint
-  const fetchUsers = async () => {
+  // const fetchUsers = async () => {
+  //   try {
+  //     setLoading(true);
+  //     const token = localStorage.getItem("token");
+
+  //     const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=no`, {
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //     });
+
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch users");
+  //     }
+
+  //     const data = await response.json();
+
+  //     // const agentUsers = data.users.filter(user => user.role === 'AGENT');
+
+  //     setUsers(data.users);
+  //     setLoading(false);
+  //   } catch (err) {
+  //     setError("Failed to fetch users");
+  //     setLoading(false);
+  //   }
+  // };
+
+  const fetchUsers = async (page = 1) => {
     try {
       setLoading(true);
       const token = localStorage.getItem("token");
 
-      const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=no`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `${API_URL}/users?role=AGENT&isSuperAgent=no&page=${page}`, 
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to fetch users");
@@ -48,15 +84,32 @@ const AgentsPage = () => {
 
       const data = await response.json();
 
-      // const agentUsers = data.users.filter(user => user.role === 'AGENT');
-
       setUsers(data.users);
+      setPagination({
+        total: data.pagination.total,
+        page: data.pagination.page,
+        pages: data.pagination.pages
+      });
       setLoading(false);
     } catch (err) {
       setError("Failed to fetch users");
       setLoading(false);
     }
   };
+
+  // Pagination handlers
+  const handleNextPage = () => {
+    if (pagination.page < pagination.pages) {
+      fetchUsers(pagination.page + 1);
+    }
+  };
+
+  const handlePrevPage = () => {
+    if (pagination.page > 1) {
+      fetchUsers(pagination.page - 1);
+    }
+  };
+
 
   // Create a new agent user
   const createUser = async () => {
@@ -255,7 +308,7 @@ const AgentsPage = () => {
               <Users className="h-8 w-8 text-sky-500" />
               <div>
                 <p className="text-sm text-gray-500">Total Agents</p>
-                <p className="text-2xl font-bold">{users.length}</p>
+                <p className="text-2xl font-bold">{pagination.total}</p>
               </div>
             </div>
             <div className="flex items-center space-x-4 p-4 bg-green-50 rounded-lg">
@@ -263,7 +316,7 @@ const AgentsPage = () => {
               <div>
                 <p className="text-sm text-gray-500">Active Agents</p>
                 <p className="text-2xl font-bold">
-                  {users.filter((user) => user.isActive).length}
+                  {pagination.total}
                 </p>
               </div>
             </div>
@@ -291,7 +344,7 @@ const AgentsPage = () => {
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-              <table className="w-full">
+            <table className="w-full">
                 <thead>
                   <tr className="border-b">
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
@@ -354,6 +407,34 @@ const AgentsPage = () => {
                   ))}
                 </tbody>
               </table>
+              
+              {/* Pagination Controls */}
+              <div className="flex justify-between items-center mt-4 px-4">
+                <div className="text-sm text-gray-600">
+                  Showing {((pagination.page - 1) * 10) + 1} - 
+                  {Math.min(pagination.page * 10, pagination.total)} 
+                  {" "}of {pagination.total} agents
+                </div>
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={handlePrevPage}
+                    disabled={pagination.page === 1}
+                    className="p-2 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <ChevronLeft className="h-4 w-4" />
+                  </button>
+                  <span className="text-sm">
+                    Page {pagination.page} of {pagination.pages}
+                  </span>
+                  <button
+                    onClick={handleNextPage}
+                    disabled={pagination.page === pagination.pages}
+                    className="p-2 border rounded disabled:opacity-50 disabled:cursor-not-allowed"
+                  >
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -397,15 +478,7 @@ const AgentsPage = () => {
                   <label htmlFor="email" className="block text-sm font-medium mb-1">
                     Email
                   </label>
-                  {/* <input
-                    type="email"
-                    id="email"
-                    className="w-full p-2 border rounded"
-                    value={formData.email}
-                    onChange={(e) =>
-                      setFormData({ ...formData, email: e.target.value })
-                    }
-                  /> */}
+             
                   <input
                     type="email"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
