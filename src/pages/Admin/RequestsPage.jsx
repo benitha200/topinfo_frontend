@@ -959,19 +959,9 @@ const RequestsPage = () => {
                                                         className="text-yellow-500 border-2 border-gray-300 p-2 rounded hover:text-yellow-700"
                                                         onClick={() => setEditingRequest(request)}
                                                     >
-                                                        <Edit2 className="h-4 w-4" />
+                                                        <Edit2 className="h-4 w-4" /> Edit
                                                     </button>
-                                                    <button
-                                                        className="text-red-500 border-2 border-gray-300 p-2 rounded hover:text-red-700"
-                                                        onClick={() => {
-                                                            const updateData = {
-                                                                status: 'COMPLETED'
-                                                            };
-                                                            updateRequest(request.id, updateData);
-                                                        }}
-                                                    >
-                                                        Close
-                                                    </button>
+                                                   
                                                 </div>
                                             </td>
                                         </tr>
