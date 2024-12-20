@@ -25,7 +25,7 @@
 //   const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 //   const [isLoading, setIsLoading] = useState(true);
 //   const [error, setError] = useState(null);
-  
+
 //   const location = useLocation();
 
 //   // Navigation items
@@ -39,7 +39,7 @@
 
 //   // Authentication token (replace with your authentication logic)
 //   const token = localStorage.getItem('token');
-  
+
 //   const axiosConfig = {
 //     headers: {
 //       'Authorization': `Bearer ${token}`,
@@ -107,11 +107,11 @@
 //   return (
 //     <AdminLayout>
 //       <div className="flex h-screen bg-gray-100">
-  
+
 
 //       {/* Main Content */}
 //       <div className="flex-1 flex flex-col overflow-hidden">
-        
+
 //         {/* Dashboard Content */}
 //         <main className="flex-1 overflow-y-auto bg-gray-100 p-6">
 //           {/* Stats Cards */}
@@ -161,7 +161,7 @@
 //       </div>
 //     </div>
 //     </AdminLayout>
-    
+
 //   );
 // };
 
@@ -193,6 +193,7 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
+import AdminLayout from '../Admin/AdminLayout';
 
 const AdminDashboard = () => {
   const [payments, setPayments] = useState([]);
@@ -286,117 +287,122 @@ const AdminDashboard = () => {
   }
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
-      {/* Top Stats */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Agents</CardTitle>
-            <Users className="h-4 w-4 text-blue-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{agents.pagination.total || 0}</div>
-            <p className="text-xs text-gray-500">Active Agents</p>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Super Agents</CardTitle>
-            <Users className="h-4 w-4 text-purple-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{superAgents.pagination.total || 0}</div>
-            <p className="text-xs text-gray-500">Regional supervisors</p>
-          </CardContent>
-        </Card>
+    <AdminLayout>
+      <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+        {/* Top Stats */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Total Agents</CardTitle>
+              <Users className="h-4 w-4 text-blue-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{agents.pagination.total || 0}</div>
+              <p className="text-xs text-gray-500">Active Agents</p>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
-            <TrendingUp className="h-4 w-4 text-green-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">RWF {calculateTotalRevenue().toLocaleString()}</div>
-            <p className="text-xs text-gray-500">From completed transactions</p>
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Super Agents</CardTitle>
+              <Users className="h-4 w-4 text-purple-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{superAgents.pagination.total || 0}</div>
+              <p className="text-xs text-gray-500">Regional supervisors</p>
+            </CardContent>
+          </Card>
 
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between pb-2">
-            <CardTitle className="text-sm font-medium">Success Rate</CardTitle>
-            <BarChart2 className="h-4 w-4 text-yellow-500" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold">{calculateSuccessRate()}%</div>
-            <p className="text-xs text-gray-500">Transaction completion rate</p>
-          </CardContent>
-        </Card>
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Total Revenue</CardTitle>
+              <TrendingUp className="h-4 w-4 text-green-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">RWF {calculateTotalRevenue().toLocaleString()}</div>
+              <p className="text-xs text-gray-500">From completed transactions</p>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium">Success Rate</CardTitle>
+              <BarChart2 className="h-4 w-4 text-yellow-500" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold">{calculateSuccessRate()}%</div>
+              <p className="text-xs text-gray-500">Transaction completion rate</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Charts Section */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Revenue Trend */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Revenue Trend (Last 7 Days)</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={processRevenueByDate()}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="date" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend />
+                    <Line
+                      type="monotone"
+                      dataKey="amount"
+                      name="Revenue (RWF)"
+                      stroke="#8884d8"
+                      strokeWidth={2}
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Agent Distribution */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Agent Distribution by Province</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-80">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={processLocationData()}
+                      cx="50%"
+                      cy="50%"
+                      outerRadius={100}
+                      fill="#8884d8"
+                      dataKey="value"
+                      label
+                    >
+                      {processLocationData().map((entry, index) => (
+                        <Cell
+                          key={`cell-${index}`}
+                          fill={COLORS[index % COLORS.length]}
+                        />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                    <Legend />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
       </div>
 
-      {/* Charts Section */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Revenue Trend */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Revenue Trend (Last 7 Days)</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={processRevenueByDate()}>
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="date" />
-                  <YAxis />
-                  <Tooltip />
-                  <Legend />
-                  <Line 
-                    type="monotone" 
-                    dataKey="amount" 
-                    name="Revenue (RWF)"
-                    stroke="#8884d8" 
-                    strokeWidth={2}
-                  />
-                </LineChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
+    </AdminLayout>
 
-        {/* Agent Distribution */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Agent Distribution by Province</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="h-80">
-              <ResponsiveContainer width="100%" height="100%">
-                <PieChart>
-                  <Pie
-                    data={processLocationData()}
-                    cx="50%"
-                    cy="50%"
-                    outerRadius={100}
-                    fill="#8884d8"
-                    dataKey="value"
-                    label
-                  >
-                    {processLocationData().map((entry, index) => (
-                      <Cell 
-                        key={`cell-${index}`} 
-                        fill={COLORS[index % COLORS.length]} 
-                      />
-                    ))}
-                  </Pie>
-                  <Tooltip />
-                  <Legend />
-                </PieChart>
-              </ResponsiveContainer>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
   );
 };
 
