@@ -250,8 +250,8 @@ const AdminDashboard = () => {
         ]);
         
         setPayments(paymentsRes.data);
-        setAgents(agentsRes.data); // This will now be an array of users directly
-        setSuperAgents(superAgentsRes.data); // This will now be an array of users directly
+        setAgents(agentsRes.data.users);  // Note the .users here
+        setSuperAgents(superAgentsRes.data.users);  // Note the .users here
       } catch (err) {
         setError('Error fetching dashboard data');
         console.error('Dashboard fetch error:', err);
@@ -262,7 +262,7 @@ const AdminDashboard = () => {
     
     fetchData();
   }, []);
- 
+  
   const calculateTotalRevenue = () => {
     return payments
       .filter(payment => payment.status === 'COMPLETED')
