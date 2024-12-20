@@ -192,6 +192,7 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import AdminLayout from '../Admin/AdminLayout';
 
 const AdminDashboard = () => {
   // Sample data processing
@@ -235,7 +236,8 @@ const AdminDashboard = () => {
   ];
 
   return (
-    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+    <AdminLayout>
+        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       {/* Top Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
@@ -345,6 +347,8 @@ const AdminDashboard = () => {
         </Card>
       </div>
     </div>
+    </AdminLayout>
+  
   );
 };
 
