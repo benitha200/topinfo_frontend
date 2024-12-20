@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Users, Search, Filter, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
@@ -35,34 +36,6 @@ const AgentsPage = () => {
   const [provinces, setProvinces] = useState([]);
   const [districts, setDistricts] = useState([]);
   const [sectors, setSectors] = useState([]);
-
-  // Fetch users data only from the specified endpoint
-  // const fetchUsers = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem("token");
-
-  //     const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=no`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to fetch users");
-  //     }
-
-  //     const data = await response.json();
-
-  //     // const agentUsers = data.users.filter(user => user.role === 'AGENT');
-
-  //     setUsers(data.users);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError("Failed to fetch users");
-  //     setLoading(false);
-  //   }
-  // };
 
   const fetchUsers = async (page = 1) => {
     try {
@@ -112,9 +85,51 @@ const AgentsPage = () => {
 
 
   // Create a new agent user
+  // const createUser = async () => {
+  //   try {
+  //     setModalLoading(true);
+  //     const token = localStorage.getItem("token");
+  //     const formDataObj = new FormData();
+
+  //     // Append all form data
+  //     formDataObj.append("firstname", formData.firstname);
+  //     formDataObj.append("lastname", formData.lastname);
+  //     formDataObj.append("email", formData.email);
+  //     formDataObj.append("phone", formData.phone);
+  //     formDataObj.append("location_province", formData.location_province);
+  //     formDataObj.append("location_district", formData.location_district);
+  //     formDataObj.append("location_sector", formData.location_sector);
+
+  //     // Append files
+  //     if (formData.profileImage) {
+  //       formDataObj.append("profileImage", formData.profileImage);
+  //     }
+  //     if (formData.nationalIdImage) {
+  //       formDataObj.append("nationalIdImage", formData.nationalIdImage);
+  //     }
+
+  //     const response = await fetch(`${API_URL}/users`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: formDataObj,
+  //     });
+  //     if (!response.ok) throw new Error("Failed to create user");
+  //     fetchUsers();
+  //     setIsAddModalOpen(false);
+  //     resetForm();
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally{
+  //     setModalLoading(false);
+  //   }
+  // };
+
   const createUser = async () => {
     try {
       setModalLoading(true);
+      setError(null); // Clear any previous errors
       const token = localStorage.getItem("token");
       const formDataObj = new FormData();
 
@@ -142,13 +157,19 @@ const AgentsPage = () => {
         },
         body: formDataObj,
       });
-      if (!response.ok) throw new Error("Failed to create user");
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || "Failed to create user");
+      }
+      
       fetchUsers();
       setIsAddModalOpen(false);
       resetForm();
     } catch (err) {
       setError(err.message);
-    } finally{
+    } finally {
       setModalLoading(false);
     }
   };
@@ -445,6 +466,12 @@ const AgentsPage = () => {
               <h2 className="text-xl font-bold mb-4">
                 {editingRow ? "Edit Agent" : "Add New Agent"}
               </h2>
+
+              {error && (
+                <Alert variant="destructive" className="mb-4">
+                  <AlertDescription>{error}</AlertDescription>
+                </Alert>
+              )}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div>
                   <label htmlFor="firstname" className="block text-sm font-medium mb-1">
@@ -628,6 +655,7 @@ const AgentsPage = () => {
                     setIsAddModalOpen(false);
                     setEditingUser(null);
                     resetForm();
+                    setError(null); // Clear error when closing modal
                   }}
                 >
                   Cancel
