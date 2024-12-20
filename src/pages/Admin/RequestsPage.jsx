@@ -956,10 +956,10 @@ const RequestsPage = () => {
                                                         View
                                                     </button>
                                                     <button
-                                                        className="text-yellow-500 border-2 border-gray-300 p-2 rounded hover:text-yellow-700"
+                                                        className="text-yellow-500 border-2 flex border-gray-300 p-2 rounded hover:text-yellow-700"
                                                         onClick={() => setEditingRequest(request)}
                                                     >
-                                                        <Edit2 className="h-4 w-4" /> Edit
+                                                        <Edit2 className="h-4 w-4" /> <span>Edit</span>
                                                     </button>
                                                    
                                                 </div>
