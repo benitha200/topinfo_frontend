@@ -218,7 +218,7 @@ const AdminDashboard = () => {
         setLoading(true);
         const [paymentsRes, agentsRes, superAgentsRes] = await Promise.all([
           axios.get(`${API_BASE_URL}/payments`, axiosConfig),
-          axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=no&page=1`, axiosConfig),
+          axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=no`, axiosConfig),
           axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=yes`, axiosConfig)
         ]);
 
