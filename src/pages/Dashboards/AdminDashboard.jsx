@@ -192,21 +192,65 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import AdminLayout from '../Admin/AdminLayout';
+import axios from 'axios';
 
 const AdminDashboard = () => {
-  // Sample data processing
-  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+  const [payments, setPayments] = useState([]);
+  const [agents, setAgents] = useState({ users: [], pagination: {} });
+  const [superAgents, setSuperAgents] = useState({ users: [], pagination: {} });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const calculateTotalRevenue = (payments) => {
+  const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8'];
+  const API_BASE_URL = 'https://topinfo.rw/api/api';
+  const token = localStorage.getItem('token');
+
+  const axiosConfig = {
+    headers: {
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const [paymentsRes, agentsRes, superAgentsRes] = await Promise.all([
+          axios.get(`${API_BASE_URL}/payments`, axiosConfig),
+          axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=no&page=1`, axiosConfig),
+          axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=yes`, axiosConfig)
+        ]);
+
+        setPayments(paymentsRes.data);
+        setAgents(agentsRes.data);
+        setSuperAgents(superAgentsRes.data);
+      } catch (err) {
+        setError('Error fetching dashboard data');
+        console.error('Dashboard fetch error:', err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Data processing functions
+  const calculateTotalRevenue = () => {
     return payments
       .filter(payment => payment.status === 'COMPLETED')
       .reduce((sum, payment) => sum + Number(payment.amount), 0);
   };
 
-  const calculateLocationDistribution = (users) => {
-    const distribution = users.reduce((acc, user) => {
-      acc[user.location_province] = (acc[user.location_province] || 0) + 1;
+  const calculateSuccessRate = () => {
+    const completedPayments = payments.filter(payment => payment.status === 'COMPLETED').length;
+    return payments.length ? ((completedPayments / payments.length) * 100).toFixed(1) : 0;
+  };
+
+  const processLocationData = () => {
+    const distribution = agents.users.reduce((acc, agent) => {
+      acc[agent.location_province] = (acc[agent.location_province] || 0) + 1;
       return acc;
     }, {});
 
@@ -216,28 +260,33 @@ const AdminDashboard = () => {
     }));
   };
 
-  // Mock data based on your API responses
-  const locationData = [
-    { name: 'Kigali', value: 45 },
-    { name: 'East', value: 15 },
-    { name: 'West', value: 20 },
-    { name: 'North', value: 12 },
-    { name: 'South', value: 18 }
-  ];
+  const processRevenueByDate = () => {
+    const revenueByDate = payments
+      .filter(payment => payment.status === 'COMPLETED')
+      .reduce((acc, payment) => {
+        const date = new Date(payment.createdAt).toLocaleDateString();
+        acc[date] = (acc[date] || 0) + Number(payment.amount);
+        return acc;
+      }, {});
 
-  const revenueData = [
-    { name: 'Mon', revenue: 2000 },
-    { name: 'Tue', revenue: 3500 },
-    { name: 'Wed', revenue: 3000 },
-    { name: 'Thu', revenue: 4500 },
-    { name: 'Fri', revenue: 4000 },
-    { name: 'Sat', revenue: 5000 },
-    { name: 'Sun', revenue: 3800 }
-  ];
+    return Object.entries(revenueByDate)
+      .map(([date, amount]) => ({
+        date,
+        amount
+      }))
+      .slice(-7); // Last 7 days
+  };
+
+  if (loading) {
+    return <div className="flex h-screen items-center justify-center">Loading dashboard...</div>;
+  }
+
+  if (error) {
+    return <div className="flex h-screen items-center justify-center text-red-600">{error}</div>;
+  }
 
   return (
-    <AdminLayout>
-        <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
+    <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
       {/* Top Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <Card>
@@ -246,8 +295,8 @@ const AdminDashboard = () => {
             <Users className="h-4 w-4 text-blue-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">217</div>
-            <p className="text-xs text-gray-500">Active service providers</p>
+            <div className="text-2xl font-bold">{agents.pagination.total || 0}</div>
+            <p className="text-xs text-gray-500">Active Agents</p>
           </CardContent>
         </Card>
 
@@ -257,7 +306,7 @@ const AdminDashboard = () => {
             <Users className="h-4 w-4 text-purple-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">2</div>
+            <div className="text-2xl font-bold">{superAgents.pagination.total || 0}</div>
             <p className="text-xs text-gray-500">Regional supervisors</p>
           </CardContent>
         </Card>
@@ -268,7 +317,7 @@ const AdminDashboard = () => {
             <TrendingUp className="h-4 w-4 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">RWF 24,000</div>
+            <div className="text-2xl font-bold">RWF {calculateTotalRevenue().toLocaleString()}</div>
             <p className="text-xs text-gray-500">From completed transactions</p>
           </CardContent>
         </Card>
@@ -279,7 +328,7 @@ const AdminDashboard = () => {
             <BarChart2 className="h-4 w-4 text-yellow-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">85%</div>
+            <div className="text-2xl font-bold">{calculateSuccessRate()}%</div>
             <p className="text-xs text-gray-500">Transaction completion rate</p>
           </CardContent>
         </Card>
@@ -290,20 +339,21 @@ const AdminDashboard = () => {
         {/* Revenue Trend */}
         <Card>
           <CardHeader>
-            <CardTitle>Weekly Revenue Trend</CardTitle>
+            <CardTitle>Revenue Trend (Last 7 Days)</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="h-80">
               <ResponsiveContainer width="100%" height="100%">
-                <LineChart data={revenueData}>
+                <LineChart data={processRevenueByDate()}>
                   <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis dataKey="name" />
+                  <XAxis dataKey="date" />
                   <YAxis />
                   <Tooltip />
                   <Legend />
                   <Line 
                     type="monotone" 
-                    dataKey="revenue" 
+                    dataKey="amount" 
+                    name="Revenue (RWF)"
                     stroke="#8884d8" 
                     strokeWidth={2}
                   />
@@ -323,7 +373,7 @@ const AdminDashboard = () => {
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
-                    data={locationData}
+                    data={processLocationData()}
                     cx="50%"
                     cy="50%"
                     outerRadius={100}
@@ -331,7 +381,7 @@ const AdminDashboard = () => {
                     dataKey="value"
                     label
                   >
-                    {locationData.map((entry, index) => (
+                    {processLocationData().map((entry, index) => (
                       <Cell 
                         key={`cell-${index}`} 
                         fill={COLORS[index % COLORS.length]} 
@@ -347,8 +397,6 @@ const AdminDashboard = () => {
         </Card>
       </div>
     </div>
-    </AdminLayout>
-  
   );
 };
 
