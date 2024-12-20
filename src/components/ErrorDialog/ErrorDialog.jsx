@@ -12,10 +12,10 @@ import {
 const ErrorDialog = ({ isOpen, setIsOpen, errorMessage }) => {
   return (
     <AlertDialog open={isOpen} onOpenChange={setIsOpen}>
-      <AlertDialogContent>
+      <AlertDialogContent className="bg-white">
         <AlertDialogHeader>
           <AlertDialogTitle>Error</AlertDialogTitle>
-          <AlertDialogDescription>
+          <AlertDialogDescription className="text-red">
             {errorMessage}
           </AlertDialogDescription>
         </AlertDialogHeader>
