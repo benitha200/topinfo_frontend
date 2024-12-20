@@ -562,7 +562,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                     type="text"
                                     value={formData.your_location}
                                     onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                 />
                             </div>
 
@@ -574,7 +574,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                     type="text"
                                     value={formData.service_location}
                                     onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 block p-2 w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                 />
                             </div>
 
@@ -586,7 +586,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                     type="date"
                                     value={formData.service_date}
                                     onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 block p-2 w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                 />
                             </div>
 
@@ -597,7 +597,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                 <select
                                     value={formData.status}
                                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                 >
                                     <option value="PENDING">Pending</option>
                                     <option value="IN_PROGRESS">In Progress</option>
@@ -612,7 +612,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                 <select
                                     value={formData.message_preference}
                                     onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
-                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                 >
                                     <option value="EMAIL">Email</option>
                                     <option value="SMS">SMS</option>
@@ -622,18 +622,18 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
 
                         {request.service_category?.fields && (
                             <div className="mt-6">
-                                <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Fields</h3>
+                                <h3 className="text-lg p-2 font-medium text-gray-900 mb-4">Additional Fields</h3>
                                 <div className="space-y-4">
                                     {request.service_category.fields.map((field) => (
                                         <div key={field.id}>
-                                            <label className="block text-sm font-medium text-gray-700">
+                                            <label className="block p-2 text-sm font-medium text-gray-700">
                                                 {field.fieldName}
                                             </label>
                                             {field.inputType === 'textarea' ? (
                                                 <textarea
                                                     value={formData.fields[field.id] || ''}
                                                     onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                                     rows={3}
                                                 />
                                             ) : (
@@ -641,7 +641,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                                     type={field.inputType}
                                                     value={formData.fields[field.id] || ''}
                                                     onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
                                                 />
                                             )}
                                         </div>
