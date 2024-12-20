@@ -950,13 +950,13 @@ const RequestsPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 <div className="flex gap-2">
                                                     <button
-                                                        className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700"
+                                                        className="text-sky-500 border-2 flex gap-1 border-gray-300 p-2 rounded hover:text-sky-700"
                                                         onClick={() => setSelectedRequest(request)}
                                                     >
                                                       <Eye className="h-4 w-4" /> <span> View</span>  
                                                     </button>
                                                     <button
-                                                        className="text-yellow-500 border-2 flex border-gray-300 p-2 rounded hover:text-yellow-700"
+                                                        className="text-yellow-500 border-2 flex gap-1 border-gray-300 p-2 rounded hover:text-yellow-700"
                                                         onClick={() => setEditingRequest(request)}
                                                     >
                                                         <Edit2 className="h-4 w-4" /> <span> Edit</span>
