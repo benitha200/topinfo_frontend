@@ -352,7 +352,7 @@
 // export default RequestsPage;
 
 import React, { useState, useEffect } from 'react';
-import { FileText, Search, Filter, X, Edit2, Save } from 'lucide-react';
+import { FileText, Search, Filter, X, Edit2, Save, Eye } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
@@ -953,13 +953,13 @@ const RequestsPage = () => {
                                                         className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700"
                                                         onClick={() => setSelectedRequest(request)}
                                                     >
-                                                        View
+                                                      <Eye className="h-4 w-4 pr-2" /> <span>View</span>  
                                                     </button>
                                                     <button
                                                         className="text-yellow-500 border-2 flex border-gray-300 p-2 rounded hover:text-yellow-700"
                                                         onClick={() => setEditingRequest(request)}
                                                     >
-                                                        <Edit2 className="h-4 w-4" /> <span>Edit</span>
+                                                        <Edit2 className="h-4 w-4 pr-2" /> <span>Edit</span>
                                                     </button>
                                                    
                                                 </div>
