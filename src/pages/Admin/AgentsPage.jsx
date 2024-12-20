@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Users, Search, Filter, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { Alert, AlertDescription } from "@/components/ui/alert";
+// import { Alert, AlertDescription } from "@/components/ui/alert";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
+import ErrorDialog from "../../components/ErrorDialog/ErrorDialog";
 
 const AgentsPage = () => {
   const [users, setUsers] = useState([]);
@@ -129,7 +130,6 @@ const AgentsPage = () => {
   const createUser = async () => {
     try {
       setModalLoading(true);
-      setError(null); // Clear any previous errors
       const token = localStorage.getItem("token");
       const formDataObj = new FormData();
 
@@ -160,8 +160,14 @@ const AgentsPage = () => {
       
       const data = await response.json();
       
+      if (response.status === 400) {
+        setErrorMessage(data.error);
+        setIsErrorDialogOpen(true);
+        return;
+      }
+      
       if (!response.ok) {
-        throw new Error(data.error || "Failed to create user");
+        throw new Error("Failed to create user");
       }
       
       fetchUsers();
@@ -173,6 +179,7 @@ const AgentsPage = () => {
       setModalLoading(false);
     }
   };
+
 
   const resetForm = () => {
     setFormData({
@@ -310,7 +317,12 @@ const AgentsPage = () => {
   return (
     <AdminLayout>
       <div className="p-6 space-y-6">
-        <div className="flex justify-between items-center">
+      <ErrorDialog 
+          isOpen={isErrorDialogOpen}
+          setIsOpen={setIsErrorDialogOpen}
+          errorMessage={errorMessage}
+        />
+       <div className="flex justify-between items-center">
           <h1 className="text-2xl font-bold">Agents</h1>
           <button
             onClick={() => setIsAddModalOpen(true)}
