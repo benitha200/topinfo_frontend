@@ -197,8 +197,8 @@ import AdminLayout from '../Admin/AdminLayout';
 
 const AdminDashboard = () => {
   const [payments, setPayments] = useState([]);
-  const [agents, setAgents] = useState({ users: [], pagination: {} });
-  const [superAgents, setSuperAgents] = useState({ users: [], pagination: {} });
+  const [agents, setAgents] = useState({ users: [], total: 0 });
+  const [superAgents, setSuperAgents] = useState({ users: [], total: 0 });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
@@ -213,32 +213,6 @@ const AdminDashboard = () => {
     }
   };
 
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     try {
-  //       setLoading(true);
-  //       const [paymentsRes, agentsRes, superAgentsRes] = await Promise.all([
-  //         axios.get(`${API_BASE_URL}/payments`, axiosConfig),
-  //         axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=no`, axiosConfig),
-  //         axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=yes`, axiosConfig)
-  //       ]);
-
-  //       setPayments(paymentsRes.data);
-  //       setAgents(agentsRes.data);
-  //       setSuperAgents(superAgentsRes.data);
-  //     } catch (err) {
-  //       setError('Error fetching dashboard data');
-  //       console.error('Dashboard fetch error:', err);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchData();
-  // }, []);
-
-  // Data processing functions
- 
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -250,8 +224,14 @@ const AdminDashboard = () => {
         ]);
         
         setPayments(paymentsRes.data);
-        setAgents(agentsRes.data.users);  // Note the .users here
-        setSuperAgents(superAgentsRes.data.users);  // Note the .users here
+        setAgents({
+          users: agentsRes.data.users,
+          total: agentsRes.data.users.length // Use length if total is not provided
+        });
+        setSuperAgents({
+          users: superAgentsRes.data.users,
+          total: superAgentsRes.data.total || superAgentsRes.data.users.length
+        });
       } catch (err) {
         setError('Error fetching dashboard data');
         console.error('Dashboard fetch error:', err);
@@ -262,7 +242,7 @@ const AdminDashboard = () => {
     
     fetchData();
   }, []);
-  
+
   const calculateTotalRevenue = () => {
     return payments
       .filter(payment => payment.status === 'COMPLETED')
@@ -312,7 +292,6 @@ const AdminDashboard = () => {
   }
 
   return (
-
     <AdminLayout>
       <div className="p-6 space-y-6 bg-gray-50 min-h-screen">
         {/* Top Stats */}
@@ -323,7 +302,7 @@ const AdminDashboard = () => {
               <Users className="h-4 w-4 text-blue-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{agents.pagination.total || 0}</div>
+              <div className="text-2xl font-bold">{agents.total}</div>
               <p className="text-xs text-gray-500">Active Agents</p>
             </CardContent>
           </Card>
@@ -334,7 +313,7 @@ const AdminDashboard = () => {
               <Users className="h-4 w-4 text-purple-500" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">{superAgents.pagination.total || 0}</div>
+              <div className="text-2xl font-bold">{superAgents.total}</div>
               <p className="text-xs text-gray-500">Regional supervisors</p>
             </CardContent>
           </Card>
@@ -425,9 +404,7 @@ const AdminDashboard = () => {
           </Card>
         </div>
       </div>
-
     </AdminLayout>
-
   );
 };
 
