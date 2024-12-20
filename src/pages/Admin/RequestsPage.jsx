@@ -358,6 +358,161 @@ import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
 
 // Edit Form Component
+// const EditRequestForm = ({ request, onClose, onSave }) => {
+//     const [formData, setFormData] = useState({
+//         your_location: request.your_location || '',
+//         service_location: request.service_location || '',
+//         service_date: request.service_date ? new Date(request.service_date).toISOString().split('T')[0] : '',
+//         status: request.status || 'PENDING',
+//         message_preference: request.message_preference || 'EMAIL',
+//         fields: request.fields || {}
+//     });
+
+//     const handleFieldChange = (fieldId, value) => {
+//         setFormData(prev => ({
+//             ...prev,
+//             fields: {
+//                 ...prev.fields,
+//                 [fieldId]: value
+//             }
+//         }));
+//     };
+
+//     const handleSubmit = (e) => {
+//         e.preventDefault();
+//         onSave(request.id, formData);
+//     };
+
+//     return (
+//         <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
+//             <div className="bg-white rounded w-11/12 max-w-2xl p-6 relative">
+//                 <button
+//                     onClick={onClose}
+//                     className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+//                 >
+//                     <X className="h-6 w-6" />
+//                 </button>
+
+//                 <h2 className="text-2xl font-bold mb-6">Edit Request</h2>
+
+//                 <form onSubmit={handleSubmit} className="space-y-6">
+//                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700">
+//                                 Your Location
+//                             </label>
+//                             <input
+//                                 type="text"
+//                                 value={formData.your_location}
+//                                 onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
+//                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                             />
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700">
+//                                 Service Location
+//                             </label>
+//                             <input
+//                                 type="text"
+//                                 value={formData.service_location}
+//                                 onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
+//                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                             />
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700">
+//                                 Service Date
+//                             </label>
+//                             <input
+//                                 type="date"
+//                                 value={formData.service_date}
+//                                 onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
+//                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                             />
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700">
+//                                 Status
+//                             </label>
+//                             <select
+//                                 value={formData.status}
+//                                 onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+//                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                             >
+//                                 <option value="PENDING">Pending</option>
+//                                 <option value="IN_PROGRESS">In Progress</option>
+//                                 <option value="COMPLETED">Completed</option>
+//                             </select>
+//                         </div>
+
+//                         <div>
+//                             <label className="block text-sm font-medium text-gray-700">
+//                                 Message Preference
+//                             </label>
+//                             <select
+//                                 value={formData.message_preference}
+//                                 onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
+//                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                             >
+//                                 <option value="EMAIL">Email</option>
+//                                 <option value="SMS">SMS</option>
+//                             </select>
+//                         </div>
+//                     </div>
+
+//                     {request.service_category?.fields && (
+//                         <div className="mt-6">
+//                             <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Fields</h3>
+//                             <div className="space-y-4">
+//                                 {request.service_category.fields.map((field) => (
+//                                     <div key={field.id}>
+//                                         <label className="block text-sm font-medium text-gray-700">
+//                                             {field.fieldName}
+//                                         </label>
+//                                         {field.inputType === 'textarea' ? (
+//                                             <textarea
+//                                                 value={formData.fields[field.id] || ''}
+//                                                 onChange={(e) => handleFieldChange(field.id, e.target.value)}
+//                                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                                                 rows={3}
+//                                             />
+//                                         ) : (
+//                                             <input
+//                                                 type={field.inputType}
+//                                                 value={formData.fields[field.id] || ''}
+//                                                 onChange={(e) => handleFieldChange(field.id, e.target.value)}
+//                                                 className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+//                                             />
+//                                         )}
+//                                     </div>
+//                                 ))}
+//                             </div>
+//                         </div>
+//                     )}
+
+//                     <div className="flex justify-end space-x-3 mt-6">
+//                         <button
+//                             type="button"
+//                             onClick={onClose}
+//                             className="px-4 py-2 border rounded text-gray-600 hover:bg-gray-50"
+//                         >
+//                             Cancel
+//                         </button>
+//                         <button
+//                             type="submit"
+//                             className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+//                         >
+//                             Save Changes
+//                         </button>
+//                     </div>
+//                 </form>
+//             </div>
+//         </div>
+//     );
+// };
 const EditRequestForm = ({ request, onClose, onSave }) => {
     const [formData, setFormData] = useState({
         your_location: request.your_location || '',
@@ -384,116 +539,121 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
     };
 
     return (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-            <div className="bg-white rounded w-11/12 max-w-2xl p-6 relative">
-                <button
-                    onClick={onClose}
-                    className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
-                >
-                    <X className="h-6 w-6" />
-                </button>
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+            <div className="bg-white rounded w-11/12 max-w-2xl max-h-[90vh] flex flex-col relative">
+                <div className="p-6 border-b">
+                    <button
+                        onClick={onClose}
+                        className="absolute top-4 right-4 text-gray-500 hover:text-gray-700"
+                    >
+                        <X className="h-6 w-6" />
+                    </button>
+                    <h2 className="text-2xl font-bold">Edit Request</h2>
+                </div>
 
-                <h2 className="text-2xl font-bold mb-6">Edit Request</h2>
+                <div className="p-6 overflow-y-auto flex-1">
+                    <form onSubmit={handleSubmit} className="space-y-6">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Your Location
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.your_location}
+                                    onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                />
+                            </div>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Your Location
-                            </label>
-                            <input
-                                type="text"
-                                value={formData.your_location}
-                                onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
-                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                            />
-                        </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Service Location
+                                </label>
+                                <input
+                                    type="text"
+                                    value={formData.service_location}
+                                    onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                />
+                            </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Service Location
-                            </label>
-                            <input
-                                type="text"
-                                value={formData.service_location}
-                                onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
-                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                            />
-                        </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Service Date
+                                </label>
+                                <input
+                                    type="date"
+                                    value={formData.service_date}
+                                    onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                />
+                            </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Service Date
-                            </label>
-                            <input
-                                type="date"
-                                value={formData.service_date}
-                                onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
-                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                            />
-                        </div>
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Status
+                                </label>
+                                <select
+                                    value={formData.status}
+                                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                >
+                                    <option value="PENDING">Pending</option>
+                                    <option value="IN_PROGRESS">In Progress</option>
+                                    <option value="COMPLETED">Completed</option>
+                                </select>
+                            </div>
 
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Status
-                            </label>
-                            <select
-                                value={formData.status}
-                                onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                            >
-                                <option value="PENDING">Pending</option>
-                                <option value="IN_PROGRESS">In Progress</option>
-                                <option value="COMPLETED">Completed</option>
-                            </select>
-                        </div>
-
-                        <div>
-                            <label className="block text-sm font-medium text-gray-700">
-                                Message Preference
-                            </label>
-                            <select
-                                value={formData.message_preference}
-                                onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
-                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                            >
-                                <option value="EMAIL">Email</option>
-                                <option value="SMS">SMS</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    {request.service_category?.fields && (
-                        <div className="mt-6">
-                            <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Fields</h3>
-                            <div className="space-y-4">
-                                {request.service_category.fields.map((field) => (
-                                    <div key={field.id}>
-                                        <label className="block text-sm font-medium text-gray-700">
-                                            {field.fieldName}
-                                        </label>
-                                        {field.inputType === 'textarea' ? (
-                                            <textarea
-                                                value={formData.fields[field.id] || ''}
-                                                onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                                                rows={3}
-                                            />
-                                        ) : (
-                                            <input
-                                                type={field.inputType}
-                                                value={formData.fields[field.id] || ''}
-                                                onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
-                                            />
-                                        )}
-                                    </div>
-                                ))}
+                            <div>
+                                <label className="block text-sm font-medium text-gray-700">
+                                    Message Preference
+                                </label>
+                                <select
+                                    value={formData.message_preference}
+                                    onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
+                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                >
+                                    <option value="EMAIL">Email</option>
+                                    <option value="SMS">SMS</option>
+                                </select>
                             </div>
                         </div>
-                    )}
 
-                    <div className="flex justify-end space-x-3 mt-6">
+                        {request.service_category?.fields && (
+                            <div className="mt-6">
+                                <h3 className="text-lg font-medium text-gray-900 mb-4">Additional Fields</h3>
+                                <div className="space-y-4">
+                                    {request.service_category.fields.map((field) => (
+                                        <div key={field.id}>
+                                            <label className="block text-sm font-medium text-gray-700">
+                                                {field.fieldName}
+                                            </label>
+                                            {field.inputType === 'textarea' ? (
+                                                <textarea
+                                                    value={formData.fields[field.id] || ''}
+                                                    onChange={(e) => handleFieldChange(field.id, e.target.value)}
+                                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                    rows={3}
+                                                />
+                                            ) : (
+                                                <input
+                                                    type={field.inputType}
+                                                    value={formData.fields[field.id] || ''}
+                                                    onChange={(e) => handleFieldChange(field.id, e.target.value)}
+                                                    className="mt-1 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                />
+                                            )}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </form>
+                </div>
+
+                <div className="p-6 border-t bg-gray-50">
+                    <div className="flex justify-end space-x-3">
                         <button
                             type="button"
                             onClick={onClose}
@@ -502,17 +662,18 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                             Cancel
                         </button>
                         <button
-                            type="submit"
+                            onClick={handleSubmit}
                             className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
                         >
                             Save Changes
                         </button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     );
 };
+
 
 const RequestDetailsView = ({ request, onClose }) => {
     if (!request) return <div className="p-6 text-center">No request details available</div>;

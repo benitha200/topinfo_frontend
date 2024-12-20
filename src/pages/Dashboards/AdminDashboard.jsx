@@ -213,19 +213,45 @@ const AdminDashboard = () => {
     }
   };
 
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     try {
+  //       setLoading(true);
+  //       const [paymentsRes, agentsRes, superAgentsRes] = await Promise.all([
+  //         axios.get(`${API_BASE_URL}/payments`, axiosConfig),
+  //         axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=no`, axiosConfig),
+  //         axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=yes`, axiosConfig)
+  //       ]);
+
+  //       setPayments(paymentsRes.data);
+  //       setAgents(agentsRes.data);
+  //       setSuperAgents(superAgentsRes.data);
+  //     } catch (err) {
+  //       setError('Error fetching dashboard data');
+  //       console.error('Dashboard fetch error:', err);
+  //     } finally {
+  //       setLoading(false);
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
+
+  // Data processing functions
+ 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const [paymentsRes, agentsRes, superAgentsRes] = await Promise.all([
           axios.get(`${API_BASE_URL}/payments`, axiosConfig),
-          axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=no`, axiosConfig),
-          axios.get(`${API_BASE_URL}/users?role=AGENT&isSuperAgent=yes`, axiosConfig)
+          axios.get(`${API_BASE_URL}/users/no-pagination?role=AGENT&isSuperAgent=no`, axiosConfig),
+          axios.get(`${API_BASE_URL}/users/no-pagination?role=AGENT&isSuperAgent=yes`, axiosConfig)
         ]);
-
+        
         setPayments(paymentsRes.data);
-        setAgents(agentsRes.data);
-        setSuperAgents(superAgentsRes.data);
+        setAgents(agentsRes.data); // This will now be an array of users directly
+        setSuperAgents(superAgentsRes.data); // This will now be an array of users directly
       } catch (err) {
         setError('Error fetching dashboard data');
         console.error('Dashboard fetch error:', err);
@@ -233,11 +259,10 @@ const AdminDashboard = () => {
         setLoading(false);
       }
     };
-
+    
     fetchData();
   }, []);
-
-  // Data processing functions
+ 
   const calculateTotalRevenue = () => {
     return payments
       .filter(payment => payment.status === 'COMPLETED')

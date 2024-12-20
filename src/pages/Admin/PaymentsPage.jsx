@@ -248,13 +248,7 @@ const PaymentsPage = () => {
                             subtitle: `${successRate}% completion rate`
                         },
                        
-                        // {
-                        //     title: 'Total Transactions',
-                        //     value: totalPayments,
-                        //     icon: ArrowUpRight,
-                        //     color: 'sky',
-                        //     subtitle: 'All payment attempts'
-                        // }
+                    
                     ].map((stat, index) => {
                         const Icon = stat.icon;
                         return (
