@@ -307,8 +307,8 @@ const ServiceProvidersPage = () => {
         setFormData({ ...provider });
     };
 
-    if (loading) return <div className="p-6">Loading...</div>;
-    if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
+    if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout> ;
+    if (error) return <AdminLayout><div className="p-6 text-red-500">Error: {error}</div></AdminLayout> ;
 
     return (
         <AdminLayout>
