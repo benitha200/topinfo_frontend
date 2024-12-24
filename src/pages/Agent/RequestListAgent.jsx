@@ -24,7 +24,8 @@ import {
   Eye,
   FileText,
   Clock,
-  CheckCircle
+  CheckCircle,
+  Edit2
 } from 'lucide-react';
 import AgentLayout from './AgentLayout';
 import axios from 'axios';
@@ -49,7 +50,7 @@ const RequestListAgent = () => {
   const resp = queryParams.get("resp");
   if (resp) {
     const response = JSON.parse(resp);
-  
+
     if (response.status === "success") {
       const tx_ref = response.data.txRef;
       fetch(`${API_URL}/payments/callback`, {
@@ -321,6 +322,21 @@ const RequestListAgent = () => {
                           >
                             <Eye className="mr-2" size={16} /> View
                           </Button>
+                          <Button
+                            // variant="outline" 
+                            size="sm"
+                            onClick={() => handleViewRequest(request.id)}
+                            className="hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
+                          >
+                            <Edit2 className="mr-2" size={16} /> View
+                          </Button>
+
+                          {/* <button
+                            className="text-yellow-500 border-2 flex gap-1 border-gray-300 p-2 rounded hover:text-yellow-700"
+                            onClick={() => setEditingRequest(request)}
+                          >
+                            <Edit2 className="h-4 w-4" /> <span> Edit</span>
+                          </button> */}
                         </TableCell>
                       </TableRow>
                     ))}
@@ -349,8 +365,8 @@ const RequestListAgent = () => {
                           key={pageNumber}
                           onClick={() => handlePageChange(pageNumber)}
                           className={`px-3 py-1 border rounded ${currentPage === pageNumber
-                              ? 'bg-emerald-500 text-white'
-                              : 'bg-white text-gray-700 hover:bg-gray-100'
+                            ? 'bg-emerald-500 text-white'
+                            : 'bg-white text-gray-700 hover:bg-gray-100'
                             }`}
                         >
                           {pageNumber}

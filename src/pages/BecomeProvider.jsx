@@ -580,16 +580,6 @@ const BecomeProvider = () => {
                       >
                         Telefoni
                       </label>
-                      {/* <input
-                    type="tel"
-                    id="phone"
-                    name="phone"
-                    required
-                    value={formData.phone}
-                    onChange={handleInputChange}
-                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="07xxxxxxxx"
-                  /> */}
                       <PhoneInput
                         formData={formData}
                         setFormData={setFormData}
