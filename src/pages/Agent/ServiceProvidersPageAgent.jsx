@@ -35,7 +35,7 @@ const ServiceProvidersPageAgent = () => {
         location_serve: '',
         additional_info: '',
         service_category_id: '',
-        approved: false
+        approved: true
     });
 
     // Fetch service categories
@@ -233,7 +233,7 @@ const ServiceProvidersPageAgent = () => {
             location_serve: '',
             additional_info: '',
             service_category_id: '',
-            approved: false
+            approved: true
         });
     };
 

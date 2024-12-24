@@ -93,6 +93,10 @@ const ClientRequest = () => {
     value: district,
     label: district,
   }));
+  const sectorOptions1 = Sectors().map((sector) => ({
+    value: sector,
+    label: sector,
+  }));
 
   // Fetch service details
   useEffect(() => {
@@ -247,7 +251,7 @@ const ClientRequest = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-          service_location: formData.district,
+          service_location: formData.sector,
           paymentNumber: formData.paymentNumber,
           request_id: requestId,
           client_id: clientId,
@@ -777,8 +781,8 @@ const ClientRequest = () => {
               {paymentInit && (
                 <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
                   <p className="text-sky-600">
-                    Payment request sent. Please check your phone for the
-                    payment prompt.
+                  wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
+                  yawe wemeze kwishyura cyangwa ukande *182*7*2#
                   </p>
                 </div>
               )}
@@ -789,7 +793,7 @@ const ClientRequest = () => {
               )}
 
               <form onSubmit={handleSubmitStep3}>
-                <div className="mb-4">
+                {/* <div className="mb-4">
                   <label className="block text-sm font-medium mb-1">
                     Akarere ukeneyemo service
                   </label>
@@ -804,6 +808,23 @@ const ClientRequest = () => {
                         : null
                     }
                     placeholder="Choose a district"
+                  />
+                </div> */}
+                 <div className="mb-4">
+                  <label className="block text-sm font-medium mb-1">
+                    Umurenge ukeneyemo service
+                  </label>
+                  <Select
+                    options={sectorOptions1}
+                    onChange={(selected) =>
+                      handleStaticFieldChange("sector", selected.value)
+                    }
+                    value={
+                      formData.sector
+                        ? { value: formData.sector, label: formData.sector }
+                        : null
+                    }
+                    placeholder="hitamo umurenge"
                   />
                 </div>
 

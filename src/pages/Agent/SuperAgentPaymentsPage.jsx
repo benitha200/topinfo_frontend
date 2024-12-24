@@ -124,8 +124,8 @@ const SuperAgentPaymentsPage = () => {
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  if (loading) return <AgentLayout><div>Loading...</div></AgentLayout>;
+  // if (error) return <div>Error: {error}</div>;
 
   return (
     <AgentLayout>

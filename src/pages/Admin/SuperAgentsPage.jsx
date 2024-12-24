@@ -308,8 +308,8 @@ const SuperAgentsPage = () => {
     return matchesSearch && matchesDateRange;
   });
 
-  if (loading) return <div className="p-6">Loading...</div>;
-  if (error) return <div className="p-6 text-red-500">{error}</div>;
+  if (loading) return <AdminLayout> <div className="p-6">Loading...</div></AdminLayout>;
+  // if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   return (
     <AdminLayout>

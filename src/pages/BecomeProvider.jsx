@@ -8,6 +8,8 @@ import PhoneInput from "../components/website/PhoneInput";
 const BecomeProvider = () => {
   const origin = window.location.origin;
 
+  const [availableSectors, setAvailableSectors] = useState([]);
+
   const [formData, setFormData] = useState({
     firstname: "",
     lastname: "",
@@ -21,10 +23,12 @@ const BecomeProvider = () => {
     location_sector: "",
     provinces: [], // Array of selected province objects
     districts: [], // Array of selected district objects
+    sectors: [], 
     location_serve: "",
     additional_info: "",
     service_category_id: "",
     total_district_cost: 0,
+    total_sector_cost: 0,
     approved: false,
     paymentMethod: "",
     paymentNumber: "",
@@ -71,6 +75,8 @@ const BecomeProvider = () => {
       setError("Could not load service categories");
     }
   };
+
+
   const fetchSettings = async () => {
     try {
       const response = await fetch(`${API_URL}/settings`, {
@@ -130,33 +136,125 @@ const BecomeProvider = () => {
     }
   }, [formData.location_province, formData.location_district]);
 
+  // const handleProvinceChange = (selectedProvinces) => {
+  //   // Get districts for selected provinces
+  //   const districts = selectedProvinces.flatMap((province) =>
+  //     Districts(province.value).map((district) => ({
+  //       value: district,
+  //       label: `${district} (${province.value})`,
+  //     }))
+  //   );
+
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     provinces: selectedProvinces,
+  //     districts: [], // Reset districts when provinces change
+  //     total_district_cost: 0,
+  //   }));
+  //   setAvailableDistricts(districts);
+  // };
+
+
   const handleProvinceChange = (selectedProvinces) => {
-    // Get districts for selected provinces
     const districts = selectedProvinces.flatMap((province) =>
       Districts(province.value).map((district) => ({
         value: district,
         label: `${district} (${province.value})`,
+        province: province.value
       }))
     );
 
     setFormData((prevState) => ({
       ...prevState,
       provinces: selectedProvinces,
-      districts: [], // Reset districts when provinces change
+      districts: [],
+      sectors: [], // Reset sectors when provinces change
       total_district_cost: 0,
+      total_sector_cost: 0,
     }));
     setAvailableDistricts(districts);
+    setAvailableSectors([]); // Reset available sectors
   };
 
+  // Update handleMultiDistrictChange to update available sectors
   const handleMultiDistrictChange = (selectedDistricts) => {
-    const districtCost = selectedDistricts.length * settings.provider_price;
+    const price = getCategoryPrice(formData.service_category_id);
+    const districtCost = selectedDistricts.length * price;
 
+    // Get all available sectors for selected districts
+    const sectors = selectedDistricts.flatMap((district) =>
+      Sectors(district.province, district.value).map((sector) => ({
+        value: sector,
+        label: `${sector} (${district.value}, ${district.province})`,
+        district: district.value,
+        province: district.province
+      }))
+    );
+
+    setAvailableSectors(sectors);
     setFormData((prevState) => ({
       ...prevState,
       districts: selectedDistricts,
+      sectors: [], // Reset sectors when districts change
       total_district_cost: districtCost,
+      total_sector_cost: 0,
     }));
   };
+
+  const getCategoryPrice = (categoryId) => {
+    if (!settings || !settings.categoryPrices) return settings?.provider_price || 3000;
+
+    const categoryPrice = settings.categoryPrices.find(
+      (price) => price.category_id === parseInt(categoryId)
+    );
+
+    return categoryPrice ? categoryPrice.provider_price : settings.provider_price;
+  };
+
+  useEffect(() => {
+    if (formData.districts.length > 0 && formData.service_category_id) {
+      const price = getCategoryPrice(formData.service_category_id);
+      const districtCost = formData.districts.length * price;
+
+      setFormData((prevState) => ({
+        ...prevState,
+        total_district_cost: districtCost,
+      }));
+    }
+  }, [formData.service_category_id]);
+
+  const handleMultiSectorChange = (selectedSectors) => {
+    const price = getCategoryPrice(formData.service_category_id);
+    const sectorCost = selectedSectors.length * (price / 2); // Assuming sector cost is half of district cost
+
+    setFormData((prevState) => ({
+      ...prevState,
+      sectors: selectedSectors,
+      total_sector_cost: sectorCost,
+    }));
+  };
+
+  const getDistrictsLabel = () => {
+    const price = getCategoryPrice(formData.service_category_id);
+    return `Akarere (${price} Rwf kuri buri karere)`;
+  };
+  const getSectorsLabel = () => {
+    const price = getCategoryPrice(formData.service_category_id);
+    return ""
+    // return `Imirenge (${price/2} Rwf kuri buri murenge)`; // Half price for sectors
+  };
+
+  // const handleMultiDistrictChange = (selectedDistricts) => {
+  //   const price = getCategoryPrice(formData.service_category_id);
+  //   const districtCost = selectedDistricts.length * price;
+
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     districts: selectedDistricts,
+  //     total_district_cost: districtCost,
+  //   }));
+  // };
+
 
   // Transform Provinces to react-select format
   const provinceOptions = Provinces().map((province) => ({
@@ -172,6 +270,7 @@ const BecomeProvider = () => {
     }));
   };
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
@@ -191,6 +290,9 @@ const BecomeProvider = () => {
           approved_by: null,
           provinces: formData.provinces.map((p) => p.value).join(", "),
           districts: formData.districts.map((d) => d.value).join(", "),
+          location_serve: formData.sectors.map((s) => s.value).join(", "), // Add sectors
+          sectors: formData.sectors.map((s) => s.value).join(", "),
+          total_cost: formData.total_district_cost + formData.total_sector_cost, // Update total cost
         }),
       });
 
@@ -231,7 +333,7 @@ const BecomeProvider = () => {
         additional_info: "",
         service_category_id: "",
         total_district_cost: 0,
-        approved: false,
+        approved: true,
         paymentMethod: "",
         paymentNumber: "",
       });
@@ -239,9 +341,15 @@ const BecomeProvider = () => {
 
       setTimeout(() => setShowSuccess(false), 5000);
       setStep(2);
-    } catch (err) {
+    }  catch (err) {
       console.error("Submission error:", err);
-      setError(err.message);
+      
+      // Check if the error is about unique email constraint
+      if (err.message && err.message.includes('ServiceProvider_email_key')) {
+        setError("Iyi email yamaze gukoreshwa,subiramo ukoreshe indi email!");
+      } else {
+        setError(err.message);
+      }
     }
   };
 
@@ -513,65 +621,7 @@ const BecomeProvider = () => {
                     </div>
                   </div>
 
-                  {/* Location Details */}
-                  {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-                <div>
-                  <label
-                    htmlFor="location_province"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Intara
-                  </label>
-                  <input
-                    type="text"
-                    id="location_province"
-                    name="location_province"
-                    required
-                    value={formData.location_province}
-                    onChange={handleInputChange}
-                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Andika intara"
-                  />
-                </div>
 
-                <div>
-                  <label
-                    htmlFor="location_district"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Akarere
-                  </label>
-                  <input
-                    type="text"
-                    id="location_district"
-                    name="location_district"
-                    required
-                    value={formData.location_district}
-                    onChange={handleInputChange}
-                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Andika akarere"
-                  />
-                </div>
-
-                <div>
-                  <label
-                    htmlFor="location_sector"
-                    className="block text-sm font-medium text-gray-700 mb-1"
-                  >
-                    Umurenge
-                  </label>
-                  <input
-                    type="text"
-                    id="location_sector"
-                    name="location_sector"
-                    required
-                    value={formData.location_sector}
-                    onChange={handleInputChange}
-                    className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
-                    placeholder="Andika umurenge"
-                  />
-                </div>
-              </div> */}
 
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-3">
                     <div>
@@ -669,14 +719,15 @@ const BecomeProvider = () => {
                     />
                   </div>
 
-                  {/* Multi-Select Districts */}
+
+
                   {formData.provinces.length > 0 && (
                     <div className="mt-6">
                       <label
                         htmlFor="districts"
                         className="block text-sm font-medium text-red-700 mb-1"
                       >
-                        Akarere ({settings.provider_price} Rwf kuri buri karere)
+                        {getDistrictsLabel()}
                       </label>
                       <Select
                         isMulti
@@ -690,13 +741,56 @@ const BecomeProvider = () => {
                       />
                       {formData.districts.length > 0 && (
                         <div className="mt-2 flex text-md font-semibold text-sky-600">
-                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />{" "}
-                          Amafaranga yose hamwe:{" "}
-                          {formData.total_district_cost.toLocaleString()} Rwf
+                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />
+                          Amafaranga yose hamwe: {formData.total_district_cost.toLocaleString()} Rwf
                         </div>
                       )}
                     </div>
                   )}
+
+                  {formData.districts.length > 0 && (
+                    <div className="mt-6">
+                      <label
+                        htmlFor="sectors"
+                        className="block text-sm font-medium text-red-700 mb-1"
+                      >
+                        {getSectorsLabel()}
+                      </label>
+                      <Select
+                        isMulti
+                        name="sectors"
+                        options={availableSectors}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        value={formData.sectors}
+                        onChange={handleMultiSectorChange}
+                        placeholder="Hitamo imirenge"
+                      />
+                      {/* {formData.sectors.length > 0 && (
+                        <div className="mt-2 flex text-md font-semibold text-sky-600">
+                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />
+                          Amafaranga yose hamwe y'imirenge: {formData.total_sector_cost.toLocaleString()} Rwf
+                        </div>
+                      )} */}
+                    </div>
+                  )}
+
+                  {/* {(formData.districts.length > 0 || formData.sectors.length > 0) && (
+                    <div className="mt-4 p-4 bg-sky-50 rounded-lg">
+                      <h3 className="font-semibold text-sky-800 mb-2">Amafaranga yose hamwe</h3>
+                      <div className="space-y-2">
+                        {formData.districts.length > 0 && (
+                          <p>Uturerere: {formData.total_district_cost.toLocaleString()} Rwf</p>
+                        )}
+                        {formData.sectors.length > 0 && (
+                          <p>Imirenge: {formData.total_sector_cost.toLocaleString()} Rwf</p>
+                        )}
+                        <p className="font-bold">
+                          Total: {(formData.total_district_cost + formData.total_sector_cost).toLocaleString()} Rwf
+                        </p>
+                      </div>
+                    </div>
+                  )} */}
 
                   {/* Experience */}
                   <div>
@@ -768,7 +862,7 @@ const BecomeProvider = () => {
                         {/* Payment request sent. Please check your phone for the
                     payment prompt. */}
                         wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
-                        yawe wemeze kwishyura
+                        yawe wemeze kwishyura cyangwa ukande *182*7*2#
                       </p>
                     </div>
                   )}

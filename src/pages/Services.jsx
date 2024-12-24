@@ -312,8 +312,8 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
       {transactionDetails && (
         <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
           <p className="text-sky-600">
-            Payment request sent. Please check your phone for the payment
-            prompt.
+          wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
+          yawe wemeze kwishyura cyangwa ukande *182*7*2#
           </p>
         </div>
       )}

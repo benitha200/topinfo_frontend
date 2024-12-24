@@ -68,6 +68,29 @@ const UsersPage = () => {
   };
 
   // Create a new agent user
+  // const createUser = async () => {
+  //   setIsSubmiting(true);
+  //   try {
+  //     const token = localStorage.getItem("token");
+  //     const response = await fetch(`${API_URL}/users`, {
+  //       method: "POST",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(formData),
+  //     });
+  //     if (!response.ok) throw new Error("Failed to create user");
+  //     fetchUsers();
+  //     setIsAddModalOpen(false);
+  //     setIsSubmiting(false);
+  //     resetForm();
+  //   } catch (err) {
+  //     setError(err.message);
+  //     setIsSubmiting(false);
+  //   }
+  // };
+
   const createUser = async () => {
     setIsSubmiting(true);
     try {
@@ -80,7 +103,15 @@ const UsersPage = () => {
         },
         body: JSON.stringify(formData),
       });
-      if (!response.ok) throw new Error("Failed to create user");
+      
+      // Get the response data
+      const data = await response.json();
+      
+      if (!response.ok) {
+        // Use the specific error message from the API if available
+        throw new Error(data.error || "Failed to create user");
+      }
+      
       fetchUsers();
       setIsAddModalOpen(false);
       setIsSubmiting(false);
@@ -90,6 +121,7 @@ const UsersPage = () => {
       setIsSubmiting(false);
     }
   };
+
 
   const resetForm = () => {
     setFormData({
@@ -199,9 +231,8 @@ const UsersPage = () => {
       user.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-
-  if (loading) return <div className="p-6">Loading...</div>;
-  if (error) return <div className="p-6 text-red-500">{error}</div>;
+  if (loading) return  <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
+  // if (error) return <AdminLayout><div className="p-6 text-red-500">{error}</div></AdminLayout>;
 
   return (
     <AdminLayout>
@@ -215,6 +246,7 @@ const UsersPage = () => {
             Add New User
           </button>
         </div>
+      
 
         <Card>
           <CardHeader>
@@ -331,7 +363,7 @@ const UsersPage = () => {
           <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center">
             <div className="bg-white p-6 rounded w-full max-w-xl">
               <h2 className="text-xl font-bold mb-4">
-                {editingRow ? "Edit Agent" : "Add New Agent"}
+                {editingRow ? "Edit User" : "Add New User"}
               </h2>
               {error && (
                 <div className="mb-6 bg-red-50 border border-red-200 rounded p-4 flex items-start">
