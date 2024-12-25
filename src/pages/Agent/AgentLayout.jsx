@@ -279,6 +279,9 @@ import {
   Menu,
   X,
   CreditCard,
+  Users2,
+  BriefcaseBusiness,
+  HandCoinsIcon,
 } from "lucide-react";
 
 const AgentLayout = ({ children }) => {
@@ -302,17 +305,17 @@ const AgentLayout = ({ children }) => {
       path: "/agent-dashboard/my-agents",
     },
     !user.isSuperAgent && {
-      icon: ClipboardList,
+      icon: Users2,
       label: "Client",
       path: "/agent-dashboard/requests-agent",
     },
     !user.isSuperAgent && {
-      icon: ClipboardList,
+      icon: BriefcaseBusiness,
       label: "Service Provider",
       path: "/agent-dashboard/service-provider-agent",
     },
     !user.isSuperAgent && {
-      icon: ClipboardList,
+      icon: HandCoinsIcon,
       label: "Payments",
       path: "/agent-dashboard/payments-agent",
     },
@@ -322,7 +325,7 @@ const AgentLayout = ({ children }) => {
       path: "/agent-dashboard/payments-super-agent",
     },
   ].filter(Boolean);
-  
+
   const handleLogout = () => {
     localStorage.removeItem("user");
     window.location.href = "/login";
@@ -368,11 +371,10 @@ const AgentLayout = ({ children }) => {
                   className={`
                                         flex items-center px-4 py-3 
                                         text-sm rounded transition-all 
-                                        ${
-                                          location.pathname === item.path
-                                            ? "bg-sky-100 text-sky-700 font-semibold"
-                                            : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
-                                        }
+                                        ${location.pathname === item.path
+                      ? "bg-sky-100 text-sky-700 font-semibold"
+                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                    }
                                     `}
                 >
                   <Icon className="mr-3 h-5 w-5 opacity-70" />
@@ -401,38 +403,32 @@ const AgentLayout = ({ children }) => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 flex flex-col overflow-hidden h-screen w-full">
         {/* Top Bar */}
-        <header className="bg-white shadow-sm border-b">
-          <div className="flex items-center justify-between px-6 py-4">
-            <button
-              onClick={() => setIsSidebarOpen(true)}
-              className="lg:hidden text-gray-500 hover:text-gray-700"
-            >
-              <Menu className="h-6 w-6" />
-            </button>
-            <h1 className="text-xl font-semibold text-gray-800">
-              {navItems.find((item) => item.path === location.pathname)
-                ?.label || "Dashboard"}
-            </h1>
+        <header className="bg-white shadow-sm border-b w-full">
+          <div className="flex items-center justify-between px-4 sm:px-6 py-4">
             <div className="flex items-center gap-4">
-              <div
-                className="
-                                    w-10 h-10 
-                                    bg-sky-100 text-sky-600 
-                                    flex items-center justify-center 
-                                    rounded-full font-semibold 
-                                    border border-sky-200
-                                "
+              <button
+                onClick={() => setIsSidebarOpen(true)}
+                className="lg:hidden text-gray-500 hover:text-gray-700 -ml-1"
               >
+                <Menu className="h-6 w-6" />
+              </button>
+              <h1 className="text-lg sm:text-xl font-semibold text-gray-800 truncate">
+                {navItems.find((item) => item.path === location.pathname)?.label || "Dashboard"}
+              </h1>
+            </div>
+
+            <div className="flex items-center gap-2 sm:gap-4">
+              <div className="hidden sm:flex w-10 h-10 bg-sky-100 text-sky-600 items-center justify-center rounded-full font-semibold border border-sky-200">
                 {initials}
               </div>
-              <div>
-                <p className="font-medium text-gray-900">
+              <div className="flex flex-col">
+                <p className="font-medium text-gray-900 text-sm sm:text-base truncate max-w-[150px] sm:max-w-none">
                   {user ? `${user.firstname} ${user.lastname}` : "Guest"}
                 </p>
                 <p className="text-xs text-gray-500 uppercase tracking-wider">
-                   {user?.isSuperAgent ? "SUPER AGENT" : "AGENT"}
+                  {user?.isSuperAgent ? "SUPER AGENT" : "AGENT"}
                 </p>
               </div>
             </div>
@@ -440,7 +436,7 @@ const AgentLayout = ({ children }) => {
         </header>
 
         {/* Page Content */}
-        <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-4 sm:p-6 w-full">
           {children}
         </main>
       </div>

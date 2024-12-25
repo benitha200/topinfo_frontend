@@ -25,6 +25,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import AgentLayout from './AgentLayout';
 import API_URL from '../../constants/Constants';
+import PaymentsSkeletonLoader from './PaymentsSkeletonLoader';
 
 const SuperAgentPaymentsPage = () => {
   const [paymentsData, setPaymentsData] = useState([]);
@@ -124,45 +125,46 @@ const SuperAgentPaymentsPage = () => {
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  if (loading) return <AgentLayout><div>Loading...</div></AgentLayout>;
+  if (loading) return <PaymentsSkeletonLoader/>;
+
   // if (error) return <div>Error: {error}</div>;
 
   return (
     <AgentLayout>
-      <div className="p-6 space-y-6">
+      <div className="p-2 md:p-6 space-y-4 md:space-y-6">
         {/* Summary Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="bg-emerald-50 hover:bg-emerald-100 transition-colors rounded border-emerald-200 shadow-md">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 md:gap-6">
+          <Card className="bg-emerald-50 hover:bg-emerald-100 transition-colors border-emerald-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-emerald-900">Total Payments</CardTitle>
-              <DollarSign className="h-5 w-5 text-emerald-600" />
+              <CardTitle className="text-xs md:text-sm font-medium text-emerald-900">Total Payments</CardTitle>
+              <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-emerald-800">
+              <div className="text-lg md:text-2xl font-bold text-emerald-800">
                 {summaryStats.totalPayments.toLocaleString()} RWF
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-sky-50  hover:bg-sky-100 transition-colors rounded border-sky-200 shadow-md">
+          <Card className="bg-sky-50 hover:bg-sky-100 transition-colors border-sky-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-sky-900">Total Commission</CardTitle>
-              <CreditCard className="h-5 w-5 text-sky-600" />
+              <CardTitle className="text-xs md:text-sm font-medium text-sky-900">Total Commission</CardTitle>
+              <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-sky-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-sky-800">
+              <div className="text-lg md:text-2xl font-bold text-sky-800">
                 {summaryStats.totalCommission.toLocaleString()} RWF
               </div>
             </CardContent>
           </Card>
 
-          <Card className="bg-yellow-50 hover:bg-yellow-100 rounded transition-colors rounded border-yellow-200 shadow-md">
+          <Card className="bg-yellow-50 hover:bg-yellow-100 transition-colors border-yellow-200 shadow-md sm:col-span-2 md:col-span-1">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-yellow-900">Completed Payments</CardTitle>
-              <Users className="h-5 w-5 text-yellow-600" />
+              <CardTitle className="text-xs md:text-sm font-medium text-yellow-900">Completed Payments</CardTitle>
+              <Users className="h-4 w-4 md:h-5 md:w-5 text-yellow-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-yellow-800">
+              <div className="text-lg md:text-2xl font-bold text-yellow-800">
                 {summaryStats.completedPayments}
               </div>
             </CardContent>
@@ -171,61 +173,61 @@ const SuperAgentPaymentsPage = () => {
 
         {/* Payments Table */}
         <Card className="shadow-lg">
-          <CardHeader className="flex flex-row justify-between items-center">
-            <CardTitle>Payment Details</CardTitle>
-            <div className="flex items-center space-x-2">
+          <CardHeader className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+            <CardTitle className="text-lg md:text-xl">Payment Details</CardTitle>
+            <div className="w-full sm:w-auto">
               <div className="relative">
-                <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400" />
+                <Search className="absolute left-2 top-1/2 -translate-y-1/2 text-gray-400 h-4 w-4" />
                 <Input
                   placeholder="Search clients, services..."
-                  className="pl-8 w-64  border border-slate-200 rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none"
+                  className="pl-8 w-full sm:w-64 text-sm border border-slate-200 rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none"
                   value={searchTerm}
                   onChange={(e) => {
                     setSearchTerm(e.target.value);
-                    setCurrentPage(1); // Reset to first page on search
+                    setCurrentPage(1);
                   }}
                 />
               </div>
             </div>
           </CardHeader>
           <CardContent>
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Date</TableHead>
-                  <TableHead>Agent</TableHead>
-                  <TableHead>Client Name</TableHead>
-                  <TableHead>Service Category</TableHead>
-                  <TableHead>Phone Number</TableHead>
-                  <TableHead>Email</TableHead>
-                  <TableHead>Amount</TableHead>
-                  <TableHead>Transaction ID</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {paginatedData.map((request) => {
-                  const successfulPayment = request.payments.find(p => p.status === 'COMPLETED');
-                  return successfulPayment ? (
-                    <TableRow key={request.id} className="hover:bg-gray-50 transition-colors">
-                      <TableCell>{new Date(request.service_date).toLocaleDateString()}</TableCell>
-                      <TableCell>{`${request.agent.firstname} ${request.agent.lastname}`}</TableCell>
-                      <TableCell>{`${request.client.firstname} ${request.client.lastname}`}</TableCell>
-                      <TableCell>{request.service_category.name}</TableCell>
-                      {/* <TableCell>{request.client.phone}</TableCell>
-                      <TableCell>{request.client.email}</TableCell> */}
-                      <TableCell>{request.client.phone.substring(0, 3) + 'xxxxx' + request.client.phone.slice(-2)}</TableCell>
-                      <TableCell>{request.client.email.split('@')[0].substring(0, 2) + 'xxxxxxxx' + request.client.email.split('@')[0].slice(-2) + '@' + request.client.email.split('@')[1]}</TableCell>
-                      <TableCell>{successfulPayment.amount} RWF</TableCell>
-                      <TableCell>{successfulPayment.request_transaction_id}</TableCell>
-                    </TableRow>
-                  ) : null;
-                })}
-              </TableBody>
-            </Table>
+            <div className="overflow-x-auto">
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead className="whitespace-nowrap">Date</TableHead>
+                    <TableHead className="whitespace-nowrap">Agent</TableHead>
+                    <TableHead className="whitespace-nowrap">Client Name</TableHead>
+                    <TableHead className="whitespace-nowrap">Service Category</TableHead>
+                    <TableHead className="whitespace-nowrap">Phone Number</TableHead>
+                    <TableHead className="whitespace-nowrap">Email</TableHead>
+                    <TableHead className="whitespace-nowrap">Amount</TableHead>
+                    <TableHead className="whitespace-nowrap">Transaction ID</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {paginatedData.map((request) => {
+                    const successfulPayment = request.payments.find(p => p.status === 'COMPLETED');
+                    return successfulPayment ? (
+                      <TableRow key={request.id} className="hover:bg-gray-50 transition-colors">
+                        <TableCell className="whitespace-nowrap">{new Date(request.service_date).toLocaleDateString()}</TableCell>
+                        <TableCell className="whitespace-nowrap">{`${request.agent.firstname} ${request.agent.lastname}`}</TableCell>
+                        <TableCell className="whitespace-nowrap">{`${request.client.firstname} ${request.client.lastname}`}</TableCell>
+                        <TableCell className="whitespace-nowrap">{request.service_category.name}</TableCell>
+                        <TableCell className="whitespace-nowrap">{request.client.phone.substring(0, 3) + 'xxxxx' + request.client.phone.slice(-2)}</TableCell>
+                        <TableCell className="whitespace-nowrap">{request.client.email.split('@')[0].substring(0, 2) + 'xxxxxxxx' + request.client.email.split('@')[0].slice(-2) + '@' + request.client.email.split('@')[1]}</TableCell>
+                        <TableCell className="whitespace-nowrap">{successfulPayment.amount} RWF</TableCell>
+                        <TableCell className="whitespace-nowrap">{successfulPayment.request_transaction_id}</TableCell>
+                      </TableRow>
+                    ) : null;
+                  })}
+                </TableBody>
+              </Table>
+            </div>
 
             {/* Pagination Controls */}
-            <div className="flex justify-between items-center mt-4">
-              <div className="text-sm text-gray-600">
+            <div className="flex flex-col sm:flex-row justify-between items-center mt-4 space-y-4 sm:space-y-0">
+              <div className="text-xs sm:text-sm text-gray-600 text-center sm:text-left">
                 Showing {Math.min(1 + (currentPage - 1) * itemsPerPage, filteredData.length)}
                 {' '} to {' '}
                 {Math.min(currentPage * itemsPerPage, filteredData.length)}
@@ -237,16 +239,18 @@ const SuperAgentPaymentsPage = () => {
                   size="sm"
                   onClick={() => setCurrentPage(prev => Math.max(1, prev - 1))}
                   disabled={currentPage === 1}
+                  className="text-xs sm:text-sm"
                 >
-                  <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+                  <ChevronLeft className="h-3 w-3 sm:h-4 sm:w-4 mr-1" /> Previous
                 </Button>
                 <Button
                   variant="outline"
                   size="sm"
                   onClick={() => setCurrentPage(prev => Math.min(totalPages, prev + 1))}
                   disabled={currentPage === totalPages}
+                  className="text-xs sm:text-sm"
                 >
-                  Next <ChevronRight className="h-4 w-4 ml-1" />
+                  Next <ChevronRight className="h-3 w-3 sm:h-4 sm:w-4 ml-1" />
                 </Button>
               </div>
             </div>

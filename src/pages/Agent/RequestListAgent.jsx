@@ -1,3 +1,40 @@
+// import React, { useState, useEffect, useMemo } from 'react';
+// import {
+//   Card,
+//   CardHeader,
+//   CardTitle,
+//   CardContent,
+//   CardDescription
+// } from '@/components/ui/card';
+// import { Button } from '@/components/ui/button';
+// import {
+//   Table,
+//   TableHeader,
+//   TableRow,
+//   TableHead,
+//   TableBody,
+//   TableCell
+// } from '@/components/ui/table';
+// import { Input } from '@/components/ui/input';
+// import {
+//   ChevronLeft,
+//   ChevronRight,
+//   Search,
+//   Filter,
+//   Eye,
+//   FileText,
+//   Clock,
+//   CheckCircle,
+//   Edit2
+// } from 'lucide-react';
+// import AgentLayout from './AgentLayout';
+// import axios from 'axios';
+// import { toast } from 'sonner';
+// import API_URL from '../../constants/Constants';
+// import { useLocation, useNavigate } from 'react-router-dom';
+// import EditRequestForm from './EditRequestForm';
+
+
 import React, { useState, useEffect, useMemo } from 'react';
 import {
   Card,
@@ -32,6 +69,74 @@ import axios from 'axios';
 import { toast } from 'sonner';
 import API_URL from '../../constants/Constants';
 import { useLocation, useNavigate } from 'react-router-dom';
+import EditRequestForm from './EditRequestForm';
+
+const RequestListSkeleton = () => (
+  <div className="space-y-6 animate-pulse">
+    {/* Insight Cards Skeleton */}
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {[...Array(4)].map((_, i) => (
+        <Card key={i}>
+          <CardContent className="pt-6 flex items-center">
+            <div className="mr-4 bg-gray-200 p-3 rounded-full w-12 h-12" />
+            <div className="space-y-2">
+              <div className="h-4 bg-gray-200 rounded w-24" />
+              <div className="h-6 bg-gray-200 rounded w-12" />
+            </div>
+          </CardContent>
+        </Card>
+      ))}
+    </div>
+
+    {/* Main Content Skeleton */}
+    <Card>
+      <CardHeader>
+        <div className="flex justify-between items-center">
+          <div className="h-8 bg-gray-200 rounded w-32" />
+          <div className="h-10 bg-gray-200 rounded w-40" />
+        </div>
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
+          <div className="flex-grow h-10 bg-gray-200 rounded" />
+          <div className="w-full sm:w-48 h-10 bg-gray-200 rounded" />
+        </div>
+      </CardHeader>
+      <CardContent>
+        <div className="overflow-x-auto">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                <TableHead><div className="h-4 bg-gray-200 rounded w-20" /></TableHead>
+                <TableHead><div className="h-4 bg-gray-200 rounded w-32" /></TableHead>
+                <TableHead><div className="h-4 bg-gray-200 rounded w-24" /></TableHead>
+                <TableHead><div className="h-4 bg-gray-200 rounded w-20" /></TableHead>
+                <TableHead><div className="h-4 bg-gray-200 rounded w-24" /></TableHead>
+                <TableHead><div className="h-4 bg-gray-200 rounded w-20" /></TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {[...Array(5)].map((_, i) => (
+                <TableRow key={i}>
+                  <TableCell><div className="h-4 bg-gray-200 rounded w-24" /></TableCell>
+                  <TableCell><div className="h-4 bg-gray-200 rounded w-40" /></TableCell>
+                  <TableCell><div className="h-4 bg-gray-200 rounded w-28" /></TableCell>
+                  <TableCell><div className="h-4 bg-gray-200 rounded w-20" /></TableCell>
+                  <TableCell><div className="h-4 bg-gray-200 rounded w-24" /></TableCell>
+                  <TableCell>
+                    <div className="flex space-x-2">
+                      <div className="h-8 bg-gray-200 rounded w-20" />
+                      <div className="h-8 bg-gray-200 rounded w-20" />
+                    </div>
+                  </TableCell>
+                </TableRow>
+              ))}
+            </TableBody>
+          </Table>
+        </div>
+      </CardContent>
+    </Card>
+  </div>
+);
+
 
 const RequestListAgent = () => {
   const [requests, setRequests] = useState([]);
@@ -40,6 +145,7 @@ const RequestListAgent = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
   const [statusFilter, setStatusFilter] = useState('');
+  const [editingRequest, setEditingRequest] = useState(null);
   const navigate = useNavigate();
 
   // Fetch the token
@@ -64,6 +170,33 @@ const RequestListAgent = () => {
     }
   }
 
+  const showSuccessToast = (message) => {
+    toast(message, {
+      duration: 4000,
+      className: "bg-green-50",
+      style: {
+        padding: "16px",
+        borderRadius: "8px",
+        border: "1px solid rgb(34, 197, 94)",
+      },
+      description: new Date().toLocaleTimeString(),
+      icon: <CheckCircle className="text-green-500 w-5 h-5" />,
+    });
+  };
+
+  const showErrorToast = (message) => {
+    toast.error(message, {
+      duration: 5000,
+      className: "bg-red-50",
+      style: {
+        padding: "16px",
+        borderRadius: "8px",
+        border: "1px solid rgb(239, 68, 68)",
+      },
+      description: new Date().toLocaleTimeString(),
+    });
+  };
+
   // Fetch requests on component mount
   useEffect(() => {
     const fetchData = async () => {
@@ -76,8 +209,9 @@ const RequestListAgent = () => {
 
         setRequests(requestsResponse.data);
         setIsLoading(false);
+        showSuccessToast('Requests loaded successfully');
       } catch (error) {
-        toast.error('Failed to load requests');
+        showErrorToast('Failed to load requests');
         setIsLoading(false);
       }
     };
@@ -85,7 +219,7 @@ const RequestListAgent = () => {
     if (token) {
       fetchData();
     } else {
-      toast.error('No authentication token found');
+      showErrorToast('No authentication token found');
       setIsLoading(false);
     }
   }, [token]);
@@ -149,6 +283,49 @@ const RequestListAgent = () => {
     setCurrentPage(pageNumber);
   };
 
+  const handleUpdateRequest = async (updatedRequest) => {
+    const updatedRequests = requests.map(req =>
+      req.id === updatedRequest.id ? updatedRequest : req
+    );
+    setRequests(updatedRequests);
+    showSuccessToast('Request updated successfully');
+  };
+
+  const handleRetryPayment = async (request) => {
+    try {
+      const paymentResponse = await fetch(`${API_URL}/payments/initiate`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          service_location: request.service_location,
+          paymentNumber: request.client.phone,
+          request_id: request.id,
+          client_id: request.client_id,
+          type: "client",
+        }),
+      });
+
+      if (!paymentResponse.ok) {
+        throw new Error("Failed to initiate payment");
+      }
+
+      const result = await paymentResponse.json();
+      if (!result.success) {
+        showErrorToast(result.message || 'Payment initiation failed');
+      } else {
+        showSuccessToast('Payment request sent. Please check your phone.');
+      }
+
+    } catch (error) {
+      showErrorToast('Failed to initiate payment');
+      console.error('Payment retry error:', error);
+    }
+  };
+
+
   // Navigate to create request page
   const handleAddRequest = () => {
     navigate('/agent-dashboard/requests-agent/select-services');
@@ -184,8 +361,15 @@ const RequestListAgent = () => {
   return (
     <AgentLayout>
       <div className="space-y-6">
+        {editingRequest && (
+          <EditRequestForm
+            request={editingRequest}
+            onClose={() => setEditingRequest(null)}
+            onUpdate={handleUpdateRequest}
+          />
+        )}
         {/* Insight Cards */}
-        <div className="grid grid-cols-4 gap-4 mb-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
           <Card>
             <CardContent className="pt-6 flex items-center">
               <div className="mr-4 bg-sky-100 p-3 rounded-full">
@@ -236,17 +420,17 @@ const RequestListAgent = () => {
         </div>
         <Card>
           <CardHeader>
-            <CardTitle className="flex justify-between items-center">
-              My Requests
+            <CardTitle className="flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
+              <span>My Requests</span>
               <Button
-                className="bg-emerald-500 rounded text-white hover:bg-emerald-600"
+                className="bg-emerald-500 w-full sm:w-auto rounded text-white hover:bg-emerald-600"
                 onClick={handleAddRequest}
               >
                 Add New Request
               </Button>
             </CardTitle>
             <CardDescription>
-              <div className="flex items-center space-x-4 mt-4">
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center space-y-4 sm:space-y-0 sm:space-x-4 mt-4">
                 {/* Search Input */}
                 <div className="relative flex-grow">
                   <Search
@@ -255,7 +439,7 @@ const RequestListAgent = () => {
                   />
                   <Input
                     placeholder="Search requests..."
-                    className="pl-10 w-full border border-slate-200 rounded-md focus:ring-2 focus:ring-red-500 focus:outline-none"
+                    className="pl-10 w-full"
                     value={searchTerm}
                     onChange={(e) => {
                       setSearchTerm(e.target.value);
@@ -264,9 +448,8 @@ const RequestListAgent = () => {
                   />
                 </div>
 
-
                 {/* Status Filter */}
-                <div className="relative">
+                <div className="relative w-full sm:w-48">
                   <Filter className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" size={20} />
                   <select
                     className="pl-10 pr-4 py-2 border rounded w-full"
@@ -313,7 +496,7 @@ const RequestListAgent = () => {
                         <TableCell>
                           {new Date(request.createdAt).toLocaleDateString()}
                         </TableCell>
-                        <TableCell>
+                        {/* <TableCell>
                           <Button
                             // variant="outline" 
                             size="sm"
@@ -323,20 +506,41 @@ const RequestListAgent = () => {
                             <Eye className="mr-2" size={16} /> View
                           </Button>
                           <Button
-                            // variant="outline" 
                             size="sm"
-                            onClick={() => handleViewRequest(request.id)}
-                            className="hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
+                            onClick={() => setEditingRequest(request)}
+                            className="hover:bg-yellow-200 bg-yellow-100 rounded text-yellow-700 ml-2"
                           >
-                            <Edit2 className="mr-2" size={16} /> View
+                            <Edit2 className="mr-2" size={16} /> Edit
                           </Button>
 
-                          {/* <button
-                            className="text-yellow-500 border-2 flex gap-1 border-gray-300 p-2 rounded hover:text-yellow-700"
-                            onClick={() => setEditingRequest(request)}
-                          >
-                            <Edit2 className="h-4 w-4" /> <span> Edit</span>
-                          </button> */}
+
+                        </TableCell> */}
+                        <TableCell>
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              onClick={() => handleViewRequest(request.id)}
+                              className="hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
+                            >
+                              <Eye className="mr-2" size={16} /> View
+                            </Button>
+                            <Button
+                              size="sm"
+                              onClick={() => setEditingRequest(request)}
+                              className="hover:bg-yellow-200 bg-yellow-100 rounded text-yellow-700"
+                            >
+                              <Edit2 className="mr-2" size={16} /> Edit
+                            </Button>
+                            {request.status === 'PENDING' && (
+                              <Button
+                                size="sm"
+                                onClick={() => handleRetryPayment(request)}
+                                className="hover:bg-purple-200 bg-purple-100 rounded text-purple-700"
+                              >
+                                <Clock className="mr-2" size={16} /> Retry Payment
+                              </Button>
+                            )}
+                          </div>
                         </TableCell>
                       </TableRow>
                     ))}

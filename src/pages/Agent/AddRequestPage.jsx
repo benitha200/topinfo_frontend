@@ -97,6 +97,11 @@ const AddRequestPage = () => {
     label: district,
   }));
 
+  const sectorOptions1 = Sectors().map((sector) => ({
+    value: sector,
+    label: sector,
+  }));
+
   // Fetch service details
   useEffect(() => {
     const fetchServiceDetails = async () => {
@@ -125,8 +130,8 @@ const AddRequestPage = () => {
   }, [serviceId]);
 
   // Loading and error handling
-  if (loading) return <p>Loading service details...</p>;
-  if (error) return <p className="text-red-500">{error}</p>;
+  if (loading) return <AgentLayout><p>Loading service details...</p></AgentLayout>;
+  // if (error) return <AgentLayout><p className="text-red-500">Ntago byakunze kwishyura wakongera ukoherohereza ubutumwa busaba kwishyura</p></AgentLayout>;
   if (!service)
     return <p>Service not found. Please go back and select a service.</p>;
 
@@ -198,45 +203,45 @@ const AddRequestPage = () => {
     setStep(2); // Move to Step 2
   };
 
-  const handleSubmitStep2 = async (e) => {
-    e.preventDefault();
+  // const handleSubmitStep2 = async (e) => {
+  //   e.preventDefault();
 
-    try {
-      // Convert message_preference array to a comma-separated string
-      const messagePreference = Array.isArray(formData.message_preference)
-        ? formData.message_preference.join(",")
-        : formData.message_preference || "";
+  //   try {
+  //     // Convert message_preference array to a comma-separated string
+  //     const messagePreference = Array.isArray(formData.message_preference)
+  //       ? formData.message_preference.join(",")
+  //       : formData.message_preference || "";
 
-      const requestResponse = await fetch(`${API_URL}/requests`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-        body: JSON.stringify({
-          your_location: formData.location_district,
-          service_location: formData.location_district,
-          client_id: clientId,
-          service_category_id: parseInt(serviceId),
-          fields: formData.dynamicFields,
-          service_date: new Date().toISOString().split("T")[0],
-          message_preference: messagePreference,
-          agent_id: userId.id,
-        }),
-      });
+  //     const requestResponse = await fetch(`${API_URL}/requests`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
+  //       },
+  //       body: JSON.stringify({
+  //         your_location: formData.location_district,
+  //         service_location: formData.location_district,
+  //         client_id: clientId,
+  //         service_category_id: parseInt(serviceId),
+  //         fields: formData.dynamicFields,
+  //         service_date: new Date().toISOString().split("T")[0],
+  //         message_preference: messagePreference,
+  //         agent_id: userId.id,
+  //       }),
+  //     });
 
-      if (!requestResponse.ok) throw new Error("Failed to create request");
-      const requestData = await requestResponse.json();
+  //     if (!requestResponse.ok) throw new Error("Failed to create request");
+  //     const requestData = await requestResponse.json();
 
-      setRequestId(requestData.id);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setLoading(false);
-    }
+  //     setRequestId(requestData.id);
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setLoading(false);
+  //   }
 
-    setStep(3); // Move to Step 3
-  };
+  //   setStep(3); // Move to Step 3
+  // };
 
   // const handleSubmitStep3 = async (e) => {
   //   e.preventDefault();
@@ -272,6 +277,50 @@ const AddRequestPage = () => {
   //   }
   // };
 
+  const handleSubmitStep2 = async (e) => {
+    e.preventDefault();
+  
+    try {
+      // Convert message_preference array to string with custom handling
+      let messagePreference = Array.isArray(formData.message_preference)
+        ? formData.message_preference.join(",")
+        : formData.message_preference || "";
+        
+      // If both EMAIL and SMS are selected, set to "BOTH"
+      if (messagePreference === "EMAIL,SMS" || messagePreference === "SMS,EMAIL") {
+        messagePreference = "BOTH";
+      }
+  
+      const requestResponse = await fetch(`${API_URL}/requests`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+        body: JSON.stringify({
+          your_location: formData.location_district,
+          service_location: formData.location_district,
+          client_id: clientId,
+          service_category_id: parseInt(serviceId),
+          fields: formData.dynamicFields,
+          service_date: new Date().toISOString().split("T")[0],
+          message_preference: messagePreference,
+          agent_id: userId.id,
+        }),
+      });
+  
+      if (!requestResponse.ok) throw new Error("Failed to create request");
+      const requestData = await requestResponse.json();
+      setRequestId(requestData.id);
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setLoading(false);
+    }
+  
+    setStep(3); // Move to Step 3
+  };
+
   const handleSubmitStep3 = async (e) => {
     e.preventDefault();
     setPaymentInit(true);
@@ -283,7 +332,7 @@ const AddRequestPage = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify({
-          service_location: formData.district,
+          service_location: formData.sector,
           paymentNumber: formData.paymentNumber,
           request_id: requestId,
           client_id: clientId,
@@ -318,7 +367,7 @@ const AddRequestPage = () => {
 
   return (
     <AgentLayout>
-        {paymentSuccess ? (
+      {paymentSuccess ? (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 px-4 sm:px-6 lg:px-8">
           <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
             <CheckCircle
@@ -355,319 +404,319 @@ const AddRequestPage = () => {
           </div>
         </div>
       ) : (
-      <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
-          {step === 1 && (
-            <>
-              <h1 className="text-2xl font-bold mb-4">1: Amakuru y'ibanze</h1>
-              <form onSubmit={handleSubmitStep1}>
-                <div className="grid grid-cols-2 gap-4">
-                  {[
-                    { field: "firstname", label: "Izina rya mbere" },
-                    { field: "lastname", label: "Izina rya nyuma" },
-                    { field: "email", label: "Imeri" },
-                    { field: "phone", label: "Nomero ya telefone" },
-                  ].map(({ field, label }) => (
-                    <div key={field} className="mb-4">
-                      <label className="block text-sm font-medium mb-1">
-                        {label}
-                      </label>
-                      <input
-                        id={field}
-                        type={field === "email" ? "email" : "text"}
-                        className="w-full p-2 border rounded"
-                        onChange={(e) =>
-                          handleStaticFieldChange(field, e.target.value)
-                        }
-                        value={formData[field]}
-                        {...(field !== "email" ? { required: true } : {})}
-                      />
-                    </div>
-                  ))}
+        <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+          <div className="max-w-3xl mx-auto bg-white rounded-xl shadow-lg p-6 sm:p-8">
+            {step === 1 && (
+              <>
+                <h1 className="text-2xl font-bold mb-4">1: Amakuru y'ibanze</h1>
+                <form onSubmit={handleSubmitStep1}>
+                  <div className="grid grid-cols-2 gap-4">
+                    {[
+                      { field: "firstname", label: "Izina rya mbere" },
+                      { field: "lastname", label: "Izina rya nyuma" },
+                      { field: "email", label: "Imeri" },
+                      { field: "phone", label: "Nomero ya telefone" },
+                    ].map(({ field, label }) => (
+                      <div key={field} className="mb-4">
+                        <label className="block text-sm font-medium mb-1">
+                          {label}
+                        </label>
+                        <input
+                          id={field}
+                          type={field === "email" ? "email" : "text"}
+                          className="w-full p-2 border rounded"
+                          onChange={(e) =>
+                            handleStaticFieldChange(field, e.target.value)
+                          }
+                          value={formData[field]}
+                          {...(field !== "email" ? { required: true } : {})}
+                        />
+                      </div>
+                    ))}
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                      Intara
-                    </label>
-                    <Select
-                      options={provinceOptions}
-                      onChange={handleProvinceChange}
-                      value={
-                        formData.location_province
-                          ? {
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-1">
+                        Intara
+                      </label>
+                      <Select
+                        options={provinceOptions}
+                        onChange={handleProvinceChange}
+                        value={
+                          formData.location_province
+                            ? {
                               value: formData.location_province,
                               label: formData.location_province,
                             }
-                          : null
-                      }
-                      placeholder="Hitamo Intara"
-                    />
-                  </div>
+                            : null
+                        }
+                        placeholder="Hitamo Intara"
+                      />
+                    </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                      Akarere
-                    </label>
-                    <Select
-                      options={districtOptions1}
-                      onChange={handleDistrictChange}
-                      value={
-                        formData.location_district
-                          ? {
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-1">
+                        Akarere
+                      </label>
+                      <Select
+                        options={districtOptions1}
+                        onChange={handleDistrictChange}
+                        value={
+                          formData.location_district
+                            ? {
                               value: formData.location_district,
                               label: formData.location_district,
                             }
-                          : null
-                      }
-                      placeholder="Hitamo Akarere"
-                      isDisabled={!formData.location_province}
-                    />
-                  </div>
+                            : null
+                        }
+                        placeholder="Hitamo Akarere"
+                        isDisabled={!formData.location_province}
+                      />
+                    </div>
 
-                  <div className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                      Umurenge
-                    </label>
-                    <Select
-                      options={sectorOptions}
-                      onChange={(selectedSector) =>
-                        handleStaticFieldChange(
-                          "location_sector",
-                          selectedSector.value
-                        )
-                      }
-                      value={
-                        formData.location_sector
-                          ? {
+                    <div className="mb-4">
+                      <label className="block text-sm font-medium mb-1">
+                        Umurenge
+                      </label>
+                      <Select
+                        options={sectorOptions}
+                        onChange={(selectedSector) =>
+                          handleStaticFieldChange(
+                            "location_sector",
+                            selectedSector.value
+                          )
+                        }
+                        value={
+                          formData.location_sector
+                            ? {
                               value: formData.location_sector,
                               label: formData.location_sector,
                             }
-                          : null
-                      }
-                      placeholder="Hitamo Umurenge"
-                      isDisabled={!formData.location_district}
-                    />
+                            : null
+                        }
+                        placeholder="Hitamo Umurenge"
+                        isDisabled={!formData.location_district}
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex justify-end mt-4">
-                  <button
-                    type="submit"
-                    className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
-                  >
-                    <span className="font-semibold">Komeza </span>
-                    <ArrowRight size={20} className="mt-1" />
-                  </button>
-                </div>
-              </form>
-            </>
-          )}
-
-          {/* Step 2: Dynamic Fields */}
-          {step === 2 && (
-            <>
-              <h1 className="text-2xl font-bold mb-4">
-                2: Amakuru ya Serivisi
-                {/* <span> Client Id : {clientId}</span> */}
-              </h1>
-              <form onSubmit={handleSubmitStep2}>
-                {service?.fields?.map((field) => (
-                  <div key={field.id} className="mb-4">
-                    <label className="block text-sm font-medium mb-1">
-                      {field.fieldName}
-                    </label>
-
-                    {field.inputType === "text" && (
-                      <input
-                        type="text"
-                        className="w-full p-2 border rounded"
-                        onChange={(e) =>
-                          handleDynamicFieldChange(field.id, e.target.value)
-                        }
-                        required={field.isRequired}
-                      />
-                    )}
-                    {field.inputType === "date" && (
-                      <input
-                        type="date"
-                        className="w-full p-2 border rounded"
-                        onChange={(e) =>
-                          handleDynamicFieldChange(field.id, e.target.value)
-                        }
-                        required={field.isRequired}
-                      />
-                    )}
-
-                    {field.inputType === "textarea" && (
-                      <textarea
-                        className="w-full p-2 border rounded"
-                        onChange={(e) =>
-                          handleDynamicFieldChange(field.id, e.target.value)
-                        }
-                        required={field.isRequired}
-                      />
-                    )}
-
-                    {field.inputType === "select" && (
-                      <select
-                        className="w-full p-2 border rounded"
-                        onChange={(e) =>
-                          handleDynamicFieldChange(field.id, e.target.value)
-                        }
-                        required={field.isRequired}
-                      >
-                        <option value="">-- Select an option --</option>
-                        {field.options.map((option, idx) => (
-                          <option key={idx} value={option}>
-                            {option}
-                          </option>
-                        ))}
-                      </select>
-                    )}
-
-                    {field.inputType === "radio" && (
-                      <div className="w-full p-2 border rounded">
-                        {field.options.map((option, idx) => (
-                          <label key={idx} className="block">
-                            <input
-                              type="radio"
-                              name={field.id} // Group radios by field ID
-                              value={option}
-                              className="mr-2"
-                              onChange={(e) =>
-                                handleDynamicFieldChange(
-                                  field.id,
-                                  e.target.value
-                                )
-                              }
-                              required={field.isRequired}
-                            />
-                            {option}
-                          </label>
-                        ))}
-                      </div>
-                    )}
-                    {field.inputType === "checkbox" && (
-                      <div className="w-full p-2 border rounded">
-                        {field.options.map((option, idx) => (
-                          <label key={idx} className="block">
-                            <input
-                              type="checkbox"
-                              value={option}
-                              className="mr-2"
-                              onChange={(e) =>
-                                handleDynamicFieldChange(
-                                  field.id,
-                                  option,
-                                  e.target.checked
-                                )
-                              }
-                              required={field.isRequired}
-                            />
-                            {option}
-                          </label>
-                        ))}
-                      </div>
-                    )}
+                  <div className="flex justify-end mt-4">
+                    <button
+                      type="submit"
+                      className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
+                    >
+                      <span className="font-semibold">Komeza </span>
+                      <ArrowRight size={20} className="mt-1" />
+                    </button>
                   </div>
-                ))}
-                <div className="mb-4">
-                  <span className="block text-sm font-medium mb-2">
-                    Hitamo uburyo bwo kwakira ubutumwa
-                  </span>
-                  <div className="space-y-2">
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="messagePreference"
-                        value="EMAIL"
-                        className="mr-2"
-                        checked={formData.message_preference?.includes("EMAIL")}
-                        onChange={(e) => {
-                          const currentPreferences =
-                            formData.message_preference || [];
-                          const newPreferences = e.target.checked
-                            ? [...currentPreferences, "EMAIL"]
-                            : currentPreferences.filter(
+                </form>
+              </>
+            )}
+
+            {/* Step 2: Dynamic Fields */}
+            {step === 2 && (
+              <>
+                <h1 className="text-2xl font-bold mb-4">
+                  2: Amakuru ya Serivisi
+                  {/* <span> Client Id : {clientId}</span> */}
+                </h1>
+                <form onSubmit={handleSubmitStep2}>
+                  {service?.fields?.map((field) => (
+                    <div key={field.id} className="mb-4">
+                      <label className="block text-sm font-medium mb-1">
+                        {field.fieldName}
+                      </label>
+
+                      {field.inputType === "text" && (
+                        <input
+                          type="text"
+                          className="w-full p-2 border rounded"
+                          onChange={(e) =>
+                            handleDynamicFieldChange(field.id, e.target.value)
+                          }
+                          required={field.isRequired}
+                        />
+                      )}
+                      {field.inputType === "date" && (
+                        <input
+                          type="date"
+                          className="w-full p-2 border rounded"
+                          onChange={(e) =>
+                            handleDynamicFieldChange(field.id, e.target.value)
+                          }
+                          required={field.isRequired}
+                        />
+                      )}
+
+                      {field.inputType === "textarea" && (
+                        <textarea
+                          className="w-full p-2 border rounded"
+                          onChange={(e) =>
+                            handleDynamicFieldChange(field.id, e.target.value)
+                          }
+                          required={field.isRequired}
+                        />
+                      )}
+
+                      {field.inputType === "select" && (
+                        <select
+                          className="w-full p-2 border rounded"
+                          onChange={(e) =>
+                            handleDynamicFieldChange(field.id, e.target.value)
+                          }
+                          required={field.isRequired}
+                        >
+                          <option value="">-- Select an option --</option>
+                          {field.options.map((option, idx) => (
+                            <option key={idx} value={option}>
+                              {option}
+                            </option>
+                          ))}
+                        </select>
+                      )}
+
+                      {field.inputType === "radio" && (
+                        <div className="w-full p-2 border rounded">
+                          {field.options.map((option, idx) => (
+                            <label key={idx} className="block">
+                              <input
+                                type="radio"
+                                name={field.id} // Group radios by field ID
+                                value={option}
+                                className="mr-2"
+                                onChange={(e) =>
+                                  handleDynamicFieldChange(
+                                    field.id,
+                                    e.target.value
+                                  )
+                                }
+                                required={field.isRequired}
+                              />
+                              {option}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                      {field.inputType === "checkbox" && (
+                        <div className="w-full p-2 border rounded">
+                          {field.options.map((option, idx) => (
+                            <label key={idx} className="block">
+                              <input
+                                type="checkbox"
+                                value={option}
+                                className="mr-2"
+                                onChange={(e) =>
+                                  handleDynamicFieldChange(
+                                    field.id,
+                                    option,
+                                    e.target.checked
+                                  )
+                                }
+                                required={field.isRequired}
+                              />
+                              {option}
+                            </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                  <div className="mb-4">
+                    <span className="block text-sm font-medium mb-2">
+                      Hitamo uburyo bwo kwakira ubutumwa
+                    </span>
+                    <div className="space-y-2">
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          name="messagePreference"
+                          value="EMAIL"
+                          className="mr-2"
+                          checked={formData.message_preference?.includes("EMAIL")}
+                          onChange={(e) => {
+                            const currentPreferences =
+                              formData.message_preference || [];
+                            const newPreferences = e.target.checked
+                              ? [...currentPreferences, "EMAIL"]
+                              : currentPreferences.filter(
                                 (pref) => pref !== "EMAIL"
                               );
 
-                          handleStaticFieldChange(
-                            "message_preference",
-                            newPreferences
-                          );
-                        }}
-                      />
-                      <span>Email</span>
-                    </label>
-                    <label className="flex items-center">
-                      <input
-                        type="checkbox"
-                        name="messagePreference"
-                        value="SMS"
-                        className="mr-2"
-                        checked={formData.message_preference?.includes("SMS")}
-                        onChange={(e) => {
-                          const currentPreferences =
-                            formData.message_preference || [];
-                          const newPreferences = e.target.checked
-                            ? [...currentPreferences, "SMS"]
-                            : currentPreferences.filter(
+                            handleStaticFieldChange(
+                              "message_preference",
+                              newPreferences
+                            );
+                          }}
+                        />
+                        <span>Email</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="checkbox"
+                          name="messagePreference"
+                          value="SMS"
+                          className="mr-2"
+                          checked={formData.message_preference?.includes("SMS")}
+                          onChange={(e) => {
+                            const currentPreferences =
+                              formData.message_preference || [];
+                            const newPreferences = e.target.checked
+                              ? [...currentPreferences, "SMS"]
+                              : currentPreferences.filter(
                                 (pref) => pref !== "SMS"
                               );
 
-                          handleStaticFieldChange(
-                            "message_preference",
-                            newPreferences
-                          );
-                        }}
-                      />
-                      <span>SMS</span>
-                    </label>
+                            handleStaticFieldChange(
+                              "message_preference",
+                              newPreferences
+                            );
+                          }}
+                        />
+                        <span>SMS</span>
+                      </label>
+                    </div>
                   </div>
-                </div>
 
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className="px-4 flex py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
-                  >
-                    <span className="font-semibold">Komeza </span>
-                    <ArrowRight size={20} className="mt-1" />
-                  </button>
-                </div>
-              </form>
-            </>
-          )}
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      className="px-4 flex py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                    >
+                      <span className="font-semibold">Komeza </span>
+                      <ArrowRight size={20} className="mt-1" />
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
 
-          {step === 3 && (
-            <>
-              <h1 className="text-2xl font-bold mb-4">
-                3: Uzuza Amakuru yo kwishyura
-              </h1>
-              {error && (
-                <div className="p-4 bg-red-50 border border-red-200 rounded-md">
-                  <p className="text-red-600">{error}</p>
-                </div>
-              )}
+            {step === 3 && (
+              <>
+                <h1 className="text-2xl font-bold mb-4">
+                  3: Uzuza Amakuru yo kwishyura
+                </h1>
+                {error && (
+                  <div className="p-4 bg-red-50 border border-red-200 rounded-md">
+                    <p className="text-red-600">Ntago byakunze kwishyura wakongera ukoherohereza ubutumwa busaba kwishyura</p>
+                  </div>
+                )}
 
-              {paymentInit && (
-                <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
-                  <p className="text-sky-600">
-                  wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
-                        yawe wemeze kwishyura cyangwa ukande *182*7*2#
-                  </p>
-                </div>
-              )}
-              {paymentFail && (
-                <div className="p-4 bg-red-200 border border-red-300 rounded-md mb-4">
-                  <p className="text-red-600">{paymentFail.message}</p>
-                </div>
-              )}
+                {paymentInit && (
+                  <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
+                    <p className="text-sky-600">
+                      wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
+                      yawe wemeze kwishyura cyangwa ukande *182*7*2#
+                    </p>
+                  </div>
+                )}
+                {paymentFail && (
+                  <div className="p-4 bg-red-200 border border-red-300 rounded-md mb-4">
+                    <p className="text-red-600">{paymentFail.message}</p>
+                  </div>
+                )}
 
 
-              <form onSubmit={handleSubmitStep3}>
-                <div className="mb-4">
+                <form onSubmit={handleSubmitStep3}>
+                  {/* <div className="mb-4">
                   <label className="block text-sm font-medium mb-1">
                     Akarere ukeneyemo service
                   </label>
@@ -683,78 +732,96 @@ const AddRequestPage = () => {
                     }
                     placeholder="Choose a district"
                   />
-                </div>
+                </div> */}
 
-                {/* New section for message preferences */}
-
-                <div className="mb-4">
-                  <span className="block text-sm font-medium mb-2">
-                    Uburyo bwo kwishyura
-                  </span>
-                  <div className="space-y-2">
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="momo"
-                        onChange={(e) =>
-                          handleStaticFieldChange(
-                            "paymentMethod",
-                            e.target.value
-                          )
-                        }
-                        checked={formData.paymentMethod === "momo"}
-                      />
-                      <span className="ml-2">MTN Mobile Money</span>
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      Umurenge ukeneyemo service
                     </label>
-                    <label className="flex items-center">
-                      <input
-                        type="radio"
-                        name="paymentMethod"
-                        value="airtel"
-                        onChange={(e) =>
-                          handleStaticFieldChange(
-                            "paymentMethod",
-                            e.target.value
-                          )
-                        }
-                        checked={formData.paymentMethod === "airtel"}
-                      />
-                      <span className="ml-2">Airtel Money</span>
-                    </label>
+                    <Select
+                      options={sectorOptions1}
+                      onChange={(selected) =>
+                        handleStaticFieldChange("sector", selected.value)
+                      }
+                      value={
+                        formData.sector
+                          ? { value: formData.sector, label: formData.sector }
+                          : null
+                      }
+                      placeholder="hitamo umurenge"
+                    />
                   </div>
-                </div>
 
-                <div className="mb-4">
-                  <label className="block text-sm font-medium mb-1">
-                    Nimero ukoresha wishyura
-                  </label>
-                  <input
-                    type="text"
-                    id="tel"
-                    className="w-full p-2 border rounded"
-                    onChange={(e) =>
-                      handleStaticFieldChange("paymentNumber", e.target.value)
-                    }
-                    value={formData.paymentNumber}
-                    required
-                  />
-                </div>
+                  {/* New section for message preferences */}
 
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    disabled={paymentInit}
-                    className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-                  >
-                    {paymentInit ? "Tegereza..." : "Ishyura"}
-                  </button>
-                </div>
-              </form>
-            </>
-          )}
+                  <div className="mb-4">
+                    <span className="block text-sm font-medium mb-2">
+                      Uburyo bwo kwishyura
+                    </span>
+                    <div className="space-y-2">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="momo"
+                          onChange={(e) =>
+                            handleStaticFieldChange(
+                              "paymentMethod",
+                              e.target.value
+                            )
+                          }
+                          checked={formData.paymentMethod === "momo"}
+                        />
+                        <span className="ml-2">MTN Mobile Money</span>
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="airtel"
+                          onChange={(e) =>
+                            handleStaticFieldChange(
+                              "paymentMethod",
+                              e.target.value
+                            )
+                          }
+                          checked={formData.paymentMethod === "airtel"}
+                        />
+                        <span className="ml-2">Airtel Money</span>
+                      </label>
+                    </div>
+                  </div>
+
+                  <div className="mb-4">
+                    <label className="block text-sm font-medium mb-1">
+                      Nimero ukoresha wishyura
+                    </label>
+                    <input
+                      type="text"
+                      id="tel"
+                      className="w-full p-2 border rounded"
+                      onChange={(e) =>
+                        handleStaticFieldChange("paymentNumber", e.target.value)
+                      }
+                      value={formData.paymentNumber}
+                      required
+                    />
+                  </div>
+
+                  <div className="flex justify-end">
+                    <button
+                      type="submit"
+                      disabled={paymentInit}
+                      className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                    >
+                      {paymentInit ? "Tegereza..." : "Ishyura"}
+                    </button>
+                  </div>
+                </form>
+              </>
+            )}
+          </div>
         </div>
-      </div>
       )}
     </AgentLayout>
   );

@@ -69,6 +69,8 @@ import AgentProviderPaymentCallback from "./pages/Agent/AgentProviderPaymentCall
 import SuperAgentPaymentsPage from "./pages/Agent/SuperAgentPaymentsPage";
 import ForgetPassword from "./components/website/ForgetPassword";
 import ResetPassword from "./components/website/ResetPassword";
+import ServiceProviderView from "./pages/Agent/ServiceProviderView";
+import ServiceProviderEdit from "./pages/Agent/ServiceProviderEdit";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -430,6 +432,23 @@ const App = () => {
             </ProtectedRoute>
           }
         />
+        <Route
+          path="/agent-dashboard/serviceprovider-agent/view/:id"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <ServiceProviderView />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/agent-dashboard/serviceprovider-agent/edit/:id"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT"]}>
+              <ServiceProviderEdit />
+            </ProtectedRoute>
+          }
+        />
+        {/* `/agent-dashboard/serviceprovider-agent/view/${serviceProviderId}` */}
         <Route
           path="/agent-dashboard/serviceprovider-agent/create"
           element={

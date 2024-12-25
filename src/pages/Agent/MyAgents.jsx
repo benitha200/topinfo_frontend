@@ -5,6 +5,7 @@ import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
 import AgentLayout from "./AgentLayout";
 import * as XLSX from 'xlsx';
+import AgentsSkeleton from './AgentsSkeleton';
 
 const MyAgents = () => {
   const [users, setUsers] = useState([]);
@@ -95,28 +96,6 @@ const MyAgents = () => {
     }
   };
 
-  // const createUser = async () => {
-  //   try {
-  //     setIsCreating(true);
-  //     const token = localStorage.getItem("token");
-  //     const response = await fetch(`${API_URL}/users/add-agent`, {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //     if (!response.ok) throw new Error("Failed to create user");
-  //     fetchUsers();
-  //     setIsAddModalOpen(false);
-  //     resetForm();
-  //   } catch (err) {
-  //     setError(err.message);
-  //   } finally {
-  //     setIsCreating(false);
-  //   }
-  // };
 
   // Convert phone to string
   const createUser = async () => {
@@ -350,7 +329,7 @@ const MyAgents = () => {
     setCurrentPage(1); // Reset to first page when searching
   };
 
-  if (loading) return <div className="p-6">Loading...</div>;
+  if (loading) return <AgentLayout><AgentsSkeleton /></AgentLayout>;
   if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   // const handleExcelFileUpload = (e) => {
@@ -655,21 +634,22 @@ const MyAgents = () => {
   };
 
 
+
   return (
     <AgentLayout>
-      <div className="p-6 space-y-6">
-        <div className="flex justify-between items-center">
-          <h1 className="text-2xl font-bold">My Agents</h1>
-          <div className="flex space-x-2">
+      <div className="p-4 md:p-6 space-y-4 md:space-y-6">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-center space-y-4 md:space-y-0">
+          <h1 className="text-xl md:text-2xl font-bold">My Agents</h1>
+          <div className="flex flex-wrap gap-2">
             <button
               onClick={openAddModal}
-              className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+              className="flex-1 md:flex-none px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 text-sm md:text-base"
             >
               Add New Agent
             </button>
             <label
               htmlFor="excel-upload"
-              className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 flex items-center cursor-pointer"
+              className="flex-1 md:flex-none px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 flex items-center justify-center cursor-pointer text-sm md:text-base"
             >
               <Upload className="mr-2 h-4 w-4" />
               Upload Agents
@@ -681,17 +661,16 @@ const MyAgents = () => {
                 onChange={handleExcelFileUpload}
               />
             </label>
-
             <button
               onClick={downloadAgentTemplate}
-              className="px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center"
+              className="flex-1 md:flex-none px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center text-sm md:text-base"
             >
               <Download className="mr-2 h-4 w-4" />
               Download Template
             </button>
           </div>
         </div>
-      </div>
+        </div>
 
       <Card>
         <CardHeader>
