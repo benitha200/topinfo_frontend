@@ -16,7 +16,7 @@ import {
   Settings2
 } from 'lucide-react';
 
-const AdminLayout = ({ children }) => {
+const CustomerSupportlayout = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const location = useLocation();
   const user = JSON.parse(localStorage.getItem("user"));
@@ -25,16 +25,16 @@ const AdminLayout = ({ children }) => {
     : "";
 
   const navItems = [
-    { icon: BarChart2, label: 'Overview', path: '/dashboard' },
+    // { icon: BarChart2, label: 'Overview', path: '/dashboard' },
     { icon: Users, label: 'Clients', path: '/dashboard/clients' },
-    { icon: User2Icon, label: 'Users', path: '/dashboard/users' },
-    { icon: CreditCard, label: 'Agents', path: '/dashboard/agents' },
-    { icon: BookUser, label: 'Super Agents', path: '/dashboard/super-agents' },
+    // { icon: User2Icon, label: 'Users', path: '/dashboard/users' },
+    // { icon: CreditCard, label: 'Agents', path: '/dashboard/agents' },
+    // { icon: BookUser, label: 'Super Agents', path: '/dashboard/super-agents' },
     { icon: FileText, label: 'Requests', path: '/dashboard/requests' },
-    { icon: Users, label: 'Service Providers', path: '/dashboard/service-providers' },
-    { icon: File, label: 'Services', path: '/dashboard/service' },
-    { icon: CreditCard, label: 'Payments', path: '/dashboard/payments' },
-    { icon: Settings2, label: 'Settings', path: '/dashboard/settings' },
+    // { icon: Users, label: 'Service Providers', path: '/dashboard/service-providers' },
+    // { icon: File, label: 'Services', path: '/dashboard/service' },
+    // { icon: CreditCard, label: 'Payments', path: '/dashboard/payments' },
+    // { icon: Settings2, label: 'Settings', path: '/dashboard/settings' },
   ];
 
   const handleLogout = () => {
@@ -164,4 +164,4 @@ const AdminLayout = ({ children }) => {
   );
 };
 
-export default AdminLayout;
+export default CustomerSupportlayout;

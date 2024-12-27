@@ -6,9 +6,12 @@ import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
 import ErrorDialog from "../../components/ErrorDialog/ErrorDialog";
+import OperationLayout from "../operation/OperationLayout";
+import AgentsSkeleton from "../Agent/AgentsSkeleton";
 
 const AgentsPage = () => {
   const [users, setUsers] = useState([]);
+  const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState("");
@@ -73,6 +76,18 @@ const AgentsPage = () => {
     }
   };
 
+  useEffect(() => {
+    try {
+      const userString = localStorage.getItem("user");
+      if (userString) {
+        const userData = JSON.parse(userString);
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }, []);
+
   // Pagination handlers
   const handleNextPage = () => {
     if (pagination.page < pagination.pages) {
@@ -86,48 +101,6 @@ const AgentsPage = () => {
     }
   };
 
-
-  // Create a new agent user
-  // const createUser = async () => {
-  //   try {
-  //     setModalLoading(true);
-  //     const token = localStorage.getItem("token");
-  //     const formDataObj = new FormData();
-
-  //     // Append all form data
-  //     formDataObj.append("firstname", formData.firstname);
-  //     formDataObj.append("lastname", formData.lastname);
-  //     formDataObj.append("email", formData.email);
-  //     formDataObj.append("phone", formData.phone);
-  //     formDataObj.append("location_province", formData.location_province);
-  //     formDataObj.append("location_district", formData.location_district);
-  //     formDataObj.append("location_sector", formData.location_sector);
-
-  //     // Append files
-  //     if (formData.profileImage) {
-  //       formDataObj.append("profileImage", formData.profileImage);
-  //     }
-  //     if (formData.nationalIdImage) {
-  //       formDataObj.append("nationalIdImage", formData.nationalIdImage);
-  //     }
-
-  //     const response = await fetch(`${API_URL}/users`, {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       body: formDataObj,
-  //     });
-  //     if (!response.ok) throw new Error("Failed to create user");
-  //     fetchUsers();
-  //     setIsAddModalOpen(false);
-  //     resetForm();
-  //   } catch (err) {
-  //     setError(err.message);
-  //   } finally{
-  //     setModalLoading(false);
-  //   }
-  // };
 
   const createUser = async () => {
     try {
@@ -313,11 +286,14 @@ const AgentsPage = () => {
       user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
-  // if (error) return<AdminLayout><div className="p-6 text-red-500">{error}</div></AdminLayout> ;
+  // if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
+
+  const Layout = user?.role === "ADMIN" ? AdminLayout : OperationLayout;
+
+  if (loading) return <Layout><AgentsSkeleton/></Layout>;
 
   return (
-    <AdminLayout>
+    <Layout>
       <div className="p-6 space-y-6">
       <ErrorDialog 
           isOpen={isErrorDialogOpen}
@@ -695,7 +671,7 @@ const AgentsPage = () => {
           </Card>
         )}
       </div>
-    </AdminLayout>
+    </Layout>
   );
 };
 

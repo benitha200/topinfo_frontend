@@ -320,7 +320,6 @@ import {
     Smartphone,
     Key,
     Save,
-    DollarSign,
     Mail as MailIcon,
     CheckCircle2,
     Coins
@@ -330,8 +329,10 @@ import AdminLayout from './AdminLayout';
 import { toast } from 'sonner';
 import API_URL from '../../constants/Constants';
 import { apiService } from '../../services/apiService';
+import OperationLayout from '../operation/OperationLayout';
 
 const SettingsPage = () => {
+    const [user,setUser]=useState();
     const [settings, setSettings] = useState({
         support_email: 'support@topinfo.rw',
         categoryPrices: []
@@ -439,8 +440,22 @@ const SettingsPage = () => {
         setIsEdited(true);
     };
 
+    useEffect(() => {
+        try {
+          const userString = localStorage.getItem("user");
+          if (userString) {
+            const userData = JSON.parse(userString);
+            setUser(userData);
+          }
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      }, []);
+
+    const Layout = user?.role === "ADMIN" ? AdminLayout : OperationLayout;
+
     return (
-        <AdminLayout>
+        <Layout>
             {showSuccessMessage && (
                 <div className="fixed top-4 right-4 z-50">
                     <div className="bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center">
@@ -538,7 +553,7 @@ const SettingsPage = () => {
                     </Card>
                 </div>
             </div>
-        </AdminLayout>
+        </Layout>
     );
 };
 

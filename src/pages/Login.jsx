@@ -242,7 +242,12 @@ const Login = () => {
         navigate("/agent-dashboard/payments-super-agent");
       } else if (data.user.role === "AGENT") {
         navigate("/agent-dashboard");
-      } else {
+      } else if (data.user.role === "OPERATIONS") {
+        navigate("/operations-dashboard");
+      }else if(data.user.role==="CUSTOMER_SUPPORT"){
+        navigate("/cutomer-support-dashboard")
+      }
+      else {
         navigate("/");
       }
     } catch (err) {

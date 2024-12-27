@@ -5,8 +5,10 @@ import { Provinces, Districts, Sectors } from 'rwanda';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
 import * as XLSX from 'xlsx';
+import OperationLayout from '../operation/OperationLayout';
 
 const ServiceProvidersPage = () => {
+    const [user, setUser] = useState();
     const [providers, setProviders] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -307,11 +309,125 @@ const ServiceProvidersPage = () => {
         setFormData({ ...provider });
     };
 
-    if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout> ;
-    if (error) return <AdminLayout><div className="p-6 text-red-500">Error: {error}</div></AdminLayout> ;
+    useEffect(() => {
+        try {
+            const userString = localStorage.getItem("user");
+            if (userString) {
+                const userData = JSON.parse(userString);
+                setUser(userData);
+            }
+        } catch (error) {
+            console.error("Error parsing user data:", error);
+        }
+    }, []);
+
+    const Layout = user?.role === "ADMIN" ? AdminLayout : OperationLayout;
+    if (loading) return <Layout>
+        <div className="p-6 space-y-6">
+            {/* Header with title and buttons */}
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-bold">Service Providers</h1>
+
+                <div className="flex items-center space-x-2">
+                    <button className="px-4 py-2 bg-emerald-500 text-white rounded hover:bg-emerald-600 flex items-center gap-2">
+                        <Download className="h-4 w-4" />
+                        Download
+                    </button>
+                    <button className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center gap-2">
+                        <Plus className="h-4 w-4" />
+                        Add Provider
+                    </button>
+                </div>
+            </div>
+
+            {/* Main card */}
+            <Card>
+                <CardHeader className="flex flex-col md:flex-row items-start md:items-center justify-between space-y-4 md:space-y-0">
+                    <CardTitle className="text-xl font-bold">Providers List</CardTitle>
+                    <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 items-start md:items-center w-full md:w-auto">
+                        {/* Service Category Filter */}
+                        <select className="w-full md:w-auto p-2 border rounded">
+                            <option value="">All Service Categories</option>
+                        </select>
+
+                        {/* Date Range Filters */}
+                        <div className="flex items-center space-x-2">
+                            <input
+                                type="date"
+                                className="w-full md:w-auto p-2 border rounded"
+                            />
+                            <input
+                                type="date"
+                                className="w-full md:w-auto p-2 border rounded"
+                            />
+                        </div>
+
+                        {/* Search Input */}
+                        <div className="relative w-full md:w-auto">
+                            <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                            <input
+                                type="text"
+                                placeholder="Search providers..."
+                                className="w-full pl-8 pr-4 py-2 border rounded"
+                            />
+                        </div>
+                    </div>
+                </CardHeader>
+                <CardContent>
+                    <div className="overflow-x-auto">
+                        {/* Table */}
+                        <table className="w-full">
+                            <thead>
+                                <tr className="border-b">
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Email</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Phone</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Location</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service category</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {/* Skeleton loading rows */}
+                                {[1, 2, 3].map((i) => (
+                                    <tr key={i} className="border-b">
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-24 animate-pulse"></div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-28 animate-pulse"></div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-20 animate-pulse"></div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
+                                        </td>
+                                        <td className="px-4 py-3">
+                                            <div className="h-4 bg-gray-200 rounded w-16 animate-pulse"></div>
+                                        </td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                </CardContent>
+            </Card>
+        </div>
+    </Layout>;
+
+    // if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout> ;
+    // if (error) return <AdminLayout><div className="p-6 text-red-500">Error: {error}</div></AdminLayout> ;
 
     return (
-        <AdminLayout>
+        <Layout>
             <div className="p-6 space-y-6">
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Service Providers</h1>
@@ -695,7 +811,7 @@ const ServiceProvidersPage = () => {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </Layout>
     );
 };
 

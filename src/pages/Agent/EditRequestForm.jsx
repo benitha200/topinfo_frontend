@@ -98,20 +98,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                 />
                             </div>
 
-                            {/* <div>
-                                <label className="block text-sm font-medium text-gray-700">
-                                    Status
-                                </label>
-                                <select
-                                    value={formData.status}
-                                    onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
-                                >
-                                    <option value="PENDING">Pending</option>
-                                    <option value="IN_PROGRESS">In Progress</option>
-                                    <option value="COMPLETED">Completed</option>
-                                </select>
-                            </div> */}
+                           
                             <div>
                                 <label className="block text-sm font-medium text-gray-700">
                                     Status

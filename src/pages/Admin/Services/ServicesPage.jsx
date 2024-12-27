@@ -4,8 +4,10 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from '../AdminLayout';
 import API_URL from '../../../constants/Constants';
 import { Link } from 'react-router-dom';
+import OperationLayout from '../../operation/OperationLayout';
 
 const ServiceCategoriesPage = () => {
+    const [user,setUser]=useState();
     const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -93,12 +95,91 @@ const ServiceCategoriesPage = () => {
         fetchCategories();
     }, []);
 
+    useEffect(() => {
+        try {
+          const userString = localStorage.getItem("user");
+          if (userString) {
+            const userData = JSON.parse(userString);
+            setUser(userData);
+          }
+        } catch (error) {
+          console.error("Error parsing user data:", error);
+        }
+      }, []);
+
+    const Layout = user?.role === "ADMIN" ? AdminLayout : OperationLayout;
+    if (loading) return (<Layout>
+    <div className="p-6 space-y-6">
+        {/* Header */}
+        <div className="flex justify-between items-center">
+            <h1 className="text-2xl font-bold">Service Categories</h1>
+            <Link to="/dashboard/service/create" 
+                className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center gap-2"
+            >
+                <Plus className="h-4 w-4" />
+                Add Category
+            </Link>
+        </div>
+
+        {/* Main Card */}
+        <Card>
+            <CardHeader className="flex flex-row items-center justify-between">
+                <CardTitle>Categories List</CardTitle>
+                <div className="flex space-x-2">
+                    <div className="relative">
+                        <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                        <input
+                            type="text"
+                            placeholder="Search categories..."
+                            className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                            disabled
+                        />
+                    </div>
+                </div>
+            </CardHeader>
+            <CardContent>
+                <div className="overflow-x-auto">
+                    <table className="w-full">
+                        <thead>
+                            <tr className="border-b">
+                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">#</th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Name</th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Details</th>
+                                <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {/* Skeleton rows */}
+                            {[1, 2, 3, 4, 5].map((index) => (
+                                <tr key={index} className="border-b">
+                                    <td className="px-4 py-3">
+                                        <div className="h-4 bg-gray-200 rounded w-8 animate-pulse"></div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <div className="h-4 bg-gray-200 rounded w-32 animate-pulse"></div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <div className="h-4 bg-gray-200 rounded w-48 animate-pulse"></div>
+                                    </td>
+                                    <td className="px-4 py-3">
+                                        <div className="flex space-x-2">
+                                            <div className="p-2 bg-gray-200 rounded w-8 h-8 animate-pulse"></div>
+                                            <div className="p-2 bg-gray-200 rounded w-8 h-8 animate-pulse"></div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </CardContent>
+        </Card>
+    </div>
+</Layout>);
    
-    if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
-    // if (error) return <div className="p-6 text-red-500">Error: {error}</div>;
 
     return (
-        <AdminLayout>
+        <Layout>
             <div className="p-6 space-y-6">
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Service Categories </h1>
@@ -236,7 +317,7 @@ const ServiceCategoriesPage = () => {
                     </div>
                 )}
             </div>
-        </AdminLayout>
+        </Layout>
     );
 };
 

@@ -1,8 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { FileText, Search, Filter, X, Edit2, Save, Eye, ChevronLeft, ChevronRight } from 'lucide-react';
+import { FileText, Search, Filter, X, Edit2, Save, Eye, ChevronLeft, ChevronRight, Clock } from 'lucide-react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
+import OperationLayout from '../operation/OperationLayout';
+import CustomerSupportlayout from '../customerSupport/CustomerSupportlayout';
+import { Button } from '@/components/ui/button';
 
 const EditRequestForm = ({ request, onClose, onSave }) => {
     const [formData, setFormData] = useState({
@@ -256,6 +259,7 @@ const RequestDetailsView = ({ request, onClose }) => {
 
 
 const RequestsPage = () => {
+    const [user, setUser] = useState(null);
     const [requests, setRequests] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -264,7 +268,7 @@ const RequestsPage = () => {
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [editingRequest, setEditingRequest] = useState(null);
     const [statusFilter, setStatusFilter] = useState('COMPLETED'); // Default status filter
-    
+
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
@@ -300,10 +304,44 @@ const RequestsPage = () => {
         }
     };
 
+    const handleRetryPayment = async (request) => {
+        try {
+          const paymentResponse = await fetch(`${API_URL}/payments/initiate`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+            body: JSON.stringify({
+              service_location: request.service_location,
+              paymentNumber: request.client.phone,
+              request_id: request.id,
+              client_id: request.client_id,
+              type: "client",
+            }),
+          });
+    
+          if (!paymentResponse.ok) {
+            throw new Error("Failed to initiate payment");
+          }
+    
+          const result = await paymentResponse.json();
+          if (!result.success) {
+            showErrorToast(result.message || 'Payment initiation failed');
+          } else {
+            showSuccessToast('Payment request sent. Please check your phone.');
+          }
+    
+        } catch (error) {
+          showErrorToast('Failed to initiate payment');
+          console.error('Payment retry error:', error);
+        }
+      };
+
     // Filter requests based on search term and status
     const filterRequests = (requestsData, search, status) => {
         let filtered = requestsData.filter(request =>
-            (request.service_location?.toLowerCase().includes(search.toLowerCase()) ||
+        (request.service_location?.toLowerCase().includes(search.toLowerCase()) ||
             request.service_category?.name?.toLowerCase().includes(search.toLowerCase()))
         );
 
@@ -371,64 +409,75 @@ const RequestsPage = () => {
     };
 
     const PaginationControls = () => (
-        <div className="flex items-center justify-between border-t border-gray-200 px-4 py-3 sm:px-6">
-            <div className="flex flex-1 justify-between sm:hidden">
-                <button
-                    onClick={() => goToPage(currentPage - 1)}
-                    disabled={currentPage === 1}
-                    className="relative inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    Previous
-                </button>
-                <button
-                    onClick={() => goToPage(currentPage + 1)}
-                    disabled={currentPage === totalPages}
-                    className="relative ml-3 inline-flex items-center px-4 py-2 text-sm font-medium rounded-md text-gray-700 bg-white border border-gray-300 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    Next
-                </button>
+        <div className="flex flex-col space-y-4 sm:space-y-0 w-full border-t border-gray-200 px-4 py-3 sm:px-6">
+            {/* Mobile and Desktop Stats */}
+            <div className="flex justify-center sm:justify-start">
+                <p className="text-sm text-gray-700">
+                    Showing <span className="font-medium">{((currentPage - 1) * itemsPerPage) + 1}</span> to{' '}
+                    <span className="font-medium">
+                        {Math.min(currentPage * itemsPerPage, filteredRequests.length)}
+                    </span>{' '}
+                    of <span className="font-medium">{filteredRequests.length}</span> results
+                </p>
             </div>
-            <div className="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                <div>
-                    <p className="text-sm text-gray-700">
-                        Showing <span className="font-medium">{((currentPage - 1) * itemsPerPage) + 1}</span> to{' '}
-                        <span className="font-medium">
-                            {Math.min(currentPage * itemsPerPage, filteredRequests.length)}
-                        </span>{' '}
-                        of <span className="font-medium">{filteredRequests.length}</span> results
-                    </p>
-                </div>
-                <div>
-                    <nav className="isolate inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
-                        <button
-                            onClick={() => goToPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                            className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <ChevronLeft className="h-5 w-5" />
-                        </button>
-                        {[...Array(totalPages)].map((_, idx) => (
-                            <button
-                                key={idx + 1}
-                                onClick={() => goToPage(idx + 1)}
-                                className={`relative inline-flex items-center px-4 py-2 text-sm font-semibold ${
-                                    currentPage === idx + 1
+
+            {/* Pagination Controls - Responsive for both Mobile and Desktop */}
+            <div className="flex justify-center sm:justify-end">
+                <nav className="inline-flex -space-x-px rounded-md shadow-sm" aria-label="Pagination">
+                    <button
+                        onClick={() => goToPage(currentPage - 1)}
+                        disabled={currentPage === 1}
+                        className="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <ChevronLeft className="h-5 w-5" />
+                    </button>
+
+                    {[...Array(totalPages)].map((_, idx) => {
+                        const pageNum = idx + 1;
+                        // Only show first page, last page, and pages around current page
+                        if (
+                            pageNum === 1 ||
+                            pageNum === totalPages ||
+                            (pageNum >= currentPage - 1 && pageNum <= currentPage + 1)
+                        ) {
+                            return (
+                                <button
+                                    key={pageNum}
+                                    onClick={() => goToPage(pageNum)}
+                                    className={`relative hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold ${currentPage === pageNum
                                         ? 'z-10 bg-sky-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600'
                                         : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
-                                }`}
-                            >
-                                {idx + 1}
-                            </button>
-                        ))}
-                        <button
-                            onClick={() => goToPage(currentPage + 1)}
-                            disabled={currentPage === totalPages}
-                            className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
-                        >
-                            <ChevronRight className="h-5 w-5" />
-                        </button>
-                    </nav>
-                </div>
+                                        }`}
+                                >
+                                    {pageNum}
+                                </button>
+                            );
+                        }
+                        // Show ellipsis
+                        if (
+                            (pageNum === currentPage - 2 && pageNum > 2) ||
+                            (pageNum === currentPage + 2 && pageNum < totalPages - 1)
+                        ) {
+                            return (
+                                <span
+                                    key={`ellipsis-${pageNum}`}
+                                    className="relative hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-inset ring-gray-300"
+                                >
+                                    ...
+                                </span>
+                            );
+                        }
+                        return null;
+                    })}
+
+                    <button
+                        onClick={() => goToPage(currentPage + 1)}
+                        disabled={currentPage === totalPages}
+                        className="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                        <ChevronRight className="h-5 w-5" />
+                    </button>
+                </nav>
             </div>
         </div>
     );
@@ -450,11 +499,32 @@ const RequestsPage = () => {
 
     const stats = getStatistics();
 
-    if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
-    if (error) return <AdminLayout><div className="p-6 text-red-500">Error: {error}</div></AdminLayout>;
+    useEffect(() => {
+        try {
+            const userString = localStorage.getItem("user");
+            if (userString) {
+                const userData = JSON.parse(userString);
+                setUser(userData);
+            }
+        } catch (error) {
+            console.error("Error parsing user data:", error);
+        }
+    }, []);
+
+    // if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
+    // if (error) return <AdminLayout><div className="p-6 text-red-500">Error: {error}</div></AdminLayout>;
+
+    const Layout = user?.role === "ADMIN"
+        ? AdminLayout
+        : user?.role === "CUSTOMER_SUPPORT"
+            ? CustomerSupportlayout
+            : OperationLayout;
+
+    if (loading) return <Layout><div className="p-6">Loading...</div></Layout>;
+
 
     return (
-        <AdminLayout>
+        <Layout>
             {/* Details Modal */}
             {selectedRequest && (
                 <RequestDetailsView
@@ -472,7 +542,7 @@ const RequestsPage = () => {
             )}
 
             <div className="p-6 space-y-6">
-               <div className="flex justify-between items-center">
+                <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Requests</h1>
                 </div>
 
@@ -527,7 +597,7 @@ const RequestsPage = () => {
                                 />
                             </div>
                             <div className="relative">
-                                <button 
+                                <button
                                     className="p-2 border rounded hover:bg-gray-50 flex items-center gap-2"
                                     onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                                 >
@@ -572,11 +642,10 @@ const RequestsPage = () => {
                                             <td className="px-4 py-3 text-sm">{request?.service_category?.name}</td>
                                             <td className="px-4 py-3 text-sm">{new Date(request.service_date).toLocaleDateString()}</td>
                                             <td className="px-4 py-3 text-sm">
-                                                <span className={`px-2 py-1 rounded-full text-xs ${
-                                                    request.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+                                                <span className={`px-2 py-1 rounded-full text-xs ${request.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
                                                     request.status === 'IN_PROGRESS' ? 'bg-sky-100 text-sky-800' :
-                                                    'bg-yellow-100 text-yellow-800'
-                                                }`}>
+                                                        'bg-yellow-100 text-yellow-800'
+                                                    }`}>
                                                     {request.status || 'Pending'}
                                                 </span>
                                             </td>
@@ -594,6 +663,15 @@ const RequestsPage = () => {
                                                     >
                                                         <Edit2 className="h-4 w-4" /> <span>Edit</span>
                                                     </button>
+                                                    {request.status === 'PENDING' && (
+                                                        <Button
+                                                            size="sm"
+                                                            onClick={() => handleRetryPayment(request)}
+                                                            className="hover:bg-purple-200 bg-purple-100 rounded text-purple-700"
+                                                        >
+                                                            <Clock className="mr-2" size={16} /> Retry Payment
+                                                        </Button>
+                                                    )}
                                                 </div>
                                             </td>
                                         </tr>
@@ -605,7 +683,7 @@ const RequestsPage = () => {
                     </CardContent>
                 </Card>
             </div>
-        </AdminLayout>
+        </Layout>
     );
 };
 
