@@ -3,7 +3,7 @@ import { Users, Search, Filter, ChevronLeft, ChevronRight, Download } from 'luci
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
-import CustomerSupportlayout from '../customerSupport/CustomerSupportlayout';
+import CustomersSupportLayout from '../customerSupport/CustomersSupportLayout';
 
 const ClientsPage = () => {
     const [users, setUsers] = useState([]);
@@ -138,7 +138,7 @@ const ClientsPage = () => {
         }
       }, []);
 
-    const Layout = user?.role === "ADMIN" ? AdminLayout : CustomerSupportlayout;
+    const Layout = user?.role === "ADMIN" ? AdminLayout : CustomersSupportLayout;
     // if (loading) return <Layout><div className="p-6">Loading...</div></Layout>;
 
     // Render loading or error states

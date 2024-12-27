@@ -4,8 +4,8 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
 import OperationLayout from '../operation/OperationLayout';
-import CustomerSupportlayout from '../customerSupport/CustomerSupportlayout';
 import { Button } from '@/components/ui/button';
+import CustomerSupportayout from '../customerSupport/CustomersSupportLayout';
 
 const EditRequestForm = ({ request, onClose, onSave }) => {
     const [formData, setFormData] = useState({
@@ -517,7 +517,7 @@ const RequestsPage = () => {
     const Layout = user?.role === "ADMIN"
         ? AdminLayout
         : user?.role === "CUSTOMER_SUPPORT"
-            ? CustomerSupportlayout
+            ? CustomersSupportLayout
             : OperationLayout;
 
     if (loading) return <Layout><div className="p-6">Loading...</div></Layout>;
