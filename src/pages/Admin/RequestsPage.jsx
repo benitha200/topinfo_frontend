@@ -5,7 +5,7 @@ import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
 import OperationLayout from '../operation/OperationLayout';
 import { Button } from '@/components/ui/button';
-import CustomerSupportayout from '../customerSupport/CustomersSupportLayout';
+import CustomersSupportLayout from '../customerSupport/CustomersSupportLayout';
 
 const EditRequestForm = ({ request, onClose, onSave }) => {
     const [formData, setFormData] = useState({
