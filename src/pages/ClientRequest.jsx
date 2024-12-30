@@ -782,7 +782,7 @@ const ClientRequest = () => {
                 <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
                   <p className="text-sky-600">
                   wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
-                  yawe wemeze kwishyura cyangwa ukande *182*7*2#
+                  yawe wemeze kwishyura cyangwa ukande *182*7*1#
                   </p>
                 </div>
               )}

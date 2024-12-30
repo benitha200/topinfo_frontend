@@ -1,13 +1,35 @@
 import React, { useState, useEffect } from "react";
 import { Users, Search, Filter, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-// import { Alert, AlertDescription } from "@/components/ui/alert";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
 import ErrorDialog from "../../components/ErrorDialog/ErrorDialog";
 import OperationLayout from "../operation/OperationLayout";
 import AgentsSkeleton from "../Agent/AgentsSkeleton";
+
+const ImagePreview = ({ url, title }) => {
+  if (!url) return null;
+
+  return (
+    <Dialog>
+      <DialogTrigger asChild>
+        <button className="flex items-center space-x-1 text-sky-600 hover:text-sky-700">
+          <ImageIcon className="h-4 w-4" />
+          <span className="text-sm">View {title}</span>
+        </button>
+      </DialogTrigger>
+      <DialogContent className="sm:max-w-xl">
+        <DialogHeader>
+          <DialogTitle>{title}</DialogTitle>
+        </DialogHeader>
+        <div className="mt-4">
+          <img src={`${API_URL}/${url}`} alt={title} className="w-full h-auto rounded-lg" />
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 const AgentsPage = () => {
   const [users, setUsers] = useState([]);
@@ -286,6 +308,16 @@ const AgentsPage = () => {
       user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const renderImageCell = (profileImage, nationalIdImage) => (
+    <td className="px-4 py-3 text-sm">
+      <div className="flex flex-col space-y-2">
+        Image
+        <ImagePreview url={profileImage} title="Profile Image" />
+        <ImagePreview url={nationalIdImage} title="National ID" />
+      </div>
+    </td>
+  );
+
   // if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
 
   const Layout = user?.role === "ADMIN" ? AdminLayout : OperationLayout;
@@ -335,7 +367,7 @@ const AgentsPage = () => {
         </Card>
 
         <Card>
-          <CardHeader className="flex flex-row items-center justify-between">
+        <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Agents List</CardTitle>
             <div className="flex space-x-2">
               <div className="relative">
@@ -355,7 +387,7 @@ const AgentsPage = () => {
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">
-            <table className="w-full">
+              <table className="w-full">
                 <thead>
                   <tr className="border-b">
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
@@ -369,6 +401,9 @@ const AgentsPage = () => {
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
                       Location
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                      Images
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
                       Status
@@ -387,15 +422,17 @@ const AgentsPage = () => {
                       <td className="px-4 py-3 text-sm">{user.email}</td>
                       <td className="px-4 py-3 text-sm">{user.phone}</td>
                       <td className="px-4 py-3 text-sm">
-                        {`${user.location_province || "N/A"}, ${user.location_district || "N/A"
-                          }, ${user.location_sector || "N/A"}`}
+                        {`${user.location_province || "N/A"}, ${user.location_district || "N/A"}, ${user.location_sector || "N/A"}`}
                       </td>
+                      {user.profileImage}
+                      {renderImageCell(user.profileImage, user.nationalIdImage)}
                       <td className="px-4 py-3 text-sm">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs ${user.isActive
+                          className={`px-2 py-1 rounded-full text-xs ${
+                            user.isActive
                               ? "bg-green-100 text-green-800"
                               : "bg-red-100 text-red-800"
-                            }`}
+                          }`}
                         >
                           {user.isActive ? "Active" : "Inactive"}
                         </span>

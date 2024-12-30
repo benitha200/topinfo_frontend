@@ -5,6 +5,7 @@ import { Provinces, Districts, Sectors } from "rwanda";
 import API_URL from "../../constants/Constants";
 import AgentLayout from "./AgentLayout";
 import PhoneInput from "../../components/website/PhoneInput";
+import AdminLayout from "../Admin/AdminLayout";
 
 const AddServiceProvidersPageAgent = () => {
   const origin = window.location.origin;
@@ -22,13 +23,14 @@ const AddServiceProvidersPageAgent = () => {
     location_province: "",
     location_district: "",
     location_sector: "",
-    provinces: [], // Array of selected province objects
-    districts: [], // Array of selected district objects
-    sectors: [], 
+    provinces: [],
+    districts: [],
+    sectors: [],
     location_serve: "",
     additional_info: "",
     service_category_id: "",
     total_district_cost: 0,
+    total_sector_cost: 0,
     approved: true,
     paymentMethod: "",
     paymentNumber: "",
@@ -48,6 +50,8 @@ const AddServiceProvidersPageAgent = () => {
 
   const [paymentFail, setPaymentFail] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
+  const [user,setUser]=useState();
+  const [loading,setLoading]=useState();
 
   const [provinces1] = useState(Provinces());
   const [districts, setDistricts] = useState([]);
@@ -136,33 +140,6 @@ const AddServiceProvidersPageAgent = () => {
     }
   }, [formData.location_province, formData.location_district]);
 
-  const handleProvinceChange = (selectedProvinces) => {
-    // Get districts for selected provinces
-    const districts = selectedProvinces.flatMap((province) =>
-      Districts(province.value).map((district) => ({
-        value: district,
-        label: `${district} (${province.value})`,
-      }))
-    );
-
-    setFormData((prevState) => ({
-      ...prevState,
-      provinces: selectedProvinces,
-      districts: [], // Reset districts when provinces change
-      total_district_cost: 0,
-    }));
-    setAvailableDistricts(districts);
-  };
-
-  const handleMultiDistrictChange = (selectedDistricts) => {
-    const districtCost = selectedDistricts.length * settings.provider_price;
-
-    setFormData((prevState) => ({
-      ...prevState,
-      districts: selectedDistricts,
-      total_district_cost: districtCost,
-    }));
-  };
 
   // Transform Provinces to react-select format
   const provinceOptions = Provinces().map((province) => ({
@@ -194,12 +171,12 @@ const AddServiceProvidersPageAgent = () => {
     }
   }, [formData.districts]);
 
-  const handleMultiSectorChange = (selectedSectors) => {
-    setFormData(prevState => ({
-      ...prevState,
-      sectors: selectedSectors
-    }));
-  };
+  // const handleMultiSectorChange = (selectedSectors) => {
+  //   setFormData(prevState => ({
+  //     ...prevState,
+  //     sectors: selectedSectors
+  //   }));
+  // };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -316,8 +293,96 @@ const AddServiceProvidersPageAgent = () => {
     }
   };
 
+  const getCategoryPrice = (categoryId) => {
+    if (!settings || !settings.categoryPrices) return settings?.provider_price || 3000;
+
+    const categoryPrice = settings.categoryPrices.find(
+      (price) => price.category_id === parseInt(categoryId)
+    );
+
+    return categoryPrice ? categoryPrice.provider_price : settings.provider_price;
+  };
+
+  const handleProvinceChange = (selectedProvinces) => {
+    const districts = selectedProvinces.flatMap((province) =>
+      Districts(province.value).map((district) => ({
+        value: district,
+        label: `${district} (${province.value})`,
+      }))
+    );
+
+    setFormData((prevState) => ({
+      ...prevState,
+      provinces: selectedProvinces,
+      districts: [],
+      sectors: [],
+      total_district_cost: 0,
+      total_sector_cost: 0,
+    }));
+    setAvailableDistricts(districts);
+  };
+
+  const handleMultiDistrictChange = (selectedDistricts) => {
+    const price = getCategoryPrice(formData.service_category_id);
+    const districtCost = selectedDistricts.length * price;
+
+    setFormData((prevState) => ({
+      ...prevState,
+      districts: selectedDistricts,
+      total_district_cost: districtCost,
+    }));
+  };
+
+  useEffect(() => {
+    if (formData.districts.length > 0 && formData.service_category_id) {
+      const price = getCategoryPrice(formData.service_category_id);
+      const districtCost = formData.districts.length * price;
+
+      setFormData((prevState) => ({
+        ...prevState,
+        total_district_cost: districtCost,
+      }));
+    }
+  }, [formData.service_category_id]);
+
+  const handleMultiSectorChange = (selectedSectors) => {
+    const price = getCategoryPrice(formData.service_category_id);
+    const sectorCost = selectedSectors.length * (price / 2);
+
+    setFormData((prevState) => ({
+      ...prevState,
+      sectors: selectedSectors,
+      total_sector_cost: sectorCost,
+    }));
+  };
+
+  const getDistrictsLabel = () => {
+    const price = getCategoryPrice(formData.service_category_id);
+    return `Akarere (${price} Rwf kuri buri karere)`;
+  };
+
+
+  const Layout = user?.role === "ADMIN"
+    ? AdminLayout :
+    AgentLayout;
+
+  useEffect(() => {
+    try {
+      const userString = localStorage.getItem("user");
+      if (userString) {
+        const userData = JSON.parse(userString);
+        setUser(userData);
+      }
+    } catch (error) {
+      console.error("Error parsing user data:", error);
+    }
+  }, []);
+
+  if (loading) return <Layout><div className="p-6">Loading...</div></Layout>;
+
+
   return (
-    <AgentLayout>
+    <Layout>
       {paymentSuccess ? (
         <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 px-4 sm:px-6 lg:px-8">
           <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
@@ -359,10 +424,10 @@ const AddServiceProvidersPageAgent = () => {
           <div className="max-w-2xl mx-auto">
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-gray-900 mb-2">
-                Iyandikishe mubatanga service
+                Andika Utanga Service
               </h1>
               <p className="text-gray-600">
-                Uzuza form ikurikira kugirango utangire gutanga serivisi zawe
+                Uzuza form ikurikira kugirango wandike utanga serivisi
                 biciye muri topInfo
               </p>
             </div>
@@ -627,8 +692,57 @@ const AddServiceProvidersPageAgent = () => {
                     />
                   </div>
 
-                  {/* Multi-Select Districts */}
                   {formData.provinces.length > 0 && (
+                    <div className="mt-6">
+                      <label
+                        htmlFor="districts"
+                        className="block text-sm font-medium text-red-700 mb-1"
+                      >
+                        {getDistrictsLabel()}
+                      </label>
+                      <Select
+                        isMulti
+                        name="districts"
+                        options={availableDistricts}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        value={formData.districts}
+                        onChange={handleMultiDistrictChange}
+                        placeholder="Hitamo akarere"
+                      />
+                      {formData.districts.length > 0 && (
+                        <div className="mt-2 flex text-md font-semibold text-sky-600">
+                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />
+                          Amafaranga yose hamwe:
+                          {(formData.total_district_cost + formData.total_sector_cost).toLocaleString()} Rwf
+                        </div>
+                      )}
+                    </div>
+                  )}
+
+                  {formData.districts.length > 0 && (
+                    <div className="mt-6">
+                      <label
+                        htmlFor="sectors"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        {/* {getSectorsLabel()} */}
+                      </label>
+                      <Select
+                        isMulti
+                        name="sectors"
+                        options={availableSectors}
+                        className="basic-multi-select"
+                        classNamePrefix="select"
+                        value={formData.sectors}
+                        onChange={handleMultiSectorChange}
+                        placeholder="Hitamo imirenge"
+                      />
+                    </div>
+                  )}
+
+                  {/* Multi-Select Districts */}
+                  {/* {formData.provinces.length > 0 && (
                     <div className="mt-6">
                       <label
                         htmlFor="districts"
@@ -675,7 +789,7 @@ const AddServiceProvidersPageAgent = () => {
                         placeholder="Hitamo imirenge"
                       />
                     </div>
-                  )}
+                  )} */}
 
                   {/* Experience */}
                   <div>
@@ -817,7 +931,7 @@ const AddServiceProvidersPageAgent = () => {
           </div>
         </div>
       )}
-    </AgentLayout>
+    </Layout>
   );
 };
 

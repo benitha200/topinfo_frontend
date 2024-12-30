@@ -400,7 +400,7 @@ const App = () => {
         <Route
           path="/agent-dashboard/serviceprovider-agent/create"
           element={
-            <ProtectedRoute allowedRoles={["AGENT"]}>
+            <ProtectedRoute allowedRoles={["AGENT","ADMIN"]}>
               <AddServiceProvidersPageAgent />
             </ProtectedRoute>
           }

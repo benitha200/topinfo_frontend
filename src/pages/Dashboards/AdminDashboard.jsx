@@ -26,6 +26,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import axios from 'axios';
 import AdminLayout from '../Admin/AdminLayout';
 import API_URL from '../../constants/Constants';
+import DashboardSkeleton from '../Admin/DashboardSkeleton';
 
 const AdminDashboard = () => {
   const [payments, setPayments] = useState([]);
@@ -154,11 +155,7 @@ const AdminDashboard = () => {
   };
 
   if (loading) {
-    return <div className="flex h-screen items-center justify-center">Loading dashboard...</div>;
-  }
-
-  if (error) {
-    return <div className="flex h-screen items-center justify-center text-red-600">{error}</div>;
+    return <DashboardSkeleton/>;
   }
 
   return (

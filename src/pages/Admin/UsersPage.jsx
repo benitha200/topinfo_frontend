@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
+import AgentsSkeleton from "../Agent/AgentsSkeleton";
 
 const UsersPage = () => {
   const [users, setUsers] = useState([]);
@@ -66,30 +67,6 @@ const UsersPage = () => {
       setLoading(false);
     }
   };
-
-  // Create a new agent user
-  // const createUser = async () => {
-  //   setIsSubmiting(true);
-  //   try {
-  //     const token = localStorage.getItem("token");
-  //     const response = await fetch(`${API_URL}/users`, {
-  //       method: "POST",
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-  //     if (!response.ok) throw new Error("Failed to create user");
-  //     fetchUsers();
-  //     setIsAddModalOpen(false);
-  //     setIsSubmiting(false);
-  //     resetForm();
-  //   } catch (err) {
-  //     setError(err.message);
-  //     setIsSubmiting(false);
-  //   }
-  // };
 
   const createUser = async () => {
     setIsSubmiting(true);
@@ -231,8 +208,7 @@ const UsersPage = () => {
       user.lastname?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       user.email?.toLowerCase().includes(searchTerm.toLowerCase())
   );
-  if (loading) return  <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
-  // if (error) return <AdminLayout><div className="p-6 text-red-500">{error}</div></AdminLayout>;
+  if (loading) return  <AdminLayout><AgentsSkeleton/></AdminLayout>;
 
   return (
     <AdminLayout>

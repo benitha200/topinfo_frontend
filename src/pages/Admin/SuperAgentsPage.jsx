@@ -5,6 +5,7 @@ import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
 import { Provinces, Districts, Sectors } from "rwanda";
 import * as XLSX from "xlsx";
+import AgentsSkeleton from "../Agent/AgentsSkeleton";
 
 const SuperAgentsPage = () => {
   const [users, setUsers] = useState([]);
@@ -36,33 +37,6 @@ const SuperAgentsPage = () => {
   const [districts, setDistricts] = useState([]);
   const [sectors, setSectors] = useState([]);
 
-  // Fetch users data only from the specified endpoint
-  // const fetchUsers = async () => {
-  //   try {
-  //     setLoading(true);
-  //     const token = localStorage.getItem("token");
-
-  //     const response = await fetch(`${API_URL}/users?role=AGENT&isSuperAgent=yes`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //     });
-
-  //     if (!response.ok) {
-  //       throw new Error("Failed to fetch users");
-  //     }
-
-  //     const data = await response.json();
-
-  //     // const agentUsers = data.users.filter(user => user.role === 'AGENT');
-
-  //     setUsers(data.users);
-  //     setLoading(false);
-  //   } catch (err) {
-  //     setError("Failed to fetch users");
-  //     setLoading(false);
-  //   }
-  // };
 
   const fetchUsers = async () => {
     try {
@@ -308,7 +282,7 @@ const SuperAgentsPage = () => {
     return matchesSearch && matchesDateRange;
   });
 
-  if (loading) return <AdminLayout> <div className="p-6">Loading...</div></AdminLayout>;
+  if (loading) return <AdminLayout> <AgentsSkeleton/></AdminLayout>;
   // if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   return (
@@ -354,26 +328,9 @@ const SuperAgentsPage = () => {
                     className="p-2 border rounded text-sm"
                   />
                 </div>
-                {/* <button 
-                  onClick={fetchUsers}
-                  className="self-end p-2 bg-sky-500 text-white rounded hover:bg-sky-600"
-                >
-                  Filter
-                </button> */}
               </div>
 
-              {/* Existing search and filter */}
-              {/* <div className="relative">
-                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                <input
-                  type="text"
-                  placeholder="Search agents..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
-                />
-              </div>
-               */}
+           
               {/* Download button */}
               <button
                 onClick={downloadUsers}

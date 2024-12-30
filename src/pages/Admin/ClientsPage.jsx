@@ -4,6 +4,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
 import CustomersSupportLayout from '../customerSupport/CustomersSupportLayout';
+import AgentsSkeleton from '../Agent/AgentsSkeleton';
 
 const ClientsPage = () => {
     const [users, setUsers] = useState([]);
@@ -144,9 +145,7 @@ const ClientsPage = () => {
     // Render loading or error states
     if (loading) return (
         <Layout>
-            <div className="flex justify-center items-center h-full p-6">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500"></div>
-            </div>
+            <AgentsSkeleton/>
         </Layout>
     );
 
