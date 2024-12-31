@@ -385,6 +385,9 @@ const ServiceCard = ({ service }) => {
   };
 
 
+
+  
+
   return (
     <>
       <div
@@ -411,6 +414,43 @@ const Services = () => {
   const [filteredServices, setFilteredServices] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+
+  const SkeletonCard = () => {
+    return (
+      <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <div className="flex flex-col items-center text-center">
+          <div className="w-6 h-6 bg-gray-200 rounded-full mb-4 animate-pulse"></div>
+          <div className="w-32 h-4 bg-gray-200 rounded mb-1 animate-pulse"></div>
+          <div className="w-24 h-3 bg-gray-200 rounded mb-4 animate-pulse"></div>
+          <div className="w-24 h-8 bg-gray-200 rounded animate-pulse"></div>
+        </div>
+      </div>
+    );
+  };
+  
+  const ServiceCard = ({ service }) => {
+    const navigate = useNavigate();
+  
+    const handleServiceClick = (service) => {
+      navigate(`/client-request/${service}`);
+    };
+  
+    return (
+      <div
+        onClick={() => handleServiceClick(service.id)}
+        className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 cursor-pointer hover:shadow-md transition-all"
+      >
+        <div className="flex flex-col items-center text-center">
+          <div className="mb-4">{service.icon}</div>
+          <h3 className="font-semibold text-gray-900 mb-1">{service.title}</h3>
+          <p className="text-sm text-gray-500">{service.subtitle}</p>
+          <button className="m-4 px-4 py-2 border border-sky-500 text-sky-500 rounded hover:bg-sky-50 transition-colors text-sm font-medium">
+            Saba Service
+          </button>
+        </div>
+      </div>
+    );
+  };
 
   useEffect(() => {
     const fetchServices = async () => {
@@ -476,10 +516,35 @@ const Services = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-sky-500"></div>
-          <p className="mt-4 text-gray-600">Tegereza gato...</p>
+      <div className="min-h-screen bg-gray-50 py-12">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold text-gray-900 mb-4">
+              Saba guhuzwa n'utanga serivisi
+            </h1>
+            <p className="text-lg text-gray-600">Hitamo serivisi ukeneye</p>
+          </div>
+  
+          <div className="max-w-4xl mx-auto mb-12">
+            <div className="relative mb-8">
+              <input
+                type="text"
+                placeholder="Shakisha serivisi..."
+                disabled
+                className="w-full px-12 py-4 rounded-xl border border-gray-200 focus:border-sky-500 focus:ring-2 focus:ring-sky-100 focus:outline-none transition-all duration-200 shadow-sm"
+              />
+              <Search
+                className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"
+                size={20}
+              />
+            </div>
+          </div>
+  
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            {[...Array(8)].map((_, index) => (
+              <SkeletonCard key={index} />
+            ))}
+          </div>
         </div>
       </div>
     );
