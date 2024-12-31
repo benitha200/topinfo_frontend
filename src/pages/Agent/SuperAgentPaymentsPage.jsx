@@ -85,7 +85,10 @@ const SuperAgentPaymentsPage = () => {
           return sum + (payment && !isNaN(parseFloat(payment.amount)) ? parseFloat(payment.amount) : 0);
         }, 0);
   
-        const totalCommission = totalPayments * 0.05;
+        // const totalCommission = totalPayments * 0.05;
+
+        const transactionFee= totalPayments *0.03;
+        const totalCommission = (totalPayments-transactionFee) * 0.05;
   
         setSummaryStats({
           totalPayments,

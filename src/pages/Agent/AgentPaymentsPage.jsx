@@ -82,7 +82,8 @@ const AgentPaymentsPage = () => {
           return sum + (payment ? parseFloat(payment.amount) : 0);
         }, 0);
   
-        const totalCommission = totalPayments * 0.15;
+        const transactionFee= totalPayments *0.03;
+        const totalCommission = (totalPayments-transactionFee) * 0.15;
   
         setSummaryStats({
           totalPayments,
