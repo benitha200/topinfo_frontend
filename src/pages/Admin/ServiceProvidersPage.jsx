@@ -375,7 +375,7 @@ const ServiceProvidersPage = () => {
                             <input
                                 type="text"
                                 placeholder="Search providers..."
-                                className="w-full pl-8 pr-4 py-2 border rounded"
+                                className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded"
                             />
                         </div>
                     </div>

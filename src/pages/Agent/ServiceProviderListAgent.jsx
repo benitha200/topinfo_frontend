@@ -213,7 +213,7 @@ const ServiceProviderListAgent = () => {
         />
         <Input
           placeholder="Search service providers..."
-          className="pl-10 w-full"
+          className="pl-10 w-full border border-slate-300 rounded"
           value={searchTerm}
           onChange={(e) => {
             setSearchTerm(e.target.value);

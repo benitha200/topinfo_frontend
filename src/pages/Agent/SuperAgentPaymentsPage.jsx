@@ -19,7 +19,8 @@ import {
   Users,
   Search,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  HandCoinsIcon
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -137,7 +138,7 @@ const SuperAgentPaymentsPage = () => {
           <Card className="bg-emerald-50 hover:bg-emerald-100 transition-colors border-emerald-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs md:text-sm font-medium text-emerald-900">Total Payments</CardTitle>
-              <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
+              <HandCoinsIcon className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
             </CardHeader>
             <CardContent>
               <div className="text-lg md:text-2xl font-bold text-emerald-800">
@@ -168,6 +169,19 @@ const SuperAgentPaymentsPage = () => {
                 {summaryStats.completedPayments}
               </div>
             </CardContent>
+          </Card>
+        </div>
+
+        <div>
+          <Card className="shadow-lg bg-sky-50">
+              <CardTitle className="p-4 text-bold text-sky-700">
+                PAYMENT WITHDRAWAL
+              </CardTitle>
+              <CardContent>
+                <div className='text-sky-900'>
+                  You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 of the new month
+                </div>
+              </CardContent>
           </Card>
         </div>
 

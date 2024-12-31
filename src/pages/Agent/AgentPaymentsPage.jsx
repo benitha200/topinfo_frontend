@@ -19,7 +19,9 @@ import {
   Users,
   Search,
   ChevronLeft,
-  ChevronRight
+  ChevronRight,
+  Clock,
+  HandCoins
 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -41,114 +43,6 @@ const AgentPaymentsPage = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const itemsPerPage = 10;
 
-  // useEffect(() => {
-  //   const fetchPayments = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       const response = await fetch(`${API_URL}/requests`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch payments');
-  //       }
-
-  //       const data = await response.json();
-
-
-  //       // Filter only completed payments
-  //       const completedPayments = data?.filter(request => 
-  //         request.payments.length > 0 && 
-  //         request.payments.some(payment => payment.status === 'COMPLETED')
-  //       );
-
-  //       setPaymentsData(completedPayments);
-
-  //       // Calculate summary statistics
-  //       const totalPayments = completedPayments.reduce((sum, request) => {
-  //         const payment = request.payments.find(p => p.status === 'COMPLETED');
-  //         return sum + (payment ? parseFloat(payment.amount) : 0);
-  //       }, 0);
-
-  //       const totalCommission = totalPayments * 0.15;
-  //       // const user = JSON.parse(localStorage.getItem("user"));        
-  //       // const totalCommission = user.isSuperAdmin ? totalPayments * 0.5 : totalPayments * 0.15;
-
-
-  //       setSummaryStats({
-  //         totalPayments,
-  //         totalCommission,
-  //         completedPayments: completedPayments.length
-  //       });
-
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError(err.message);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchPayments();
-  // }, []);
-
-  // Filtered and Paginated Data
-
-  // useEffect(() => {
-  //   const fetchPayments = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       const response = await fetch(`${API_URL}/requests`, {
-  //         method: 'GET',
-  //         headers: {
-  //           'Authorization': `Bearer ${token}`,
-  //           'Content-Type': 'application/json'
-  //         }
-  //       });
-
-  //       if (!response.ok) {
-  //         throw new Error('Failed to fetch payments');
-  //       }
-
-  //       const data = await response.json();
-
-  //       // Handle case when data is not an array
-  //       const completedPayments = Array.isArray(data?.requests)
-  //         ? data.requests.filter(request =>
-  //           request.payments &&
-  //           request.payments.some(payment => payment.status === 'COMPLETED')
-  //         )
-  //         : [];
-  //         console.log(completedPayments);
-
-  //       setPaymentsData(completedPayments);
-
-  //       // Calculate summary statistics
-  //       const totalPayments = completedPayments.reduce((sum, request) => {
-  //         const payment = request.payments.find(p => p.status === 'COMPLETED');
-  //         return sum + (payment ? parseFloat(payment.amount) : 0);
-  //       }, 0);
-
-  //       const totalCommission = totalPayments * 0.15;
-
-  //       setSummaryStats({
-  //         totalPayments,
-  //         totalCommission,
-  //         completedPayments: completedPayments.length
-  //       });
-
-  //       setLoading(false);
-  //     } catch (err) {
-  //       setError(err.message);
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchPayments();
-  // }, []);
 
   useEffect(() => {
     const fetchPayments = async () => {
@@ -237,7 +131,7 @@ const AgentPaymentsPage = () => {
           <Card className="bg-emerald-50 hover:bg-emerald-100 transition-colors rounded border-emerald-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-sm font-medium text-emerald-900">Total Payments</CardTitle>
-              <DollarSign className="h-5 w-5 text-emerald-600" />
+              <HandCoins className="h-5 w-5 text-emerald-600" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold text-emerald-800">
@@ -269,6 +163,22 @@ const AgentPaymentsPage = () => {
               </div>
             </CardContent>
           </Card>
+        </div>
+
+        <div>
+          <Card className="shadow-lg bg-sky-50">
+              <CardTitle className="p-4 text-bold text-sky-700">
+                PAYMENT WITHDRAWAL
+              </CardTitle>
+              <CardContent>
+                <div className='text-sky-900'>
+                  You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 of the new month
+                </div>
+              </CardContent>
+          </Card>
+        </div>
+        <div>
+          <Button className="bg-sky-600 text-sky-50 rounded gap-2"><Clock size={15}/> Payment History</Button>
         </div>
 
         {/* Payments Table */}

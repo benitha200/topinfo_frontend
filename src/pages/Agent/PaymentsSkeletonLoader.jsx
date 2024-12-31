@@ -13,7 +13,7 @@ import {
   TableHeader,
   TableRow
 } from '@/components/ui/table';
-import { DollarSign, CreditCard, Users } from 'lucide-react';
+import { DollarSign, CreditCard, Users, HandCoins } from 'lucide-react';
 import AgentLayout from './AgentLayout';
 
 const PaymentsSkeletonLoader = () => {
@@ -25,7 +25,7 @@ const PaymentsSkeletonLoader = () => {
           <Card className="bg-emerald-50 border-emerald-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
               <CardTitle className="text-xs md:text-sm font-medium text-emerald-900">Total Payments</CardTitle>
-              <DollarSign className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
+              <HandCoins className="h-4 w-4 md:h-5 md:w-5 text-emerald-600" />
             </CardHeader>
             <CardContent>
               <div className="h-8 bg-emerald-200/50 rounded animate-pulse" />
