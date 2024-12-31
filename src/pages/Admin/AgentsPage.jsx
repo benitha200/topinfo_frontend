@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Users, Search, Filter, Loader2, ChevronLeft, ChevronRight } from "lucide-react";
+import { Users, Search, Filter, Loader2, ChevronLeft, ChevronRight, ImageUpIcon } from "lucide-react";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AdminLayout from "./AdminLayout";
 import API_URL from "../../constants/Constants";
@@ -7,19 +7,20 @@ import { Provinces, Districts, Sectors } from "rwanda";
 import ErrorDialog from "../../components/ErrorDialog/ErrorDialog";
 import OperationLayout from "../operation/OperationLayout";
 import AgentsSkeleton from "../Agent/AgentsSkeleton";
+import {Dialog,DialogTrigger,DialogContent,DialogHeader,DialogTitle} from "../../../src/components/ui/dialog";
 
 const ImagePreview = ({ url, title }) => {
   if (!url) return null;
 
   return (
-    <Dialog>
+    <Dialog  className=" bg-white">
       <DialogTrigger asChild>
         <button className="flex items-center space-x-1 text-sky-600 hover:text-sky-700">
-          <ImageIcon className="h-4 w-4" />
+          <ImageUpIcon className="h-4 w-4" />
           <span className="text-sm">View {title}</span>
         </button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-xl">
+      <DialogContent className="sm:max-w-xl bg-white">
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>
         </DialogHeader>
@@ -311,7 +312,7 @@ const AgentsPage = () => {
   const renderImageCell = (profileImage, nationalIdImage) => (
     <td className="px-4 py-3 text-sm">
       <div className="flex flex-col space-y-2">
-        Image
+        {/* Image */}
         <ImagePreview url={profileImage} title="Profile Image" />
         <ImagePreview url={nationalIdImage} title="National ID" />
       </div>
@@ -424,7 +425,7 @@ const AgentsPage = () => {
                       <td className="px-4 py-3 text-sm">
                         {`${user.location_province || "N/A"}, ${user.location_district || "N/A"}, ${user.location_sector || "N/A"}`}
                       </td>
-                      {user.profileImage}
+                      {/* {user.profileImage} */}
                       {renderImageCell(user.profileImage, user.nationalIdImage)}
                       <td className="px-4 py-3 text-sm">
                         <span

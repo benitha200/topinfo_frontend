@@ -13,7 +13,9 @@ import {
   BookUser,
   User2Icon,
   File,
-  Settings2
+  Settings2,
+  FilesIcon,
+  FolderIcon
 } from 'lucide-react';
 
 const AdminLayout = ({ children }) => {
@@ -34,6 +36,7 @@ const AdminLayout = ({ children }) => {
     { icon: Users, label: 'Service Providers', path: '/dashboard/service-providers' },
     { icon: File, label: 'Services', path: '/dashboard/service' },
     { icon: CreditCard, label: 'Payments', path: '/dashboard/payments' },
+    { icon: FolderIcon, label: 'Reports', path: '/dashboard/reports' },
     { icon: Settings2, label: 'Settings', path: '/dashboard/settings' },
   ];
 

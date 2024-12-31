@@ -72,6 +72,7 @@ import ResetPassword from "./components/website/ResetPassword";
 import ServiceProviderView from "./pages/Agent/ServiceProviderView";
 import ServiceProviderEdit from "./pages/Agent/ServiceProviderEdit";
 import OperationDashboard from "./pages/Dashboards/OperationDashboard";
+import Reports from "./pages/Admin/Reports/Reports";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -262,7 +263,7 @@ const App = () => {
         <Route
           path="/dashboard/clients"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","CUSTOMER_SUPPORT"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "CUSTOMER_SUPPORT"]}>
               <ClientsPage />
             </ProtectedRoute>
           }
@@ -270,8 +271,16 @@ const App = () => {
         <Route
           path="/dashboard/agents"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","OPERATIONS"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
               <AgentsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/dashboard/reports"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
+              <Reports/>
             </ProtectedRoute>
           }
         />
@@ -286,7 +295,7 @@ const App = () => {
         <Route
           path="/dashboard/requests"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","CUSTOMER_SUPPORT"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "CUSTOMER_SUPPORT"]}>
               <RequestsPage />
             </ProtectedRoute>
           }
@@ -294,7 +303,7 @@ const App = () => {
         <Route
           path="/dashboard/service-providers"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","OPERATIONS"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
               <ServiceProvidersPage />
             </ProtectedRoute>
           }
@@ -302,7 +311,7 @@ const App = () => {
         <Route
           path="/dashboard/service"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","OPERATIONS"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
               <ServiceCategoriesPage />
             </ProtectedRoute>
           }
@@ -334,7 +343,7 @@ const App = () => {
         <Route
           path="/dashboard/settings"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","OPERATIONS"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
               <SettingsPage />
             </ProtectedRoute>
           }
@@ -400,7 +409,7 @@ const App = () => {
         <Route
           path="/agent-dashboard/serviceprovider-agent/create"
           element={
-            <ProtectedRoute allowedRoles={["AGENT","ADMIN"]}>
+            <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
               <AddServiceProvidersPageAgent />
             </ProtectedRoute>
           }
@@ -476,15 +485,15 @@ const App = () => {
         <Route
           path="/operations-dashboard"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","OPERATIONS"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
               <AgentsPage />
             </ProtectedRoute>
           }
         />
-      <Route
+        <Route
           path="/cutomer-support-dashboard"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","CUSTOMER_SUPPORT"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "CUSTOMER_SUPPORT"]}>
               <ClientsPage />
             </ProtectedRoute>
           }

@@ -267,34 +267,6 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
 
       setTransactionDetails(paymentResult);
 
-      // Start checking payment status
-      // const interval = setInterval(async () => {
-      //   try {
-      //     const statusResult = await paymentService.checkPaymentStatus(
-      //       paymentResult.transactionId,
-      //       paymentResult.requestTransactionId
-      //     );
-
-      //     if (statusResult.status === 'SUCCESSFUL') {
-      //       clearInterval(interval);
-      //       onSubmit({
-      //         paymentMethod,
-      //         phoneNumber,
-      //         transactionId: statusResult.transactionId,
-      //         status: 'completed'
-      //       });
-      //     } else if (statusResult.status === 'FAILED') {
-      //       clearInterval(interval);
-      //       setError('Payment failed. Please try again.');
-      //       setLoading(false);
-      //     }
-      //   } catch (error) {
-      //     console.error('Status check error:', error);
-      //     // Don't clear interval on network errors
-      //   }
-      // }, 5000);
-
-      // setStatusCheckInterval(interval);
     } catch (err) {
       setError(err.message);
       setLoading(false);
@@ -384,100 +356,7 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
   );
 };
 
-// const PaymentForm = ({ amount, onSubmit }) => {
-//   const [paymentMethod, setPaymentMethod] = useState('momo');
-//   const [phoneNumber, setPhoneNumber] = useState('');
-//   const [loading, setLoading] = useState(false);
-//   const [error, setError] = useState('');
 
-//   const handleSubmit = async (e) => {
-//     e.preventDefault();
-//     setLoading(true);
-//     setError('');
-
-//     try {
-//       // Simulate payment processing
-//       await new Promise(resolve => setTimeout(resolve, 1000));
-//       onSubmit({ paymentMethod, phoneNumber });
-//     } catch (err) {
-//       setError('Payment failed. Please try again.');
-//     } finally {
-//       setLoading(false);
-//     }
-//   };
-
-//   return (
-//     <form onSubmit={handleSubmit} className="space-y-4">
-//       {error && (
-//         <>
-//         {error}
-//         </>
-//         // <Alert variant="destructive">
-//         //   <AlertDescription>{error}</AlertDescription>
-//         // </Alert>
-//       )}
-
-//       <div>
-//         <span className="block text-sm font-medium text-gray-700 mb-2">
-//           Hitamo uburyo bwo kwishyura
-//         </span>
-//         <div className="space-y-2">
-//           <label className="flex items-center space-x-2 cursor-pointer">
-//             <input
-//               type="radio"
-//               value="momo"
-//               checked={paymentMethod === 'momo'}
-//               onChange={(e) => setPaymentMethod(e.target.value)}
-//               className="form-radio text-sky-600"
-//             />
-//             <span className="text-gray-700">MTN Mobile Money</span>
-//           </label>
-//           <label className="flex items-center space-x-2 cursor-pointer">
-//             <input
-//               type="radio"
-//               value="airtel"
-//               checked={paymentMethod === 'airtel'}
-//               onChange={(e) => setPaymentMethod(e.target.value)}
-//               className="form-radio text-sky-600"
-//             />
-//             <span className="text-gray-700">Airtel Money</span>
-//           </label>
-//         </div>
-//       </div>
-
-//       <div>
-//         <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
-//           Numero ya telefone
-//         </label>
-//         <input
-//           id="phone"
-//           type="tel"
-//           className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500"
-//           value={phoneNumber}
-//           onChange={(e) => setPhoneNumber(e.target.value)}
-//           required
-//         />
-//       </div>
-
-//       <div className="border-t pt-4">
-//         <div className="flex justify-between mb-2">
-//           <span className="font-medium">Igiciro</span>
-//           <span>{amount} RWF</span>
-//         </div>
-//       </div>
-
-//       <button
-//         type="submit"
-//         disabled={loading}
-//         className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
-//       >
-//         {loading ? 'Tegereza...' : 'Ishyura'}
-//       </button>
-//     </form>
-//   );
-// };
-
-// Service Card Component
 const ServiceCard = ({ service }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [showPaymentForm, setShowPaymentForm] = useState(false);
@@ -521,28 +400,6 @@ const ServiceCard = ({ service }) => {
           </button>
         </div>
       </div>
-
-      {/* <Modal
-        isOpen={isModalOpen}
-        onClose={() => {
-          setIsModalOpen(false);
-          setShowPaymentForm(false);
-        }}
-        title={showPaymentForm ? "Kwishyura" : `Saba ${service.title}`}
-      >
-        {showPaymentForm ? (
-          <PaymentForm
-            amount={100}
-            requestInfo={requestInfo}
-            onSubmit={handlePaymentSubmit}
-          />
-        ) : (
-          <ServiceRequestForm
-            service={service}
-            onSubmit={handleRequestSubmit}
-          />
-        )}
-      </Modal> */}
     </>
   );
 };
