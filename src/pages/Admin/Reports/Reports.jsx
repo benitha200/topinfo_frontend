@@ -126,7 +126,7 @@ const Reports = () => {
 
     const calculateStats = () => {
         const completedPayments = filteredData.filter(p => p.status === 'COMPLETED');
-        const totalAmount = completedPayments.reduce((sum, p) => sum + Number(p.request.service_category.client_price), 0);
+        const totalAmount = completedPayments.reduce((sum, p) => sum + Number(p.amount), 0);
         const averageAmount = totalAmount / (completedPayments.length || 1);
 
         return {
@@ -148,7 +148,7 @@ const Reports = () => {
                 headers = ['Transaction ID', 'Amount', 'Status', 'Date', 'Client Name', 'Location'];
                 rows = filteredData.map(payment => [
                     payment.transaction_id,
-                    payment.request.service_category.client_price,
+                    payment.amount,
                     payment.status,
                     new Date(payment.createdAt).toLocaleDateString(),
                     `${payment.client.firstname} ${payment.client.lastname}`,
@@ -191,8 +191,8 @@ const Reports = () => {
                         agentStats[agentId].total++;
 
                         if (payment.status === 'COMPLETED') {
-                            const amount = Number(payment.request.service_category.client_price);
-                            const clientPrice = payment.request.service_category.client_price;
+                            const amount = Number(payment.amount);
+                            const clientPrice = payment.amount;
                             const breakdown = calculateTransactionBreakdown(amount, clientPrice);
 
                             agentStats[agentId].completed++;
@@ -228,7 +228,7 @@ const Reports = () => {
                     }
                     locationStats[district].total++;
                     if (payment.status === 'COMPLETED') {
-                        locationStats[district].amount += Number(payment.request.service_category.client_price);
+                        locationStats[district].amount += Number(payment.amount);
                     }
                 });
                 rows = Object.entries(locationStats).map(([district, stats]) => {

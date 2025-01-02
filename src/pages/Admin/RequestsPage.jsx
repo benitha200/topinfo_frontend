@@ -267,7 +267,8 @@ const RequestsPage = () => {
     const [filteredRequests, setFilteredRequests] = useState([]);
     const [selectedRequest, setSelectedRequest] = useState(null);
     const [editingRequest, setEditingRequest] = useState(null);
-    const [statusFilter, setStatusFilter] = useState('COMPLETED'); // Default status filter
+
+    const [statusFilter, setStatusFilter] = useState('COMPLETED'); 
 
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
