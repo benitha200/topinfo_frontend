@@ -73,6 +73,7 @@ import ServiceProviderView from "./pages/Agent/ServiceProviderView";
 import ServiceProviderEdit from "./pages/Agent/ServiceProviderEdit";
 import OperationDashboard from "./pages/Dashboards/OperationDashboard";
 import Reports from "./pages/Admin/Reports/Reports";
+import Profile from "./pages/Profile";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -495,6 +496,14 @@ const App = () => {
           element={
             <ProtectedRoute allowedRoles={["ADMIN", "CUSTOMER_SUPPORT"]}>
               <ClientsPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS", "CUSTOMER_SUPPORT","AGENT"]}>
+              <Profile />
             </ProtectedRoute>
           }
         />
