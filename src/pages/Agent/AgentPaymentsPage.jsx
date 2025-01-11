@@ -300,6 +300,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import AgentLayout from './AgentLayout';
 import API_URL from '../../constants/Constants';
+import PaymentsSkeletonLoader from './PaymentsSkeletonLoader';
 
 const AgentPaymentsPage = () => {
   const [paymentsData, setPaymentsData] = useState([]);
@@ -401,7 +402,7 @@ const AgentPaymentsPage = () => {
 
   const totalPages = Math.ceil(filteredData.length / itemsPerPage);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <PaymentsSkeletonLoader/>;
   if (error) return <div>Error: {error}</div>;
 
   return (
@@ -459,7 +460,7 @@ const AgentPaymentsPage = () => {
             </CardTitle>
             <CardContent>
               <div className="text-sky-900">
-                You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 of the new month
+                You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 day(s) of the new month
               </div>
             </CardContent>
           </Card>

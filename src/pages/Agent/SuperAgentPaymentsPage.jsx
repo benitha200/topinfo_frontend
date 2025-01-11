@@ -185,7 +185,7 @@ const SuperAgentPaymentsPage = () => {
               </CardTitle>
               <CardContent>
                 <div className='text-sky-900'>
-                  You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 of the new month
+                  You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 day(s) of the new month
                 </div>
               </CardContent>
           </Card>
