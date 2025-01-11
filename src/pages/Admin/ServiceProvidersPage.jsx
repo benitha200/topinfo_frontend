@@ -311,10 +311,16 @@ const ServiceProvidersPage = () => {
     };
 
     // Handle edit click
+    // const handleEditClick = (provider) => {
+    //     setEditingProvider(provider);
+    //     setFormData({ ...provider });
+    // };
+
     const handleEditClick = (provider) => {
-        setEditingProvider(provider);
-        setFormData({ ...provider });
-    };
+        navigate(`/agent-dashboard/serviceprovider/edit/${provider.id}`, {
+          state: { provider }
+        });
+      };
 
     useEffect(() => {
         try {

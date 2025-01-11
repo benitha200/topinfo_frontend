@@ -25,12 +25,13 @@ const SuperAgentsPage = () => {
     lastname: "",
     email: "",
     phone: "",
+    commissionRate: "0.05", // Match Prisma default
     location_province: "",
     location_district: "",
     location_sector: "",
     isSuperAgent: true,
-    profileImage : null,
-    nationalIdImage : null,
+    profileImage: null,
+    nationalIdImage: null,
   });
 
   const [provinces, setProvinces] = useState([]);
@@ -73,12 +74,26 @@ const SuperAgentsPage = () => {
   };
 
   // Create a new agent user
+  const formatCommissionRate = (value) => {
+    // Ensure value is a valid number and within bounds (0-1)
+    const numValue = parseFloat(value);
+    if (isNaN(numValue)) return "0.05";
+    if (numValue < 0) return "0.00";
+    if (numValue > 1) return "1.00";
+    // Format to 2 decimal places to match Prisma's scale
+    return numValue.toFixed(2);
+  };
+
+  // Create user function with decimal commission rate handling
   const createUser = async () => {
     try {
       setModalLoading(true);
 
       const token = localStorage.getItem("token");
       const formDataObj = new FormData();
+
+      // Format commission rate as a string with 2 decimal places
+      const formattedCommissionRate = formatCommissionRate(formData.commissionRate);
 
       // Append all form data
       formDataObj.append("firstname", formData.firstname);
@@ -89,6 +104,7 @@ const SuperAgentsPage = () => {
       formDataObj.append("location_district", formData.location_district);
       formDataObj.append("location_sector", formData.location_sector);
       formDataObj.append("isSuperAgent", true);
+      formDataObj.append("commissionRate", formattedCommissionRate);
 
       // Append files
       if (formData.profileImage) {
@@ -97,11 +113,11 @@ const SuperAgentsPage = () => {
       if (formData.nationalIdImage) {
         formDataObj.append("nationalIdImage", formData.nationalIdImage);
       }
-      
+
       const response = await fetch(`${API_URL}/users`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${token}`, // Do not set "Content-Type" for FormData
+          Authorization: `Bearer ${token}`,
         },
         body: formDataObj,
       });
@@ -114,6 +130,78 @@ const SuperAgentsPage = () => {
       setError(err.message);
     } finally {
       setModalLoading(false);
+    }
+  };
+
+  // Update user function with decimal commission rate handling
+  const updateUser = async (id) => {
+    try {
+      setModalLoading(true);
+      const token = localStorage.getItem("token");
+      const formDataObj = new FormData();
+
+      // Format commission rate as a string with 2 decimal places
+      // const formattedCommissionRate = formatCommissionRate(formData.commissionRate);
+      // const commissionRate = formData.commissionRate ? parseFloat(formData.commissionRate).toFixed(2) : "0.05";
+
+      // Append all form data
+      formDataObj.append("firstname", formData.firstname);
+      formDataObj.append("lastname", formData.lastname);
+      formDataObj.append("email", formData.email);
+      formDataObj.append("phone", formData.phone);
+      formDataObj.append("location_province", formData.location_province);
+      formDataObj.append("location_district", formData.location_district);
+      formDataObj.append("location_sector", formData.location_sector);
+      formDataObj.append("commissionRate", formData.commissionRate);
+
+      // Append files
+      if (formData.profileImage) {
+        formDataObj.append("profileImage", formData.profileImage);
+      }
+      if (formData.nationalIdImage) {
+        formDataObj.append("nationalIdImage", formData.nationalIdImage);
+      }
+
+      const response = await fetch(`${API_URL}/users/${id}`, {
+        method: "PUT",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        body: formDataObj,
+      });
+
+      if (!response.ok) throw new Error("Failed to update users");
+      await fetchUsers();
+      setEditingUser(null);
+      resetForm();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setModalLoading(false);
+    }
+  };
+
+  // Update handleEditClick to properly format commission rate when editing
+  const handleEditClick = (user) => {
+    setEditingUser(user);
+    setFormData({
+      ...formData,
+      firstname: user.firstname,
+      lastname: user.lastname,
+      email: user.email,
+      phone: user.phone,
+      commissionRate: user.commissionRate ? formatCommissionRate(user.commissionRate) : "0.05",
+      location_province: user.location_province,
+      location_district: user.location_district,
+      location_sector: user.location_sector,
+      isSuperAgent: true,
+      profileImage: null,
+      nationalIdImage: null,
+    });
+    setDistricts(Districts(user.location_province));
+    if (user.location_district) {
+      const fetchedSectors = Sectors(user.location_province, user.location_district);
+      setSectors(fetchedSectors);
     }
   };
 
@@ -157,67 +245,73 @@ const SuperAgentsPage = () => {
     }
   };
 
-  const handleEditClick = (user) => {
-    setEditingUser(user);
-    setFormData({
-      firstname: user.firstname,
-      lastname: user.lastname,
-      email: user.email,
-      phone: user.phone,
-      location_province: user.location_province,
-      location_district: user.location_district,
-      location_sector: user.location_sector,
-    });
-    setDistricts(Districts(user.location_province));
-    if (user.location_district) {
-      const fetchedSectors = Sectors(
-        user.location_province,
-        user.location_district
-      );
-      setSectors(fetchedSectors);
-    }
-  };
+  // const handleEditClick = (user) => {
+  //   setEditingUser(user);
+  //   setFormData({
+  //     firstname: user.firstname,
+  //     lastname: user.lastname,
+  //     email: user.email,
+  //     phone: user.phone,
+  //     commissionRate: user.commissionRate || "0.05", // Set default if not present
+  //     location_province: user.location_province,
+  //     location_district: user.location_district,
+  //     location_sector: user.location_sector,
+  //     isSuperAgent: true,
+  //     profileImage: null,
+  //     nationalIdImage: null,
+  //   });
+  //   setDistricts(Districts(user.location_province));
+  //   if (user.location_district) {
+  //     const fetchedSectors = Sectors(user.location_province, user.location_district);
+  //     setSectors(fetchedSectors);
+  //   }
+  // };
 
-  const updateUser = async (id) => {
-    try {
-      setModalLoading(true);
-      const token = localStorage.getItem("token");
-      const formDataObj = new FormData();
+  // const updateUser = async (id) => {
+  //   try {
+  //     setModalLoading(true);
+  //     const token = localStorage.getItem("token");
+  //     const formDataObj = new FormData();
 
-      // Append all form data
-      formDataObj.append("firstname", formData.firstname);
-      formDataObj.append("lastname", formData.lastname);
-      formDataObj.append("email", formData.email);
-      formDataObj.append("phone", formData.phone);
-      formDataObj.append("location_province", formData.location_province);
-      formDataObj.append("location_district", formData.location_district);
-      formDataObj.append("location_sector", formData.location_sector);
+  //     // Convert commissionRate to a number before appending
+  //     const commissionRate = parseFloat(formData.commissionRate);
 
-      // Append files
-      if (formData.profileImage) {
-        formDataObj.append("profileImage", formData.profileImage);
-      }
-      if (formData.nationalIdImage) {
-        formDataObj.append("nationalIdImage", formData.nationalIdImage);
-      }
+  //     // Append all form data
+  //     formDataObj.append("firstname", formData.firstname);
+  //     formDataObj.append("lastname", formData.lastname);
+  //     formDataObj.append("email", formData.email);
+  //     formDataObj.append("phone", formData.phone);
+  //     formDataObj.append("location_province", formData.location_province);
+  //     formDataObj.append("location_district", formData.location_district);
+  //     formDataObj.append("location_sector", formData.location_sector);
+  //     formDataObj.append("commissionRate", commissionRate); // Send as number
 
-      const response = await fetch(`${API_URL}/users/${id}`, {
-        method: "PUT",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        body: formDataObj,
-      });
-      if (!response.ok) throw new Error("Failed to update users");
-      await fetchUsers();
-      setEditingUser(null);
-      resetForm();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setModalLoading(false);
-    }
-  };
+  //     // Append files
+  //     if (formData.profileImage) {
+  //       formDataObj.append("profileImage", formData.profileImage);
+  //     }
+  //     if (formData.nationalIdImage) {
+  //       formDataObj.append("nationalIdImage", formData.nationalIdImage);
+  //     }
+
+  //     const response = await fetch(`${API_URL}/users/${id}`, {
+  //       method: "PUT",
+  //       headers: {
+  //         Authorization: `Bearer ${token}`,
+  //       },
+  //       body: formDataObj,
+  //     });
+
+  //     if (!response.ok) throw new Error("Failed to update users");
+  //     await fetchUsers();
+  //     setEditingUser(null);
+  //     resetForm();
+  //   } catch (err) {
+  //     setError(err.message);
+  //   } finally {
+  //     setModalLoading(false);
+  //   }
+  // };
 
   const deleteUser = async (id) => {
     if (window.confirm("Are you sure you want to delete this record?")) {
@@ -282,7 +376,7 @@ const SuperAgentsPage = () => {
     return matchesSearch && matchesDateRange;
   });
 
-  if (loading) return <AdminLayout> <AgentsSkeleton/></AdminLayout>;
+  if (loading) return <AdminLayout> <AgentsSkeleton /></AdminLayout>;
   // if (error) return <div className="p-6 text-red-500">{error}</div>;
 
   return (
@@ -330,7 +424,7 @@ const SuperAgentsPage = () => {
                 </div>
               </div>
 
-           
+
               {/* Download button */}
               <button
                 onClick={downloadUsers}
@@ -397,8 +491,12 @@ const SuperAgentsPage = () => {
                       Location
                     </th>
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
+                      Commission Rate
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
                       Status
                     </th>
+
                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">
                       Actions
                     </th>
@@ -413,17 +511,16 @@ const SuperAgentsPage = () => {
                       <td className="px-4 py-3 text-sm">{user.email}</td>
                       <td className="px-4 py-3 text-sm">{user.phone}</td>
                       <td className="px-4 py-3 text-sm">
-                        {`${user.location_province || "N/A"}, ${
-                          user.location_district || "N/A"
-                        }, ${user.location_sector || "N/A"}`}
+                        {`${user.location_province || "N/A"}, ${user.location_district || "N/A"
+                          }, ${user.location_sector || "N/A"}`}
                       </td>
+                      <td className="px-4 py-3 text-sm">{user.commissionRate} %</td>
                       <td className="px-4 py-3 text-sm">
                         <span
-                          className={`px-2 py-1 rounded-full text-xs ${
-                            user.isActive
-                              ? "bg-green-100 text-green-800"
-                              : "bg-red-100 text-red-800"
-                          }`}
+                          className={`px-2 py-1 rounded-full text-xs ${user.isActive
+                            ? "bg-green-100 text-green-800"
+                            : "bg-red-100 text-red-800"
+                            }`}
                         >
                           {user.isActive ? "Active" : "Inactive"}
                         </span>
@@ -507,19 +604,19 @@ const SuperAgentsPage = () => {
                       setFormData({ ...formData, email: e.target.value })
                     }
                   /> */}
-                   <input
-                      type="email"
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md 
+                  <input
+                    type="email"
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md 
     focus:outline-none focus:ring-2 focus:ring-sky-500 
     transition-all duration-200
     ${editingRow ? 'bg-gray-100 cursor-not-allowed' : ''}"
-                      value={formData.email}
-                      onChange={(e) =>
-                        setFormData({ ...formData, email: e.target.value })
-                      }
-                      placeholder="Enter email address"
-                      disabled={!!editingRow}
-                    />
+                    value={formData.email}
+                    onChange={(e) =>
+                      setFormData({ ...formData, email: e.target.value })
+                    }
+                    placeholder="Enter email address"
+                    disabled={!!editingRow}
+                  />
                 </div>
                 <div>
                   <label htmlFor="phone" className="block text-sm font-medium mb-1">
@@ -536,7 +633,37 @@ const SuperAgentsPage = () => {
                   />
                 </div>
               </div>
-             
+
+              {/* Commission Rate field with default value */}
+              <div className="mb-4">
+                <label htmlFor="commissionRate" className="block text-sm font-medium mb-1">
+                  Commission Rate
+                </label>
+                <input
+                  type="number"
+                  id="commissionRate"
+                  className="w-full p-2 border rounded"
+                  value={formData.commissionRate}
+                  onChange={(e) => {
+                    const value = e.target.value;
+                    // Only update if it's a valid number or empty
+                    if (value === '' || (!isNaN(parseFloat(value)) && value >= 0 && value <= 1)) {
+                      setFormData({ ...formData, commissionRate: value });
+                    }
+                  }}
+                  onBlur={(e) => {
+                    // Format the value when the input loses focus
+                    const formattedValue = formatCommissionRate(e.target.value);
+                    setFormData({ ...formData, commissionRate: formattedValue });
+                  }}
+                  min="0"
+                  max="1"
+                  step="0.01"
+                  placeholder="Enter commission rate (e.g., 0.05 for 5%)"
+                />
+                <p className="text-sm text-gray-500 mt-1">Default: 5% (0.05)</p>
+              </div>
+
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label
@@ -615,7 +742,7 @@ const SuperAgentsPage = () => {
               </div>
               <div className="grid grid-cols-2 gap-4 my-3">
                 <div>
-                {/* <label hidden htmlFor="profileImage" className="block text-sm font-medium mb-1">
+                  {/* <label hidden htmlFor="profileImage" className="block text-sm font-medium mb-1">
                     Passport Image
                   </label> */}
                   <input
@@ -633,7 +760,7 @@ const SuperAgentsPage = () => {
                   />
                 </div>
                 <div>
-                {/* <label hidden htmlFor="national_id" className="block text-sm font-medium mb-1">
+                  {/* <label hidden htmlFor="national_id" className="block text-sm font-medium mb-1">
                     National ID Image
                   </label> */}
                   <input
@@ -684,7 +811,7 @@ const SuperAgentsPage = () => {
             </div>
           </div>
         )}
-        
+
       </div>
     </AdminLayout>
   );

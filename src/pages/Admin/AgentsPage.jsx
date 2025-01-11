@@ -319,8 +319,6 @@ const AgentsPage = () => {
     </td>
   );
 
-  // if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
-
   const Layout = user?.role === "ADMIN" ? AdminLayout : OperationLayout;
 
   if (loading) return <Layout><AgentsSkeleton/></Layout>;

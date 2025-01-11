@@ -88,8 +88,11 @@ const SuperAgentPaymentsPage = () => {
         // const totalCommission = totalPayments * 0.05;
 
         const transactionFee= totalPayments *0.03;
-        const totalCommission = (totalPayments-transactionFee) * 0.05;
-  
+        // const totalCommission = (totalPayments-transactionFee) * 0.05;
+        const userData=  JSON.parse(localStorage.getItem('user') || '{}');
+        const totalCommission = (totalPayments-transactionFee * parseFloat(userData.commissionRate));
+        console.log(parseFloat(userData.commissionRate));
+
         setSummaryStats({
           totalPayments,
           totalCommission,
