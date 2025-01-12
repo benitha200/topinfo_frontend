@@ -5,6 +5,7 @@ import { Provinces, Districts, Sectors } from "rwanda";
 import API_URL from "../../../constants/Constants";
 import PhoneInput from "../../../components/website/PhoneInput";
 import { useNavigate, useParams } from "react-router-dom";
+import AdminLayout from "../AdminLayout";
 
 const EditServiceProvider = () => {
   const [formData, setFormData] = useState({
@@ -257,15 +258,16 @@ const EditServiceProvider = () => {
   };
 
   if (loading) {
-    return <div className="p-6">Loading...</div>;
+    return <AdminLayout>Loading..</AdminLayout>;
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
+    <AdminLayout>
+       <div className="min-h-screen bg-gray-50 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-2xl mx-auto">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Hindura Amakuru y'Utanga Serivisi
+            Update Service provider
           </h1>
         </div>
 
@@ -629,7 +631,9 @@ const EditServiceProvider = () => {
           </form>
         </div>
       </div>
-    </div>
+    </div>  
+    </AdminLayout>
+   
   );
 };
 

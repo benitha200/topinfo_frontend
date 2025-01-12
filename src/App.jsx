@@ -410,7 +410,7 @@ const App = () => {
         <Route
           path="/dashboard/serviceprovider/edit/:providerId"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN","OPERATIONS"]}>
+            <ProtectedRoute allowedRoles={["ADMIN"]}>
               <EditServiceProvider />
             </ProtectedRoute>
           }
