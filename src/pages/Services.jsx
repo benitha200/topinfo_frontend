@@ -16,6 +16,8 @@ import {
   MessageCircle,
   X,
 } from "lucide-react";
+
+
 import { paymentService } from "../services/payment.service";
 import API_URL from "../constants/Constants";
 import { useNavigate } from "react-router-dom";
@@ -284,8 +286,8 @@ const PaymentForm = ({ amount, requestInfo, onSubmit }) => {
       {transactionDetails && (
         <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
           <p className="text-sky-600">
-          wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
-          yawe wemeze kwishyura cyangwa ukande *182*7*1#
+            wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
+            yawe wemeze kwishyura cyangwa ukande *182*7*1#
           </p>
         </div>
       )}
@@ -362,7 +364,7 @@ const ServiceCard = ({ service }) => {
   const [showPaymentForm, setShowPaymentForm] = useState(false);
   const [requestInfo, setRequestInfo] = useState({});
 
-  
+
 
   const handleRequestSubmit = async (formData) => {
     setRequestInfo(formData);
@@ -386,7 +388,7 @@ const ServiceCard = ({ service }) => {
 
 
 
-  
+
 
   return (
     <>
@@ -427,14 +429,14 @@ const Services = () => {
       </div>
     );
   };
-  
+
   const ServiceCard = ({ service }) => {
     const navigate = useNavigate();
-  
+
     const handleServiceClick = (service) => {
       navigate(`/client-request/${service}`);
     };
-  
+
     return (
       <div
         onClick={() => handleServiceClick(service.id)}
@@ -486,18 +488,79 @@ const Services = () => {
     fetchServices();
   }, []);
 
+  // const getCategoryIcon = (name) => {
+  //   const iconMap = {
+  //     lawyer: <Scale size={24} className="text-sky-600" />,
+  //     notary: <User size={24} className="text-sky-600" />,
+  //     bailiff: <Scale size={24} className="text-sky-600" />,
+  //   };
+
+  //   return (
+  //     iconMap[name.toLowerCase()] || (
+  //       <Users size={24} className="text-sky-600" />
+  //     )
+  //   );
+  // };
+
+
+
   const getCategoryIcon = (name) => {
     const iconMap = {
+      // Legal Services
       lawyer: <Scale size={24} className="text-sky-600" />,
-      notary: <User size={24} className="text-sky-600" />,
+      notary: <Scale size={24} className="text-sky-600" />,
       bailiff: <Scale size={24} className="text-sky-600" />,
+
+      // Emergency & Healthcare
+      ambulance: <Ambulance size={24} className="text-sky-600" />,
+      "dental clinic": <HeartPulse size={24} className="text-sky-600" />,
+      nutritionist: <HeartPulse size={24} className="text-sky-600" />,
+      "psychology therapist": <MessageCircle size={24} className="text-sky-600" />,
+      "online therapy": <MessageCircle size={24} className="text-sky-600" />,
+
+      // Education & Training
+      "short course online": <Book size={24} className="text-sky-600" />,
+      "online course": <Book size={24} className="text-sky-600" />,
+      "professional training": <Book size={24} className="text-sky-600" />,
+      "language school": <Book size={24} className="text-sky-600" />,
+      "music school": <Book size={24} className="text-sky-600" />,
+
+      // Transportation
+      "car hire": <Car size={24} className="text-sky-600" />,
+      taxi: <Car size={24} className="text-sky-600" />,
+      "car wash": <Car size={24} className="text-sky-600" />,
+      "car repair": <Car size={24} className="text-sky-600" />,
+      garage: <Car size={24} className="text-sky-600" />,
+
+      // Real Estate & Construction
+      "real estate agency": <Home size={24} className="text-sky-600" />,
+      "construction company": <Building2 size={24} className="text-sky-600" />,
+      "interior design": <Home size={24} className="text-sky-600" />,
+
+      // Travel & Tourism
+      hotel: <Building2 size={24} className="text-sky-600" />,
+      travel: <Mountain size={24} className="text-sky-600" />,
+      "city tour services": <Mountain size={24} className="text-sky-600" />,
+      "safari tour services": <Mountain size={24} className="text-sky-600" />,
+
+      // Food & Beverage
+      restaurant: <UtensilsCrossed size={24} className="text-sky-600" />,
+      bakery: <UtensilsCrossed size={24} className="text-sky-600" />,
+      cafe: <UtensilsCrossed size={24} className="text-sky-600" />,
+      "food order": <UtensilsCrossed size={24} className="text-sky-600" />,
+
+      // Business Services
+      "business coaching": <Users size={24} className="text-sky-600" />,
+      "strategic consulting": <Users size={24} className="text-sky-600" />,
+      "marketing agency": <Users size={24} className="text-sky-600" />,
+      "recruitment agency": <Users size={24} className="text-sky-600" />,
     };
 
-    return (
-      iconMap[name.toLowerCase()] || (
-        <Users size={24} className="text-sky-600" />
-      )
-    );
+    // Convert the name to lowercase and remove extra spaces
+    const normalizedName = name.toLowerCase().trim();
+
+    // Return the mapped icon or default Users icon
+    return iconMap[normalizedName] || <Users size={24} className="text-sky-600" />;
   };
 
   useEffect(() => {
@@ -524,7 +587,7 @@ const Services = () => {
             </h1>
             <p className="text-lg text-gray-600">Hitamo serivisi ukeneye</p>
           </div>
-  
+
           <div className="max-w-4xl mx-auto mb-12">
             <div className="relative mb-8">
               <input
@@ -539,7 +602,7 @@ const Services = () => {
               />
             </div>
           </div>
-  
+
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
             {[...Array(8)].map((_, index) => (
               <SkeletonCard key={index} />
