@@ -192,7 +192,7 @@ const Profile = () => {
                             disabled={!isEdited || loading}
                             className={`px-4 py-2 rounded flex items-center justify-center
                                 ${isEdited && !loading
-                                    ? 'bg-sky-500 text-white hover:bg-sky-600'
+                                    ? 'bg-emerald-500 text-white hover:bg-emerald-600'
                                     : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                 }`}
                         >
