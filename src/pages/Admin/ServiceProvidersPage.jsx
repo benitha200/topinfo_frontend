@@ -316,9 +316,9 @@ const ServiceProvidersPage = () => {
     //     setFormData({ ...provider });
     // };
 
-    const handleEditClick = (provider) => {
-        navigate(`/agent-dashboard/serviceprovider/edit/${provider.id}`, {
-          state: { provider }
+    const handleEditClick = (id) => {
+        navigate(`/dashboard/serviceprovider/edit/${id}`, {
+        //   state: { provider }
         });
       };
 
@@ -559,7 +559,7 @@ const ServiceProvidersPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 <button
                                                     className="text-sky-500 p-2 rounded hover:bg-sky-50 mr-2"
-                                                    onClick={() => handleEditClick(provider)}
+                                                    onClick={() => handleEditClick(provider.id)}
                                                 >
                                                     <Pencil className="h-4 w-4" />
                                                 </button>

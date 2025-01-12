@@ -9,7 +9,7 @@ export const paymentService = {
   async initiatePayment(paymentData) {
 
     if (parseFloat(paymentData.amount) < 100) {
-      throw new Error('The total amount to be paid should not be less than 1000 RWF, This is my catch');
+      throw new Error('The total amount to be paid should not be less than 100 RWF, This is my catch');
     }
 
     try {

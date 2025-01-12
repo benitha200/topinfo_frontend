@@ -129,17 +129,33 @@ const PaymentsPage = () => {
     //     (filteredPayments.length || 1) * 100).toFixed(1);
 
 
-    const totalRevenue = payments
-        .filter(p => p.status === 'COMPLETED' || p.status === 'SUCCESSFULL')
-        .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
+    // const totalRevenue = payments
+    //     .filter(p => p.status === 'COMPLETED' || p.status === 'SUCCESSFULL')
+    //     .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
 
     const pendingAmount = payments
         .filter(p => p.status === 'PENDING')
         .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
 
-    const completedPayments = payments.filter(p => p.status === 'COMPLETED').length;
-    const totalPayments = payments.length;
-    const successRate = (completedPayments / (totalPayments || 1) * 100).toFixed(1);
+    const completedPayments = payments.filter(p => p.status === 'COMPLETED');
+    const totalRevenue = completedPayments.reduce((sum, p) => sum + parseFloat(p.amount || 0), 0);
+    const averagePayment = completedPayments.length ? totalRevenue / completedPayments.length : 0;
+    const revenueGrowth = ((completedPayments.slice(-7).reduce((sum, p) => sum + parseFloat(p.amount || 0), 0) /
+        completedPayments.slice(-14, -7).reduce((sum, p) => sum + parseFloat(p.amount || 0), 1)) - 1) * 100;
+
+    // Enhanced pagination
+    const maxVisiblePages = 5;
+    const getVisiblePages = () => {
+        let start = Math.max(1, currentPage - Math.floor(maxVisiblePages / 2));
+        let end = Math.min(totalPages, start + maxVisiblePages - 1);
+
+        if (end - start + 1 < maxVisiblePages) {
+            start = Math.max(1, end - maxVisiblePages + 1);
+        }
+
+        return Array.from({ length: end - start + 1 }, (_, i) => start + i);
+    };
+
 
     const uniqueCustomers = new Set(payments.map(p => p.client_id)).size;
     const averageTransactionValue = totalRevenue / (completedPayments || 1);
@@ -224,55 +240,55 @@ const PaymentsPage = () => {
                     })}
                 </div> */}
 
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+                {/* Statistics Cards */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
                         {
                             title: 'Total Revenue',
                             value: `${totalRevenue.toLocaleString()} RWF`,
                             icon: TrendingUp,
-                            color: 'green',
-                            subtitle: 'Total processed payments'
+                            change: `${revenueGrowth.toFixed(1)}%`,
+                            subtitle: 'vs last week'
                         },
                         {
-                            title: 'Pending Amount',
-                            value: `${pendingAmount.toLocaleString()} RWF`,
-                            icon: Clock,
-                            color: 'yellow',
-                            subtitle: `${payments.filter(p => p.status === 'PENDING').length} pending`
-                        },
-                        {
-                            title: 'Completed Payments',
-                            value: completedPayments,
+                            title: 'Average Payment',
+                            value: `${averagePayment.toFixed(0)} RWF`,
                             icon: CheckCircle,
-                            color: 'blue',
-                            subtitle: `${successRate}% completion rate`
+                            change: completedPayments.length.toString(),
+                            subtitle: 'completed payments'
                         },
-                       
-                    
+                        {
+                            title: 'Success Rate',
+                            value: `${((completedPayments.length / (payments.length || 1)) * 100).toFixed(1)}%`,
+                            icon: User2,
+                            change: completedPayments.length.toString(),
+                            subtitle: 'successful transactions'
+                        }
                     ].map((stat, index) => {
                         const Icon = stat.icon;
                         return (
-                            <Card key={index} className="hover:shadow-md transition-shadow duration-300">
-                                <CardContent className="pt-6">
+                            <Card key={index} className="hover:shadow-lg transition-all duration-300">
+                                <CardContent className="p-6">
                                     <div className="flex items-center justify-between">
                                         <div>
                                             <p className="text-sm font-medium text-gray-500">{stat.title}</p>
-                                            <p className="text-2xl font-bold">{stat.value}</p>
+                                            <p className="text-2xl font-bold mt-2">{stat.value}</p>
                                         </div>
-                                        <div className={`h-12 w-12 bg-${stat.color}-100 rounded-full flex items-center justify-center`}>
-                                            <Icon className={`h-6 w-6 text-${stat.color}-500`} />
+                                        <div className="h-12 w-12 bg-sky-50 rounded-full flex items-center justify-center">
+                                            <Icon className="h-6 w-6 text-sky-500" />
                                         </div>
                                     </div>
-                                    <div className="mt-4 flex items-center text-sm text-gray-600">
-                                        <span>{stat.subtitle}</span>
+                                    <div className="mt-4 flex items-center text-sm">
+                                        <ArrowUpRight className="h-4 w-4 mr-1 text-green-500" />
+                                        <span className="text-green-500 font-medium">{stat.change}</span>
+                                        <span className="text-gray-600 ml-2">{stat.subtitle}</span>
                                     </div>
                                 </CardContent>
                             </Card>
                         );
                     })}
                 </div>
-
-                {/* Requests Table */}
+                {/* Payments Table */}
                 <Card className="shadow-lg">
                     <CardHeader className="flex flex-row items-center justify-between border-b pb-4">
                         <CardTitle className="text-xl font-semibold text-gray-800">
@@ -381,41 +397,59 @@ const PaymentsPage = () => {
                         </div>
 
                         {/* Pagination */}
-                        <div className="flex justify-between items-center p-4 border-t">
+                        {/* Pagination Component */}
+                        <div className="flex flex-col sm:flex-row justify-between items-center gap-4 mt-6 bg-white p-4 rounded-lg shadow">
                             <div className="text-sm text-gray-500">
-                                Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredPayments.length)} of {filteredPayments.length} entries
+                                Showing {indexOfFirstItem + 1} to {Math.min(indexOfLastItem, filteredPayments.length)} of {filteredPayments.length}
                             </div>
-                            <div className="flex space-x-2">
+                            <div className="flex items-center gap-2">
+                                <button
+                                    onClick={() => handlePageChange(1)}
+                                    disabled={currentPage === 1}
+                                    className="hidden sm:flex items-center px-2 py-1 border rounded text-sm disabled:opacity-50 hover:bg-gray-50"
+                                >
+                                    First
+                                </button>
                                 <button
                                     onClick={() => handlePageChange(currentPage - 1)}
                                     disabled={currentPage === 1}
-                                    className="px-3 py-1 border rounded flex items-center disabled:opacity-50 hover:bg-gray-50 transition-colors"
+                                    className="flex items-center px-2 py-1 border rounded text-sm disabled:opacity-50 hover:bg-gray-50"
                                 >
-                                    <ChevronLeft className="h-4 w-4 mr-1" /> Previous
+                                    <ChevronLeft className="h-4 w-4" />
                                 </button>
-                                <div className="flex space-x-1">
-                                    {[...Array(totalPages)].map((_, index) => (
+
+                                <div className="flex gap-1">
+                                    {getVisiblePages().map(pageNum => (
                                         <button
-                                            key={index}
-                                            onClick={() => handlePageChange(index + 1)}
-                                            className={`w-8 h-8 rounded ${currentPage === index + 1
-                                                ? 'bg-sky-500 text-white'
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            key={pageNum}
+                                            onClick={() => handlePageChange(pageNum)}
+                                            className={`w-8 h-8 text-sm rounded-md transition-colors ${currentPage === pageNum
+                                                    ? 'bg-sky-500 text-white'
+                                                    : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                                                 }`}
                                         >
-                                            {index + 1}
+                                            {pageNum}
                                         </button>
                                     ))}
                                 </div>
+
                                 <button
                                     onClick={() => handlePageChange(currentPage + 1)}
                                     disabled={currentPage === totalPages}
-                                    className="px-3 py-1 border rounded flex items-center disabled:opacity-50 hover:bg-gray-50 transition-colors"
+                                    className="flex items-center px-2 py-1 border rounded text-sm disabled:opacity-50 hover:bg-gray-50"
                                 >
-                                    Next <ChevronRight className="h-4 w-4 ml-1" />
+                                    <ChevronRight className="h-4 w-4" />
+                                </button>
+                                <button
+                                    onClick={() => handlePageChange(totalPages)}
+                                    disabled={currentPage === totalPages}
+                                    className="hidden sm:flex items-center px-2 py-1 border rounded text-sm disabled:opacity-50 hover:bg-gray-50"
+                                >
+                                    Last
                                 </button>
                             </div>
                         </div>
+
                     </CardContent>
                 </Card>
             </div>
