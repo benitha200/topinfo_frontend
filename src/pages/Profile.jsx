@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { User, Upload, Mail, Phone, MapPin, CreditCard, Save, CheckCircle2 } from 'lucide-react';
+import { User, Upload, Mail, Phone, MapPin, CreditCard, Save, CheckCircle2, Download } from 'lucide-react';
+import html2canvas from 'html2canvas';
 import AgentLayout from './Agent/AgentLayout';
 import { Card, CardHeader, CardContent, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -59,6 +60,52 @@ const Profile = () => {
             [name]: value
         }));
         setIsEdited(true);
+    };
+
+  
+    const downloadProfileCard = async () => {
+        // First make the card visible
+        const card = document.getElementById('downloadable-card');
+        if (!card) return;
+
+        // Temporarily show the card
+        card.style.display = 'block';
+        card.style.position = 'fixed';
+        card.style.top = '0';
+        card.style.left = '0';
+        card.style.zIndex = '-1000';
+
+        try {
+            const canvas = await html2canvas(card, {
+                backgroundColor: '#ffffff',
+                scale: 2, // Increase quality
+                logging: false,
+                useCORS: true,
+                allowTaint: true,
+            });
+
+            // Convert to blob
+            canvas.toBlob((blob) => {
+                if (blob) {
+                    const url = URL.createObjectURL(blob);
+                    const link = document.createElement('a');
+                    link.download = `${userData.firstname}-${userData.lastname}-profile-card.png`;
+                    link.href = url;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    URL.revokeObjectURL(url);
+                    toast.success('Profile card downloaded successfully');
+                }
+            }, 'image/png', 1.0);
+        } catch (error) {
+            console.error('Download error:', error);
+            toast.error('Failed to download profile card');
+        } finally {
+            // Hide the card again
+            card.style.display = 'none';
+            card.style.position = 'static';
+        }
     };
 
     const handleFileChange = (e) => {
@@ -132,6 +179,84 @@ const Profile = () => {
             <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                     <h1 className="text-xl lg:text-2xl font-bold">Profile Settings</h1>
+                    <div className="flex gap-2 w-full sm:w-auto">
+                        <button
+                            onClick={downloadProfileCard}
+                            className="px-4 py-2 rounded bg-sky-500 text-white hover:bg-sky-600 flex items-center justify-center"
+                        >
+                            <Download className="h-4 w-4 mr-2" />
+                            Download Card
+                        </button>
+                        <button
+                            onClick={handleSubmit}
+                            disabled={!isEdited || loading}
+                            className={`px-4 py-2 rounded flex items-center justify-center
+                                ${isEdited && !loading
+                                    ? 'bg-sky-500 text-white hover:bg-sky-600'
+                                    : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                }`}
+                        >
+                            <Save className="h-4 w-4 mr-2" />
+                            {loading ? 'Saving...' : 'Save Changes'}
+                        </button>
+                    </div>
+                </div>
+
+                {/* Downloadable Card */}
+                <div id="downloadable-card" style={{ display: 'none' }}>
+                    <div className="w-[400px] h-[200px] bg-white rounded-lg shadow-lg p-6 relative overflow-hidden" style={{ backgroundColor: 'white' }}>
+                        {/* Background decoration */}
+                        <div 
+                            className="absolute top-0 right-0 w-32 h-32 rounded-full transform translate-x-16 -translate-y-16" 
+                            style={{ backgroundColor: '#0EA5E9' }}
+                        />
+                        
+                        <div className="flex items-center gap-4">
+                            {/* Profile Image */}
+                            <div className="w-20 h-20 rounded-full overflow-hidden border-4" style={{ borderColor: '#0EA5E9' }}>
+                                {userData.profileImage ? (
+                                    <img
+                                        src={getImageUrl(userData.profileImage)}
+                                        alt="Profile"
+                                        className="w-full h-full object-cover"
+                                        crossOrigin="anonymous"
+                                    />
+                                ) : (
+                                    <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                                        <User className="w-10 h-10 text-gray-400" />
+                                    </div>
+                                )}
+                            </div>
+                            
+                            {/* User Details */}
+                            <div>
+                                <h2 className="text-xl font-bold text-gray-800" style={{ color: '#1F2937' }}>
+                                    {`${userData.firstname} ${userData.lastname}`}
+                                </h2>
+                                <p className="font-semibold" style={{ color: '#0EA5E9' }}>TopInfo Agent</p>
+                                <div className="mt-2 space-y-1 text-sm" style={{ color: '#4B5563' }}>
+                                    <p className="flex items-center">
+                                        <Mail className="w-4 h-4 mr-2" style={{ color: '#0EA5E9' }} />
+                                        {userData.email}
+                                    </p>
+                                    <p className="flex items-center">
+                                        <Phone className="w-4 h-4 mr-2" style={{ color: '#0EA5E9' }} />
+                                        {userData.phone}
+                                    </p>
+                                    <p className="flex items-center">
+                                        <MapPin className="w-4 h-4 mr-2" style={{ color: '#0EA5E9' }} />
+                                        {`${userData.location_sector}, ${userData.location_district}`}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {/* </div> */}
+
+            {/* <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                    <h1 className="text-xl lg:text-2xl font-bold">Profile Settings</h1>
                     <button
                         onClick={handleSubmit}
                         disabled={!isEdited || loading}
@@ -144,7 +269,7 @@ const Profile = () => {
                         <Save className="h-4 w-4 mr-2" />
                         {loading ? 'Saving...' : 'Save Changes'}
                     </button>
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-1 gap-4 lg:gap-6">
                     <Card>
