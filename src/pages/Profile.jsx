@@ -62,7 +62,7 @@ const Profile = () => {
         setIsEdited(true);
     };
 
-  
+
     const downloadProfileCard = async () => {
         // First make the card visible
         const card = document.getElementById('downloadable-card');
@@ -204,16 +204,17 @@ const Profile = () => {
 
                 {/* Downloadable Card */}
                 <div id="downloadable-card" style={{ display: 'none' }}>
-                    <div className="w-[400px] h-[200px] bg-white rounded-lg shadow-lg p-6 relative overflow-hidden" style={{ backgroundColor: 'white' }}>
+                    <div className="w-[300px] h-[400px] bg-white rounded-lg shadow-lg p-6 relative overflow-hidden" style={{ backgroundColor: 'white' }}>
                         {/* Background decoration */}
-                        <div 
-                            className="absolute top-0 right-0 w-32 h-32 rounded-full transform translate-x-16 -translate-y-16" 
+                        <div
+                            className="absolute top-0 right-0 w-40 h-40 rounded-full transform translate-x-20 -translate-y-20"
                             style={{ backgroundColor: '#0EA5E9' }}
                         />
-                        
-                        <div className="flex items-center gap-4">
+
+                        {/* Content Container - Flex Column */}
+                        <div className="flex flex-col items-center gap-4">
                             {/* Profile Image */}
-                            <div className="w-20 h-20 rounded-full overflow-hidden border-4" style={{ borderColor: '#0EA5E9' }}>
+                            <div className="w-32 h-32 rounded-full overflow-hidden border-4" style={{ borderColor: '#0EA5E9' }}>
                                 {userData.profileImage ? (
                                     <img
                                         src={getImageUrl(userData.profileImage)}
@@ -223,53 +224,39 @@ const Profile = () => {
                                     />
                                 ) : (
                                     <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                                        <User className="w-10 h-10 text-gray-400" />
+                                        <User className="w-16 h-16 text-gray-400" />
                                     </div>
                                 )}
                             </div>
-                            
+
                             {/* User Details */}
-                            <div>
-                                <h2 className="text-xl font-bold text-gray-800" style={{ color: '#1F2937' }}>
+                            <div className="text-center">
+                                <h2 className="text-2xl font-bold text-gray-800" style={{ color: '#1F2937' }}>
                                     {`${userData.firstname} ${userData.lastname}`}
                                 </h2>
-                                <p className="font-semibold" style={{ color: '#0EA5E9' }}>TopInfo Agent</p>
-                                <div className="mt-2 space-y-1 text-sm" style={{ color: '#4B5563' }}>
-                                    <p className="flex items-center">
-                                        <Mail className="w-4 h-4 mr-2" style={{ color: '#0EA5E9' }} />
-                                        {userData.email}
-                                    </p>
-                                    <p className="flex items-center">
-                                        <Phone className="w-4 h-4 mr-2" style={{ color: '#0EA5E9' }} />
-                                        {userData.phone}
-                                    </p>
-                                    <p className="flex items-center">
-                                        <MapPin className="w-4 h-4 mr-2" style={{ color: '#0EA5E9' }} />
-                                        {`${userData.location_sector}, ${userData.location_district}`}
-                                    </p>
-                                </div>
+                                <p className="font-semibold text-lg" style={{ color: '#0EA5E9' }}>TopInfo Agent</p>
+                            </div>
+
+                            {/* Contact Information */}
+                            <div className="mt-4 space-y-3 text-sm w-full" style={{ color: '#4B5563' }}>
+                                <p className="flex items-center">
+                                    <Mail className="w-5 h-5 mr-2" style={{ color: '#0EA5E9' }} />
+                                    {userData.email}
+                                </p>
+                                <p className="flex items-center">
+                                    <Phone className="w-5 h-5 mr-2" style={{ color: '#0EA5E9' }} />
+                                    {userData.phone}
+                                </p>
+                                <p className="flex items-center">
+                                    <MapPin className="w-5 h-5 mr-2" style={{ color: '#0EA5E9' }} />
+                                    {`${userData.location_sector}, ${userData.location_district}`}
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
                 {/* </div> */}
 
-            {/* <div className="p-4 lg:p-6 space-y-4 lg:space-y-6">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-                    <h1 className="text-xl lg:text-2xl font-bold">Profile Settings</h1>
-                    <button
-                        onClick={handleSubmit}
-                        disabled={!isEdited || loading}
-                        className={`w-full sm:w-auto px-4 py-2 rounded flex items-center justify-center
-                            ${isEdited && !loading
-                                ? 'bg-sky-500 text-white hover:bg-sky-600'
-                                : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                            }`}
-                    >
-                        <Save className="h-4 w-4 mr-2" />
-                        {loading ? 'Saving...' : 'Save Changes'}
-                    </button>
-                </div> */}
 
                 <div className="grid grid-cols-1 gap-4 lg:gap-6">
                     <Card>
