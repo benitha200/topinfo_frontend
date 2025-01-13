@@ -225,7 +225,7 @@ const AddServiceProvidersPageAgent = () => {
           province: province.value,
         }))
       );
-  
+
       const sectors = districts.flatMap((district) =>
         Sectors(district.province, district.value).map((sector) => ({
           value: sector,
@@ -234,7 +234,7 @@ const AddServiceProvidersPageAgent = () => {
           province: district.province,
         }))
       );
-  
+
       setAvailableDistricts(districts);
       setAvailableSectors(sectors);
     } else {
@@ -242,7 +242,7 @@ const AddServiceProvidersPageAgent = () => {
       setAvailableSectors([]);
     }
   }, [formData.provinces]);
-  
+
 
   // Update districts when province changes
   useEffect(() => {
@@ -256,13 +256,13 @@ const AddServiceProvidersPageAgent = () => {
           province: provinceName,
         }));
       });
-  
+
       setAvailableSectors(sectors);
     } else {
       setAvailableSectors([]);
     }
   }, [formData.districts]);
-  
+
 
   // Update sectors when district changes
   useEffect(() => {
@@ -289,13 +289,46 @@ const AddServiceProvidersPageAgent = () => {
   //   label: province,
   // }));
 
+  // const handleInputChange = (e) => {
+  //   const { name, value } = e.target;
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     [name]: value,
+  //   }));
+  // };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
+
+    if (name === "location_province") {
+      // When a province is selected, populate districts
+      const districts = Districts(value).map((district) => district);
+      setDistricts(districts); // Populate single-select districts
+      setFormData((prev) => ({
+        ...prev,
+        location_province: value,
+        location_district: "",
+        location_sector: "",
+      }));
+      setSectors([]); // Clear sectors as district changes
+    } else if (name === "location_district") {
+      // When a district is selected, populate sectors
+      const sectors = Sectors(formData.location_province, value).map((sector) => sector);
+      setSectors(sectors); // Populate single-select sectors
+      setFormData((prev) => ({
+        ...prev,
+        location_district: value,
+        location_sector: "",
+      }));
+    } else {
+      // For other input fields
+      setFormData((prev) => ({
+        ...prev,
+        [name]: value,
+      }));
+    }
   };
+
 
   useEffect(() => {
     if (formData.districts.length > 0) {
@@ -737,8 +770,87 @@ const AddServiceProvidersPageAgent = () => {
                     </div>
                   </div>
 
-
                   <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-3">
+                    {/* Province Single-Select */}
+                    <div>
+                      <label
+                        htmlFor="location_province"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Intara
+                      </label>
+                      <select
+                        id="location_province"
+                        name="location_province"
+                        value={formData.location_province}
+                        onChange={handleInputChange}
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        required
+                      >
+                        <option value="">Select Province</option>
+                        {provinces1.map((province) => (
+                          <option key={province} value={province}>
+                            {province}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* District Single-Select */}
+                    <div>
+                      <label
+                        htmlFor="location_district"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Akarere
+                      </label>
+                      <select
+                        id="location_district"
+                        name="location_district"
+                        value={formData.location_district}
+                        onChange={handleInputChange}
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        disabled={!formData.location_province}
+                        required
+                      >
+                        <option value="">Select District</option>
+                        {districts.map((district) => (
+                          <option key={district} value={district}>
+                            {district}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+
+                    {/* Sector Single-Select */}
+                    <div>
+                      <label
+                        htmlFor="location_sector"
+                        className="block text-sm font-medium text-gray-700 mb-1"
+                      >
+                        Umurenge
+                      </label>
+                      <select
+                        id="location_sector"
+                        name="location_sector"
+                        value={formData.location_sector}
+                        onChange={handleInputChange}
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        disabled={!formData.location_district}
+                        required
+                      >
+                        <option value="">Select Sector</option>
+                        {sectors.map((sector) => (
+                          <option key={sector} value={sector}>
+                            {sector}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+
+
+                  {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-3">
                     <div>
                       <label
                         htmlFor="location_province"
@@ -812,7 +924,7 @@ const AddServiceProvidersPageAgent = () => {
                         ))}
                       </select>
                     </div>
-                  </div>
+                  </div> */}
 
                   {/* Province Multi-Select */}
                   <div>
@@ -863,57 +975,6 @@ const AddServiceProvidersPageAgent = () => {
                     </div>
                   )}
 
-
-
-                  {/* Multi-Select Districts */}
-                  {/* {formData.provinces.length > 0 && (
-                    <div className="mt-6">
-                      <label
-                        htmlFor="districts"
-                        className="block text-sm font-medium text-red-700 mb-1"
-                      >
-                        Akarere ({settings.provider_price} Rwf kuri buri karere)
-                      </label>
-                      <Select
-                        isMulti
-                        name="districts"
-                        options={availableDistricts}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        value={formData.districts}
-                        onChange={handleMultiDistrictChange}
-                        placeholder="Hitamo akarere"
-                      />
-                      {formData.districts.length > 0 && (
-                        <div className="mt-2 flex text-md font-semibold text-sky-600">
-                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />{" "}
-                          Amafaranga yose hamwe:{" "}
-                          {formData.total_district_cost.toLocaleString()} Rwf
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {formData.districts.length > 0 && (
-                    <div className="mt-6">
-                      <label
-                        htmlFor="sectors"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Imirenge
-                      </label>
-                      <Select
-                        isMulti
-                        name="sectors"
-                        options={availableSectors}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
-                        value={formData.sectors}
-                        onChange={handleMultiSectorChange}
-                        placeholder="Hitamo imirenge"
-                      />
-                    </div>
-                  )} */}
 
                   {/* Experience */}
                   <div>
