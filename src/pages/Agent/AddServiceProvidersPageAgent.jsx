@@ -37,8 +37,8 @@ const AddServiceProvidersPageAgent = () => {
   });
 
   const [categories, setCategories] = useState([]);
-  const [availableDistricts, setAvailableDistricts] = useState([]);
-  const [availableSectors, setAvailableSectors] = useState([]);
+  // const [availableDistricts, setAvailableDistricts] = useState([]);
+  // const [availableSectors, setAvailableSectors] = useState([]);
   const [showSuccess, setShowSuccess] = useState(false);
   const [error, setError] = useState(null);
   const [provinces, setProvinces] = useState([]);
@@ -50,12 +50,123 @@ const AddServiceProvidersPageAgent = () => {
 
   const [paymentFail, setPaymentFail] = useState(null);
   const [paymentSuccess, setPaymentSuccess] = useState(false);
-  const [user,setUser]=useState();
-  const [loading,setLoading]=useState();
+  const [user, setUser] = useState();
+  const [loading, setLoading] = useState();
 
   const [provinces1] = useState(Provinces());
   const [districts, setDistricts] = useState([]);
   const [sectors, setSectors] = useState([]);
+
+  const provinceOptions = Provinces().map(province => ({
+    value: province,
+    label: province
+  }));
+
+  // Keep track of available districts and sectors for UI
+  const [availableDistricts, setAvailableDistricts] = useState([]);
+  const [availableSectors, setAvailableSectors] = useState([]);
+
+  const handleProvinceChange = (selectedProvinces) => {
+    if (!selectedProvinces || selectedProvinces.length === 0) {
+      // Reset form data when no provinces are selected
+      setFormData((prev) => ({
+        ...prev,
+        provinces: [],
+        districts: [],
+        sectors: [],
+        location_serve: '',
+      }));
+      setAvailableDistricts([]); // Clear available districts
+      setAvailableSectors([]); // Clear available sectors
+      return;
+    }
+
+    // Generate districts for selected provinces
+    const districts = selectedProvinces.flatMap((province) =>
+      Districts(province.value).map((district) => ({
+        value: district,
+        label: `${district} (${province.value})`,
+        province: province.value,
+      }))
+    );
+
+    // Generate sectors for all districts
+    const sectors = districts.flatMap((district) =>
+      Sectors(district.province, district.value).map((sector) => ({
+        value: sector,
+        label: `${sector} (${district.value})`,
+        district: district.value,
+        province: district.province,
+      }))
+    );
+
+    setFormData((prev) => ({
+      ...prev,
+      provinces: selectedProvinces,
+      districts: districts,
+      sectors: sectors,
+      location_serve: sectors.map((sector) => sector.value).join(', '),
+    }));
+
+    setAvailableDistricts(districts); // Update available districts
+    setAvailableSectors(sectors); // Update available sectors
+  };
+
+
+  const handleDistrictChange = (selectedDistricts) => {
+    if (!selectedDistricts || selectedDistricts.length === 0) {
+      // Reset sectors when no districts are selected
+      setFormData((prev) => ({
+        ...prev,
+        districts: [],
+        sectors: [],
+        location_serve: '',
+      }));
+      setAvailableSectors([]); // Clear available sectors
+      return;
+    }
+
+    // Generate all sectors for selected districts
+    const sectors = selectedDistricts.flatMap((district) => {
+      const provinceName = district.province || district.label.match(/\((.*?)\)/)?.[1];
+      return Sectors(provinceName, district.value).map((sector) => ({
+        value: sector,
+        label: `${sector} (${district.value})`,
+        district: district.value,
+        province: provinceName,
+      }));
+    });
+
+    // Update state with selected districts and their sectors
+    setFormData((prev) => ({
+      ...prev,
+      districts: selectedDistricts,
+      sectors: sectors,
+      location_serve: sectors.map((sector) => sector.value).join(', '),
+    }));
+
+    setAvailableSectors(sectors); // Update available sectors
+  };
+
+
+  const handleSectorChange = (selectedSectors) => {
+    if (!selectedSectors) {
+      setFormData(prev => ({
+        ...prev,
+        sectors: [],
+        location_serve: ''
+      }));
+      return;
+    }
+
+    setFormData(prev => ({
+      ...prev,
+      sectors: selectedSectors,
+      location_serve: selectedSectors.map(s => s.value).join(", ")
+    }));
+  };
+
+
 
   useEffect(() => {
     setProvinces(Provinces());
@@ -105,22 +216,53 @@ const AddServiceProvidersPageAgent = () => {
     }
   };
 
+  useEffect(() => {
+    if (formData.provinces.length > 0) {
+      const districts = formData.provinces.flatMap((province) =>
+        Districts(province.value).map((district) => ({
+          value: district,
+          label: `${district} (${province.value})`,
+          province: province.value,
+        }))
+      );
+  
+      const sectors = districts.flatMap((district) =>
+        Sectors(district.province, district.value).map((sector) => ({
+          value: sector,
+          label: `${sector} (${district.value})`,
+          district: district.value,
+          province: district.province,
+        }))
+      );
+  
+      setAvailableDistricts(districts);
+      setAvailableSectors(sectors);
+    } else {
+      setAvailableDistricts([]);
+      setAvailableSectors([]);
+    }
+  }, [formData.provinces]);
+  
+
   // Update districts when province changes
   useEffect(() => {
-    if (formData.location_province) {
-      const provinceDistricts = Districts(formData.location_province);
-      setDistricts(provinceDistricts || []);
-
-      // Reset dependent fields
-      setFormData((prev) => ({
-        ...prev,
-        location_district: "",
-        location_sector: "",
-      }));
-      setSectors([]);
-      // setCells([]);
+    if (formData.districts.length > 0) {
+      const sectors = formData.districts.flatMap((district) => {
+        const provinceName = district.province || district.label.match(/\((.*?)\)/)?.[1];
+        return Sectors(provinceName, district.value).map((sector) => ({
+          value: sector,
+          label: `${sector} (${district.value})`,
+          district: district.value,
+          province: provinceName,
+        }));
+      });
+  
+      setAvailableSectors(sectors);
+    } else {
+      setAvailableSectors([]);
     }
-  }, [formData.location_province]);
+  }, [formData.districts]);
+  
 
   // Update sectors when district changes
   useEffect(() => {
@@ -142,10 +284,10 @@ const AddServiceProvidersPageAgent = () => {
 
 
   // Transform Provinces to react-select format
-  const provinceOptions = Provinces().map((province) => ({
-    value: province,
-    label: province,
-  }));
+  // const provinceOptions = Provinces().map((province) => ({
+  //   value: province,
+  //   label: province,
+  // }));
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -303,24 +445,24 @@ const AddServiceProvidersPageAgent = () => {
     return categoryPrice ? categoryPrice.provider_price : settings.provider_price;
   };
 
-  const handleProvinceChange = (selectedProvinces) => {
-    const districts = selectedProvinces.flatMap((province) =>
-      Districts(province.value).map((district) => ({
-        value: district,
-        label: `${district} (${province.value})`,
-      }))
-    );
+  // const handleProvinceChange = (selectedProvinces) => {
+  //   const districts = selectedProvinces.flatMap((province) =>
+  //     Districts(province.value).map((district) => ({
+  //       value: district,
+  //       label: `${district} (${province.value})`,
+  //     }))
+  //   );
 
-    setFormData((prevState) => ({
-      ...prevState,
-      provinces: selectedProvinces,
-      districts: [],
-      sectors: [],
-      total_district_cost: 0,
-      total_sector_cost: 0,
-    }));
-    setAvailableDistricts(districts);
-  };
+  //   setFormData((prevState) => ({
+  //     ...prevState,
+  //     provinces: selectedProvinces,
+  //     districts: [],
+  //     sectors: [],
+  //     total_district_cost: 0,
+  //     total_sector_cost: 0,
+  //   }));
+  //   setAvailableDistricts(districts);
+  // };
 
   const handleMultiDistrictChange = (selectedDistricts) => {
     const price = getCategoryPrice(formData.service_category_id);
@@ -672,74 +814,56 @@ const AddServiceProvidersPageAgent = () => {
                     </div>
                   </div>
 
-                  {/* Provinces Multi-Select */}
-                  <div className="mt-6">
-                    <label
-                      htmlFor="provinces"
-                      className="block text-sm font-medium text-gray-700 mb-1"
-                    >
+                  {/* Province Multi-Select */}
+                  <div>
+                    <label className="block text-sm font-medium text-gray-700 mb-1">
                       Intara ushaka gutanga serivisi
                     </label>
                     <Select
                       isMulti
-                      name="provinces"
-                      options={provinceOptions}
-                      className="basic-multi-select"
-                      classNamePrefix="select"
                       value={formData.provinces}
+                      options={provinceOptions}
                       onChange={handleProvinceChange}
-                      placeholder="Hitamo intara"
+                      placeholder="Hitamo Intara"
+                      className="basic-multi-select"
                     />
                   </div>
 
+                  {/* District Multi-Select */}
                   {formData.provinces.length > 0 && (
-                    <div className="mt-6">
-                      <label
-                        htmlFor="districts"
-                        className="block text-sm font-medium text-red-700 mb-1"
-                      >
-                        {getDistrictsLabel()}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Uturere ushaka gutanga serivisi
                       </label>
                       <Select
                         isMulti
-                        name="districts"
-                        options={availableDistricts}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
                         value={formData.districts}
-                        onChange={handleMultiDistrictChange}
-                        placeholder="Hitamo akarere"
+                        options={formData.districts}
+                        onChange={handleDistrictChange}
+                        placeholder="Hitamo Uturere"
+                        className="basic-multi-select"
                       />
-                      {formData.districts.length > 0 && (
-                        <div className="mt-2 flex text-md font-semibold text-sky-600">
-                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />
-                          Amafaranga yose hamwe:
-                          {(formData.total_district_cost + formData.total_sector_cost).toLocaleString()} Rwf
-                        </div>
-                      )}
                     </div>
                   )}
 
+                  {/* Sector Multi-Select */}
                   {formData.districts.length > 0 && (
-                    <div className="mt-6">
-                      <label
-                        htmlFor="sectors"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        {/* {getSectorsLabel()} */}
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Imirenge ushaka gutanga serivisi
                       </label>
                       <Select
                         isMulti
-                        name="sectors"
-                        options={availableSectors}
-                        className="basic-multi-select"
-                        classNamePrefix="select"
                         value={formData.sectors}
-                        onChange={handleMultiSectorChange}
-                        placeholder="Hitamo imirenge"
+                        options={availableSectors} // Use dynamically updated available sectors
+                        onChange={handleSectorChange}
+                        placeholder="Hitamo Imirenge"
+                        className="basic-multi-select"
                       />
                     </div>
                   )}
+
+
 
                   {/* Multi-Select Districts */}
                   {/* {formData.provinces.length > 0 && (
@@ -930,8 +1054,9 @@ const AddServiceProvidersPageAgent = () => {
             </div>
           </div>
         </div>
-      )}
-    </Layout>
+      )
+      }
+    </Layout >
   );
 };
 
