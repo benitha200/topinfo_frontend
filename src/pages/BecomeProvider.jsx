@@ -849,8 +849,6 @@ const BecomeProvider = () => {
                   {paymentInit && (
                     <div className="p-4 bg-blue-50 border border-blue-200 rounded-md">
                       <p className="text-blue-600">
-                        {/* Payment request sent. Please check your phone for the
-                    payment prompt. */}
                         wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
                         yawe wemeze kwishyura cyangwa ukande *182*7*1#
                       </p>

@@ -113,6 +113,41 @@ const AddServiceProvidersPageAgent = () => {
   };
 
 
+  // const handleDistrictChange = (selectedDistricts) => {
+  //   if (!selectedDistricts || selectedDistricts.length === 0) {
+  //     // Reset sectors when no districts are selected
+  //     setFormData((prev) => ({
+  //       ...prev,
+  //       districts: [],
+  //       sectors: [],
+  //       location_serve: '',
+  //     }));
+  //     setAvailableSectors([]); // Clear available sectors
+  //     return;
+  //   }
+
+  //   // Generate all sectors for selected districts
+  //   const sectors = selectedDistricts.flatMap((district) => {
+  //     const provinceName = district.province || district.label.match(/\((.*?)\)/)?.[1];
+  //     return Sectors(provinceName, district.value).map((sector) => ({
+  //       value: sector,
+  //       label: `${sector} (${district.value})`,
+  //       district: district.value,
+  //       province: provinceName,
+  //     }));
+  //   });
+
+  //   // Update state with selected districts and their sectors
+  //   setFormData((prev) => ({
+  //     ...prev,
+  //     districts: selectedDistricts,
+  //     sectors: sectors,
+  //     location_serve: sectors.map((sector) => sector.value).join(', '),
+  //   }));
+
+  //   setAvailableSectors(sectors); // Update available sectors
+  // };
+
   const handleDistrictChange = (selectedDistricts) => {
     if (!selectedDistricts || selectedDistricts.length === 0) {
       // Reset sectors when no districts are selected
@@ -121,10 +156,15 @@ const AddServiceProvidersPageAgent = () => {
         districts: [],
         sectors: [],
         location_serve: '',
+        total_district_cost: 0  // Reset the cost when no districts are selected
       }));
       setAvailableSectors([]); // Clear available sectors
       return;
     }
+
+    // Calculate the new total cost
+    const price = getCategoryPrice(formData.service_category_id);
+    const districtCost = selectedDistricts.length * price;
 
     // Generate all sectors for selected districts
     const sectors = selectedDistricts.flatMap((district) => {
@@ -137,17 +177,43 @@ const AddServiceProvidersPageAgent = () => {
       }));
     });
 
-    // Update state with selected districts and their sectors
+    // Update state with selected districts, their sectors, and the new total cost
     setFormData((prev) => ({
       ...prev,
       districts: selectedDistricts,
       sectors: sectors,
       location_serve: sectors.map((sector) => sector.value).join(', '),
+      total_district_cost: districtCost // Update the total cost
     }));
 
     setAvailableSectors(sectors); // Update available sectors
   };
 
+  // Update the getCategoryPrice function to handle undefined cases
+  // const getCategoryPrice = (categoryId) => {
+  //   if (!settings || !settings.categoryPrices || !categoryId) {
+  //     return settings?.provider_price || 3000;
+  //   }
+
+  //   const categoryPrice = settings.categoryPrices.find(
+  //     (price) => price.category_id === parseInt(categoryId)
+  //   );
+
+  //   return categoryPrice ? categoryPrice.provider_price : settings?.provider_price || 3000;
+  // };
+
+  // Add effect to recalculate cost when service category changes
+  useEffect(() => {
+    if (formData.districts?.length > 0 && formData.service_category_id) {
+      const price = getCategoryPrice(formData.service_category_id);
+      const districtCost = formData.districts.length * price;
+
+      setFormData((prev) => ({
+        ...prev,
+        total_district_cost: districtCost
+      }));
+    }
+  }, [formData.service_category_id, formData.districts]);
 
   const handleSectorChange = (selectedSectors) => {
     if (!selectedSectors) {
@@ -282,20 +348,6 @@ const AddServiceProvidersPageAgent = () => {
     }
   }, [formData.location_province, formData.location_district]);
 
-
-  // Transform Provinces to react-select format
-  // const provinceOptions = Provinces().map((province) => ({
-  //   value: province,
-  //   label: province,
-  // }));
-
-  // const handleInputChange = (e) => {
-  //   const { name, value } = e.target;
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -478,24 +530,6 @@ const AddServiceProvidersPageAgent = () => {
     return categoryPrice ? categoryPrice.provider_price : settings.provider_price;
   };
 
-  // const handleProvinceChange = (selectedProvinces) => {
-  //   const districts = selectedProvinces.flatMap((province) =>
-  //     Districts(province.value).map((district) => ({
-  //       value: district,
-  //       label: `${district} (${province.value})`,
-  //     }))
-  //   );
-
-  //   setFormData((prevState) => ({
-  //     ...prevState,
-  //     provinces: selectedProvinces,
-  //     districts: [],
-  //     sectors: [],
-  //     total_district_cost: 0,
-  //     total_sector_cost: 0,
-  //   }));
-  //   setAvailableDistricts(districts);
-  // };
 
   const handleMultiDistrictChange = (selectedDistricts) => {
     const price = getCategoryPrice(formData.service_category_id);
@@ -849,83 +883,6 @@ const AddServiceProvidersPageAgent = () => {
                     </div>
                   </div>
 
-
-                  {/* <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 lg:grid-cols-3">
-                    <div>
-                      <label
-                        htmlFor="location_province"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Intara
-                      </label>
-                      <select
-                        id="location_province"
-                        name="location_province"
-                        value={formData.location_province}
-                        onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
-                        required
-                      >
-                        <option value="">Select Province</option>
-                        {provinces1.map((province) => (
-                          <option key={province} value={province}>
-                            {province}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="location_district"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Akarere
-                      </label>
-                      <select
-                        id="location_district"
-                        name="location_district"
-                        value={formData.location_district}
-                        onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
-                        disabled={!formData.location_province}
-                        required
-                      >
-                        <option value="">Select District</option>
-                        {districts.map((district) => (
-                          <option key={district} value={district}>
-                            {district}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="location_sector"
-                        className="block text-sm font-medium text-gray-700 mb-1"
-                      >
-                        Umurenge
-                      </label>
-                      <select
-                        id="location_sector"
-                        name="location_sector"
-                        value={formData.location_sector}
-                        onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
-                        disabled={!formData.location_district}
-                        required
-                      >
-                        <option value="">Select Sector</option>
-                        {sectors.map((sector) => (
-                          <option key={sector} value={sector}>
-                            {sector}
-                          </option>
-                        ))}
-                      </select>
-                    </div>
-                  </div> */}
-
                   {/* Province Multi-Select */}
                   <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -945,7 +902,7 @@ const AddServiceProvidersPageAgent = () => {
                   {formData.provinces.length > 0 && (
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Uturere ushaka gutanga serivisi
+                        {getDistrictsLabel()}
                       </label>
                       <Select
                         isMulti
@@ -955,6 +912,12 @@ const AddServiceProvidersPageAgent = () => {
                         placeholder="Hitamo Uturere"
                         className="basic-multi-select"
                       />
+                      {formData.districts.length > 0 && (
+                        <div className="mt-2 flex text-md font-semibold text-sky-600">
+                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />
+                          Amafaranga yose hamwe: {formData.total_district_cost.toLocaleString()} Rwf
+                        </div>
+                      )}
                     </div>
                   )}
 
