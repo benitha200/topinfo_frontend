@@ -279,7 +279,7 @@ const AddServiceProvidersPageAgent = () => {
       console.error("Error fetching settings:", err);
 
       setError(err.message || "Could not load settings");
-    }
+    } 
   };
 
   useEffect(() => {

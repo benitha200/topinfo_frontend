@@ -41,18 +41,20 @@ const PaymentsPage = () => {
                 }
 
                 const data = await response.json();
-                const transformedData = data.map(payment => ({
-                    id: payment.id,
-                    requestId: payment.requestId,
-                    amount: parseFloat(payment.amount),
-                    phone_number: payment.phone_number,
-                    transaction_id: payment.transaction_id,
-                    status: payment.status,
-                    customer: `${payment.client.firstname} ${payment.client.lastname}`,
-                    date: new Date(payment.createdAt),
-                    location: payment.request.service_location,
-                    service: payment.request.service_category.name
-                }));
+                const transformedData = data
+                    .filter(payment => payment.status !== 'FAILED')
+                    .map(payment => ({
+                        id: payment.id,
+                        requestId: payment.requestId,
+                        amount: parseFloat(payment.amount),
+                        phone_number: payment.phone_number,
+                        transaction_id: payment.transaction_id,
+                        status: payment.status,
+                        customer: `${payment.client.firstname} ${payment.client.lastname}`,
+                        date: new Date(payment.createdAt),
+                        location: payment.request.service_location,
+                        service: payment.request.service_category.name
+                    }));
 
                 setPayments(transformedData);
                 setFilteredPayments(transformedData);
@@ -185,61 +187,6 @@ const PaymentsPage = () => {
     return (
         <AdminLayout>
             <div className="p-6 space-y-6">
-                {/* Statistics Cards */}
-                {/* <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
-                    {[
-                        {
-                            title: 'Total Revenue',
-                            value: `${totalRevenue.toLocaleString()} RWF`,
-                            icon: TrendingUp,
-                            color: 'green',
-                            subtitle: 'Active Requests'
-                        },
-                        {
-                            title: 'Pending Amount',
-                            value: `${pendingAmount.toLocaleString()} RWF`,
-                            icon: CreditCard,
-                            color: 'yellow',
-                            subtitle: `${filteredPayments.filter(p => p.status === 'PENDING').length} pending requests`
-                        },
-                        {
-                            title: 'Success Rate',
-                            value: `${successRate}%`,
-                            icon: TrendingUp,
-                            color: 'blue',
-                            subtitle: 'Completion Rate'
-                        },
-                        {
-                            title: 'Failed Requests',
-                            value: filteredPayments.filter(p => p.status === 'FAILED').length,
-                            icon: ArrowDownRight,
-                            color: 'red',
-                            subtitle: 'Need attention'
-                        }
-                    ].map((stat, index) => {
-                        const Icon = stat.icon;
-                        return (
-                            <Card key={index} className="hover:shadow-md transition-shadow duration-300">
-                                <CardContent className="pt-6">
-                                    <div className="flex items-center justify-between">
-                                        <div>
-                                            <p className="text-sm font-medium text-gray-500">{stat.title}</p>
-                                            <p className="text-2xl font-bold">{stat.value}</p>
-                                        </div>
-                                        <div className={`h-12 w-12 bg-${stat.color}-50 rounded-full flex items-center justify-center`}>
-                                            <Icon className={`h-6 w-6 text-${stat.color}-500`} />
-                                        </div>
-                                    </div>
-                                    <div className={`mt-4 flex items-center text-sm text-${stat.color}-500`}>
-                                        <ArrowUpRight className="h-4 w-4 mr-1" />
-                                        <span>{stat.subtitle}</span>
-                                    </div>
-                                </CardContent>
-                            </Card>
-                        );
-                    })}
-                </div> */}
-
                 {/* Statistics Cards */}
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     {[
