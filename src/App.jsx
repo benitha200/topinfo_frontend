@@ -75,6 +75,7 @@ import OperationDashboard from "./pages/Dashboards/OperationDashboard";
 import Reports from "./pages/Admin/Reports/Reports";
 import Profile from "./pages/Profile";
 import EditServiceProvider from "./pages/Admin/ServiceProviders/EditServiceProvider";
+import Agreement from "./pages/Agent/Agreement";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -282,7 +283,7 @@ const App = () => {
           path="/dashboard/reports"
           element={
             <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS"]}>
-              <Reports/>
+              <Reports />
             </ProtectedRoute>
           }
         />
@@ -402,7 +403,7 @@ const App = () => {
         <Route
           path="/agent-dashboard/serviceprovider-agent/edit/:id"
           element={
-            <ProtectedRoute allowedRoles={["AGENT","ADMIN"]}>
+            <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
               <ServiceProviderEdit />
             </ProtectedRoute>
           }
@@ -489,7 +490,14 @@ const App = () => {
             </ProtectedRoute>
           }
         />
-
+        <Route
+          path="/agent-dashboard/agreement"
+          element={
+            <ProtectedRoute allowedRoles={["AGENT", "ADMIN"]}>
+              <Agreement />
+            </ProtectedRoute>
+          }
+        />
 
 
         <Route
@@ -511,7 +519,7 @@ const App = () => {
         <Route
           path="/profile"
           element={
-            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS", "CUSTOMER_SUPPORT","AGENT"]}>
+            <ProtectedRoute allowedRoles={["ADMIN", "OPERATIONS", "CUSTOMER_SUPPORT", "AGENT"]}>
               <Profile />
             </ProtectedRoute>
           }
