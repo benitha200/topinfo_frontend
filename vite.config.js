@@ -44,15 +44,15 @@ export default defineConfig({
     target: "es2015",
     minify: "esbuild",
     sourcemap: false,
-    chunkSizeWarningLimit: 600, // Lowering the warning limit to track chunking better
-    assetsInlineLimit: 8192, // Inline smaller assets
+    chunkSizeWarningLimit: 500, // Reduced chunk size limit
+    assetsInlineLimit: 8192, // Inline small assets
     rollupOptions: {
       output: {
         manualChunks(id) {
           if (id.includes("node_modules")) {
             if (id.includes("react")) return "react-vendor";
-            if (id.includes("@shadcn/ui")) return "shadcn-vendor";
             if (id.includes("recharts")) return "charts-vendor";
+            if (id.includes("lodash")) return "lodash-vendor";
             if (id.includes("axios") || id.includes("jspdf")) return "utils-vendor";
             return "vendor";
           }
@@ -61,7 +61,8 @@ export default defineConfig({
     },
   },
   optimizeDeps: {
-    include: ["react", "react-dom", "recharts", "axios", "jspdf"], // Pre-bundle key dependencies
+    exclude: ["recharts", "jspdf", "lodash"], // Exclude large libraries from pre-bundling
   },
 });
+
 
