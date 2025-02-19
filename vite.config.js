@@ -37,15 +37,15 @@ export default defineConfig({
   plugins: [react()],
   resolve: {
     alias: {
-      "@": path.resolve(__dirname, "./src"), // Directly use __dirname
+      "@": path.resolve(__dirname, "./src"),
     },
   },
   build: {
     target: "es2015",
     minify: "esbuild",
     sourcemap: false,
-    chunkSizeWarningLimit: 1024,
-    assetsInlineLimit: 8192,
+    chunkSizeWarningLimit: 600, // Lowering the warning limit to track chunking better
+    assetsInlineLimit: 8192, // Inline smaller assets
     rollupOptions: {
       output: {
         manualChunks(id) {
@@ -53,10 +53,15 @@ export default defineConfig({
             if (id.includes("react")) return "react-vendor";
             if (id.includes("@shadcn/ui")) return "shadcn-vendor";
             if (id.includes("recharts")) return "charts-vendor";
+            if (id.includes("axios") || id.includes("jspdf")) return "utils-vendor";
             return "vendor";
           }
         },
       },
     },
   },
+  optimizeDeps: {
+    include: ["react", "react-dom", "recharts", "axios", "jspdf"], // Pre-bundle key dependencies
+  },
 });
+
