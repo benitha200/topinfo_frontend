@@ -269,12 +269,14 @@ const RequestsPage = () => {
     const [editingRequest, setEditingRequest] = useState(null);
 
     const [statusFilter, setStatusFilter] = useState('COMPLETED'); 
+    const [searchType, setSearchType] = useState('location'); // 'location' or 'client'
 
     // Pagination states
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage] = useState(10);
     const [totalPages, setTotalPages] = useState(0);
     const [showFilterDropdown, setShowFilterDropdown] = useState(false);
+    const [showSearchTypeDropdown, setShowSearchTypeDropdown] = useState(false);
 
     // Status options
     const statusOptions = [
@@ -282,6 +284,12 @@ const RequestsPage = () => {
         { value: 'COMPLETED', label: 'Completed' },
         { value: 'PENDING', label: 'Pending' },
         { value: 'IN_PROGRESS', label: 'In Progress' }
+    ];
+
+    // Search type options
+    const searchTypeOptions = [
+        { value: 'location', label: 'Location/Service' },
+        { value: 'client', label: 'Client Details' }
     ];
 
     // Fetch requests from the API
@@ -297,7 +305,7 @@ const RequestsPage = () => {
             if (!response.ok) throw new Error('Failed to fetch requests');
             const data = await response.json();
             setRequests(data);
-            filterRequests(data, searchTerm, statusFilter);
+            filterRequests(data, searchTerm, statusFilter, searchType);
         } catch (err) {
             setError(err.message);
         } finally {
@@ -337,15 +345,40 @@ const RequestsPage = () => {
           showErrorToast('Failed to initiate payment');
           console.error('Payment retry error:', error);
         }
-      };
+    };
 
-    // Filter requests based on search term and status
-    const filterRequests = (requestsData, search, status) => {
-        let filtered = requestsData.filter(request =>
-        (request.service_location?.toLowerCase().includes(search.toLowerCase()) ||
-            request.service_category?.name?.toLowerCase().includes(search.toLowerCase()))
-        );
+    // Filter requests based on search term, status and search type
+    const filterRequests = (requestsData, search, status, type) => {
+        let filtered = [];
+        
+        if (type === 'location') {
+            // Filter by location or service category
+            filtered = requestsData.filter(request =>
+                (request.service_location?.toLowerCase().includes(search.toLowerCase()) ||
+                request.your_location?.toLowerCase().includes(search.toLowerCase()) ||
+                request.service_category?.name?.toLowerCase().includes(search.toLowerCase()))
+            );
+        } else if (type === 'client') {
+            // Filter by client details
+            filtered = requestsData.filter(request => {
+                if (!request.client) return false;
+                
+                const client = request.client;
+                const searchLower = search.toLowerCase();
+                
+                return (
+                    (client.firstname && client.firstname.toLowerCase().includes(searchLower)) ||
+                    (client.lastname && client.lastname.toLowerCase().includes(searchLower)) ||
+                    (client.email && client.email.toLowerCase().includes(searchLower)) ||
+                    (client.phone && client.phone.includes(search)) ||
+                    (client.location_province && client.location_province.toLowerCase().includes(searchLower)) ||
+                    (client.location_district && client.location_district.toLowerCase().includes(searchLower)) ||
+                    (client.location_sector && client.location_sector.toLowerCase().includes(searchLower))
+                );
+            });
+        }
 
+        // Apply status filter
         if (status !== 'ALL') {
             filtered = filtered.filter(request => request.status === status);
         }
@@ -355,16 +388,15 @@ const RequestsPage = () => {
         setTotalPages(Math.ceil(filtered.length / itemsPerPage));
     };
 
-    // Update filters when search term or status changes
+    // Update filters when search term, status, or search type changes
     useEffect(() => {
-        filterRequests(requests, searchTerm, statusFilter);
-    }, [searchTerm, statusFilter, requests]);
+        filterRequests(requests, searchTerm, statusFilter, searchType);
+    }, [searchTerm, statusFilter, searchType, requests]);
 
     // Initial fetch
     useEffect(() => {
         fetchRequests();
     }, []);
-
 
     // Update request
     const updateRequest = async (id, updateData) => {
@@ -385,17 +417,6 @@ const RequestsPage = () => {
             setError(err.message);
         }
     };
-
-    // Filter requests based on search term
-    useEffect(() => {
-        const filtered = requests.filter(request =>
-            request.service_location?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-            request.service_category?.name?.toLowerCase().includes(searchTerm.toLowerCase())
-        );
-        setFilteredRequests(filtered);
-        setCurrentPage(1); // Reset to first page when filtering
-        setTotalPages(Math.ceil(filtered.length / itemsPerPage));
-    }, [searchTerm, requests, itemsPerPage]);
 
     // Calculate current page items
     const getCurrentPageItems = () => {
@@ -483,16 +504,11 @@ const RequestsPage = () => {
         </div>
     );
 
-    // Initial fetch
-    useEffect(() => {
-        fetchRequests();
-    }, []);
-
     // Calculate statistics
     const getStatistics = () => {
         return {
             total: requests.length,
-            pending: requests.filter(req => req.status === 'Pending').length,
+            pending: requests.filter(req => req.status === 'PENDING').length,
             completed: requests.filter(req => req.status === 'COMPLETED').length,
             inProgress: requests.filter(req => req.status === 'IN_PROGRESS').length
         };
@@ -512,9 +528,6 @@ const RequestsPage = () => {
         }
     }, []);
 
-    // if (loading) return <AdminLayout><div className="p-6">Loading...</div></AdminLayout>;
-    // if (error) return <AdminLayout><div className="p-6 text-red-500">Error: {error}</div></AdminLayout>;
-
     const Layout = user?.role === "ADMIN"
         ? AdminLayout
         : user?.role === "CUSTOMER_SUPPORT"
@@ -522,7 +535,6 @@ const RequestsPage = () => {
             : OperationLayout;
 
     if (loading) return <Layout><div className="p-6">Loading...</div></Layout>;
-
 
     return (
         <Layout>
@@ -586,20 +598,54 @@ const RequestsPage = () => {
                 <Card>
                     <CardHeader className="flex flex-row items-center justify-between">
                         <CardTitle>Requests List</CardTitle>
-                        <div className="flex space-x-2">
-                            <div className="relative">
-                                <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
-                                <input
-                                    type="text"
-                                    placeholder="Search requests..."
-                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
-                                    value={searchTerm}
-                                    onChange={(e) => setSearchTerm(e.target.value)}
-                                />
+                        <div className="flex flex-col sm:flex-row space-y-2 sm:space-y-0 sm:space-x-2">
+                            <div className="relative flex space-x-2">
+                                {/* Search Type Selector */}
+                                <div className="relative">
+                                    <button
+                                        className="p-2 border rounded hover:bg-gray-50 flex items-center gap-2"
+                                        onClick={() => setShowSearchTypeDropdown(!showSearchTypeDropdown)}
+                                    >
+                                        <span>{searchTypeOptions.find(opt => opt.value === searchType)?.label}</span>
+                                    </button>
+                                    {showSearchTypeDropdown && (
+                                        <div className="absolute left-0 mt-2 w-48 bg-white rounded-md shadow-lg z-10 border">
+                                            {searchTypeOptions.map((option) => (
+                                                <button
+                                                    key={option.value}
+                                                    className="block w-full text-left px-4 py-2 hover:bg-gray-100"
+                                                    onClick={() => {
+                                                        setSearchType(option.value);
+                                                        setShowSearchTypeDropdown(false);
+                                                        setSearchTerm(''); // Clear search when changing type
+                                                    }}
+                                                >
+                                                    {option.label}
+                                                </button>
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+
+                                {/* Search Input */}
+                                <div className="relative flex-grow">
+                                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-gray-500" />
+                                    <input
+                                        type="text"
+                                        placeholder={searchType === 'location' 
+                                            ? "Search by location or service..." 
+                                            : "Search by client name, email, phone..."}
+                                        className="pl-8 pr-4 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        value={searchTerm}
+                                        onChange={(e) => setSearchTerm(e.target.value)}
+                                    />
+                                </div>
                             </div>
+                            
+                            {/* Status Filter */}
                             <div className="relative">
                                 <button
-                                    className="p-2 border rounded hover:bg-gray-50 flex items-center gap-2"
+                                    className="p-2 border rounded hover:bg-gray-50 flex items-center gap-2 w-full sm:w-auto justify-center sm:justify-start"
                                     onClick={() => setShowFilterDropdown(!showFilterDropdown)}
                                 >
                                     <Filter className="h-4 w-4" />
@@ -629,6 +675,7 @@ const RequestsPage = () => {
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b">
+                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Client</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service Location</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service Category</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service Date</th>
