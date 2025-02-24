@@ -15,14 +15,21 @@ const Home = () => {
     <>
 
       <Helmet>
-        <title>TopInfo Rwanda | Urubuga Ruhuza Abakeneye Serivisi n'Abazitanga</title>
-        <meta name="description" content="TopInfo ni urubuga ruhuza abakeneye serivisi n'abazitanga mu Rwanda. Shakisha serivisi cyangwa utange serivisi ku banyamuryango bacu. Gusaba no gutanga serivisi mu buryo bworoshye, bwihuse kandi bwizewe." />
+        {/* <title>TopInfo Rwanda | Urubuga Ruhuza Abakeneye Serivisi n'Abazitanga</title> */}
+        <title>TopInfo Rwanda | Shakisha Serivisi Mu Rwanda</title>
+        <meta name="description" content="TopInfo ni urubuga ruhuza abakeneye na batanga serivisi mu Rwanda. Shakisha cyangwa utange serivisi byoroshye kandi bwihuse." />
 
         {/* Open Graph tags for social sharing */}
-        <meta property="og:title" content="TopInfo Rwanda | Serivisi Zizewe" />
+        {/* <meta property="og:title" content="TopInfo Rwanda | Serivisi Zizewe" />
         <meta property="og:description" content="Urubuga ruhuza abakeneye serivisi n'abazitanga mu Rwanda. Gusaba no gutanga serivisi." />
         <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://topinfo.rw" /> */}
+
+        <meta property="og:title" content="TopInfo Rwanda - Shakisha Serivisi" />
+        <meta property="og:description" content="TopInfo ni urubuga ruhuza abakeneye serivisi n'abazitanga." />
+        {/* <meta property="og:image" content="https://topinfo.rw/logo.png" /> */}
         <meta property="og:url" content="https://topinfo.rw" />
+
 
         {/* Additional meta tags for SEO */}
         <meta name="keywords" content="serivisi rwanda, gusaba serivisi, gutanga serivisi, urubuga rwa serivisi rwanda, professional services rwanda, service marketplace rwanda" />
@@ -54,6 +61,7 @@ const Home = () => {
           {/* Blended hero image with opacity and overlay */}
           <div className="absolute inset-0 z-0">
             <img
+              loading='lazy'
               src={HeroImg}
               alt="Background"
               className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-overlay"
