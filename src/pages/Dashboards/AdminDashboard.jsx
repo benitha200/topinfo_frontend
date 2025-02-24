@@ -87,15 +87,61 @@ const AdminDashboard = () => {
   };
 
   const processLocationData = () => {
-    const distribution = agents.users.reduce((acc, agent) => {
-      acc[agent.location_province] = (acc[agent.location_province] || 0) + 1;
-      return acc;
-    }, {});
+    // Define a normalization function that will standardize province data format
+    const normalizeProvince = (province) => {
+      // Convert to lowercase for case-insensitive comparison
+      const lowerProvince = (province || '').toLowerCase().trim();
+      
+      // Define mappings with lowercase keys for normalization
+      const provinceNormalization = {
+        'kigali': 'Kigali City',
+        'north': 'Northern',
+        'northern': 'Northern',
+        'east': 'Eastern',
+        'eastern': 'Eastern',
+        'south': 'Southern',
+        'southern': 'Southern',
+        'west': 'Western',
+        'western': 'Western'
+      };
+      
+      // Return normalized province name
+      return provinceNormalization[lowerProvince] || province;
+    };
 
-    return Object.entries(distribution).map(([name, value]) => ({
-      name,
-      value
-    }));
+    // Use a Map to ensure unique province entries
+    const distributionMap = new Map();
+    
+    // Aggregate data with normalized province names
+    agents.users.forEach(agent => {
+      const normalizedProvince = normalizeProvince(agent.location_province);
+      
+      // If this province already exists in our map, increment its count
+      if (distributionMap.has(normalizedProvince)) {
+        distributionMap.set(normalizedProvince, distributionMap.get(normalizedProvince) + 1);
+      } else {
+        // Otherwise create a new entry
+        distributionMap.set(normalizedProvince, 1);
+      }
+    });
+    
+    // Convert Map to the array format needed for the chart
+    return Array.from(distributionMap).map(([name, value]) => ({ name, value }));
+  };
+
+  // Add this sorting function for provinces
+  const sortProvinceData = (data) => {
+    const provinceOrder = {
+      'Kigali City': 1,
+      'Northern': 2,
+      'Eastern': 3,
+      'Southern': 4,
+      'Western': 5
+    };
+    
+    return [...data].sort((a, b) => {
+      return (provinceOrder[a.name] || 999) - (provinceOrder[b.name] || 999);
+    });
   };
 
   const processRevenueByDate = () => {
@@ -114,18 +160,6 @@ const AdminDashboard = () => {
       }))
       .slice(-7);
   };
-
-  // const processDistrictData = () => {
-  //   const distribution = agents.users.reduce((acc, agent) => {
-  //     acc[agent.location_district] = (acc[agent.location_district] || 0) + 1;
-  //     return acc;
-  //   }, {});
-
-  //   return Object.entries(distribution).map(([district, count]) => ({
-  //     district,
-  //     count
-  //   }));
-  // };
 
   const processDistrictData = () => {
     // First, create a case-insensitive aggregation of districts
@@ -247,22 +281,22 @@ const AdminDashboard = () => {
                 <ResponsiveContainer width="100%" height="100%">
                   <PieChart>
                     <Pie
-                      data={processLocationData()}
+                      data={sortProvinceData(processLocationData())}
                       cx="50%"
                       cy="50%"
                       outerRadius={100}
                       fill="#8884d8"
                       dataKey="value"
-                      label
+                      label={({ name, percent }) => `${name} (${(percent * 100).toFixed(0)}%)`}
                     >
-                      {processLocationData().map((entry, index) => (
+                      {sortProvinceData(processLocationData()).map((entry, index) => (
                         <Cell
                           key={`cell-${index}`}
                           fill={COLORS[index % COLORS.length]}
                         />
                       ))}
                     </Pie>
-                    <Tooltip />
+                    <Tooltip formatter={(value, name) => [value, name]} />
                     <Legend />
                   </PieChart>
                 </ResponsiveContainer>
