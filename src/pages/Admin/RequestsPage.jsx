@@ -6,6 +6,7 @@ import API_URL from '../../constants/Constants';
 import OperationLayout from '../operation/OperationLayout';
 import { Button } from '@/components/ui/button';
 import CustomersSupportLayout from '../customerSupport/CustomersSupportLayout';
+import RequestsSkeleton from '../../components/AdminDashboard/RequestsSkeleton';
 
 const EditRequestForm = ({ request, onClose, onSave }) => {
     const [formData, setFormData] = useState({
@@ -534,7 +535,7 @@ const RequestsPage = () => {
             ? CustomersSupportLayout
             : OperationLayout;
 
-    if (loading) return <Layout><div className="p-6">Loading...</div></Layout>;
+    if (loading) return <Layout><RequestsSkeleton/></Layout>;
 
     return (
         <Layout>

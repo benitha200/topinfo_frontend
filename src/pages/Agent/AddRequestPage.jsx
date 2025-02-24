@@ -5,6 +5,7 @@ import Select from "react-select";
 import { ArrowRight, CheckCircle, ChevronRight } from "lucide-react";
 import API_URL from "../../constants/Constants";
 import AgentLayout from "./AgentLayout";
+import RequestFormSkeleton from "../../components/AgentDashboard/RequestFormSkeleton";
 
 const AddRequestPage = () => {
   const { serviceId } = useParams();
@@ -130,7 +131,7 @@ const AddRequestPage = () => {
   }, [serviceId]);
 
   // Loading and error handling
-  if (loading) return <AgentLayout><p>Loading service details...</p></AgentLayout>;
+  if (loading) return <AgentLayout><RequestFormSkeleton/> </AgentLayout>;
   // if (error) return <AgentLayout><p className="text-red-500">Ntago byakunze kwishyura wakongera ukoherohereza ubutumwa busaba kwishyura</p></AgentLayout>;
   if (!service)
     return <p>Service not found. Please go back and select a service.</p>;
@@ -203,79 +204,7 @@ const AddRequestPage = () => {
     setStep(2); // Move to Step 2
   };
 
-  // const handleSubmitStep2 = async (e) => {
-  //   e.preventDefault();
-
-  //   try {
-  //     // Convert message_preference array to a comma-separated string
-  //     const messagePreference = Array.isArray(formData.message_preference)
-  //       ? formData.message_preference.join(",")
-  //       : formData.message_preference || "";
-
-  //     const requestResponse = await fetch(`${API_URL}/requests`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //       body: JSON.stringify({
-  //         your_location: formData.location_district,
-  //         service_location: formData.location_district,
-  //         client_id: clientId,
-  //         service_category_id: parseInt(serviceId),
-  //         fields: formData.dynamicFields,
-  //         service_date: new Date().toISOString().split("T")[0],
-  //         message_preference: messagePreference,
-  //         agent_id: userId.id,
-  //       }),
-  //     });
-
-  //     if (!requestResponse.ok) throw new Error("Failed to create request");
-  //     const requestData = await requestResponse.json();
-
-  //     setRequestId(requestData.id);
-  //   } catch (err) {
-  //     setError(err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-
-  //   setStep(3); // Move to Step 3
-  // };
-
-  // const handleSubmitStep3 = async (e) => {
-  //   e.preventDefault();
-  //   setPaymentInit(true);
-  //   try {
-  //     const paymentResponse = await fetch(`${API_URL}/payments/initiate`, {
-  //       method: "POST",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //         Authorization: `Bearer ${localStorage.getItem("token")}`,
-  //       },
-  //       body: JSON.stringify({
-  //         service_location: formData.district,
-  //         paymentNumber: formData.paymentNumber,
-  //         request_id: requestId,
-  //         currentUrl: `${origin}/payment-callback`,
-  //       }),
-  //     });
-
-  //     if (!paymentResponse.ok)
-  //       throw new Error("Failed to initial payment request");
-  //     const result = await paymentResponse.json();
-  //     console.log(result);
-  //     if (result.response.status === "success") {
-  //       // window.location.href = result.response.meta.authorization.redirect;
-  //       console.log(result?.response)
-  //     }
-  //   } catch (err) {
-  //     setError(err.message);
-  //     console.log(err.message);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
+  
 
   const handleSubmitStep2 = async (e) => {
     e.preventDefault();

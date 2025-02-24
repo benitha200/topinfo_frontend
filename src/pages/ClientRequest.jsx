@@ -4,6 +4,7 @@ import API_URL from "../constants/Constants";
 import { Districts, Provinces, Sectors } from "rwanda";
 import Select from "react-select";
 import { ArrowRight, CheckCircle, ChevronRight } from "lucide-react";
+import RequestFormSkeleton from "../components/AgentDashboard/RequestFormSkeleton";
 
 const ClientRequest = () => {
   const { serviceId } = useParams();
@@ -126,7 +127,7 @@ const ClientRequest = () => {
   }, [serviceId]);
 
   // Loading and error handling
-  if (loading) return <p>Loading service details...</p>;
+  if (loading) return <RequestFormSkeleton/>;
   if (error) return <p className="text-red-500">{error}</p>;
   if (!service)
     return <p>Service not found. Please go back and select a service.</p>;

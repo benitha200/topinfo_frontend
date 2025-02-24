@@ -13,6 +13,7 @@ import { toast } from 'sonner';
 import { useParams, useNavigate } from 'react-router-dom';
 import API_URL from '../../constants/Constants';
 import AgentLayout from './AgentLayout';
+import RequestDetailsSkeleton from '../../components/AgentDashboard/RequestDetailsSkeleton';
 
 const RequestDetailPage = () => {
   const [request, setRequest] = useState(null);
@@ -67,9 +68,7 @@ const RequestDetailPage = () => {
   if (isLoading) {
     return (
       <AgentLayout>
-        <div className="flex justify-center items-center h-full">
-          <p>Loading request details...</p>
-        </div>
+        <RequestDetailsSkeleton/>
       </AgentLayout>
     );
   }

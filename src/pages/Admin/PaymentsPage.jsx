@@ -11,6 +11,7 @@ import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import AdminLayout from './AdminLayout';
 import API_URL from '../../constants/Constants';
 import * as XLSX from 'xlsx';
+import PaymentSkeleton from '../../components/AdminDashboard/PaymentSkeleton';
 
 const PaymentsPage = () => {
     const [startDate, setStartDate] = useState(null);
@@ -118,22 +119,7 @@ const PaymentsPage = () => {
     const currentPayments = filteredPayments.slice(indexOfFirstItem, indexOfLastItem);
     const totalPages = Math.ceil(filteredPayments.length / itemsPerPage);
 
-    // Compute statistics
-    // const totalRevenue = filteredPayments
-    //     .filter(p => p.status === 'SUCCESSFULL' || 'COMPLETED')
-    //     .reduce((sum, payment) => sum + payment.amount, 0);
-
-    // const pendingAmount = filteredPayments
-    //     .filter(p => p.status === 'PENDING')
-    //     .reduce((sum, payment) => sum + payment.amount, 0);
-
-    // const successRate = (filteredPayments.filter(p => p.status === 'COMPLETED').length /
-    //     (filteredPayments.length || 1) * 100).toFixed(1);
-
-
-    // const totalRevenue = payments
-    //     .filter(p => p.status === 'COMPLETED' || p.status === 'SUCCESSFULL')
-    //     .reduce((sum, payment) => sum + parseFloat(payment.amount || 0), 0);
+ 
 
     const pendingAmount = payments
         .filter(p => p.status === 'PENDING')
@@ -169,9 +155,7 @@ const PaymentsPage = () => {
     if (loading) {
         return (
             <AdminLayout>
-                <div className="p-6 flex justify-center items-center h-screen">
-                    <div className="animate-spin rounded-full h-16 w-16 border-t-2 border-sky-500"></div>
-                </div>
+                <PaymentSkeleton/>
             </AdminLayout>
         );
     }
