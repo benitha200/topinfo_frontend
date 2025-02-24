@@ -19,15 +19,9 @@ const Home = () => {
         <title>TopInfo Rwanda | Shakisha Serivisi Mu Rwanda</title>
         <meta name="description" content="TopInfo ni urubuga ruhuza abakeneye na batanga serivisi mu Rwanda. Shakisha cyangwa utange serivisi byoroshye kandi bwihuse." />
 
-        {/* Open Graph tags for social sharing */}
-        {/* <meta property="og:title" content="TopInfo Rwanda | Serivisi Zizewe" />
-        <meta property="og:description" content="Urubuga ruhuza abakeneye serivisi n'abazitanga mu Rwanda. Gusaba no gutanga serivisi." />
-        <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://topinfo.rw" /> */}
-
         <meta property="og:title" content="TopInfo Rwanda - Shakisha Serivisi" />
         <meta property="og:description" content="TopInfo ni urubuga ruhuza abakeneye serivisi n'abazitanga." />
-        {/* <meta property="og:image" content="https://topinfo.rw/logo.png" /> */}
+        <meta property="og:image" content="https://topinfo.rw/logo.jpg" />
         <meta property="og:url" content="https://topinfo.rw" />
 
 
@@ -104,8 +98,8 @@ const Home = () => {
 
 
         {/* How It Works Section */}
-        <div className="bg-gray-100 py-24">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-gray-100 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-4 lg:px-6ßßßß">
             <div className="text-center mb-16">
               <h2 className="text-4xl font-bold text-gray-900 mb-4">Uko Bikorwa</h2>
               <p className="text-xl text-gray-600">uko wakoresha TopInfo</p>
@@ -122,7 +116,7 @@ const Home = () => {
 
                 <Link
                   to="/services"
-                  className="px-10 py-5 bg-white pt-5 text-sky-600 rounded-xl hover:bg-sky-200 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
+                  className="px-5 py-2 mt-4 bg-sky-100 pt-2 text-sky-600 rounded-xl hover:bg-sky-200 transition-all text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group"
                 >
                   Serivisi
                   <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
@@ -146,6 +140,25 @@ const Home = () => {
                 </div>
                 <h3 className="text-2xl font-bold mb-4">Huzwa n'umunyamwuga utanga Serivisi wifuza</h3>
                 <p className="text-gray-600">Huzwa n'umunyamwuga wizewe utanga servisi ushaka</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gray-100 py-12">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="text-center mb-16">
+              <h2 className="text-4xl font-bold text-gray-900 mb-4">FAQ</h2>
+              <p className="text-xl text-gray-600">Ibibazo bikunze kubazwa</p>
+            </div>
+            <div className="grid md:grid-cols-2 gap-12">
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 className="text-2xl font-bold mb-4">Nshobora gusaba serivisi gute?</h3>
+                <p className="text-gray-600">Shakisha serivisi ukeneye, wuzuzemo amakuru usabwa, uhite uhuzwa umunyamwuga.</p>
+              </div>
+              <div className="bg-white p-8 rounded-2xl shadow-lg">
+                <h3 className="text-2xl font-bold mb-4">Nshobora gutanga serivisi gute?</h3>
+                <p className="text-gray-600">Fungura konti nk'utanga serivisi, hanyuma uterangire guha serivisi abakiliya binyuze muri topinfo.</p>
               </div>
             </div>
           </div>
