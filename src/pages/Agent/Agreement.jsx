@@ -330,7 +330,7 @@
 
 // export default Agreement;
 
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, memo } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Check, Download, Loader2 } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -340,16 +340,101 @@ import AgentLayout from './AgentLayout';
 import esignature from './../../assets/img/esignature.png';
 import API_URL from '../../constants/Constants';
 
+// Moved outside the Agreement component to prevent re-renders
+const NationalIdInput = memo(({ value, onChange }) => {
+  const inputRef = useRef(null);
+  
+  const handleChange = (e) => {
+    const value = e.target.value;
+    // Only allow numbers and limit to 16 digits
+    const formattedValue = value.replace(/\D/g, '').slice(0, 16);
+    onChange(formattedValue);
+  };
+  
+  return (
+    <div>
+      <label className="block text-sm font-medium text-gray-700">
+        National ID Number (16 digits)
+      </label>
+      <Input
+        ref={inputRef}
+        type="text"
+        value={value}
+        onChange={handleChange}
+        placeholder="Enter your National ID"
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+        maxLength={16}
+        inputMode="numeric"
+        pattern="[0-9]*"
+        required
+      />
+      <p className="text-xs text-gray-500 mt-1">
+        {value.length}/16 digits entered
+      </p>
+    </div>
+  );
+});
+
+// Memoize the SignatureSection component to prevent unnecessary re-renders
+const SignatureSection = memo(({ 
+  loading, 
+  agreed, 
+  signedDetails, 
+  nationalId, 
+  setNationalId, 
+  confirmed, 
+  setConfirmed 
+}) => {
+  if (loading) {
+    return <div className="flex justify-center"><Loader2 className="w-6 h-6 animate-spin" /></div>;
+  }
+
+  if (agreed && signedDetails) {
+    return (
+      <div className="border-t border-gray-200 pt-4 mt-4">
+        <div className="flex items-center mb-2">
+          <Check className="w-5 h-5 text-green-500 mr-2" />
+          <span className="text-green-600 font-medium">Agreement Signed Electronically</span>
+        </div>
+        <p>National ID: {signedDetails?.nationalId}</p>
+        <p>Signed Date: {new Date(signedDetails.signedAt).toLocaleDateString()}</p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-4 space-y-4">
+      {/* Isolated National ID Input Component */}
+      <NationalIdInput 
+        value={nationalId}
+        onChange={setNationalId}
+      />
+
+      {/* Confirmation Checkbox */}
+      <label className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          checked={confirmed}
+          onChange={(e) => setConfirmed(e.target.checked)}
+          className="form-checkbox h-4 w-4 text-sky-500 rounded"
+        />
+        <span className="text-sm text-gray-700">
+          I confirm that I have read and agree to the terms of this agreement.
+        </span>
+      </label>
+    </div>
+  );
+});
+
 const Agreement = () => {
     const [loading, setLoading] = useState(true);
     const [agreed, setAgreed] = useState(false);
-    const [nationalId, setNationalId] = useState('');
-    const [nationalId1, setNationalId1] = useState('');
+    const [nationalId, setNationalId] = useState(''); // National ID state
+    const [confirmed, setConfirmed] = useState(false); // Confirmation checkbox state
     const [signedDetails, setSignedDetails] = useState(null);
     const today = new Date().toLocaleDateString();
     const user = JSON.parse(localStorage.getItem('user')) || {};
     const userId = parseInt(user?.id);
-    const inputRef = useRef(null);
 
     useEffect(() => {
         checkExistingAgreement();
@@ -388,7 +473,7 @@ const Agreement = () => {
                 },
                 body: JSON.stringify({
                     userId: user.id,
-                    nationalId,
+                    nationalId, // Include National ID in the request
                     agreementDate: new Date().toISOString(),
                     userDetails: {
                         name: `${user.firstname} ${user.lastname}`,
@@ -469,48 +554,6 @@ const Agreement = () => {
         } catch (error) {
             console.error('Error generating PDF:', error);
         }
-    };
-
-    const handleNationalIdChange = (e) => {
-        setNationalId(e.target.value); // Update the state with the input value
-    };
-
-    const SignatureSection = () => {
-        if (loading) {
-            return <div className="flex justify-center"><Loader2 className="w-6 h-6 animate-spin" /></div>;
-        }
-
-        if (agreed && signedDetails) {
-            return (
-                <div className="border-t border-gray-200 pt-4 mt-4">
-                    <div className="flex items-center mb-2">
-                        <Check className="w-5 h-5 text-green-500 mr-2" />
-                        <span className="text-green-600 font-medium">Agreement Signed Electronically</span>
-                    </div>
-                    <p>National ID: {signedDetails?.nationalId}</p>
-                    <p>Signed Date: {new Date(signedDetails.signedAt).toLocaleDateString()}</p>
-                </div>
-            );
-        }
-
-        return (
-            <div className="mt-4">
-                <label className="block text-sm font-medium text-gray-700">
-                    National ID Number (16 digits)
-                </label>
-                <form>
-                    <input
-                    type="text"
-                    value={nationalId1}
-                    onChange={(e)=>setNationalId1(e.target.value)}
-                    placeholder="Enter your National ID"
-                    // ref={inputRef}
-                    className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
-                />
-                    </form>
-                
-            </div>
-        );
     };
 
     return (
@@ -602,7 +645,15 @@ const Agreement = () => {
                                         <div>
                                             <p className="font-semibold">For the Agent of TopInfo.rw</p>
                                             <p>Name: {`${user.firstname || '___'} ${user.lastname || '___'}`}</p>
-                                            <SignatureSection />
+                                            <SignatureSection 
+                                              loading={loading}
+                                              agreed={agreed}
+                                              signedDetails={signedDetails}
+                                              nationalId={nationalId}
+                                              setNationalId={setNationalId}
+                                              confirmed={confirmed}
+                                              setConfirmed={setConfirmed}
+                                            />
                                         </div>
                                         <div>
                                             <p className="font-semibold">For Ahupa Business Network Ltd</p>
@@ -625,7 +676,7 @@ const Agreement = () => {
                                     <button
                                         className="flex items-center px-6 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 disabled:opacity-50"
                                         onClick={handleAgree}
-                                        disabled={loading || !nationalId}
+                                        disabled={loading || nationalId.length !== 16 || !confirmed} // Require exactly 16 digits
                                     >
                                         {loading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
                                         Sign Agreement
