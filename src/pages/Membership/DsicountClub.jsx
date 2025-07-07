@@ -59,13 +59,13 @@ const DiscountClub = () => {
                   Jyamo Nonaha
                   <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
                 </Link>
-                <Link
+                {/* <Link
                   to="/discount-club/featured-deals"
                   className="px-10 py-5 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all duration-300 text-lg font-bold shadow-xl hover:shadow-2xl flex items-center justify-center group transform hover:scale-105"
                 >
                   Reba Discounts
                   <ArrowRight className="ml-3 transform group-hover:translate-x-1 transition-transform" size={24} />
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
