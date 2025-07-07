@@ -663,7 +663,7 @@ const MyAgents = () => {
             </label>
             <button
               onClick={downloadAgentTemplate}
-              className="flex-1 md:flex-none px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 flex items-center justify-center text-sm md:text-base"
+              className="flex-1 md:flex-none px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center justify-center text-sm md:text-base"
             >
               <Download className="mr-2 h-4 w-4" />
               Download Template

@@ -13,17 +13,24 @@ const Navigation = () => {
         <>
             <Link
                 to="/services"
-                className="block py-2 md:py-0 text-gray-700 hover:text-sky-600 transition-colors"
+                className="block py-2 md:py-0 text-gray-700 text-sm hover:text-sky-600 transition-colors"
                 onClick={toggleMobileMenu}
             >
                 Abasaba Serivisi
             </Link>
             <Link
                 to="/become-provider"
-                className="block py-2 md:py-0 text-gray-700 hover:text-sky-600 transition-colors"
+                className="block py-2 md:py-0 text-gray-700 text-sm hover:text-sky-600 transition-colors"
                 onClick={toggleMobileMenu}
             >
                 Abatanga Serivisi
+            </Link>
+            <Link
+                to="/membership-club"
+                className="block py-2 md:py-0 text-gray-700 text-sm hover:text-sky-600 transition-colors"
+                onClick={toggleMobileMenu}
+            >
+                Membership Club
             </Link>
             {/* <Link
                 to="/become-agent"
@@ -50,7 +57,7 @@ const Navigation = () => {
                     </div>
                     <Link
                         to="/login"
-                        className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
+                        className="px-4 py-2 bg-sky-500 text-white text-sm rounded hover:bg-sky-600 transition-colors"
                     >
                         Injira
                     </Link>
@@ -60,7 +67,7 @@ const Navigation = () => {
                 <div className="md:hidden flex items-center space-x-4">
                     <Link
                         to="/login"
-                        className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors mr-2"
+                        className="px-4 py-2 bg-sky-500 text-white text-sm rounded hover:bg-sky-600 transition-colors mr-2"
                     >
                         Injira
                     </Link>

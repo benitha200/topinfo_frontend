@@ -3,12 +3,81 @@
 @tailwind components;
 @tailwind utilities;
 
-
 body {
   font-family: 'Poppins', sans-serif;
-  font-size: 14px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: #333;
+  background-color: #f5f7fa;
 }
 
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  /* line-height: 0.5; */
+  font-size: smaller;
+}
+
+/* Animation classes */
+.animate-blob {
+  animation: blob 7s infinite;
+}
+
+.animation-delay-2000 {
+  animation-delay: 2s;
+}
+
+.animation-delay-4000 {
+  animation-delay: 4s;
+}
+
+@keyframes blob {
+  0% {
+    transform: scale(1) translate(0px, 0px);
+  }
+  33% {
+    transform: scale(1.1) translate(30px, -30px);
+  }
+  66% {
+    transform: scale(0.9) translate(-30px, 30px);
+  }
+  100% {
+    transform: scale(1) translate(0px, 0px);
+  }
+}
+
+/* Glassmorphism styles */
+.bg-grid-white\/\[0\.05\] {
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32' width='32' height='32' fill='none' stroke='rgb(255 255 255 / 0.05)'%3e%3cpath d='M0 .5H31.5V32'/%3e%3c/svg%3e");
+}
+
+.bg-white\/10 {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+.backdrop-blur-lg {
+  backdrop-filter: blur(16px);
+}
+
+/* Custom utility classes */
+.transition-all {
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+.hover\:scale-105:hover {
+  transform: scale(1.05);
+}
+
+/* Card hover effects */
+.hover\:-translate-y-2:hover {
+  transform: translateY(-8px);
+}
+
+.hover\:rotate-1:hover {
+  transform: rotate(1deg);
+}
 
 body {
   @apply antialiased text-gray-900;

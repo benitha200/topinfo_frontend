@@ -76,6 +76,8 @@ import Reports from "./pages/Admin/Reports/Reports";
 import Profile from "./pages/Profile";
 import EditServiceProvider from "./pages/Admin/ServiceProviders/EditServiceProvider";
 import Agreement from "./pages/Agent/Agreement";
+import DsicountClub from "./pages/Membership/DsicountClub";
+import JoinMembershipPage from "./pages/Membership/JoinMembershipPage";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -209,6 +211,30 @@ const App = () => {
           element={
             <LayoutWrapper>
               <BecomeAgent />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/discount-club"
+          element={
+            <LayoutWrapper>
+              <DsicountClub />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/membership-club"
+          element={
+            <LayoutWrapper>
+              <DsicountClub />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/discount-club/join"
+          element={
+            <LayoutWrapper>
+              <JoinMembershipPage />
             </LayoutWrapper>
           }
         />

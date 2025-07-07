@@ -268,7 +268,7 @@ const Profile = () => {
                         </CardHeader>
                         <CardContent className="flex flex-col items-center space-y-4">
                             <div className="relative group">
-                                <div className="w-40 h-40 rounded-full overflow-hidden bg-gradient-to-r from-sky-400 to-blue-500 p-1">
+                                <div className="w-40 h-40 rounded-full overflow-hidden bg-gradient-to-r from-sky-400 to-sky-500 p-1">
                                     <div className="w-full h-full bg-white rounded-full overflow-hidden">
                                         {userData.profileImage ? (
                                             <img
@@ -330,7 +330,7 @@ const Profile = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <Mail className="h-5 w-5 mr-2 text-blue-500" />
+                                <Mail className="h-5 w-5 mr-2 text-sky-500" />
                                 Contact Information
                             </CardTitle>
                         </CardHeader>

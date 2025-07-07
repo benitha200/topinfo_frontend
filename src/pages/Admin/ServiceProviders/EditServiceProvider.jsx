@@ -299,7 +299,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 />
               </div>
 
@@ -317,7 +317,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 />
               </div>
             </div>
@@ -338,7 +338,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 />
               </div>
 
@@ -355,7 +355,7 @@ const EditServiceProvider = () => {
                   name="work_email"
                   value={formData.work_email}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 />
               </div>
             </div>
@@ -375,7 +375,7 @@ const EditServiceProvider = () => {
                 rows={4}
                 value={formData.description}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
               />
             </div>
 
@@ -404,7 +404,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.service_category_id}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                 >
                   <option value="">Hitamo icyiciro</option>
                   {categories.map((category) => (
@@ -572,7 +572,7 @@ const EditServiceProvider = () => {
                 required
                 value={formData.experience}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
               >
                 <option value="">Hitamo uburambe bwawe</option>
                 <option value="0-1 year">Munsi y'umwaka umwe</option>
@@ -590,7 +590,7 @@ const EditServiceProvider = () => {
                 name="approved"
                 checked={formData.approved}
                 onChange={handleCheckboxChange}
-                className="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                className="h-4 w-4 text-sky-600 border-gray-300 rounded focus:ring-sky-500"
             />
             <label
                 htmlFor="approved"

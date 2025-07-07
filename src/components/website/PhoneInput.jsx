@@ -32,7 +32,7 @@ const PhoneInput = ({ formData, setFormData }) => {
       value={formatDisplayValue(formData.phone)}
       onChange={handleInputChange}
       maxLength="14" // Accounting for spaces
-      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-blue-500 focus:ring-blue-500"
+      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
       placeholder="078 xxx xxx"
     />
   );

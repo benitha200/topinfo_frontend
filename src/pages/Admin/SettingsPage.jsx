@@ -286,7 +286,7 @@
 //                     <Card>
 //                         <CardHeader>
 //                             <CardTitle className="flex items-center">
-//                                 <MailIcon className="h-5 w-5 mr-2 text-blue-500" />
+//                                 <MailIcon className="h-5 w-5 mr-2 text-sky-500" />
 //                                 Support Settings
 //                             </CardTitle>
 //                         </CardHeader>
@@ -535,7 +535,7 @@ const SettingsPage = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <MailIcon className="h-5 w-5 mr-2 text-blue-500" />
+                                <MailIcon className="h-5 w-5 mr-2 text-sky-500" />
                                 Support Settings
                             </CardTitle>
                         </CardHeader>
