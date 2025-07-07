@@ -128,10 +128,10 @@ const DiscountClub = () => {
                 <p className="text-center text-gray-600 mb-6">
                   Jyamo muri TopInfo Membership Club maze ubone agaciro ku mafaranga yawe karengeje ikiguzi cy'umunyamuryango!
                 </p>
-                <Link to="/discount-club/testimonials" className="px-6 py-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all duration-300 font-medium flex items-center shadow-md hover:shadow-lg">
+                {/* <Link to="/discount-club/testimonials" className="px-6 py-3 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-all duration-300 font-medium flex items-center shadow-md hover:shadow-lg">
                   Ibyo abanyamuryango bavuga
                   <ArrowRight className="ml-2" size={18} />
-                </Link>
+                </Link> */}
               </div>
             </div>
           </div>
@@ -498,196 +498,6 @@ const DiscountClub = () => {
           Hitamo Icyiciro
           <ArrowRight className="ml-2" size={18} />
         </button>
-
-
-        {/* <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
-          <div className="text-center mb-16">
-            <div className="inline-flex items-center justify-center p-4 rounded-full bg-white shadow-sm mb-6 border border-gray-100">
-              <CreditCard className="text-sky-500" size={32} />
-            </div>
-            <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-4 tracking-tight">Amabwiriza yo Kwiyandikisha</h2>
-            <p className="text-xl text-gray-500 max-w-3xl mx-auto">
-              Hitamo ubunyamuryango buhuje n'ibyo ukeneye
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:border-sky-100 transition-all duration-300 hover:shadow-md group flex flex-col">
-              <div className="p-6 border-b border-gray-100 bg-gray-50">
-                <h3 className="text-lg font-semibold text-gray-700 flex items-center justify-center">
-                  <Award className="mr-2 text-gray-400" size={20} /> Silver
-                </h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <div className="text-center mb-6">
-                  <p className="text-4xl font-bold text-gray-900 mb-1">10,000</p>
-                  <p className="text-gray-500 text-sm">RWF ku mwaka</p>
-                </div>
-                <ul className="space-y-3 mb-8 flex-grow">
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Ikarita y'ubunyamuryango y'ikoranabuhanga</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Igabanywa ry'ibiciro ku bigo 20+</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Uburenganzira bwo kwinjira mu itsinda rya WhatsApp</span>
-                  </li>
-                </ul>
-                <div className="mt-auto">
-                  <a
-                    href="/discount-club/join/silver"
-                    className="block w-full py-2.5 px-4 bg-sky-100 text-sky-600 text-center rounded-lg border border-sky-100 hover:border-sky-200 hover:bg-sky-50 transition-colors duration-200 group-hover:border-sky-200 group-hover:bg-sky-50"
-                  >
-                    Iyandikishe Ubu
-                  </a>
-                </div>
-              </div>
-            </div>
-
-         
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:border-amber-100 transition-all duration-300 hover:shadow-md group flex flex-col">
-              <div className="p-6 border-b border-gray-100 bg-amber-50">
-                <h3 className="text-lg font-semibold text-amber-600 flex items-center justify-center">
-                  <Award className="mr-2 text-amber-400" size={20} /> Gold
-                </h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <div className="text-center mb-6">
-                  <p className="text-4xl font-bold text-gray-900 mb-1">50,000</p>
-                  <p className="text-gray-500 text-sm">RWF ku mwaka</p>
-                </div>
-                <ul className="space-y-3 mb-8 flex-grow">
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Byose biri muri Feza</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Igabanywa ry'ibiciro ku bigo 50+</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Coupons z'inyongera buri kwezi</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Impano imwe ku mwaka</span>
-                  </li>
-                </ul>
-                <div className="mt-auto">
-                  <a
-                    href="/discount-club/join/gold"
-                    className="block w-full py-2.5 px-4 bg-amber-100 text-amber-600 text-center rounded-lg border border-amber-100 hover:border-amber-200 hover:bg-amber-50 transition-colors duration-200 group-hover:border-amber-200 group-hover:bg-amber-50"
-                  >
-                    Iyandikishe Ubu
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-200 hover:border-gray-300 transition-all duration-300 hover:shadow-md group relative flex flex-col">
-              <div className="absolute top-4 right-4  text-white text-xs font-medium px-2 py-1 rounded-full">
-                <Star className='mr-2 text-amber-500' size={20}/>
-              </div>
-              <div className="p-6 border-b border-gray-100 bg-gray-800">
-                <h3 className="text-lg font-semibold text-white flex items-center justify-center">
-                  <Award className="mr-2 text-gray-300" size={20} /> Platinum
-                </h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <div className="text-center mb-6">
-                  <p className="text-4xl font-bold text-gray-900 mb-1">90,000</p>
-                  <p className="text-gray-500 text-sm">RWF ku mwaka</p>
-                </div>
-                <ul className="space-y-3 mb-8 flex-grow">
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Byose biri muri Zahabu</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Igabanywa ry'ibiciro ku bigo 100+</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Coupons z'inyongera buri cyumweru</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Impano ebyiri ku mwaka</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Kugera mbere ku bigo bishya</span>
-                  </li>
-                </ul>
-                <div className="mt-auto">
-                  <a
-                    href="/discount-club/join/platinum"
-                    className="block w-full py-2.5 px-4 bg-gray-800 text-white text-center rounded-lg border border-gray-800 hover:bg-gray-700 transition-colors duration-200"
-                  >
-                    Iyandikishe Ubu
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            
-            <div className="bg-white rounded-xl shadow-sm overflow-hidden border border-gray-100 hover:border-sky-100 transition-all duration-300 hover:shadow-md group flex flex-col">
-              <div className="p-6 border-b border-gray-100 bg-gradient-to-r from-sky-500 to-sky-600">
-                <h3 className="text-lg font-semibold text-white flex items-center justify-center">
-                  <Award className="mr-2 text-sky-200" size={20} /> Diamond
-                </h3>
-              </div>
-              <div className="p-6 flex-grow flex flex-col">
-                <div className="text-center mb-6">
-                  <p className="text-4xl font-bold text-gray-900 mb-1">140,000</p>
-                  <p className="text-gray-500 text-sm">RWF ku mwaka</p>
-                </div>
-                <ul className="space-y-3 mb-8 flex-grow">
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Byose biri muri Pulatinumu</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Igabanywa ry'ibiciro ku bigo byose</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Coupons z'inyongera buri munsi</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Impano enye ku mwaka</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Ubufasha bwa VIP amasaha 24/7</span>
-                  </li>
-                  <li className="flex items-start">
-                    <CheckCircle size={16} className="text-sky-500 mr-2 flex-shrink-0 mt-0.5" />
-                    <span className="text-gray-600 text-sm">Uburambe bwihariye bwa VIP</span>
-                  </li>
-                </ul>
-                <div className="mt-auto">
-                  <Link
-                    to="/discount-club/join/diamond"
-                    className="block w-full py-2.5 px-4 bg-gradient-to-r from-sky-500 to-sky-600 text-white text-center rounded-lg hover:from-sky-600 hover:to-sky-700 transition-all duration-200 shadow-sm"
-                  >
-                    Iyandikishe Ubu
-                  </Link>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div> */}
-
         {/* Testimonials Section */}
         <div className="bg-gray-100 py-20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -773,13 +583,13 @@ const DiscountClub = () => {
             </div>
 
             <div className="text-center mt-12">
-              <Link
+              {/* <Link
                 to="/discount-club/testimonials"
                 className="inline-flex items-center px-6 py-3 bg-sky-100 text-sky-700 rounded-lg hover:bg-sky-200 transition-all duration-300 font-medium"
               >
                 Reba Testimone Zose
                 <ChevronRight size={20} className="ml-2" />
-              </Link>
+              </Link> */}
             </div>
           </div>
         </div>
