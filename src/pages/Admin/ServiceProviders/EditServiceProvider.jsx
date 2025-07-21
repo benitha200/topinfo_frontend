@@ -15,6 +15,7 @@ const EditServiceProvider = () => {
     work_email: "",
     phone: "",
     description: "",
+    discount_percentage:"",
     experience: "",
     location_province: "",
     location_district: "",
@@ -374,6 +375,24 @@ const EditServiceProvider = () => {
                 required
                 rows={4}
                 value={formData.description}
+                onChange={handleInputChange}
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="discount_percentage"
+                className="block text-sm font-medium text-gray-700 mb-1"
+              >
+                Discount Percentage (%)
+              </label>
+              <input
+                id="discount_percentage"
+                name="discount_percentage"
+                required
+                type="number"
+                value={formData.discount_percentage}
                 onChange={handleInputChange}
                 className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
               />

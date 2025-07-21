@@ -17,6 +17,7 @@ const BecomeProvider = () => {
     work_email: "",
     phone: "",
     description: "",
+    discount_percentage:"",
     experience: "",
     location_province: "",
     location_district: "",
@@ -323,6 +324,7 @@ const BecomeProvider = () => {
         work_email: "",
         phone: "",
         description: "",
+        discount_percentage:"",
         experience: "",
         provinces: [],
         districts: [],
@@ -568,6 +570,25 @@ const BecomeProvider = () => {
                       onChange={handleInputChange}
                       className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
                       placeholder="Sobanura serivisi utanga..."
+                    />
+                  </div>
+                   {/* Discount percentage */}
+                  <div>
+                    <label
+                      htmlFor="discount_percentage"
+                      className="block text-sm font-bold text-gray-700 mb-1"
+                    >
+                      Discount utanga (%)
+                    </label>
+                    <input
+                      id="discount_percentage"
+                      name="discount_percentage"
+                      required
+                      type="number"
+                      value={formData.discount_percentage}
+                      onChange={handleInputChange}
+                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                      placeholder="Discount utanga..."
                     />
                   </div>
 

@@ -45,6 +45,7 @@ const ServiceProvidersPage = () => {
         location_serve: '',
         additional_info: '',
         service_category_id: '',
+        discount_percentage:'',
         approved: true
     });
 
@@ -259,6 +260,7 @@ const ServiceProvidersPage = () => {
             'Service Area': provider.location_serve || 'N/A',
             'Experience': provider.experience || 'N/A',
             'Description': provider.description || 'N/A',
+            'Discount Percentage': provider.discount_percentage || 'N/A',
             'Service Category': serviceCategories.find(cat => cat.id === provider.service_category_id)?.name || 'N/A',
             'Status': provider.approved ? 'Approved' : 'Pending',
             'Created At': new Date(provider.createdAt).toLocaleDateString() || 'N/A'
@@ -299,6 +301,7 @@ const ServiceProvidersPage = () => {
             work_email: '',
             phone: '',
             description: '',
+            discount_percentage:'',
             experience: '',
             location_province: '',
             location_district: '',
@@ -397,6 +400,7 @@ const ServiceProvidersPage = () => {
                                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Phone</th>
                                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Location</th>
                                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service category</th>
+                                    <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Discount Percentage</th>
                                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
                                     <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
                                 </tr>
@@ -525,7 +529,8 @@ const ServiceProvidersPage = () => {
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Phone</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Location</th>
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Service category</th>
-                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th>
+                                        <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Discount (%)</th>
+                                        {/* <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Status</th> */}
                                         <th className="px-4 py-3 text-left text-sm font-medium text-gray-500">Actions</th>
                                     </tr>
                                 </thead>
@@ -541,7 +546,8 @@ const ServiceProvidersPage = () => {
                                                 {provider.location_sector}, {provider?.location_district}
                                             </td>
                                             <td className="px-4 py-3 text-sm">{provider?.service_category?.name}</td>
-                                            <td className="px-4 py-3 text-sm">
+                                            <td className="px-4 py-3 text-sm"><center>{provider?.discount_percentage}</center></td>
+                                            {/* <td className="px-4 py-3 text-sm">
                                                 <button
                                                     onClick={() => toggleApproval(provider)}
                                                     className={`flex items-center gap-1 px-2 py-1 rounded ${provider.approved
@@ -555,7 +561,7 @@ const ServiceProvidersPage = () => {
                                                         <><XCircle className="h-4 w-4" /> Pending</>
                                                     )}
                                                 </button>
-                                            </td>
+                                            </td> */}
                                             <td className="px-4 py-3 text-sm">
                                                 <button
                                                     className="text-sky-500 p-2 rounded hover:bg-sky-50 mr-2"
@@ -744,6 +750,7 @@ const ServiceProvidersPage = () => {
                                             onChange={(e) => setFormData({ ...formData, location_serve: e.target.value })}
                                         />
                                     </div>
+                                    
                                     <div className="col-span-2">
                                         <label className="block text-sm font-medium mb-1">Description</label>
                                         <textarea
@@ -751,6 +758,15 @@ const ServiceProvidersPage = () => {
                                             rows="2"
                                             value={formData.description}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="col-span-2">
+                                        <label className="block text-sm font-medium mb-1">Discount Percentage</label>
+                                        <input
+                                            type='number'
+                                            className="w-full p-2 border rounded"
+                                            value={formData.discount_percentage}
+                                            onChange={(e) => setFormData({ ...formData, discount_percentage: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-span-2">

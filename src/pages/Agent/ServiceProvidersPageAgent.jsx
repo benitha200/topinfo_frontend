@@ -226,6 +226,7 @@ const ServiceProvidersPageAgent = () => {
             work_email: '',
             phone: '',
             description: '',
+            discount_percentage:'',
             experience: '',
             location_province: '',
             location_district: '',
@@ -475,6 +476,15 @@ const ServiceProvidersPageAgent = () => {
                                             rows="2"
                                             value={formData.description}
                                             onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                                        />
+                                    </div>
+                                    <div className="col-span-2">
+                                        <label className="block text-sm font-medium mb-1">Discount Percentage (%)</label>
+                                        <input
+                                            className="w-full p-2 border rounded"
+                                            type='number'
+                                            value={formData.discount_percentage}
+                                            onChange={(e) => setFormData({ ...formData, discount_percentage: e.target.value })}
                                         />
                                     </div>
                                     <div className="col-span-2">

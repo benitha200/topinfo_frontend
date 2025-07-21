@@ -65,7 +65,10 @@ const Login = () => {
 
       // Role-based navigation
       if (data.user.role === "ADMIN") {
-        navigate("/dashboard");
+        // navigate("/dashboard");
+        navigate("/otp-verification", { 
+          state: { phone: formData.phone } 
+        });
       } else if (data.user.role === "AGENT" && data.user.isSuperAgent) {
         // navigate("/agent-dashboard/payments-super-agent");
         navigate("/otp-verification", { 
