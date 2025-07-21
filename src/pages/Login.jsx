@@ -6,7 +6,7 @@
 // const Login = () => {
 //   const navigate = useNavigate();
 //   const [formData, setFormData] = useState({
-//     email: "",
+//     phone: "",
 //     password: "",
 //   });
 
@@ -30,7 +30,7 @@
 //           Accept: "*/*",
 //         },
 //         body: JSON.stringify({
-//           email: formData.email,
+//           phone: formData.phone,
 //           password: formData.password,
 //         }),
 //       });
@@ -55,7 +55,12 @@
 //         navigate("/agent-dashboard/payments-super-agent");
 //       } else if (data.user.role === "AGENT") {
 //         navigate("/agent-dashboard");
-//       } else {
+//       } else if (data.user.role === "OPERATIONS") {
+//         navigate("/operations-dashboard");
+//       }else if(data.user.role==="CUSTOMER_SUPPORT"){
+//         navigate("/cutomer-support-dashboard")
+//       }
+//       else {
 //         navigate("/");
 //       }
 //     } catch (err) {
@@ -85,23 +90,23 @@
 
 //           <div className="space-y-2">
 //             <label
-//               htmlFor="email"
+//               htmlFor="phone"
 //               className="block text-sm font-medium text-gray-700"
 //             >
-//               Imeyili yawe
+//               Phone yawe
 //             </label>
 //             <div className="relative">
 //               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
 //                 <Mail className="h-5 w-5 text-sky-400" />
 //               </div>
 //               <input
-//                 type="email"
-//                 id="email"
-//                 name="email"
-//                 value={formData.email}
+//                 type="text"
+//                 id="phone"
+//                 name="phone"
+//                 value={formData.phone}
 //                 onChange={handleInputChange}
 //                 className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-300"
-//                 placeholder="urugero@gmail.com"
+//                 placeholder="25078xxxxxxx"
 //                 required
 //               />
 //             </div>
@@ -187,7 +192,7 @@
 
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff, RefreshCw } from "lucide-react";
 import API_URL from "../constants/Constants";
 
 const Login = () => {
@@ -200,6 +205,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleInputChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -208,6 +214,7 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError("");
+    setIsLoading(true);
 
     try {
       const response = await fetch(`${API_URL}/auth/login`, {
@@ -228,6 +235,19 @@ const Login = () => {
 
       const data = await response.json();
 
+      // If OTP is required, navigate to OTP page
+      // if (data.requiresOTP) {
+      //   navigate("/otp-verification", { 
+      //     state: { phone: formData.phone } 
+      //   });
+      //   return;
+      // }
+
+      navigate("/otp-verification", { 
+          state: { phone: formData.phone } 
+        });
+
+      // If no OTP required, proceed with normal login
       localStorage.setItem("user", JSON.stringify(data.user));
       localStorage.setItem("token", data.token);
 
@@ -239,20 +259,27 @@ const Login = () => {
       if (data.user.role === "ADMIN") {
         navigate("/dashboard");
       } else if (data.user.role === "AGENT" && data.user.isSuperAgent) {
-        navigate("/agent-dashboard/payments-super-agent");
+        // navigate("/agent-dashboard/payments-super-agent");
+        navigate("/otp-verification", { 
+          state: { phone: formData.phone } 
+        });
       } else if (data.user.role === "AGENT") {
         navigate("/agent-dashboard");
       } else if (data.user.role === "OPERATIONS") {
-        navigate("/operations-dashboard");
-      }else if(data.user.role==="CUSTOMER_SUPPORT"){
-        navigate("/cutomer-support-dashboard")
-      }
-      else {
+        // navigate("/operations-dashboard");
+        navigate("/otp-verification", { 
+          state: { phone: formData.phone } 
+        });
+      } else if (data.user.role === "CUSTOMER_SUPPORT") {
+        navigate("/customer-support-dashboard");
+      } else {
         navigate("/");
       }
     } catch (err) {
       setError("Login failed. Please check your credentials and try again.");
       console.error("Login error:", err);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -364,9 +391,17 @@ const Login = () => {
 
           <button
             type="submit"
-            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-lg text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98]"
+            disabled={isLoading}
+            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-lg text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
-            Injira
+            {isLoading ? (
+              <div className="flex items-center">
+                <RefreshCw className="animate-spin -ml-1 mr-2 h-4 w-4" />
+                Tegereza...
+              </div>
+            ) : (
+              "Injira"
+            )}
           </button>
         </form>
       </div>

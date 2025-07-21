@@ -7,21 +7,6 @@ import {
   Navigate,
   useLocation,
 } from "react-router-dom";
-import {
-  Menu,
-  X,
-  ChevronDown,
-  Sun,
-  Moon,
-  Bell,
-  Search,
-  Shield,
-  ArrowRight,
-  Sparkles,
-  Users,
-  Facebook,
-  Youtube,
-} from "lucide-react";
 
 // Import your pages
 import Home from "./pages/Home";
@@ -78,6 +63,7 @@ import EditServiceProvider from "./pages/Admin/ServiceProviders/EditServiceProvi
 import Agreement from "./pages/Agent/Agreement";
 import DsicountClub from "./pages/Membership/DsicountClub";
 import JoinMembershipPage from "./pages/Membership/JoinMembershipPage";
+import OTPVerification from "./pages/OTPverification";
 
 // ProtectedRoute Component (Added back)
 const ProtectedRoute = ({ children, allowedRoles }) => {
@@ -146,6 +132,14 @@ const App = () => {
           element={
             <LayoutWrapper>
               <Login />
+            </LayoutWrapper>
+          }
+        />
+        <Route
+          path="/otp-verification"
+          element={
+            <LayoutWrapper>
+              <OTPVerification />
             </LayoutWrapper>
           }
         />
