@@ -40,10 +40,76 @@ const JoinMembershipPage = () => {
         }
     }, []);
 
+    // const plans = {
+    //     silver: {
+    //         name: 'Silver',
+    //         price: '10,000',
+    //         color: 'bg-white',
+    //         textColor: 'text-gray-800',
+    //         iconColor: 'text-gray-600',
+    //         borderColor: 'border-gray-200',
+    //         accentColor: 'bg-gray-100',
+    //         features: [
+    //             "Ikarita y'ubunyamuryango y'ikoranabuhanga",
+    //             "Igabanywa ry'ibiciro ahantu hasaga 20",
+    //             'Uburenganzira bwo kwinjira mu itsinda rya WhatsApp'
+    //         ]
+    //     },
+    //     gold: {
+    //         name: 'Gold',
+    //         price: '50,000',
+    //         color: 'bg-amber-200',
+    //         textColor: 'text-gray-800',
+    //         iconColor: 'text-amber-500',
+    //         borderColor: 'border-amber-200',
+    //         accentColor: 'bg-amber-50',
+    //         features: [
+    //             "Ibyo Silver yose itanga",
+    //             "Igabanywa ry'ibiciro ahantu hasaga 50",
+    //             "Igabanywa ry'ibiciro bya buri kwezi",
+    //             "Impano 1 buri mwaka"
+    //         ]
+    //     },
+    //     platinum: {
+    //         name: 'Platinum',
+    //         price: '90,000',
+    //         color: 'bg-gray-200',
+    //         textColor: 'text-gray-900',
+    //         iconColor: 'text-sky-400',
+    //         borderColor: 'border-gray-200',
+    //         accentColor: 'bg-gray-200',
+    //         features: [
+    //             'Ibyo Gold yose itanga',
+    //             "Igabanywa ry'ibiciro ahantu hasaga 100",
+    //             "Igabanywa ry'ibiciro bya buri cyumweru",
+    //             'Impano 2 buri mwaka',
+    //             'Kugera mbere ku hantu hashya'
+    //         ]
+    //     },
+    //     diamond: {
+    //         name: 'Diamond',
+    //         price: '140,000',
+    //         color: 'bg-sky-500',
+    //         textColor: 'text-white',
+    //         iconColor: 'text-sky-200',
+    //         borderColor: 'border-sky-400',
+    //         accentColor: 'bg-sky-700',
+    //         features: [
+    //             'Ibyo Platinum yose itanga',
+    //             "Igabanywa ry'ibiciro ahantu hose",
+    //             "Igabanywa ry'ibiciro bya buri munsi",
+    //             'Impano 4 buri mwaka',
+    //             'Ubufasha bwa VIP amasaha 24/7',
+    //             'Uburambe bwihariye bwa VIP'
+    //         ]
+    //     }
+    // };
+
     const plans = {
         silver: {
             name: 'Silver',
             price: '10,000',
+            duration: 'Ukwezi 1', // 1 month
             color: 'bg-white',
             textColor: 'text-gray-800',
             iconColor: 'text-gray-600',
@@ -58,6 +124,7 @@ const JoinMembershipPage = () => {
         gold: {
             name: 'Gold',
             price: '50,000',
+            duration: 'Amezi 3', // 3 months
             color: 'bg-amber-200',
             textColor: 'text-gray-800',
             iconColor: 'text-amber-500',
@@ -73,6 +140,7 @@ const JoinMembershipPage = () => {
         platinum: {
             name: 'Platinum',
             price: '90,000',
+            duration: 'Amezi 6', // 6 months
             color: 'bg-gray-200',
             textColor: 'text-gray-900',
             iconColor: 'text-sky-400',
@@ -89,6 +157,7 @@ const JoinMembershipPage = () => {
         diamond: {
             name: 'Diamond',
             price: '140,000',
+            duration: 'Umwaka', // 1 year
             color: 'bg-sky-500',
             textColor: 'text-white',
             iconColor: 'text-sky-200',
@@ -104,7 +173,6 @@ const JoinMembershipPage = () => {
             ]
         }
     };
-
 
     const handlePlanSelect = (plan) => {
         setSelectedPlan(plan);
@@ -259,25 +327,25 @@ const JoinMembershipPage = () => {
                                 {Object.entries(plans).map(([key, plan]) => (
                                     <div
                                         key={key}
-                                        className={`${plan.color} rounded-xl shadow-sm p-6 border ${plan.borderColor} transition-all hover:shadow-md hover:-translate-y-1 flex flex-col`}
+                                        className={`${plan.color} rounded-xl shadow-sm p-6 border ${plan.borderColor} transition-all hover:shadow-md hover:-translate-y-1 flex flex-col relative`}
                                     >
                                         {key === 'platinum' && (
-                                            <div className={`${plan.accentColor} text-xs font-medium px-3 py-1 rounded-full inline-flex items-center mb-4`}>
+                                            <div className={`${plan.accentColor} text-xs font-medium absolute -top-2 -right-2 rounded-full inline-flex items-center px-2 py-1 z-20 bg-white shadow-sm border`}>
                                                 <Star className="h-3 w-3 mr-1" fill='green' strokeWidth={0} />
                                                 <span className='text-green-600'>IKUNZWE CYANE</span>
                                             </div>
                                         )}
 
                                         <h2 className={`text-xl font-bold ${plan.textColor} mb-1`}>{plan.name}</h2>
-                                        <p className={`text-sm ${key === 'platinum' || key === 'diamond' ? 'text-gray-300' : 'text-gray-500'} mb-4`}>
+                                        <p className={`text-sm ${key === 'diamond' ? 'text-gray-500' : 'text-gray-500'} mb-4`}>
                                             {key === 'silver' ? 'Ubunyamuryango bw\'ibanze' :
                                                 key === 'gold' ? 'Inyungu zikungahaye' :
                                                     key === 'platinum' ? 'Uburambe bwiza' : 'VIP by\'umwihariko'}
                                         </p>
 
                                         <div className="flex items-baseline my-4">
-                                            <span className={`text-3xl font-bold ${plan.textColor}`}>RWF {plan.price}</span>
-                                            <span className={`ml-1 text-sm ${key === 'platinum' || key === 'diamond' ? 'text-gray-300' : 'text-gray-500'}`}>/ukwezi</span>
+                                            <span className={`text-2xl font-bold ${plan.textColor}`}>RWF {plan.price}</span>
+                                            <span className={`ml-1 text-sm ${key === 'diamond' ? 'text-gray-200' : 'text-gray-500'}`}>/{plan.duration}</span>
                                         </div>
 
                                         <ul className="mb-6 space-y-3 flex-grow">
@@ -292,9 +360,9 @@ const JoinMembershipPage = () => {
                                         <button
                                             onClick={() => handlePlanSelect(key)}
                                             className={`mt-auto w-full py-2 px-4 rounded-lg font-medium transition-colors ${key === 'silver' ? 'bg-gray-800 hover:bg-gray-700 text-white' :
-                                                    key === 'gold' ? 'bg-amber-500 hover:bg-amber-600 text-white' :
-                                                        key === 'platinum' ? 'bg-sky-600 hover:bg-sky-700 text-white' :
-                                                            'bg-gray-600 hover:bg-gray-600 text-white'
+                                                key === 'gold' ? 'bg-amber-500 hover:bg-amber-600 text-white' :
+                                                    key === 'platinum' ? 'bg-sky-600 hover:bg-sky-700 text-white' :
+                                                        'bg-gray-600 hover:bg-gray-600 text-white'
                                                 }`}
                                         >
                                             {`Hitamo ${plan.name}`}
