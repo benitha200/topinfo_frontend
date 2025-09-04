@@ -61,10 +61,10 @@ const ContactUs = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-sky-50 to-sky-50 flex items-center justify-center p-6">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-50 flex items-center justify-center p-6">
       <div className="bg-white shadow-2xl rounded-2xl w-full max-w-5xl grid md:grid-cols-2 overflow-hidden">
         {/* Contact Info Section */}
-        <div className="bg-sky-600 text-white p-8 flex flex-col justify-center space-y-6">
+        <div className="bg-slate-600 text-white p-8 flex flex-col justify-center space-y-6">
           <h2 className="text-3xl font-bold mb-4">Contact Information</h2>
           
           <div className="flex items-center space-x-4">
@@ -100,7 +100,7 @@ const ContactUs = () => {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label htmlFor="name" className="block mb-2 text-gray-700 flex items-center">
-                <User className="mr-2 w-5 h-5 text-sky-600" /> Name
+                <User className="mr-2 w-5 h-5 text-slate-600" /> Name
               </label>
               <input
                 type="text"
@@ -109,14 +109,14 @@ const ContactUs = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                 placeholder="Your Name"
               />
             </div>
 
             <div>
               <label htmlFor="email" className="block mb-2 text-gray-700 flex items-center">
-                <Mail className="mr-2 w-5 h-5 text-sky-600" /> Email
+                <Mail className="mr-2 w-5 h-5 text-slate-600" /> Email
               </label>
               <input
                 type="email"
@@ -125,14 +125,14 @@ const ContactUs = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                 placeholder="your.email@example.com"
               />
             </div>
 
             <div>
               <label htmlFor="subject" className="block mb-2 text-gray-700 flex items-center">
-                <AlertTriangle className="mr-2 w-5 h-5 text-sky-600" /> Subject
+                <AlertTriangle className="mr-2 w-5 h-5 text-slate-600" /> Subject
               </label>
               <input
                 type="text"
@@ -141,14 +141,14 @@ const ContactUs = () => {
                 value={formData.subject}
                 onChange={handleChange}
                 required
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                 placeholder="Message Subject"
               />
             </div>
 
             <div>
               <label htmlFor="message" className="block mb-2 text-gray-700 flex items-center">
-                <Send className="mr-2 w-5 h-5 text-sky-600" /> Message
+                <Send className="mr-2 w-5 h-5 text-slate-600" /> Message
               </label>
               <textarea
                 id="message"
@@ -157,7 +157,7 @@ const ContactUs = () => {
                 onChange={handleChange}
                 required
                 rows="4"
-                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500"
                 placeholder="Write your message here..."
               ></textarea>
             </div>
@@ -165,7 +165,7 @@ const ContactUs = () => {
             <button
               type="submit"
               disabled={status === 'sending'}
-              className="w-full bg-sky-600 text-white py-3 rounded hover:bg-sky-700 transition duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"
+              className="w-full bg-slate-600 text-white py-3 rounded hover:bg-slate-700 transition duration-300 flex items-center justify-center space-x-2 disabled:opacity-50"
             >
               <Send className="w-5 h-5" />
               <span>{status === 'sending' ? 'Sending...' : 'Send Message'}</span>

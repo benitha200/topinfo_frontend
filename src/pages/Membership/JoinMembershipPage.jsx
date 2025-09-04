@@ -75,7 +75,7 @@ const JoinMembershipPage = () => {
     //         price: '90,000',
     //         color: 'bg-gray-200',
     //         textColor: 'text-gray-900',
-    //         iconColor: 'text-sky-400',
+    //         iconColor: 'text-slate-400',
     //         borderColor: 'border-gray-200',
     //         accentColor: 'bg-gray-200',
     //         features: [
@@ -89,11 +89,11 @@ const JoinMembershipPage = () => {
     //     diamond: {
     //         name: 'Diamond',
     //         price: '140,000',
-    //         color: 'bg-sky-500',
+    //         color: 'bg-slate-500',
     //         textColor: 'text-white',
-    //         iconColor: 'text-sky-200',
-    //         borderColor: 'border-sky-400',
-    //         accentColor: 'bg-sky-700',
+    //         iconColor: 'text-slate-200',
+    //         borderColor: 'border-slate-400',
+    //         accentColor: 'bg-slate-700',
     //         features: [
     //             'Ibyo Platinum yose itanga',
     //             "Igabanywa ry'ibiciro ahantu hose",
@@ -143,7 +143,7 @@ const JoinMembershipPage = () => {
             duration: 'Amezi 6', // 6 months
             color: 'bg-gray-200',
             textColor: 'text-gray-900',
-            iconColor: 'text-sky-400',
+            iconColor: 'text-slate-400',
             borderColor: 'border-gray-200',
             accentColor: 'bg-gray-200',
             features: [
@@ -158,11 +158,11 @@ const JoinMembershipPage = () => {
             name: 'Diamond',
             price: '140,000',
             duration: 'Umwaka', // 1 year
-            color: 'bg-sky-500',
+            color: 'bg-slate-500',
             textColor: 'text-white',
-            iconColor: 'text-sky-200',
-            borderColor: 'border-sky-400',
-            accentColor: 'bg-sky-700',
+            iconColor: 'text-slate-200',
+            borderColor: 'border-slate-400',
+            accentColor: 'bg-slate-700',
             features: [
                 'Ibyo Platinum yose itanga',
                 "Igabanywa ry'ibiciro ahantu hose",
@@ -262,10 +262,10 @@ const JoinMembershipPage = () => {
 
             <div className="min-h-screen w-full bg-gray-50">
                 {/* Header */}
-                <div className="bg-gradient-to-br from-sky-600 via-sky-500 to-sky-400 py-12">
+                <div className="bg-gradient-to-br from-slate-600 via-slate-500 to-slate-400 py-12">
                     <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
                         <div className="flex items-center justify-between">
-                            <Link to="/discount-club" className="flex items-center text-white hover:text-sky-100 transition-colors">
+                            <Link to="/discount-club" className="flex items-center text-white hover:text-slate-100 transition-colors">
                                 <ArrowLeft className="mr-2" size={20} />
                                 <span className="font-medium">Gusubira Inyuma</span>
                             </Link>
@@ -282,33 +282,33 @@ const JoinMembershipPage = () => {
                     <div className="bg-white rounded-lg shadow-lg p-4">
                         <div className="flex items-center justify-between">
                             <div className="flex items-center">
-                                <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step >= 1 ? 'bg-sky-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step >= 1 ? 'bg-slate-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
                                     1
                                 </div>
                                 <div className="ml-3">
-                                    <p className={`font-medium ${step >= 1 ? 'text-sky-500' : 'text-gray-500'}`}>Hitamo</p>
+                                    <p className={`font-medium ${step >= 1 ? 'text-slate-500' : 'text-gray-500'}`}>Hitamo</p>
                                 </div>
                             </div>
 
-                            <div className={`flex-1 h-1 mx-4 ${step >= 2 ? 'bg-sky-500' : 'bg-gray-200'}`}></div>
+                            <div className={`flex-1 h-1 mx-4 ${step >= 2 ? 'bg-slate-500' : 'bg-gray-200'}`}></div>
 
                             <div className="flex items-center">
-                                <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step >= 2 ? 'bg-sky-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step >= 2 ? 'bg-slate-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
                                     2
                                 </div>
                                 <div className="ml-3">
-                                    <p className={`font-medium ${step >= 2 ? 'text-sky-500' : 'text-gray-500'}`}>Amakuru</p>
+                                    <p className={`font-medium ${step >= 2 ? 'text-slate-500' : 'text-gray-500'}`}>Amakuru</p>
                                 </div>
                             </div>
 
-                            <div className={`flex-1 h-1 mx-4 ${step >= 3 ? 'bg-sky-500' : 'bg-gray-200'}`}></div>
+                            <div className={`flex-1 h-1 mx-4 ${step >= 3 ? 'bg-slate-500' : 'bg-gray-200'}`}></div>
 
                             <div className="flex items-center">
-                                <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step >= 3 ? 'bg-sky-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
+                                <div className={`rounded-full h-10 w-10 flex items-center justify-center ${step >= 3 ? 'bg-slate-500 text-white' : 'bg-gray-200 text-gray-500'}`}>
                                     3
                                 </div>
                                 <div className="ml-3">
-                                    <p className={`font-medium ${step >= 3 ? 'text-sky-500' : 'text-gray-500'}`}>Kwishyura</p>
+                                    <p className={`font-medium ${step >= 3 ? 'text-slate-500' : 'text-gray-500'}`}>Kwishyura</p>
                                 </div>
                             </div>
                         </div>
@@ -361,7 +361,7 @@ const JoinMembershipPage = () => {
                                             onClick={() => handlePlanSelect(key)}
                                             className={`mt-auto w-full py-2 px-4 rounded-lg font-medium transition-colors ${key === 'silver' ? 'bg-gray-800 hover:bg-gray-700 text-white' :
                                                 key === 'gold' ? 'bg-amber-500 hover:bg-amber-600 text-white' :
-                                                    key === 'platinum' ? 'bg-sky-600 hover:bg-sky-700 text-white' :
+                                                    key === 'platinum' ? 'bg-slate-600 hover:bg-slate-700 text-white' :
                                                         'bg-gray-600 hover:bg-gray-600 text-white'
                                                 }`}
                                         >
@@ -401,7 +401,7 @@ const JoinMembershipPage = () => {
                                                 name="firstName"
                                                 value={formData.firstName}
                                                 onChange={handleInputChange}
-                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all ${errors.firstName ? 'border-red-500' : 'border-gray-300'}`}
+                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all ${errors.firstName ? 'border-red-500' : 'border-gray-300'}`}
                                                 placeholder="Andika izina ryawe"
                                             />
                                         </div>
@@ -418,7 +418,7 @@ const JoinMembershipPage = () => {
                                                 name="lastName"
                                                 value={formData.lastName}
                                                 onChange={handleInputChange}
-                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all ${errors.lastName ? 'border-red-500' : 'border-gray-300'}`}
+                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all ${errors.lastName ? 'border-red-500' : 'border-gray-300'}`}
                                                 placeholder="Andika izina ry'umuryango"
                                             />
                                         </div>
@@ -437,7 +437,7 @@ const JoinMembershipPage = () => {
                                                 name="email"
                                                 value={formData.email}
                                                 onChange={handleInputChange}
-                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
+                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all ${errors.email ? 'border-red-500' : 'border-gray-300'}`}
                                                 placeholder="email@example.com"
                                             />
                                         </div>
@@ -454,7 +454,7 @@ const JoinMembershipPage = () => {
                                                 name="phone"
                                                 value={formData.phone}
                                                 onChange={handleInputChange}
-                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
+                                                className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all ${errors.phone ? 'border-red-500' : 'border-gray-300'}`}
                                                 placeholder="07XX XXX XXX"
                                             />
                                         </div>
@@ -472,7 +472,7 @@ const JoinMembershipPage = () => {
                                             name="birthdate"
                                             value={formData.birthdate}
                                             onChange={handleInputChange}
-                                            className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all ${errors.birthdate ? 'border-red-500' : 'border-gray-300'}`}
+                                            className={`pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all ${errors.birthdate ? 'border-red-500' : 'border-gray-300'}`}
                                         />
                                     </div>
                                     {errors.birthdate && <p className="text-red-500 text-sm mt-1">{errors.birthdate}</p>}
@@ -482,13 +482,13 @@ const JoinMembershipPage = () => {
                                     <label className="block text-gray-700 font-medium mb-2">Uburyo bwo Kwishyura</label>
                                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                                         <div
-                                            className={`border rounded-lg p-4 cursor-pointer transition-all ${formData.paymentMethod === 'momo' ? 'bg-sky-50 border-sky-500' : 'hover:bg-gray-50'}`}
+                                            className={`border rounded-lg p-4 cursor-pointer transition-all ${formData.paymentMethod === 'momo' ? 'bg-slate-50 border-slate-500' : 'hover:bg-gray-50'}`}
                                             onClick={() => handleInputChange({ target: { name: 'paymentMethod', value: 'momo' } })}
                                         >
                                             <div className="flex items-center justify-between mb-2">
                                                 <h4 className="font-medium">MTN MoMo</h4>
                                                 {formData.paymentMethod === 'momo' ? (
-                                                    <div className="h-5 w-5 rounded-full bg-sky-500 flex items-center justify-center">
+                                                    <div className="h-5 w-5 rounded-full bg-slate-500 flex items-center justify-center">
                                                         <Check size={12} className="text-white" />
                                                     </div>
                                                 ) : (
@@ -499,13 +499,13 @@ const JoinMembershipPage = () => {
                                         </div>
 
                                         <div
-                                            className={`border rounded-lg p-4 cursor-pointer transition-all ${formData.paymentMethod === 'airtel' ? 'bg-sky-50 border-sky-500' : 'hover:bg-gray-50'}`}
+                                            className={`border rounded-lg p-4 cursor-pointer transition-all ${formData.paymentMethod === 'airtel' ? 'bg-slate-50 border-slate-500' : 'hover:bg-gray-50'}`}
                                             onClick={() => handleInputChange({ target: { name: 'paymentMethod', value: 'airtel' } })}
                                         >
                                             <div className="flex items-center justify-between mb-2">
                                                 <h4 className="font-medium">Airtel Money</h4>
                                                 {formData.paymentMethod === 'airtel' ? (
-                                                    <div className="h-5 w-5 rounded-full bg-sky-500 flex items-center justify-center">
+                                                    <div className="h-5 w-5 rounded-full bg-slate-500 flex items-center justify-center">
                                                         <Check size={12} className="text-white" />
                                                     </div>
                                                 ) : (
@@ -516,13 +516,13 @@ const JoinMembershipPage = () => {
                                         </div>
 
                                         <div
-                                            className={`border rounded-lg p-4 cursor-pointer transition-all ${formData.paymentMethod === 'card' ? 'bg-sky-50 border-sky-500' : 'hover:bg-gray-50'}`}
+                                            className={`border rounded-lg p-4 cursor-pointer transition-all ${formData.paymentMethod === 'card' ? 'bg-slate-50 border-slate-500' : 'hover:bg-gray-50'}`}
                                             onClick={() => handleInputChange({ target: { name: 'paymentMethod', value: 'card' } })}
                                         >
                                             <div className="flex items-center justify-between mb-2">
                                                 <h4 className="font-medium">Visa/Mastercard</h4>
                                                 {formData.paymentMethod === 'card' ? (
-                                                    <div className="h-5 w-5 rounded-full bg-sky-500 flex items-center justify-center">
+                                                    <div className="h-5 w-5 rounded-full bg-slate-500 flex items-center justify-center">
                                                         <Check size={12} className="text-white" />
                                                     </div>
                                                 ) : (
@@ -543,12 +543,12 @@ const JoinMembershipPage = () => {
                                                 type="checkbox"
                                                 checked={formData.agreeTerms}
                                                 onChange={handleInputChange}
-                                                className={`h-5 w-5 rounded border-gray-300 text-sky-600 focus:ring-sky-500 ${errors.agreeTerms ? 'border-red-500' : ''}`}
+                                                className={`h-5 w-5 rounded border-gray-300 text-slate-600 focus:ring-slate-500 ${errors.agreeTerms ? 'border-red-500' : ''}`}
                                             />
                                         </div>
                                         <div className="ml-3">
                                             <label htmlFor="agreeTerms" className="text-gray-700">
-                                                Nemera <Link to="/terms" className="text-sky-600 hover:text-sky-800 underline">amategeko n'amabwiriza</Link> ya TopInfo Membership Club
+                                                Nemera <Link to="/terms" className="text-slate-600 hover:text-slate-800 underline">amategeko n'amabwiriza</Link> ya TopInfo Membership Club
                                             </label>
                                             {errors.agreeTerms && <p className="text-red-500 text-sm mt-1">{errors.agreeTerms}</p>}
                                         </div>
@@ -567,7 +567,7 @@ const JoinMembershipPage = () => {
 
                                     <button
                                         type="submit"
-                                        className="py-3 px-6 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
+                                        className="py-3 px-6 bg-slate-500 text-white rounded-xl hover:bg-slate-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
                                         disabled={isSubmitting}
                                     >
                                         {isSubmitting ? (
@@ -615,7 +615,7 @@ const JoinMembershipPage = () => {
                                             </li>
                                             <li className="flex">
                                                 <span className="font-bold mr-2">2.</span>
-                                                <p>Andika numero ikurikira mu mwanya wa reference: <span className="font-bold text-sky-600">TOP{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span></p>
+                                                <p>Andika numero ikurikira mu mwanya wa reference: <span className="font-bold text-slate-600">TOP{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span></p>
                                             </li>
                                             <li className="flex">
                                                 <span className="font-bold mr-2">3.</span>
@@ -641,7 +641,7 @@ const JoinMembershipPage = () => {
                                             </li>
                                             <li className="flex">
                                                 <span className="font-bold mr-2">2.</span>
-                                                <p>Andika numero ikurikira mu mwanya wa reference: <span className="font-bold text-sky-600">TOP{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span></p>
+                                                <p>Andika numero ikurikira mu mwanya wa reference: <span className="font-bold text-slate-600">TOP{Math.floor(Math.random() * 10000).toString().padStart(4, '0')}</span></p>
                                             </li>
                                             <li className="flex">
                                                 <span className="font-bold mr-2">3.</span>
@@ -671,7 +671,7 @@ const JoinMembershipPage = () => {
                                                         name="cardNumber"
                                                         value={formData.cardNumber}
                                                         onChange={handleInputChange}
-                                                        className="pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all border-gray-300"
+                                                        className="pl-10 w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all border-gray-300"
                                                         placeholder="XXXX XXXX XXXX XXXX"
                                                         maxLength="19"
                                                     />
@@ -686,7 +686,7 @@ const JoinMembershipPage = () => {
                                                         name="cardExpiry"
                                                         value={formData.cardExpiry}
                                                         onChange={handleInputChange}
-                                                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all border-gray-300"
+                                                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all border-gray-300"
                                                         placeholder="MM/YY"
                                                         maxLength="5"
                                                     />
@@ -698,7 +698,7 @@ const JoinMembershipPage = () => {
                                                         name="cardCvc"
                                                         value={formData.cardCvc}
                                                         onChange={handleInputChange}
-                                                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-sky-500 focus:border-sky-500 outline-none transition-all border-gray-300"
+                                                        className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-slate-500 focus:border-slate-500 outline-none transition-all border-gray-300"
                                                         placeholder="123"
                                                         maxLength="3"
                                                     />
@@ -715,13 +715,13 @@ const JoinMembershipPage = () => {
                             )}
 
                             <div className="mb-6">
-                                <div className="bg-sky-50 p-4 rounded-lg border border-sky-200 flex items-start">
-                                    <div className="mt-1 mr-3 text-sky-500">
+                                <div className="bg-slate-50 p-4 rounded-lg border border-slate-200 flex items-start">
+                                    <div className="mt-1 mr-3 text-slate-500">
                                         <Shield size={18} />
                                     </div>
                                     <div>
-                                        <h4 className="font-medium text-sky-700 mb-1">Kugenzura Kwishyura</h4>
-                                        <p className="text-sky-600 text-sm">
+                                        <h4 className="font-medium text-slate-700 mb-1">Kugenzura Kwishyura</h4>
+                                        <p className="text-slate-600 text-sm">
                                             Amakuru yose ashyizwe muri iyi form akoreshwa gusa mu kwishyura no kuguha ubunyamuryango bwawe.
                                             Ntabwo tuzagurisha cyangwa gusangiza amakuru yawe n'abandi.
                                         </p>
@@ -742,7 +742,7 @@ const JoinMembershipPage = () => {
                                 <button
                                     type="button"
                                     onClick={handlePaymentSubmit}
-                                    className="py-3 px-6 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
+                                    className="py-3 px-6 bg-slate-500 text-white rounded-xl hover:bg-slate-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center justify-center"
                                     disabled={isSubmitting}
                                 >
                                     {isSubmitting ? (
@@ -808,7 +808,7 @@ const JoinMembershipPage = () => {
 
                             <button
                                 onClick={goToDashboard}
-                                className="py-3 px-6 bg-sky-500 text-white rounded-xl hover:bg-sky-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto"
+                                className="py-3 px-6 bg-slate-500 text-white rounded-xl hover:bg-slate-600 transition-colors duration-300 shadow-md hover:shadow-lg flex items-center justify-center mx-auto"
                             >
                                 Kujya kuri Dashboard
                                 <ArrowRight className="ml-2" size={18} />

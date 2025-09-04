@@ -34,13 +34,13 @@ const Register = () => {
           {/* Email and password fields */}
           <button
             type="submit"
-            className="bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-4 rounded w-full"
+            className="bg-slate-500 hover:bg-slate-600 text-white font-medium py-2 px-4 rounded w-full"
           >
             Register
           </button>
         </form>
         <p className="mt-4 text-center">
-          Already have an account? <Link to="/login" className="text-sky-500 hover:underline">
+          Already have an account? <Link to="/login" className="text-slate-500 hover:underline">
             Login
           </Link>
         </p>

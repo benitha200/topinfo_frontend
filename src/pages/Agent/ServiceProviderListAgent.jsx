@@ -309,7 +309,7 @@ const ServiceProviderListAgent = () => {
                   <Button
                     size="sm"
                     onClick={() => handleViewServiceProvider(serviceProvider.id)}
-                    className="hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
+                    className="hover:bg-slate-200 bg-slate-100 rounded text-slate-700"
                   >
                     <Eye className="mr-2" size={16} /> View
                   </Button>
@@ -353,7 +353,7 @@ const ServiceProviderListAgent = () => {
                 </div>
               </div>
               <Button
-                className="w-full mt-2 hover:bg-sky-200 bg-sky-100 rounded text-sky-700"
+                className="w-full mt-2 hover:bg-slate-200 bg-slate-100 rounded text-slate-700"
                 onClick={() => handleViewServiceProvider(serviceProvider.id)}
               >
                 <Eye className="mr-2" size={16} /> View Details
@@ -372,8 +372,8 @@ const ServiceProviderListAgent = () => {
       <div className={cardGridClasses}>
         <Card>
           <CardContent className="pt-6 flex items-center">
-            <div className="mr-4 bg-sky-100 p-3 rounded-full">
-              <Eye className="text-sky-600" size={24} />
+            <div className="mr-4 bg-slate-100 p-3 rounded-full">
+              <Eye className="text-slate-600" size={24} />
             </div>
             <div>
               <p className="text-sm text-gray-500">Total Service Providers</p>

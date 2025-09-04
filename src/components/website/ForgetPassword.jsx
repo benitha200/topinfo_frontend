@@ -51,11 +51,11 @@ const ForgetPassword = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 p-4">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 p-4">
       <div className="w-full max-w-md bg-white rounded-2xl shadow-2xl overflow-hidden transform transition-all hover:scale-[1.02] duration-300">
         <div className="p-8 space-y-6">
           <div className="text-center">
-            <Mail className="mx-auto h-16 w-16 text-sky-600 mb-4" />
+            <Mail className="mx-auto h-16 w-16 text-slate-600 mb-4" />
             <h2 className="text-3xl font-bold text-gray-800 mb-2">
               Forgot Password
             </h2>
@@ -81,7 +81,7 @@ const ForgetPassword = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg 
-                    focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 
+                    focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 
                     transition-all duration-300"
                   placeholder="your-email@gmail.com"
                 />
@@ -109,7 +109,7 @@ const ForgetPassword = () => {
                 rounded-lg text-sm font-semibold text-white transition-all duration-300 
                 ${isLoading 
                   ? 'bg-gray-500 cursor-not-allowed' 
-                  : 'bg-sky-600 hover:bg-sky-700 active:bg-sky-800'
+                  : 'bg-slate-600 hover:bg-slate-700 active:bg-slate-800'
                 }`}
             >
               {isLoading ? (
@@ -145,7 +145,7 @@ const ForgetPassword = () => {
               Remember your password?{' '}
               <a 
                 href="/login" 
-                className="font-medium text-sky-600 hover:text-sky-500 
+                className="font-medium text-slate-600 hover:text-slate-500 
                   transition-colors duration-300"
               >
                 Sign in

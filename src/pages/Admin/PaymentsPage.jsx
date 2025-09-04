@@ -205,8 +205,8 @@ const PaymentsPage = () => {
                                             <p className="text-sm font-medium text-gray-500">{stat.title}</p>
                                             <p className="text-2xl font-bold mt-2">{stat.value}</p>
                                         </div>
-                                        <div className="h-12 w-12 bg-sky-50 rounded-full flex items-center justify-center">
-                                            <Icon className="h-6 w-6 text-sky-500" />
+                                        <div className="h-12 w-12 bg-slate-50 rounded-full flex items-center justify-center">
+                                            <Icon className="h-6 w-6 text-slate-500" />
                                         </div>
                                     </div>
                                     <div className="mt-4 flex items-center text-sm">
@@ -234,7 +234,7 @@ const PaymentsPage = () => {
                                         type="date"
                                         value={startDate || ''}
                                         onChange={(e) => setStartDate(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all duration-200"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all duration-200"
                                     />
                                 </div>
                                 <div className="flex-1">
@@ -243,7 +243,7 @@ const PaymentsPage = () => {
                                         type="date"
                                         value={endDate || ''}
                                         onChange={(e) => setEndDate(e.target.value)}
-                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all duration-200"
+                                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all duration-200"
                                     />
                                 </div>
                             </div>
@@ -254,7 +254,7 @@ const PaymentsPage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search requests..."
-                                    className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-sky-500/50 focus:border-sky-500 transition-all duration-200"
+                                    className="w-full md:w-64 pl-10 pr-4 py-2 border border-gray-300 rounded text-sm focus:outline-none focus:ring-2 focus:ring-slate-500/50 focus:border-slate-500 transition-all duration-200"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -314,7 +314,7 @@ const PaymentsPage = () => {
                                                 {payment.date.toLocaleDateString()}
                                             </td>
                                             <td className="px-4 py-3 flex space-x-2">
-                                                {/* <button className="text-sky-500 border border-sky-200 px-3 py-1 rounded hover:bg-sky-50 text-sm transition-colors">
+                                                {/* <button className="text-slate-500 border border-slate-200 px-3 py-1 rounded hover:bg-slate-50 text-sm transition-colors">
                                                     View
                                                 </button> */}
                                                 {/* <button className="text-red-500 border border-red-200 px-3 py-1 rounded hover:bg-red-50 text-sm transition-colors">
@@ -355,7 +355,7 @@ const PaymentsPage = () => {
                                             key={pageNum}
                                             onClick={() => handlePageChange(pageNum)}
                                             className={`w-8 h-8 text-sm rounded-md transition-colors ${currentPage === pageNum
-                                                    ? 'bg-sky-500 text-white'
+                                                    ? 'bg-slate-500 text-white'
                                                     : 'bg-gray-50 text-gray-700 hover:bg-gray-100'
                                                 }`}
                                         >

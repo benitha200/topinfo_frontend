@@ -109,7 +109,7 @@ const ServiceProviderView = () => {
           </Button>
           <Button
             onClick={handleEdit}
-            className="bg-sky-100 text-sky-700 hover:bg-sky-200"
+            className="bg-slate-100 text-slate-700 hover:bg-slate-200"
           >
             <Edit className="mr-2" size={16} />
             Edit Details

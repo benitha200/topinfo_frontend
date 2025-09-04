@@ -95,10 +95,10 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md space-y-8 border border-sky-100 transform transition-all hover:scale-105 duration-300 ease-in-out">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-l from-slate-100 to-slate-200 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-lg space-y-8 border border-slate-100 ">
         <div className="text-center">
-          <h2 className="text-4xl font-bold text-sky-800 mb-2">
+          <h2 className="text-4xl font-bold text-slate-700 mb-2">
             Murakaza Neza
           </h2>
           <p className="text-md text-gray-600 font-light">
@@ -122,7 +122,7 @@ const Login = () => {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Mail className="h-5 w-5 text-sky-400" />
+                <Mail className="h-5 w-5 text-slate-400" />
               </div>
               <input
                 type="text"
@@ -130,7 +130,7 @@ const Login = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-300"
+                className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-300"
                 placeholder="25078xxxxxxx"
                 required
               />
@@ -146,7 +146,7 @@ const Login = () => {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <Lock className="h-5 w-5 text-sky-400" />
+                <Lock className="h-5 w-5 text-slate-400" />
               </div>
               <input
                 type={showPassword ? "text" : "password"}
@@ -154,7 +154,7 @@ const Login = () => {
                 name="password"
                 value={formData.password}
                 onChange={handleInputChange}
-                className="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-300"
+                className="block w-full pl-10 pr-10 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-300"
                 placeholder="••••••••"
                 required
               />
@@ -164,9 +164,9 @@ const Login = () => {
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <EyeOff className="h-5 w-5 text-gray-400 hover:text-sky-500" />
+                  <EyeOff className="h-5 w-5 text-gray-400 hover:text-slate-500" />
                 ) : (
-                  <Eye className="h-5 w-5 text-gray-400 hover:text-sky-500" />
+                  <Eye className="h-5 w-5 text-gray-400 hover:text-slate-500" />
                 )}
               </button>
             </div>
@@ -180,7 +180,7 @@ const Login = () => {
                 type="checkbox"
                 checked={rememberMe}
                 onChange={(e) => setRememberMe(e.target.checked)}
-                className="h-4 w-4 text-sky-600 focus:ring-sky-500 border-gray-300 rounded transition duration-300"
+                className="h-4 w-4 text-slate-600 focus:ring-slate-500 border-gray-300 rounded transition duration-300"
               />
               <label
                 htmlFor="remember-me"
@@ -193,7 +193,7 @@ const Login = () => {
             <div className="text-sm">
               <Link
                 to="/forgot-password"
-                className="font-medium text-sky-600 hover:text-sky-500 transition-colors duration-300"
+                className="font-medium text-slate-600 hover:text-slate-500 transition-colors duration-300"
               >
                 Wibagiwe ijambo ry'ibanga?
               </Link>
@@ -203,7 +203,7 @@ const Login = () => {
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-lg text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-lg text-sm font-semibold text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {isLoading ? (
               <div className="flex items-center">

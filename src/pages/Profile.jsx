@@ -182,7 +182,7 @@ const Profile = () => {
                     <div className="flex gap-2 w-full sm:w-auto">
                         <button
                             onClick={downloadProfileCard}
-                            className="px-4 py-2 rounded bg-sky-500 text-white hover:bg-sky-600 flex items-center justify-center"
+                            className="px-4 py-2 rounded bg-slate-500 text-white hover:bg-slate-600 flex items-center justify-center"
                         >
                             <Download className="h-4 w-4 mr-2" />
                             Download Card
@@ -262,13 +262,13 @@ const Profile = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <User className="h-5 w-5 mr-2 text-sky-500" />
+                                <User className="h-5 w-5 mr-2 text-slate-500" />
                                 Profile Picture
                             </CardTitle>
                         </CardHeader>
                         <CardContent className="flex flex-col items-center space-y-4">
                             <div className="relative group">
-                                <div className="w-40 h-40 rounded-full overflow-hidden bg-gradient-to-r from-sky-400 to-sky-500 p-1">
+                                <div className="w-40 h-40 rounded-full overflow-hidden bg-gradient-to-r from-slate-400 to-slate-500 p-1">
                                     <div className="w-full h-full bg-white rounded-full overflow-hidden">
                                         {userData.profileImage ? (
                                             <img
@@ -311,7 +311,7 @@ const Profile = () => {
                                         name="firstname"
                                         value={userData.firstname}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -320,7 +320,7 @@ const Profile = () => {
                                         name="lastname"
                                         value={userData.lastname}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                             </div>
@@ -330,7 +330,7 @@ const Profile = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <Mail className="h-5 w-5 mr-2 text-sky-500" />
+                                <Mail className="h-5 w-5 mr-2 text-slate-500" />
                                 Contact Information
                             </CardTitle>
                         </CardHeader>
@@ -343,7 +343,7 @@ const Profile = () => {
                                         name="email"
                                         value={userData.email}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -352,7 +352,7 @@ const Profile = () => {
                                         name="phone"
                                         value={userData.phone}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                             </div>
@@ -374,7 +374,7 @@ const Profile = () => {
                                         name="location_province"
                                         value={userData.location_province}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -383,7 +383,7 @@ const Profile = () => {
                                         name="location_district"
                                         value={userData.location_district}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                                 <div className="space-y-2">
@@ -392,7 +392,7 @@ const Profile = () => {
                                         name="location_sector"
                                         value={userData.location_sector}
                                         onChange={handleInputChange}
-                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                             </div>

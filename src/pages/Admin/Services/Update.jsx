@@ -368,7 +368,7 @@ const UpdateService = () => {
                         <button
                           type="button"
                           onClick={() => handleAddOption(field.id)}
-                          className="px-4 py-2 bg-sky-400 rounded text-white hover:bg-sky-600"
+                          className="px-4 py-2 bg-slate-400 rounded text-white hover:bg-slate-600"
                         >
                           Add Option
                         </button>
@@ -399,7 +399,7 @@ const UpdateService = () => {
                 <button
                   type="button"
                   onClick={handleAddField}
-                  className="px-4 py-2 mr-3 bg-sky-400 text-white rounded hover:bg-sky-600"
+                  className="px-4 py-2 mr-3 bg-slate-400 text-white rounded hover:bg-slate-600"
                 >
                   Add New Field
                 </button>

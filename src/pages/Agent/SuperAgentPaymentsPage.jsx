@@ -153,13 +153,13 @@ const SuperAgentPaymentsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-sky-50 hover:bg-sky-100 transition-colors border-sky-200 shadow-md">
+          <Card className="bg-slate-50 hover:bg-slate-100 transition-colors border-slate-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs md:text-sm font-medium text-sky-900">Total Commission</CardTitle>
-              <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-sky-600" />
+              <CardTitle className="text-xs md:text-sm font-medium text-slate-900">Total Commission</CardTitle>
+              <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-slate-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-lg md:text-2xl font-bold text-sky-800">
+              <div className="text-lg md:text-2xl font-bold text-slate-800">
                 {summaryStats.totalCommission.toLocaleString()} RWF
               </div>
             </CardContent>
@@ -179,12 +179,12 @@ const SuperAgentPaymentsPage = () => {
         </div>
 
         <div>
-          <Card className="shadow-lg bg-sky-50">
-              <CardTitle className="p-4 text-bold text-sky-700">
+          <Card className="shadow-lg bg-slate-50">
+              <CardTitle className="p-4 text-bold text-slate-700">
                 PAYMENT WITHDRAWAL
               </CardTitle>
               <CardContent>
-                <div className='text-sky-900'>
+                <div className='text-slate-900'>
                   You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 day(s) of the new month
                 </div>
               </CardContent>

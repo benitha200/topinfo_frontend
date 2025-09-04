@@ -297,7 +297,7 @@ const AddRequestPage = () => {
   return (
     <AgentLayout>
       {paymentSuccess ? (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4 sm:px-6 lg:px-8">
           <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
             <CheckCircle
               size={80}
@@ -311,9 +311,9 @@ const AddRequestPage = () => {
               <p className="text-gray-600 mb-6">
                 Murakoze gukoresha TopInfo. Kwishyura Byagenze Neza!
               </p>
-              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold text-sky-800 mb-2">Ibikurikira</h3>
-                <p className="text-sky-700">
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-slate-800 mb-2">Ibikurikira</h3>
+                <p className="text-slate-700">
                   Mukanya gato, Ibindi bikurikira turabibamenyesha muri
                   Imeli/SMS
                 </p>
@@ -323,7 +323,7 @@ const AddRequestPage = () => {
                   Ukeneye Ubufasha? Twandikira kuri:{" "}
                   <a
                     href="tel:+250785283910"
-                    className="text-sky-600 hover:underline"
+                    className="text-slate-600 hover:underline"
                   >
                     +250 785 025 495
                   </a>
@@ -431,7 +431,7 @@ const AddRequestPage = () => {
                   <div className="flex justify-end mt-4">
                     <button
                       type="submit"
-                      className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
+                      className="px-4 py-2 flex bg-slate-500 text-white rounded hover:bg-slate-600"
                     >
                       <span className="font-semibold">Komeza </span>
                       <ArrowRight size={20} className="mt-1" />
@@ -608,7 +608,7 @@ const AddRequestPage = () => {
                   <div className="flex justify-end">
                     <button
                       type="submit"
-                      className="px-4 flex py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                      className="px-4 flex py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
                     >
                       <span className="font-semibold">Komeza </span>
                       <ArrowRight size={20} className="mt-1" />
@@ -630,8 +630,8 @@ const AddRequestPage = () => {
                 )}
 
                 {paymentInit && (
-                  <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
-                    <p className="text-sky-600">
+                  <div className="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                    <p className="text-slate-600">
                       wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
                       yawe wemeze kwishyura cyangwa ukande *182*7*1#
                     </p>
@@ -741,7 +741,7 @@ const AddRequestPage = () => {
                     <button
                       type="submit"
                       disabled={paymentInit}
-                      className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                      className="w-full bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
                     >
                       {paymentInit ? "Tegereza..." : "Ishyura"}
                     </button>

@@ -8,7 +8,7 @@ const RequestCard = ({ request }) => {
       <p className="font-bold text-green-500">Status: {request.status}</p>
       <div className="flex justify-between mt-4">
         <span className="text-gray-500">Requested on: {request.createdAt}</span>
-        <button className="bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-4 rounded-lg">
+        <button className="bg-slate-500 hover:bg-slate-600 text-white font-medium py-2 px-4 rounded-lg">
           View Details
         </button>
       </div>

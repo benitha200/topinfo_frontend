@@ -200,7 +200,7 @@ const AdminDashboard = () => {
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium">Total Agents</CardTitle>
-              <Users className="h-4 w-4 text-sky-500" />
+              <Users className="h-4 w-4 text-slate-500" />
             </CardHeader>
             <CardContent>
               <div className="text-2xl font-bold">{agents.total}</div>

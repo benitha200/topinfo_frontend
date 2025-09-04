@@ -70,7 +70,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                     type="text"
                                     value={formData.your_location}
                                     onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-slate-500 focus:outline-none"
                                 />
                             </div>
 
@@ -82,7 +82,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                     type="text"
                                     value={formData.service_location}
                                     onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-slate-500 focus:outline-none"
                                 />
                             </div>
 
@@ -94,7 +94,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                     type="date"
                                     value={formData.service_date}
                                     onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-slate-500 focus:outline-none"
                                 />
                             </div>
 
@@ -121,7 +121,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                 <select
                                     value={formData.message_preference}
                                     onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-slate-500 focus:outline-none"
                                 >
                                     <option value="EMAIL">Email</option>
                                     <option value="SMS">SMS</option>
@@ -142,7 +142,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                                 <textarea
                                                     value={formData.fields[field.id] || ''}
                                                     onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-slate-500 focus:outline-none"
                                                     rows={3}
                                                 />
                                             ) : (
@@ -150,7 +150,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                                                     type={field.inputType}
                                                     value={formData.fields[field.id] || ''}
                                                     onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-sky-500 focus:outline-none"
+                                                    className="mt-1 p-2 block w-full rounded border border-gray-300 focus:ring-2 focus:ring-slate-500 focus:outline-none"
                                                 />
                                             )}
                                         </div>
@@ -172,7 +172,7 @@ const EditRequestForm = ({ request, onClose, onUpdate }) => {
                         </button>
                         <button
                             onClick={handleSubmit}
-                            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                            className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
                         >
                             Save Changes
                         </button>

@@ -141,13 +141,13 @@
 //             </CardContent>
 //           </Card>
 
-//           <Card className="bg-sky-50  hover:bg-sky-100 transition-colors rounded border-sky-200 shadow-md">
+//           <Card className="bg-slate-50  hover:bg-slate-100 transition-colors rounded border-slate-200 shadow-md">
 //             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-//               <CardTitle className="text-sm font-medium text-sky-900">Total Commission</CardTitle>
-//               <CreditCard className="h-5 w-5 text-sky-600" />
+//               <CardTitle className="text-sm font-medium text-slate-900">Total Commission</CardTitle>
+//               <CreditCard className="h-5 w-5 text-slate-600" />
 //             </CardHeader>
 //             <CardContent>
-//               <div className="text-2xl font-bold text-sky-800">
+//               <div className="text-2xl font-bold text-slate-800">
 //                 {summaryStats.totalCommission.toLocaleString()} RWF
 //               </div>
 //             </CardContent>
@@ -167,19 +167,19 @@
 //         </div>
 
 //         <div>
-//           <Card className="shadow-lg bg-sky-50">
-//               <CardTitle className="p-4 text-bold text-sky-700">
+//           <Card className="shadow-lg bg-slate-50">
+//               <CardTitle className="p-4 text-bold text-slate-700">
 //                 PAYMENT WITHDRAWAL
 //               </CardTitle>
 //               <CardContent>
-//                 <div className='text-sky-900'>
+//                 <div className='text-slate-900'>
 //                   You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 of the new month
 //                 </div>
 //               </CardContent>
 //           </Card>
 //         </div>
 //         <div>
-//           <Button className="bg-sky-600 text-sky-50 rounded gap-2"><Clock size={15}/> Payment History</Button>
+//           <Button className="bg-slate-600 text-slate-50 rounded gap-2"><Clock size={15}/> Payment History</Button>
 //         </div>
 
 //         {/* Payments Table */}
@@ -424,15 +424,15 @@ const AgentPaymentsPage = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-sky-50 hover:bg-sky-100 transition-colors rounded border-sky-200 shadow-md">
+          <Card className="bg-slate-50 hover:bg-slate-100 transition-colors rounded border-slate-200 shadow-md">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-sky-900">
+              <CardTitle className="text-sm font-medium text-slate-900">
                 {showHistory ? 'All-Time Commission' : 'Current Month Commission'}
               </CardTitle>
-              <CreditCard className="h-5 w-5 text-sky-600" />
+              <CreditCard className="h-5 w-5 text-slate-600" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-sky-800">
+              <div className="text-2xl font-bold text-slate-800">
                 {summaryStats.totalCommission.toLocaleString()} RWF
               </div>
             </CardContent>
@@ -454,12 +454,12 @@ const AgentPaymentsPage = () => {
         </div>
 
         {!showHistory && (
-          <Card className="shadow-lg bg-sky-50">
-            <CardTitle className="p-4 text-bold text-sky-700">
+          <Card className="shadow-lg bg-slate-50">
+            <CardTitle className="p-4 text-bold text-slate-700">
               PAYMENT WITHDRAWAL
             </CardTitle>
             <CardContent>
-              <div className="text-sky-900">
+              <div className="text-slate-900">
                 You will only see the payments in the current Month only, other payments will be distributed on your accounts between 1-5 day(s) of the new month
               </div>
             </CardContent>
@@ -468,13 +468,13 @@ const AgentPaymentsPage = () => {
 
         <div className="flex gap-2">
           <Button
-            className={`gap-2 ${showHistory ? 'bg-sky-100 text-sky-900' : 'bg-sky-600 text-sky-50'}`}
+            className={`gap-2 ${showHistory ? 'bg-slate-100 text-slate-900' : 'bg-slate-600 text-slate-50'}`}
             onClick={() => setShowHistory(false)}
           >
             <Calendar size={15}/> Current Month
           </Button>
           <Button
-            className={`gap-2 ${!showHistory ? 'bg-sky-100 text-sky-900' : 'bg-sky-600 text-sky-50'}`}
+            className={`gap-2 ${!showHistory ? 'bg-slate-100 text-slate-900' : 'bg-slate-600 text-slate-50'}`}
             onClick={() => setShowHistory(true)}
           >
             <Clock size={15}/> Payment History

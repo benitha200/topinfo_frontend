@@ -52,7 +52,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold mb-4 text-sky-400">TopInfo</h3>
+            <h3 className="text-xl font-bold mb-4 text-slate-400">TopInfo</h3>
             <p className="text-gray-400">
               Duhuza abakeneye serivisi n'abazitanga mu buryo bworoshye
             </p>
@@ -115,9 +115,9 @@ const Footer = () => {
               <input
                 type="email"
                 placeholder="Andikira amakuru"
-                className="px-4 py-2 bg-gray-800 text-white rounded-l-md flex-grow focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="px-4 py-2 bg-gray-800 text-white rounded-l-md flex-grow focus:outline-none focus:ring-2 focus:ring-slate-500"
               />
-              <button className="bg-sky-500 text-white px-4 py-2 rounded-r-md hover:bg-sky-600 transition-colors">
+              <button className="bg-slate-500 text-white px-4 py-2 rounded-r-md hover:bg-slate-600 transition-colors">
                 <ArrowRight size={20} />
               </button>
             </div>
@@ -132,7 +132,7 @@ const Footer = () => {
                     href={platform.url}
                     target={platform.external ? "_blank" : undefined}
                     rel={platform.external ? "noopener noreferrer" : undefined}
-                    className="text-gray-400 hover:text-sky-600 transition-colors duration-300 group"
+                    className="text-gray-400 hover:text-slate-600 transition-colors duration-300 group"
                     aria-label={`${platform.name} link`}
                   >
                     <IconComponent

@@ -32,13 +32,13 @@ const PaymentsSkeletonLoader = () => {
             </CardContent>
           </Card>
 
-          <Card className="bg-sky-50 border-sky-200">
+          <Card className="bg-slate-50 border-slate-200">
             <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-xs md:text-sm font-medium text-sky-900">Total Commission</CardTitle>
-              <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-sky-600" />
+              <CardTitle className="text-xs md:text-sm font-medium text-slate-900">Total Commission</CardTitle>
+              <CreditCard className="h-4 w-4 md:h-5 md:w-5 text-slate-600" />
             </CardHeader>
             <CardContent>
-              <div className="h-8 bg-sky-200/50 rounded animate-pulse" />
+              <div className="h-8 bg-slate-200/50 rounded animate-pulse" />
             </CardContent>
           </Card>
 

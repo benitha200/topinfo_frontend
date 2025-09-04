@@ -235,7 +235,7 @@
 //                         disabled={!isEdited}
 //                         className={`px-4 py-2 rounded flex items-center 
 //                             ${isEdited
-//                                 ? 'bg-sky-500 text-white hover:bg-sky-600'
+//                                 ? 'bg-slate-500 text-white hover:bg-slate-600'
 //                                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
 //                             }`}
 //                     >
@@ -264,7 +264,7 @@
 //                                                 type="number"
 //                                                 value={settings.categoryPrices.find(p => p.category_id === category.id)?.client_price || 0}
 //                                                 onChange={(e) => handlePriceChange(category.id, 'client_price', e.target.value)}
-//                                                 className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+//                                                 className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
 //                                             />
 //                                         </div>
 //                                         <div className="space-y-2">
@@ -273,7 +273,7 @@
 //                                                 type="number"
 //                                                 value={settings.categoryPrices.find(p => p.category_id === category.id)?.provider_price || 0}
 //                                                 onChange={(e) => handlePriceChange(category.id, 'provider_price', e.target.value)}
-//                                                 className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+//                                                 className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
 //                                             />
 //                                         </div>
 //                                     </div>
@@ -286,7 +286,7 @@
 //                     <Card>
 //                         <CardHeader>
 //                             <CardTitle className="flex items-center">
-//                                 <MailIcon className="h-5 w-5 mr-2 text-sky-500" />
+//                                 <MailIcon className="h-5 w-5 mr-2 text-slate-500" />
 //                                 Support Settings
 //                             </CardTitle>
 //                         </CardHeader>
@@ -297,7 +297,7 @@
 //                                     type="email"
 //                                     value={settings.support_email}
 //                                     onChange={handleEmailChange}
-//                                     className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+//                                     className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
 //                                 />
 //                             </div>
 //                         </CardContent>
@@ -473,7 +473,7 @@ const SettingsPage = () => {
                         disabled={!isEdited}
                         className={`w-full sm:w-auto px-4 py-2 rounded flex items-center justify-center
                             ${isEdited
-                                ? 'bg-sky-500 text-white hover:bg-sky-600'
+                                ? 'bg-slate-500 text-white hover:bg-slate-600'
                                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                             }`}
                     >
@@ -507,7 +507,7 @@ const SettingsPage = () => {
                                                         type="number"
                                                         value={settings.categoryPrices.find(p => p.category_id === category.id)?.client_price || 0}
                                                         onChange={(e) => handlePriceChange(category.id, 'client_price', e.target.value)}
-                                                        className="w-full pl-10 pr-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                                        className="w-full pl-10 pr-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                                     />
                                                 </div>
                                             </div>
@@ -521,7 +521,7 @@ const SettingsPage = () => {
                                                         type="number"
                                                         value={settings.categoryPrices.find(p => p.category_id === category.id)?.provider_price || 0}
                                                         onChange={(e) => handlePriceChange(category.id, 'provider_price', e.target.value)}
-                                                        className="w-full pl-10 pr-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                                        className="w-full pl-10 pr-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                                     />
                                                 </div>
                                             </div>
@@ -535,7 +535,7 @@ const SettingsPage = () => {
                     <Card>
                         <CardHeader>
                             <CardTitle className="flex items-center">
-                                <MailIcon className="h-5 w-5 mr-2 text-sky-500" />
+                                <MailIcon className="h-5 w-5 mr-2 text-slate-500" />
                                 Support Settings
                             </CardTitle>
                         </CardHeader>
@@ -546,7 +546,7 @@ const SettingsPage = () => {
                                     type="email"
                                     value={settings.support_email}
                                     onChange={handleEmailChange}
-                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                 />
                             </div>
                         </CardContent>

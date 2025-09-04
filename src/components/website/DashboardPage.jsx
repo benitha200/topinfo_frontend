@@ -26,7 +26,7 @@ const DashboardPage = () => {
             title: "Total Requests", 
             value: requestsData.length.toString(), 
             trend: 12,
-            icon: <ClipboardList className="h-4 w-4 text-sky-500" />
+            icon: <ClipboardList className="h-4 w-4 text-slate-500" />
           },
           { 
             title: "Active Requests", 

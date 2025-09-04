@@ -37,7 +37,7 @@ const RequestCard = ({ request }) => {
           {service_date ? new Date(service_date).toLocaleDateString() : "No date"}
         </span>
       </div>
-      <h3 className="font-semibold text-sky-700 mb-1">Service Request #{id}</h3>
+      <h3 className="font-semibold text-slate-700 mb-1">Service Request #{id}</h3>
       <p className="text-sm text-gray-700 mb-2 tracking-wide">{description}</p>
       <p className="text-sm text-gray-600 mb-2 tracking-wide">
         <strong>Service:</strong> {service_category?.name} <br />
@@ -126,7 +126,7 @@ const AgentDashboard = () => {
       <AgentLayout>
         <div className="flex items-center justify-center h-full">
           <div className="text-center">
-            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-sky-500 mx-auto mb-4"></div>
+            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-slate-500 mx-auto mb-4"></div>
             <p className="text-gray-500">Loading dashboard data...</p>
           </div>
         </div>

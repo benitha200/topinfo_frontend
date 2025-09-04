@@ -194,13 +194,13 @@ const OTPVerification = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md space-y-8 border border-sky-100 transform transition-all hover:scale-105 duration-300 ease-in-out">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md space-y-8 border border-slate-100 transform transition-all hover:scale-105 duration-300 ease-in-out">
         <div className="text-center">
-          <div className="mx-auto w-16 h-16 bg-sky-100 rounded-full flex items-center justify-center mb-4">
-            <Shield className="h-8 w-8 text-sky-600" />
+          <div className="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
+            <Shield className="h-8 w-8 text-slate-600" />
           </div>
-          <h2 className="text-3xl font-bold text-sky-800 mb-2">
+          <h2 className="text-3xl font-bold text-slate-800 mb-2">
             Emeza Kode
           </h2>
           <p className="text-sm text-gray-600 font-light">
@@ -230,7 +230,7 @@ const OTPVerification = () => {
                   onChange={(e) => handleOtpChange(index, e.target.value)}
                   onKeyDown={(e) => handleKeyDown(index, e)}
                   onPaste={(e) => handlePaste(index, e)}
-                  className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 focus:border-sky-500 transition-all duration-300"
+                  className="w-12 h-12 text-center text-lg font-semibold border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 focus:border-slate-500 transition-all duration-300"
                   placeholder="•"
                 />
               ))}
@@ -240,7 +240,7 @@ const OTPVerification = () => {
           <button
             type="submit"
             disabled={isLoading || otp.join("").length !== 6}
-            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-lg text-sm font-semibold text-white bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-sky-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+            className="w-full flex justify-center py-3.5 px-4 border border-transparent rounded-lg shadow-lg text-sm font-semibold text-white bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500 transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
           >
             {isLoading ? (
               <div className="flex items-center">
@@ -265,7 +265,7 @@ const OTPVerification = () => {
               type="button"
               onClick={handleResendOTP}
               disabled={!canResend || isResending}
-              className="text-sm font-medium text-sky-600 hover:text-sky-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="text-sm font-medium text-slate-600 hover:text-slate-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isResending ? (
                 <div className="flex items-center justify-center">
@@ -282,7 +282,7 @@ const OTPVerification = () => {
         <div className="text-center">
           <button
             onClick={() => navigate(-1)}
-            className="inline-flex items-center text-sm text-gray-600 hover:text-sky-600 transition-colors duration-300"
+            className="inline-flex items-center text-sm text-gray-600 hover:text-slate-600 transition-colors duration-300"
           >
             <ArrowLeft className="h-4 w-4 mr-1" />
             Subira inyuma

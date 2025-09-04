@@ -97,9 +97,9 @@ const LayoutWrapper = ({ children }) => {
   }
 
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       <Navigation />
-      <div className="flex-1 pt-20">{children}</div>
+      <div className="flex-1">{children}</div>
       {!user?.role && <Footer />}
     </div>
   );

@@ -96,11 +96,11 @@ const ResetPassword = () => {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full bg-white p-10 rounded-2xl shadow-2xl border border-sky-100 space-y-8 transform transition-all hover:scale-105 duration-300 ease-in-out">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full bg-white p-10 rounded-2xl shadow-2xl border border-slate-100 space-y-8 transform transition-all hover:scale-105 duration-300 ease-in-out">
         <div className="text-center">
-          <Shield className="h-16 w-16 mx-auto mb-4 text-sky-600" />
-          <h2 className="text-3xl font-bold text-sky-800 mb-2">
+          <Shield className="h-16 w-16 mx-auto mb-4 text-slate-600" />
+          <h2 className="text-3xl font-bold text-slate-800 mb-2">
             Reset Your Password
           </h2>
           <p className="text-md text-gray-600 font-light">
@@ -115,14 +115,14 @@ const ResetPassword = () => {
                 New Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-5 w-5 text-sky-400" />
+                <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
                 <input
                   id="new-password"
                   name="new-password"
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all duration-300"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all duration-300"
                   placeholder="New Password"
                   value={newPassword}
                   onChange={handlePasswordChange}
@@ -146,14 +146,14 @@ const ResetPassword = () => {
                 Confirm Password
               </label>
               <div className="relative">
-                <Lock className="absolute left-3 top-3 h-5 w-5 text-sky-400" />
+                <Lock className="absolute left-3 top-3 h-5 w-5 text-slate-400" />
                 <input
                   id="confirm-password"
                   name="confirm-password"
                   type="password"
                   autoComplete="new-password"
                   required
-                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-sky-500 transition-all duration-300"
+                  className="block w-full pl-10 pr-3 py-2.5 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-500 transition-all duration-300"
                   placeholder="Confirm Password"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -181,7 +181,7 @@ const ResetPassword = () => {
            className={`w-full flex justify-center py-3 px-4 border border-transparent rounded-lg text-sm font-semibold text-white transition-all duration-300 ease-in-out transform hover:scale-[1.02] active:scale-[0.98] 
               ${isLoading 
                 ? 'bg-gray-500 cursor-not-allowed' 
-                : 'bg-sky-600 hover:bg-sky-700 focus:ring-2 focus:ring-offset-2 focus:ring-sky-500'
+                : 'bg-slate-600 hover:bg-slate-700 focus:ring-2 focus:ring-offset-2 focus:ring-slate-500'
               }`}
           >
             {isLoading ? (
@@ -213,7 +213,7 @@ const ResetPassword = () => {
               Remember your password? {' '}
               <a 
                 href="/login" 
-                className="font-medium text-sky-600 hover:text-sky-500 transition-colors duration-300"
+                className="font-medium text-slate-600 hover:text-slate-500 transition-colors duration-300"
               >
                 Sign in
               </a>

@@ -17,7 +17,7 @@ const AboutUs = () => {
                             <button
                                 onClick={() => setLanguage('english')}
                                 className={`px-4 py-2 rounded-full transition-all ${language === 'english'
-                                        ? 'bg-sky-500 text-white'
+                                        ? 'bg-slate-500 text-white'
                                         : 'text-gray-600 hover:bg-gray-200'
                                     }`}
                             >
@@ -26,7 +26,7 @@ const AboutUs = () => {
                             <button
                                 onClick={() => setLanguage('kinyarwanda')}
                                 className={`px-4 py-2 rounded-full transition-all ${language === 'kinyarwanda'
-                                        ? 'bg-sky-500 text-white'
+                                        ? 'bg-slate-500 text-white'
                                         : 'text-gray-600 hover:bg-gray-200'
                                     }`}
                             >
@@ -51,7 +51,7 @@ const AboutUs = () => {
                     {/* Company Overview */}
                     <div className="bg-white rounded-lg shadow-lg p-8">
                         <div className="flex items-center mb-6">
-                            <Network className="text-sky-600 mr-4" size={40} />
+                            <Network className="text-slate-600 mr-4" size={40} />
                             <h2 className="text-2xl font-bold text-gray-900">
                                 {language === 'english' ? 'Who We Are' : 'Abo Turibo'}
                             </h2>
@@ -66,7 +66,7 @@ const AboutUs = () => {
                     {/* Mission Section */}
                     <div className="bg-white rounded-lg shadow-lg p-8">
                         <div className="flex items-center mb-6">
-                            <Target className="text-sky-600 mr-4" size={40} />
+                            <Target className="text-slate-600 mr-4" size={40} />
                             <h2 className="text-2xl font-bold text-gray-900">
                                 {language === 'english' ? 'Our Mission' : 'Intego Yacu'}
                             </h2>
@@ -82,7 +82,7 @@ const AboutUs = () => {
                 {/* Vision Section */}
                 <div className="bg-white rounded-lg shadow-lg p-8 mt-8">
                     <div className="flex items-center mb-6">
-                        <Users className="text-sky-600 mr-4" size={40} />
+                        <Users className="text-slate-600 mr-4" size={40} />
                         <h2 className="text-2xl font-bold text-gray-900">
                             {language === 'english' ? 'Our Vision' : 'Uruhare Rwacu'}
                         </h2>

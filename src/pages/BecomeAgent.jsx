@@ -190,7 +190,7 @@ const BecomeAgent = () => {
                   required
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   placeholder="Enter your first name"
                 />
               </div>
@@ -209,7 +209,7 @@ const BecomeAgent = () => {
                   required
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   placeholder="Enter your last name"
                 />
               </div>
@@ -229,7 +229,7 @@ const BecomeAgent = () => {
                 required
                 value={formData.email}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 placeholder="Enter your email"
               />
             </div>
@@ -247,7 +247,7 @@ const BecomeAgent = () => {
                 name="phone"
                 value={formData.phone}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 placeholder="Enter your phone number"
               />
             </div>
@@ -265,7 +265,7 @@ const BecomeAgent = () => {
                   name="location_province"
                   value={formData.location_province}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   required
                 >
                   <option value="">Select Province</option>
@@ -289,7 +289,7 @@ const BecomeAgent = () => {
                   name="location_district"
                   value={formData.location_district}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   disabled={!formData.location_province}
                   required
                 >
@@ -314,7 +314,7 @@ const BecomeAgent = () => {
                   name="location_sector"
                   value={formData.location_sector}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   disabled={!formData.location_district}
                   required
                 >
@@ -375,7 +375,7 @@ const BecomeAgent = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full rounded bg-sky-600 px-6 py-3 text-lg font-medium text-white hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 flex items-center justify-center"
+                className="w-full rounded bg-slate-600 px-6 py-3 text-lg font-medium text-white hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 flex items-center justify-center"
                 disabled={isLoading}
               >
                 {isLoading ? (

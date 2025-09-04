@@ -593,7 +593,7 @@ const AddServiceProvidersPageAgent = () => {
   return (
     <Layout>
       {paymentSuccess ? (
-        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 px-4 sm:px-6 lg:px-8">
+        <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 px-4 sm:px-6 lg:px-8">
           <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
             <CheckCircle
               size={80}
@@ -607,9 +607,9 @@ const AddServiceProvidersPageAgent = () => {
               <p className="text-gray-600 mb-6">
                 Murakoze gukoresha TopInfo. Kwishyura Byagenze Neza!
               </p>
-              <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
-                <h3 className="font-semibold text-sky-800 mb-2">Ibikurikira</h3>
-                <p className="text-sky-700">
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
+                <h3 className="font-semibold text-slate-800 mb-2">Ibikurikira</h3>
+                <p className="text-slate-700">
                   Mukanya gato, Ibindi bikurikira turabibamenyesha muri
                   Imeli/SMS
                 </p>
@@ -619,7 +619,7 @@ const AddServiceProvidersPageAgent = () => {
                   Ukeneye Ubufasha? Twandikira kuri:{" "}
                   <a
                     href="tel:+250785283910"
-                    className="text-sky-600 hover:underline"
+                    className="text-slate-600 hover:underline"
                   >
                     +250 785 025 495
                   </a>
@@ -682,7 +682,7 @@ const AddServiceProvidersPageAgent = () => {
                         required
                         value={formData.firstname}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         placeholder="Andika izina ryawe"
                       />
                     </div>
@@ -701,7 +701,7 @@ const AddServiceProvidersPageAgent = () => {
                         required
                         value={formData.lastname}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         placeholder="Andika izina ryanyuma"
                       />
                     </div>
@@ -723,7 +723,7 @@ const AddServiceProvidersPageAgent = () => {
                         required
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         placeholder="Andika imeri yawe"
                       />
                     </div>
@@ -741,7 +741,7 @@ const AddServiceProvidersPageAgent = () => {
                         name="work_email"
                         value={formData.work_email}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         placeholder="Imeri yo mu kazi (igihe ufite)"
                       />
                     </div>
@@ -762,7 +762,7 @@ const AddServiceProvidersPageAgent = () => {
                       rows={4}
                       value={formData.description}
                       onChange={handleInputChange}
-                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                       placeholder="Sobanura serivisi utanga..."
                     />
                   </div>
@@ -792,7 +792,7 @@ const AddServiceProvidersPageAgent = () => {
                         required
                         value={formData.service_category_id}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                       >
                         <option value="">Hitamo icyiciro</option>
                         {categories.map((category) => (
@@ -818,7 +818,7 @@ const AddServiceProvidersPageAgent = () => {
                         name="location_province"
                         value={formData.location_province}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         required
                       >
                         <option value="">Select Province</option>
@@ -843,7 +843,7 @@ const AddServiceProvidersPageAgent = () => {
                         name="location_district"
                         value={formData.location_district}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         disabled={!formData.location_province}
                         required
                       >
@@ -869,7 +869,7 @@ const AddServiceProvidersPageAgent = () => {
                         name="location_sector"
                         value={formData.location_sector}
                         onChange={handleInputChange}
-                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                        className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                         disabled={!formData.location_district}
                         required
                       >
@@ -913,8 +913,8 @@ const AddServiceProvidersPageAgent = () => {
                         className="basic-multi-select"
                       />
                       {formData.districts.length > 0 && (
-                        <div className="mt-2 flex text-md font-semibold text-sky-600">
-                          <AlertCircle className="h-5 w-5 text-sky-600 mr-1" />
+                        <div className="mt-2 flex text-md font-semibold text-slate-600">
+                          <AlertCircle className="h-5 w-5 text-slate-600 mr-1" />
                           Amafaranga yose hamwe: {formData.total_district_cost.toLocaleString()} Rwf
                         </div>
                       )}
@@ -953,7 +953,7 @@ const AddServiceProvidersPageAgent = () => {
                       required
                       value={formData.experience}
                       onChange={handleInputChange}
-                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                     >
                       <option value="">Hitamo uburambe bwawe</option>
                       <option value="0-1 year">Munsi y'umwaka umwe</option>
@@ -978,7 +978,7 @@ const AddServiceProvidersPageAgent = () => {
                       rows={3}
                       value={formData.additional_info}
                       onChange={handleInputChange}
-                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                      className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                       placeholder="Amakuru yinyongera ku murimo wawe..."
                     />
                   </div>
@@ -986,7 +986,7 @@ const AddServiceProvidersPageAgent = () => {
                   <div className="pt-4">
                     <button
                       type="submit"
-                      className="w-full rounded bg-sky-500 px-6 py-3 text-lg font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                      className="w-full rounded bg-slate-500 px-6 py-3 text-lg font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
                     >
                       Ohereza
                     </button>
@@ -999,8 +999,8 @@ const AddServiceProvidersPageAgent = () => {
                   <h1 className="text-2xl font-bold mb-4">Kwishyura</h1>
 
                   {paymentInit && (
-                    <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
-                      <p className="text-sky-600">
+                    <div className="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                      <p className="text-slate-600">
                         wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
                         yawe wemeze kwishyura
                       </p>
@@ -1067,7 +1067,7 @@ const AddServiceProvidersPageAgent = () => {
                       <button
                         type="submit"
                         disabled={paymentInit}
-                        className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                        className="w-full bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
                       >
                         {paymentInit ? "Tegereza..." : "Ishyura"}
                       </button>

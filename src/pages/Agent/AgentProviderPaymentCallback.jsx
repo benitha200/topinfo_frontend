@@ -51,7 +51,7 @@ const AgentProviderPaymentCallback = () => {
              Ukeneye Ubufasha? Twandikira kuri:{" "}
               <a 
                 href="tel:+250785283910" 
-                className="text-sky-600 hover:underline"
+                className="text-slate-600 hover:underline"
               >
                 +250 785 025 495
               </a>

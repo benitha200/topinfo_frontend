@@ -114,7 +114,7 @@ const ServiceCategoriesPage = () => {
         <div className="flex justify-between items-center">
             <h1 className="text-2xl font-bold">Service Categories</h1>
             <Link to="/dashboard/service/create" 
-                className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center gap-2"
+                className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 flex items-center gap-2"
             >
                 <Plus className="h-4 w-4" />
                 Add Category
@@ -131,7 +131,7 @@ const ServiceCategoriesPage = () => {
                         <input
                             type="text"
                             placeholder="Search categories..."
-                            className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                            className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                             disabled
                         />
                     </div>
@@ -184,7 +184,7 @@ const ServiceCategoriesPage = () => {
                 <div className="flex justify-between items-center">
                     <h1 className="text-2xl font-bold">Service Categories </h1>
                     <Link to="/dashboard/service/create" 
-                        className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center gap-2"
+                        className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 flex items-center gap-2"
                     >
                         <Plus className="h-4 w-4" />
                         Add Category
@@ -200,7 +200,7 @@ const ServiceCategoriesPage = () => {
                                 <input
                                     type="text"
                                     placeholder="Search categories..."
-                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                    className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -226,7 +226,7 @@ const ServiceCategoriesPage = () => {
                                             <td className="px-4 py-3 text-sm">{category.details}</td>
                                             <td className="px-4 py-3 text-sm flex">
                                                 <Link to={`/dashboard/service/edit/${category.id}`} 
-                                                    className="text-sky-500 p-2 rounded hover:bg-sky-50 mr-2"
+                                                    className="text-slate-500 p-2 rounded hover:bg-slate-50 mr-2"
                                                 >
                                                     <Pencil className="h-4 w-4" />
                                                 </Link>
@@ -300,7 +300,7 @@ const ServiceCategoriesPage = () => {
                                         Cancel
                                     </button>
                                     <button
-                                        className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                                        className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
                                         onClick={() => {
                                             if (editingCategory) {
                                                 updateCategory(editingCategory.id);

@@ -305,7 +305,7 @@ const MyAgents = () => {
               key={number}
               onClick={() => handlePageChange(number)}
               className={`px-3 py-1 border rounded ${currentPage === number
-                  ? 'bg-sky-500 text-white'
+                  ? 'bg-slate-500 text-white'
                   : 'hover:bg-gray-50'
                 }`}
             >
@@ -643,7 +643,7 @@ const MyAgents = () => {
           <div className="flex flex-wrap gap-2">
             <button
               onClick={openAddModal}
-              className="flex-1 md:flex-none px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 text-sm md:text-base"
+              className="flex-1 md:flex-none px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 text-sm md:text-base"
             >
               Add New Agent
             </button>
@@ -663,7 +663,7 @@ const MyAgents = () => {
             </label>
             <button
               onClick={downloadAgentTemplate}
-              className="flex-1 md:flex-none px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center justify-center text-sm md:text-base"
+              className="flex-1 md:flex-none px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 flex items-center justify-center text-sm md:text-base"
             >
               <Download className="mr-2 h-4 w-4" />
               Download Template
@@ -677,8 +677,8 @@ const MyAgents = () => {
           <CardTitle>Statistics</CardTitle>
         </CardHeader>
         <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
-            <Users className="h-8 w-8 text-sky-500" />
+          <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+            <Users className="h-8 w-8 text-slate-500" />
             <div>
               <p className="text-sm text-gray-500">Total Agents</p>
               <p className="text-2xl font-bold">{users.length}</p>
@@ -746,7 +746,7 @@ const MyAgents = () => {
                 placeholder="Search agents..."
                 value={searchTerm}
                 onChange={(e) => handleSearch(e.target.value)}
-                className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
               />
             </div>
             <button className="p-2 border rounded hover:bg-gray-50">
@@ -805,16 +805,16 @@ const MyAgents = () => {
                     <td className="px-4 py-3 text-sm flex items-center space-x-2">
                       <button
                         className="inline-flex items-center justify-center px-3 py-1.5 
-                                      bg-sky-50 text-sky-600 
-                                      hover:bg-sky-100 
-                                      border border-sky-200 
+                                      bg-slate-50 text-slate-600 
+                                      hover:bg-slate-100 
+                                      border border-slate-200 
                                       rounded
                                       text-sm 
                                       font-medium 
                                       transition-colors 
                                       focus:outline-none 
                                       focus:ring-2 
-                                      focus:ring-sky-300"
+                                      focus:ring-slate-300"
                         onClick={() => handleEditClick(user)}
                       >
                         <svg xmlns="http://www.w3.org/2000/svg"
@@ -872,13 +872,13 @@ const MyAgents = () => {
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
             {/* Modal Header */}
-            <div className="bg-sky-50 flex px-6 py-4 border-b border-sky-100 flex items-center justify-between">
+            <div className="bg-slate-50 flex px-6 py-4 border-b border-slate-100 flex items-center justify-between">
 
               <div className="flex items-center space-x-2">
                 {editingRow ? (
-                  <Edit className="w-5 h-5 text-sky-600" strokeWidth={2} />
+                  <Edit className="w-5 h-5 text-slate-600" strokeWidth={2} />
                 ) : (
-                  <PlusCircle className="w-5 h-5 text-sky-600" strokeWidth={2} />
+                  <PlusCircle className="w-5 h-5 text-slate-600" strokeWidth={2} />
                 )}
                 <h2 className="text-xl font-semibold text-gray-800">
                   {editingRow ? "Edit Agent" : "Add New Agent"}
@@ -911,7 +911,7 @@ const MyAgents = () => {
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-sky-500 
+              focus:outline-none focus:ring-2 focus:ring-slate-500 
               transition-all duration-200"
                     value={formData.firstname}
                     onChange={(e) =>
@@ -927,7 +927,7 @@ const MyAgents = () => {
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-sky-500 
+              focus:outline-none focus:ring-2 focus:ring-slate-500 
               transition-all duration-200"
                     value={formData.lastname}
                     onChange={(e) =>
@@ -943,7 +943,7 @@ const MyAgents = () => {
                   {/* <input
                       type="email"
                       className="w-full px-3 py-2 border border-gray-300 rounded-md 
-                                  focus:outline-none focus:ring-2 focus:ring-sky-500 
+                                  focus:outline-none focus:ring-2 focus:ring-slate-500 
                                   transition-all duration-200"
                       value={formData.email}
                       onChange={(e) =>
@@ -954,7 +954,7 @@ const MyAgents = () => {
                   <input
                     type="email"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-        focus:outline-none focus:ring-2 focus:ring-sky-500 
+        focus:outline-none focus:ring-2 focus:ring-slate-500 
         transition-all duration-200
         ${editingRow ? 'bg-gray-100 cursor-not-allowed' : ''}"
                     value={formData.email}
@@ -972,7 +972,7 @@ const MyAgents = () => {
                   <input
                     type="text"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-sky-500 
+              focus:outline-none focus:ring-2 focus:ring-slate-500 
               transition-all duration-200"
                     value={formData.phone}
                     onChange={(e) =>
@@ -991,7 +991,7 @@ const MyAgents = () => {
                   </label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-sky-500 
+              focus:outline-none focus:ring-2 focus:ring-slate-500 
               transition-all duration-200"
                     value={formData.location_province}
                     onChange={(e) => handleProvinceChange(e.target.value)}
@@ -1010,7 +1010,7 @@ const MyAgents = () => {
                   </label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-sky-500 
+              focus:outline-none focus:ring-2 focus:ring-slate-500 
               transition-all duration-200"
                     value={formData.location_district}
                     onChange={(e) => handleDistrictChange(e.target.value)}
@@ -1029,7 +1029,7 @@ const MyAgents = () => {
                   </label>
                   <select
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-              focus:outline-none focus:ring-2 focus:ring-sky-500 
+              focus:outline-none focus:ring-2 focus:ring-slate-500 
               transition-all duration-200"
                     value={formData.location_sector}
                     onChange={(e) =>
@@ -1067,8 +1067,8 @@ const MyAgents = () => {
                 <button
                   className={`px-4 py-2 rounded-md text-white transition-all duration-200 
             ${isCreating
-                      ? "bg-sky-300 cursor-not-allowed"
-                      : "bg-sky-600 hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-opacity-50"
+                      ? "bg-slate-300 cursor-not-allowed"
+                      : "bg-slate-600 hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-opacity-50"
                     }`}
                   onClick={() => {
                     if (editingRow) {
@@ -1113,9 +1113,9 @@ const MyAgents = () => {
           {isUploadModalOpen && (
             <div className="fixed h-full inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
               <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
-                <div className="bg-sky-50 px-6 py-4 border-b border-sky-100 flex items-center justify-between">
+                <div className="bg-slate-50 px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                   <div className="flex items-center space-x-2">
-                    <Upload className="w-5 h-5 text-sky-600" strokeWidth={2} />
+                    <Upload className="w-5 h-5 text-slate-600" strokeWidth={2} />
                     <h2 className="text-xl font-semibold text-gray-800">
                       Upload Agents from Excel
                     </h2>
@@ -1161,7 +1161,7 @@ const MyAgents = () => {
                   {uploadProgress.isUploading && (
                     <div className="w-full bg-gray-200 rounded-full h-2.5">
                       <div
-                        className="bg-sky-600 h-2.5 rounded-full"
+                        className="bg-slate-600 h-2.5 rounded-full"
                         style={{
                           width: `${(uploadProgress.current / uploadProgress.total) * 100}%`
                         }}
@@ -1188,8 +1188,8 @@ const MyAgents = () => {
                     <button
                       className={`px-4 py-2 rounded-md text-white transition-all duration-200 
                     ${uploadProgress.isUploading
-                          ? "bg-sky-300 cursor-not-allowed"
-                          : "bg-sky-600 hover:bg-sky-700"
+                          ? "bg-slate-300 cursor-not-allowed"
+                          : "bg-slate-600 hover:bg-slate-700"
                         }`}
                       onClick={uploadExcelAgents}
                       disabled={uploadProgress.isUploading}

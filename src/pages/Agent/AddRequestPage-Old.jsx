@@ -262,7 +262,7 @@ const AddRequestPage = () => {
 
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
+                                        className="px-4 py-2 flex bg-slate-500 text-white rounded hover:bg-slate-600"
                                     >
                                         <span className="font-semibold">Continue </span><ArrowRight size={20} className="mt-1" />
                                     </button>
@@ -379,7 +379,7 @@ const AddRequestPage = () => {
                                 <div className="flex justify-end">
                                     <button
                                         type="submit"
-                                        className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                                        className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
                                     >
                                         Continue
                                     </button>
@@ -399,8 +399,8 @@ const AddRequestPage = () => {
                             )}
 
                             {paymentInit && (
-                                <div className="p-4 bg-sky-50 border border-sky-200 rounded-md">
-                                    <p className="text-sky-600">
+                                <div className="p-4 bg-slate-50 border border-slate-200 rounded-md">
+                                    <p className="text-slate-600">
                                     wohererejwe ubutumwa bwo kwishyura, reba kuri telephone
                                     yawe wemeze kwishyura cyangwa ukande *182*7*1#
                                     </p>
@@ -476,7 +476,7 @@ const AddRequestPage = () => {
                                     <button
                                         type="submit"
                                         disabled={paymentInit}
-                                        className="w-full bg-sky-600 text-white py-2 px-4 rounded-md hover:bg-sky-700 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
+                                        className="w-full bg-slate-600 text-white py-2 px-4 rounded-md hover:bg-slate-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 transition-colors disabled:opacity-50"
                                     >
                                         {paymentInit ? "Tegereza..." : "Ishyura"}
                                     </button>

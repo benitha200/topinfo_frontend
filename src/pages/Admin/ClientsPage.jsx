@@ -158,8 +158,8 @@ const ClientsPage = () => {
                         <CardTitle>Client Statistics</CardTitle>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
-                            <Users className="h-8 w-8 text-sky-500" />
+                        <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                            <Users className="h-8 w-8 text-slate-500" />
                             <div>
                                 <p className="text-sm text-gray-500">Total Clients</p>
                                 <p className="text-2xl font-bold">{users.length}</p>
@@ -183,7 +183,7 @@ const ClientsPage = () => {
                             <div className="flex space-x-2">
                                 <button
                                     onClick={downloadCSV}
-                                    className="flex items-center space-x-2 px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 transition-colors"
+                                    className="flex items-center space-x-2 px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 transition-colors"
                                 >
                                     <Download className="h-4 w-4" />
                                     <span>Download CSV</span>
@@ -195,7 +195,7 @@ const ClientsPage = () => {
                                         placeholder="Search..."
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
-                                        className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                                     />
                                 </div>
                             </div>
@@ -206,7 +206,7 @@ const ClientsPage = () => {
                             <select 
                                 value={filters.province} 
                                 onChange={(e) => setFilters(prev => ({...prev, province: e.target.value}))}
-                                className="px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                className="px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                             >
                                 <option value="">All Provinces</option>
                                 {uniqueProvinces.map(province => (
@@ -216,7 +216,7 @@ const ClientsPage = () => {
                             <select 
                                 value={filters.district} 
                                 onChange={(e) => setFilters(prev => ({...prev, district: e.target.value}))}
-                                className="px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                className="px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                             >
                                 <option value="">All Districts</option>
                                 {uniqueDistricts.map(district => (
@@ -226,7 +226,7 @@ const ClientsPage = () => {
                             <select 
                                 value={filters.sector} 
                                 onChange={(e) => setFilters(prev => ({...prev, sector: e.target.value}))}
-                                className="px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                className="px-2 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                             >
                                 <option value="">All Sectors</option>
                                 {uniqueSectors.map(sector => (

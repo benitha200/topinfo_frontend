@@ -307,9 +307,9 @@ const Reports = () => {
             description: "Number of transactions in selected period",
             icon: BarChart3,
             stat: stats.totalTransactions,
-            color: "bg-sky-50 hover:bg-sky-100 border-sky-200",
-            textColor: "text-sky-800",
-            iconColor: "text-sky-600"
+            color: "bg-slate-50 hover:bg-slate-100 border-slate-200",
+            textColor: "text-slate-800",
+            iconColor: "text-slate-600"
         },
         {
             title: "Completed Transactions",

@@ -92,7 +92,7 @@ const AgentLayout = ({ children }) => {
           <div className="flex items-center justify-between px-6 py-5 border-b">
             <Link
               to="/agent-dashboard"
-              className="text-2xl font-bold text-sky-600 tracking-tight"
+              className="text-2xl font-bold text-slate-600 tracking-tight"
             >
               TopInfo
             </Link>
@@ -117,7 +117,7 @@ const AgentLayout = ({ children }) => {
                       flex items-center px-4 py-3 
                       text-sm rounded transition-all 
                       ${location.pathname === item.path
-                        ? "bg-sky-100 text-sky-700 font-semibold"
+                        ? "bg-slate-100 text-slate-700 font-semibold"
                         : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                       }
                     `}
@@ -143,7 +143,7 @@ const AgentLayout = ({ children }) => {
                     flex items-center px-4 py-3 
                     text-sm rounded transition-all 
                     ${location.pathname === profileNavItem.path
-                      ? "bg-sky-100 text-sky-700 font-semibold"
+                      ? "bg-slate-100 text-slate-700 font-semibold"
                       : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
                     }
                   `}
@@ -187,7 +187,7 @@ const AgentLayout = ({ children }) => {
             </div>
 
             <div className="flex items-center gap-2 sm:gap-4">
-              <div className="hidden sm:flex w-10 h-10 bg-sky-100 text-sky-600 items-center justify-center rounded-full font-semibold border border-sky-200">
+              <div className="hidden sm:flex w-10 h-10 bg-slate-100 text-slate-600 items-center justify-center rounded-full font-semibold border border-slate-200">
                 {initials}
               </div>
               <div className="flex flex-col">

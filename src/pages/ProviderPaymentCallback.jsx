@@ -40,7 +40,7 @@ const ProviderPaymentCallback = () => {
   // );
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-sky-50 to-sky-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-slate-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
       <div className="bg-white p-10 rounded-2xl shadow-2xl w-full max-w-md text-center space-y-6">
         <CheckCircle 
           size={80} 
@@ -57,11 +57,11 @@ const ProviderPaymentCallback = () => {
             Murakoze gukoresha TopInfo. Kwishyura Byagenze Neza!
           </p>
           
-          {/* <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-sky-800 mb-2">
+          {/* <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
+            <h3 className="font-semibold text-slate-800 mb-2">
               Ibikurikira
             </h3>
-            <p className="text-sky-700">
+            <p className="text-slate-700">
               Mukanya gato, Ibindi bikurikira turabibamenyesha muri Imeli/SMS
             </p>
           </div> */}
@@ -71,7 +71,7 @@ const ProviderPaymentCallback = () => {
              Ukeneye Ubufasha? Twandikira kuri:{" "}
               <a 
                 href="tel:+250785283910" 
-                className="text-sky-600 hover:underline"
+                className="text-slate-600 hover:underline"
               >
                 +250 785 025 495
               </a>

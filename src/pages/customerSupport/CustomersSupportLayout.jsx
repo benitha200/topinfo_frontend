@@ -66,7 +66,7 @@ const CustomersSupportLayout = ({ children }) => {
           <div className="flex items-center justify-between px-6 py-5 border-b">
             <Link 
               to="/dashboard" 
-              className="text-2xl font-bold text-sky-600 tracking-tight"
+              className="text-2xl font-bold text-slate-600 tracking-tight"
             >
               TopInfo
             </Link>
@@ -91,7 +91,7 @@ const CustomersSupportLayout = ({ children }) => {
                     transition-colors duration-200
                     ${
                       location.pathname === item.path
-                        ? 'bg-sky-50 text-sky-600 font-semibold'
+                        ? 'bg-slate-50 text-slate-600 font-semibold'
                         : 'text-gray-600 hover:bg-gray-100 hover:text-gray-900'
                     }
                   `}
@@ -141,7 +141,7 @@ const CustomersSupportLayout = ({ children }) => {
             
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 bg-sky-100 text-sky-600 flex items-center justify-center rounded-full font-semibold">
+                <div className="w-10 h-10 bg-slate-100 text-slate-600 flex items-center justify-center rounded-full font-semibold">
                   {initials}
                 </div>
                 <div>

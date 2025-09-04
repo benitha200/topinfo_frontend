@@ -300,7 +300,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.firstname}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 />
               </div>
 
@@ -318,7 +318,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.lastname}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 />
               </div>
             </div>
@@ -339,7 +339,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.email}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 />
               </div>
 
@@ -356,7 +356,7 @@ const EditServiceProvider = () => {
                   name="work_email"
                   value={formData.work_email}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 />
               </div>
             </div>
@@ -376,7 +376,7 @@ const EditServiceProvider = () => {
                 rows={4}
                 value={formData.description}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
               />
             </div>
 
@@ -394,7 +394,7 @@ const EditServiceProvider = () => {
                 type="number"
                 value={formData.discount_percentage}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
               />
             </div>
 
@@ -423,7 +423,7 @@ const EditServiceProvider = () => {
                   required
                   value={formData.service_category_id}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 >
                   <option value="">Hitamo icyiciro</option>
                   {categories.map((category) => (
@@ -449,7 +449,7 @@ const EditServiceProvider = () => {
                   name="location_province"
                   value={formData.location_province}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   required
                 >
                   <option value="">Select Province</option>
@@ -473,7 +473,7 @@ const EditServiceProvider = () => {
                   name="location_district"
                   value={formData.location_district}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   disabled={!formData.location_province}
                   required
                 >
@@ -499,7 +499,7 @@ const EditServiceProvider = () => {
                   name="location_sector"
                   value={formData.location_sector}
                   onChange={handleInputChange}
-                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                  className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                   disabled={!formData.location_district}
                   required
                 >
@@ -591,7 +591,7 @@ const EditServiceProvider = () => {
                 required
                 value={formData.experience}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
               >
                 <option value="">Hitamo uburambe bwawe</option>
                 <option value="0-1 year">Munsi y'umwaka umwe</option>
@@ -609,7 +609,7 @@ const EditServiceProvider = () => {
                 name="approved"
                 checked={formData.approved}
                 onChange={handleCheckboxChange}
-                className="h-4 w-4 text-sky-600 border-gray-300 rounded focus:ring-sky-500"
+                className="h-4 w-4 text-slate-600 border-gray-300 rounded focus:ring-slate-500"
             />
             <label
                 htmlFor="approved"
@@ -633,7 +633,7 @@ const EditServiceProvider = () => {
                 rows={3}
                 value={formData.additional_info}
                 onChange={handleInputChange}
-                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-sky-500 focus:ring-sky-500"
+                className="block w-full rounded border border-gray-300 px-4 py-3 focus:border-slate-500 focus:ring-slate-500"
                 placeholder="Amakuru yinyongera ku murimo wawe..."
               />
             </div>
@@ -642,7 +642,7 @@ const EditServiceProvider = () => {
             <div className="pt-4">
               <button
                 type="submit"
-                className="w-full rounded bg-sky-500 px-6 py-3 text-lg font-medium text-white hover:bg-sky-600 focus:outline-none focus:ring-2 focus:ring-sky-500 focus:ring-offset-2"
+                className="w-full rounded bg-slate-500 px-6 py-3 text-lg font-medium text-white hover:bg-slate-600 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2"
               >
                 Update
               </button>

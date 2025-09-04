@@ -30,7 +30,7 @@ const NationalIdInput = memo(({ value, onChange }) => {
         value={value}
         onChange={handleChange}
         placeholder="Enter your National ID"
-        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-sky-500 focus:border-sky-500 sm:text-sm"
+        className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-slate-500 focus:border-slate-500 sm:text-sm"
         maxLength={16}
         inputMode="numeric"
         pattern="[0-9]*"
@@ -84,7 +84,7 @@ const SignatureSection = memo(({
           type="checkbox"
           checked={confirmed}
           onChange={(e) => setConfirmed(e.target.checked)}
-          className="form-checkbox h-4 w-4 text-sky-500 rounded"
+          className="form-checkbox h-4 w-4 text-slate-500 rounded"
         />
         <span className="text-sm text-gray-700">
           I confirm that I have read and agree to the terms of this agreement.
@@ -342,7 +342,7 @@ const Agreement = () => {
                                     </button>
 
                                     <button
-                                        className="flex items-center px-6 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 disabled:opacity-50"
+                                        className="flex items-center px-6 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 disabled:opacity-50"
                                         onClick={handleAgree}
                                         disabled={loading || nationalId.length !== 16 || !confirmed} // Require exactly 16 digits
                                     >

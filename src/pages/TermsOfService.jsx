@@ -5,7 +5,7 @@ const TermsOfService = () => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         <div className="px-6 py-8">
-          <h1 className="text-3xl font-bold text-sky-600 mb-6 border-b pb-4">
+          <h1 className="text-3xl font-bold text-slate-600 mb-6 border-b pb-4">
             Terms of Service for www.TopInfo.rw
           </h1>
           
@@ -23,7 +23,7 @@ const TermsOfService = () => {
           <div className="space-y-6">
             {/* 1. Acceptance of Terms */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">1. Acceptance of Terms</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">1. Acceptance of Terms</h2>
               <p className="text-gray-800">
                 By using the Platform, you acknowledge and agree to be bound by these Terms and our Privacy Policy. 
                 If you do not agree to these Terms, you must not use the Platform.
@@ -32,7 +32,7 @@ const TermsOfService = () => {
 
             {/* 2. Eligibility */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">2. Eligibility</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">2. Eligibility</h2>
               <p className="text-gray-800">
                 You must be at least 18 years old or have the consent of a parent or guardian to use the Platform. 
                 By using the Platform, you confirm that you meet these eligibility requirements.
@@ -41,7 +41,7 @@ const TermsOfService = () => {
 
             {/* 3. Account Registration */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">3. Account Registration</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">3. Account Registration</h2>
               <p className="text-gray-800 mb-4">
                 To use certain features of the Platform, you may need to create an account. You agree to:
               </p>
@@ -55,7 +55,7 @@ const TermsOfService = () => {
 
             {/* 4. Service Seekers and Service Providers */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">4. Service Seekers and Service Providers</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">4. Service Seekers and Service Providers</h2>
               <p className="text-gray-800 mb-4">
                 <strong>Service Seekers:</strong> Individuals or organizations seeking services provided by service providers.
               </p>
@@ -70,7 +70,7 @@ const TermsOfService = () => {
 
             {/* 5. Use of the Platform */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">5. Use of the Platform</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">5. Use of the Platform</h2>
               <p className="text-gray-800 mb-4">You agree to:</p>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
                 <li>Use the Platform only for lawful purposes and in accordance with these Terms.</li>
@@ -82,7 +82,7 @@ const TermsOfService = () => {
 
             {/* 6. Payment and Transactions */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">6. Payment and Transactions</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">6. Payment and Transactions</h2>
               <p className="text-gray-800 mb-4">
                 The Platform facilitates payments between service seekers and service providers through a secure payment gateway.
               </p>
@@ -97,7 +97,7 @@ const TermsOfService = () => {
 
             {/* 7. Ratings and Reviews */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">7. Ratings and Reviews</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">7. Ratings and Reviews</h2>
               <p className="text-gray-800 mb-4">
                 Service seekers and service providers may leave ratings and reviews based on their experiences. 
                 These ratings and reviews should be honest and reflect genuine interactions.
@@ -110,7 +110,7 @@ const TermsOfService = () => {
 
             {/* 8. Intellectual Property */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">8. Intellectual Property</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">8. Intellectual Property</h2>
               <p className="text-gray-800 mb-4">
                 All content, logos, designs, and materials on the Platform are the property of Ahupa Business 
                 Network Ltd or our licensors. You may not use, copy, or distribute any content from the Platform 
@@ -125,7 +125,7 @@ const TermsOfService = () => {
 
             {/* 9. Termination of Account */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">9. Termination of Account</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">9. Termination of Account</h2>
               <p className="text-gray-800 mb-4">
                 We may suspend or terminate your account at our sole discretion if you violate these Terms 
                 or engage in fraudulent, harmful, or inappropriate activities.
@@ -138,7 +138,7 @@ const TermsOfService = () => {
 
             {/* 10. Disclaimers and Limitation of Liability */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">10. Disclaimers and Limitation of Liability</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">10. Disclaimers and Limitation of Liability</h2>
               <p className="text-gray-800 mb-4">
                 The Platform is provided "as is" and without any warranty or guarantee of any kind, 
                 either express or implied.
@@ -158,7 +158,7 @@ const TermsOfService = () => {
 
             {/* 11. Indemnification */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">11. Indemnification</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">11. Indemnification</h2>
               <p className="text-gray-800">
                 You agree to indemnify and hold harmless Ahupa Business Network Ltd, its officers, directors, 
                 employees, and agents from any claims, liabilities, damages, or expenses (including legal fees) 
@@ -168,7 +168,7 @@ const TermsOfService = () => {
 
             {/* 12. Governing Law and Dispute Resolution */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">12. Governing Law and Dispute Resolution</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">12. Governing Law and Dispute Resolution</h2>
               <p className="text-gray-800 mb-4">
                 These Terms shall be governed by and construed in accordance with the laws of Rwanda.
               </p>
@@ -180,7 +180,7 @@ const TermsOfService = () => {
 
             {/* 13. Amendments to These Terms */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">13. Amendments to These Terms</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">13. Amendments to These Terms</h2>
               <p className="text-gray-800">
                 We reserve the right to modify or update these Terms at any time. Any changes will be posted 
                 on this page with an updated effective date. By continuing to use the Platform after such changes, 
@@ -190,7 +190,7 @@ const TermsOfService = () => {
 
             {/* 14. Privacy Policy */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">14. Privacy Policy</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">14. Privacy Policy</h2>
               <p className="text-gray-800">
                 Your use of the Platform is also governed by our Privacy Policy, which can be found on our 
                 website www.topinfo.rw
@@ -199,8 +199,8 @@ const TermsOfService = () => {
 
             {/* 15. Contact Us */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">15. Contact Us</h2>
-              <div className="bg-sky-50 p-4 rounded-lg">
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">15. Contact Us</h2>
+              <div className="bg-slate-50 p-4 rounded-lg">
                 <p className="text-gray-800 mb-2">
                   <strong>Ahupa Business Network Ltd</strong>
                 </p>

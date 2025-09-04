@@ -46,9 +46,9 @@ const AgentPaymentCallback = () => {
             <p className="text-gray-600 mb-6">
               Murakoze gukoresha TopInfo. Kwishyura Byagenze Neza!
             </p>
-            <div className="bg-sky-50 border border-sky-200 rounded-lg p-4 mb-6">
-              <h3 className="font-semibold text-sky-800 mb-2">Ibikurikira</h3>
-              <p className="text-sky-700">
+            <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-6">
+              <h3 className="font-semibold text-slate-800 mb-2">Ibikurikira</h3>
+              <p className="text-slate-700">
                 Mukanya gato, Ibindi bikurikira turabibamenyesha muri Imeli/SMS
               </p>
             </div>
@@ -57,7 +57,7 @@ const AgentPaymentCallback = () => {
                 Ukeneye Ubufasha? Twandikira kuri:{" "}
                 <a
                   href="tel:+250785283910"
-                  className="text-sky-600 hover:underline"
+                  className="text-slate-600 hover:underline"
                 >
                   +250 785 025 495
                 </a>

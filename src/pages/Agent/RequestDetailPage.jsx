@@ -27,7 +27,7 @@ const RequestDetailPage = () => {
     const statusColors = {
       PENDING: 'bg-yellow-100 text-yellow-800',
       ACCEPTED: 'bg-green-100 text-green-800',
-      COMPLETED: 'bg-sky-100 text-sky-800',
+      COMPLETED: 'bg-slate-100 text-slate-800',
       CANCELLED: 'bg-red-100 text-red-800'
     };
     return statusColors[status] || 'bg-gray-100 text-gray-800';

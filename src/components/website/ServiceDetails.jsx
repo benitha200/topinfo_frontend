@@ -27,7 +27,7 @@ const ServiceDetails = () => {
         <p className="font-bold text-green-500 text-2xl mb-4">
           Price: ${service.price}
         </p>
-        <button className="bg-sky-500 hover:bg-sky-600 text-white font-medium py-2 px-4 rounded-lg">
+        <button className="bg-slate-500 hover:bg-slate-600 text-white font-medium py-2 px-4 rounded-lg">
           Request Service
         </button>
       </div>

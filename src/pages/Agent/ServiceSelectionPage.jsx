@@ -57,7 +57,7 @@
 //                                 <p className="text-sm text-gray-600">{service.description}</p>
 //                                 <div className="flex justify-end mt-4">
 //                                     <button 
-//                                         className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
+//                                         className="px-4 py-2 flex bg-slate-500 text-white rounded hover:bg-slate-600"
 //                                     >
 //                                         <span className="font-semibold">Select </span>
 //                                         <ArrowRight size={20} className="mt-1 ml-2" />
@@ -152,7 +152,7 @@ const ServiceSelectionPage = () => {
                                         <p className="text-sm text-gray-600">{service.description}</p>
                                         <div className="flex justify-end mt-4">
                                             <button
-                                                className="px-4 py-2 flex bg-sky-500 text-white rounded hover:bg-sky-600"
+                                                className="px-4 py-2 flex bg-slate-500 text-white rounded hover:bg-slate-600"
                                             >
                                                 <span className="font-semibold">Select </span>
                                                 <ArrowRight size={20} className="mt-1 ml-2" />

@@ -5,7 +5,7 @@ const PrivacyPolicy = () => {
     <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-7xl mx-auto bg-white shadow-md rounded-lg overflow-hidden">
         <div className="px-6 py-8">
-          <h1 className="text-3xl font-bold text-sky-600 mb-6 border-b pb-4">
+          <h1 className="text-3xl font-bold text-slate-600 mb-6 border-b pb-4">
             Privacy Policy for www.TopInfo.rw
           </h1>
           
@@ -22,7 +22,7 @@ const PrivacyPolicy = () => {
           <div className="space-y-6">
             {/* 1. Information We Collect */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">1. Information We Collect</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">1. Information We Collect</h2>
               <p className="text-gray-800 mb-4">
                 We collect the following types of personal information to provide and improve our services:
               </p>
@@ -50,7 +50,7 @@ const PrivacyPolicy = () => {
 
             {/* 2. How We Use Your Information */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">2. How We Use Your Information</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">2. How We Use Your Information</h2>
               <p className="text-gray-800 mb-4">We use your personal information for the following purposes:</p>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
                 <li>To facilitate communication between service seekers and service providers.</li>
@@ -64,7 +64,7 @@ const PrivacyPolicy = () => {
 
             {/* 3. How We Share Your Information */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">3. How We Share Your Information</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">3. How We Share Your Information</h2>
               <p className="text-gray-800 mb-4">
                 We do not sell, rent, or trade your personal information to third parties. However, we may 
                 share your information in the following situations:
@@ -87,7 +87,7 @@ const PrivacyPolicy = () => {
 
             {/* 4. Data Security */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">4. Data Security</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">4. Data Security</h2>
               <p className="text-gray-800 mb-4">
                 We take the security of your personal information seriously and implement reasonable safeguards 
                 to protect it from unauthorized access, alteration, disclosure, or destruction. However, please 
@@ -98,7 +98,7 @@ const PrivacyPolicy = () => {
 
             {/* 5. Cookies and Tracking Technologies */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">5. Cookies and Tracking Technologies</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">5. Cookies and Tracking Technologies</h2>
               <p className="text-gray-800 mb-4">
                 We use cookies and similar technologies to enhance user experience on our platform. Cookies help 
                 us remember your preferences, track your usage, and improve our services. You can manage cookie 
@@ -109,7 +109,7 @@ const PrivacyPolicy = () => {
 
             {/* 6. Your Rights */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">6. Your Rights</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">6. Your Rights</h2>
               <p className="text-gray-800 mb-4">You have the right to:</p>
               <ul className="list-disc pl-6 space-y-2 text-gray-700">
                 <li>Access the personal information we hold about you.</li>
@@ -124,7 +124,7 @@ const PrivacyPolicy = () => {
 
             {/* 7. Third-Party Links */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">7. Third-Party Links</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">7. Third-Party Links</h2>
               <p className="text-gray-800">
                 Our platform may contain links to third-party websites. We are not responsible for the privacy 
                 practices or the content of those websites. We encourage you to read the privacy policies of 
@@ -134,7 +134,7 @@ const PrivacyPolicy = () => {
 
             {/* 8. Children's Privacy */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">8. Children's Privacy</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">8. Children's Privacy</h2>
               <p className="text-gray-800">
                 Our platform is not intended for children under the age of 13. We do not knowingly collect 
                 personal information from children. If we learn that we have collected personal information 
@@ -144,7 +144,7 @@ const PrivacyPolicy = () => {
 
             {/* 9. Changes to This Privacy Policy */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">9. Changes to This Privacy Policy</h2>
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">9. Changes to This Privacy Policy</h2>
               <p className="text-gray-800">
                 We reserve the right to update or modify this Privacy Policy at any time. Any changes will 
                 be posted on this page with an updated effective date. We encourage you to review this policy 
@@ -154,8 +154,8 @@ const PrivacyPolicy = () => {
 
             {/* 10. Contact Us */}
             <section>
-              <h2 className="text-2xl font-semibold text-sky-600 mb-4">10. Contact Us</h2>
-              <div className="bg-sky-50 p-4 rounded-lg">
+              <h2 className="text-2xl font-semibold text-slate-600 mb-4">10. Contact Us</h2>
+              <div className="bg-slate-50 p-4 rounded-lg">
                 <p className="text-gray-800 mb-2">
                   <strong>Ahupa Business Network Ltd</strong>
                 </p>

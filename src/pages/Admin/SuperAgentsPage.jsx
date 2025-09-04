@@ -386,7 +386,7 @@ const SuperAgentsPage = () => {
           <h1 className="text-2xl font-bold">Super Agents</h1>
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+            className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
           >
             Add New Super Agent
           </button>
@@ -436,8 +436,8 @@ const SuperAgentsPage = () => {
             </div>
           </CardHeader>
           <CardContent className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
-              <Users className="h-8 w-8 text-sky-500" />
+            <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+              <Users className="h-8 w-8 text-slate-500" />
               <div>
                 <p className="text-sm text-gray-500">Total Agents</p>
                 <p className="text-2xl font-bold">{users.length}</p>
@@ -465,7 +465,7 @@ const SuperAgentsPage = () => {
                   placeholder="Search agents..."
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-sky-500"
+                  className="pl-8 pr-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-slate-500"
                 />
               </div>
               <button className="p-2 border rounded hover:bg-gray-50">
@@ -527,7 +527,7 @@ const SuperAgentsPage = () => {
                       </td>
                       <td className="px-4 py-3 text-sm">
                         <button
-                          className="text-sky-500 border-2 border-gray-300 p-2 rounded hover:text-sky-700 mr-2"
+                          className="text-slate-500 border-2 border-gray-300 p-2 rounded hover:text-slate-700 mr-2"
                           onClick={() => handleEditClick(user)}
                         >
                           Edit
@@ -607,7 +607,7 @@ const SuperAgentsPage = () => {
                   <input
                     type="email"
                     className="w-full px-3 py-2 border border-gray-300 rounded-md 
-    focus:outline-none focus:ring-2 focus:ring-sky-500 
+    focus:outline-none focus:ring-2 focus:ring-slate-500 
     transition-all duration-200
     ${editingRow ? 'bg-gray-100 cursor-not-allowed' : ''}"
                     value={formData.email}
@@ -792,7 +792,7 @@ const SuperAgentsPage = () => {
                   Cancel
                 </button>
                 <button
-                  className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600 flex items-center"
+                  className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600 flex items-center"
                   onClick={() => {
                     if (editingRow) {
                       updateUser(editingRow.id);

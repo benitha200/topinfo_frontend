@@ -57,7 +57,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                     type="text"
                                     value={formData.your_location}
                                     onChange={(e) => setFormData({ ...formData, your_location: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                 />
                             </div>
 
@@ -69,7 +69,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                     type="text"
                                     value={formData.service_location}
                                     onChange={(e) => setFormData({ ...formData, service_location: e.target.value })}
-                                    className="mt-1 block p-2 w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 block p-2 w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                 />
                             </div>
 
@@ -81,7 +81,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                     type="date"
                                     value={formData.service_date}
                                     onChange={(e) => setFormData({ ...formData, service_date: e.target.value })}
-                                    className="mt-1 block p-2 w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 block p-2 w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                 />
                             </div>
 
@@ -92,7 +92,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                 <select
                                     value={formData.status}
                                     onChange={(e) => setFormData({ ...formData, status: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                 >
                                     <option value="PENDING">Pending</option>
                                     <option value="IN_PROGRESS">In Progress</option>
@@ -107,7 +107,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                 <select
                                     value={formData.message_preference}
                                     onChange={(e) => setFormData({ ...formData, message_preference: e.target.value })}
-                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                 >
                                     <option value="EMAIL">Email</option>
                                     <option value="SMS">SMS</option>
@@ -128,7 +128,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                                 <textarea
                                                     value={formData.fields[field.id] || ''}
                                                     onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                                     rows={3}
                                                 />
                                             ) : (
@@ -136,7 +136,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                                                     type={field.inputType}
                                                     value={formData.fields[field.id] || ''}
                                                     onChange={(e) => handleFieldChange(field.id, e.target.value)}
-                                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-sky-500 focus:ring-sky-500"
+                                                    className="mt-1 p-2 block w-full rounded border-gray-300 shadow-sm focus:border-slate-500 focus:ring-slate-500"
                                                 />
                                             )}
                                         </div>
@@ -158,7 +158,7 @@ const EditRequestForm = ({ request, onClose, onSave }) => {
                         </button>
                         <button
                             onClick={handleSubmit}
-                            className="px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-600"
+                            className="px-4 py-2 bg-slate-500 text-white rounded hover:bg-slate-600"
                         >
                             Save Changes
                         </button>
@@ -183,7 +183,7 @@ const RequestDetailsView = ({ request, onClose }) => {
     const getStatusColor = (status) => {
         switch (status) {
             case 'COMPLETED': return 'bg-green-100 text-green-800';
-            case 'IN_PROGRESS': return 'bg-sky-100 text-sky-800';
+            case 'IN_PROGRESS': return 'bg-slate-100 text-slate-800';
             default: return 'bg-yellow-100 text-yellow-800';
         }
     };
@@ -468,7 +468,7 @@ const RequestsPage = () => {
                                     key={pageNum}
                                     onClick={() => goToPage(pageNum)}
                                     className={`relative hidden sm:inline-flex items-center px-4 py-2 text-sm font-semibold ${currentPage === pageNum
-                                        ? 'z-10 bg-sky-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-600'
+                                        ? 'z-10 bg-slate-600 text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-slate-600'
                                         : 'text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0'
                                         }`}
                                 >
@@ -565,8 +565,8 @@ const RequestsPage = () => {
                         <CardTitle>Request Statistics</CardTitle>
                     </CardHeader>
                     <CardContent className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                        <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
-                            <FileText className="h-8 w-8 text-sky-500" />
+                        <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                            <FileText className="h-8 w-8 text-slate-500" />
                             <div>
                                 <p className="text-sm text-gray-500">Total Requests</p>
                                 <p className="text-2xl font-bold">{stats.total}</p>
@@ -586,8 +586,8 @@ const RequestsPage = () => {
                                 <p className="text-2xl font-bold">{stats.completed}</p>
                             </div>
                         </div>
-                        <div className="flex items-center space-x-4 p-4 bg-sky-50 rounded-lg">
-                            <FileText className="h-8 w-8 text-sky-800" />
+                        <div className="flex items-center space-x-4 p-4 bg-slate-50 rounded-lg">
+                            <FileText className="h-8 w-8 text-slate-800" />
                             <div>
                                 <p className="text-sm text-gray-500">In Progress</p>
                                 <p className="text-2xl font-bold">{stats.inProgress}</p>
@@ -636,7 +636,7 @@ const RequestsPage = () => {
                                         placeholder={searchType === 'location' 
                                             ? "Search by location or service..." 
                                             : "Search by client name, email, phone..."}
-                                        className="pl-8 pr-4 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-sky-500"
+                                        className="pl-8 pr-4 py-2 border rounded w-full focus:outline-none focus:ring-2 focus:ring-slate-500"
                                         value={searchTerm}
                                         onChange={(e) => setSearchTerm(e.target.value)}
                                     />
@@ -692,7 +692,7 @@ const RequestsPage = () => {
                                             <td className="px-4 py-3 text-sm">{new Date(request.service_date).toLocaleDateString()}</td>
                                             <td className="px-4 py-3 text-sm">
                                                 <span className={`px-2 py-1 rounded-full text-xs ${request.status === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-                                                    request.status === 'IN_PROGRESS' ? 'bg-sky-100 text-sky-800' :
+                                                    request.status === 'IN_PROGRESS' ? 'bg-slate-100 text-slate-800' :
                                                         'bg-yellow-100 text-yellow-800'
                                                     }`}>
                                                     {request.status || 'Pending'}
@@ -701,7 +701,7 @@ const RequestsPage = () => {
                                             <td className="px-4 py-3 text-sm">
                                                 <div className="flex gap-2">
                                                     <button
-                                                        className="text-sky-500 border-2 flex gap-1 border-gray-300 p-2 rounded hover:text-sky-700"
+                                                        className="text-slate-500 border-2 flex gap-1 border-gray-300 p-2 rounded hover:text-slate-700"
                                                         onClick={() => setSelectedRequest(request)}
                                                     >
                                                         <Eye className="h-4 w-4" /> <span>View</span>
